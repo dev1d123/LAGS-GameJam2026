@@ -1,0 +1,287 @@
+[gd_scene load_steps=16 format=3 uid="uid://cm1vkbm5j3tdp"]
+
+[ext_resource type="Texture2D" uid="uid://txovj4i2r1pc" path="res://assets/textures/background.png" id="1_0qgu1"]
+[ext_resource type="Script" uid="uid://rt10gby3gn34" path="res://ui/screens/main_menu.gd" id="1_xhre2"]
+[ext_resource type="Shader" uid="uid://bqjqb34gchgrp" path="res://ui/screens/main_menu.gdshader" id="2_xhre2"]
+[ext_resource type="Script" uid="uid://ct5axj04wjk42" path="res://ui/screens/diegetic_button.gd.gd" id="3_xhre2"]
+[ext_resource type="FontFile" uid="uid://16qpop7b3hkx" path="res://assets/fonts/LazyFox Pixel Font 2.ttf" id="4_0rstm"]
+[ext_resource type="Texture2D" uid="uid://cgg471e4gc1ng" path="res://assets/textures/opciones.png" id="6_dpa1d"]
+[ext_resource type="Texture2D" uid="uid://ck4rt0wjp0nek" path="res://assets/textures/salir.png" id="7_wrge7"]
+[ext_resource type="Texture2D" uid="uid://ct0rtejx73kp8" path="res://assets/textures/creditos.png" id="8_rsufx"]
+[ext_resource type="Texture2D" uid="uid://dg5xqnm3nn224" path="res://assets/textures/cartel-principal.png" id="9_itwiy"]
+[ext_resource type="Texture2D" uid="uid://d2y136brggxqd" path="res://assets/textures/dia-hora.png" id="10_qcsbv"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_dpa1d"]
+shader = ExtResource("2_xhre2")
+shader_parameter/glow_color = Color(1, 0.65, 0.3, 1)
+shader_parameter/glow_size = 0.0
+shader_parameter/glow_density = 1.5
+shader_parameter/saturation = 1.0
+shader_parameter/tint_color = Color(1, 0.8, 0.5, 1)
+shader_parameter/brightness = 1.0
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_0rstm"]
+load_path = "res://.godot/imported/jugar.png-523ce8d95d340b90e7bb15108c63a5e1.ctex"
+
+[sub_resource type="LabelSettings" id="LabelSettings_0qgu1"]
+font = ExtResource("4_0rstm")
+font_size = 25
+font_color = Color(0.7932026, 0.8341119, 0.81105787, 1)
+outline_size = 8
+outline_color = Color(0.16440266, 0.06643229, 6.016344e-09, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_qcsbv"]
+font = ExtResource("4_0rstm")
+font_size = 60
+font_color = Color(0.52156866, 0.5411765, 0.6627451, 1)
+outline_size = 18
+outline_color = Color(0.019607844, 0.007843138, 0.11372549, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_0f3jv"]
+font = ExtResource("4_0rstm")
+font_size = 80
+font_color = Color(0.43137255, 0.41960785, 0.44705883, 1)
+outline_size = 20
+outline_color = Color(0.019607844, 0.007843138, 0.11372549, 1)
+
+[node name="MainMenu" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_xhre2")
+
+[node name="Background" type="TextureRect" parent="."]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+texture = ExtResource("1_0qgu1")
+
+[node name="InteractablesLayer" type="Control" parent="."]
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="Btn_Start" type="TextureButton" parent="InteractablesLayer"]
+material = SubResource("ShaderMaterial_dpa1d")
+layout_mode = 0
+offset_left = 841.0
+offset_top = 407.0
+offset_right = 1189.0
+offset_bottom = 869.0
+texture_normal = SubResource("CompressedTexture2D_0rstm")
+script = ExtResource("3_xhre2")
+translation_key = "menu_play"
+
+[node name="Label" type="Label" parent="InteractablesLayer/Btn_Start"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -153.0
+offset_top = -191.0
+offset_right = 123.0
+offset_bottom = -113.0
+grow_horizontal = 2
+grow_vertical = 2
+label_settings = SubResource("LabelSettings_0qgu1")
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 2
+text_overrun_behavior = 3
+
+[node name="Btn_Options" type="TextureButton" parent="InteractablesLayer"]
+material = SubResource("ShaderMaterial_dpa1d")
+layout_mode = 0
+offset_left = 1534.0
+offset_top = 6.0
+offset_right = 1879.0
+offset_bottom = 375.0
+texture_normal = ExtResource("6_dpa1d")
+script = ExtResource("3_xhre2")
+translation_key = "menu_options"
+
+[node name="Label" type="Label" parent="InteractablesLayer/Btn_Options"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -146.5
+offset_top = -157.5
+offset_right = 146.5
+offset_bottom = -75.5
+grow_horizontal = 2
+grow_vertical = 2
+label_settings = SubResource("LabelSettings_0qgu1")
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 2
+text_overrun_behavior = 3
+
+[node name="Btn_Credits" type="TextureButton" parent="InteractablesLayer"]
+material = SubResource("ShaderMaterial_dpa1d")
+layout_mode = 0
+offset_left = 90.0
+offset_top = 768.0
+offset_right = 369.0
+offset_bottom = 1083.0
+texture_normal = ExtResource("8_rsufx")
+script = ExtResource("3_xhre2")
+translation_key = "menu_credits"
+
+[node name="Label" type="Label" parent="InteractablesLayer/Btn_Credits"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -87.5
+offset_top = -122.5
+offset_right = 77.13782
+offset_bottom = -81.5
+grow_horizontal = 2
+grow_vertical = 2
+rotation = -0.079698816
+label_settings = SubResource("LabelSettings_0qgu1")
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 2
+text_overrun_behavior = 3
+
+[node name="Btn_Exit" type="TextureButton" parent="InteractablesLayer"]
+material = SubResource("ShaderMaterial_dpa1d")
+layout_mode = 0
+offset_left = 1357.0
+offset_top = 631.0
+offset_right = 1933.0
+offset_bottom = 1018.0
+texture_normal = ExtResource("7_wrge7")
+script = ExtResource("3_xhre2")
+translation_key = "menu_exit"
+
+[node name="Label" type="Label" parent="InteractablesLayer/Btn_Exit"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = 64.0
+offset_top = -88.5
+offset_right = 244.0
+offset_bottom = 24.5
+grow_horizontal = 2
+grow_vertical = 2
+label_settings = SubResource("LabelSettings_0qgu1")
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 2
+text_overrun_behavior = 3
+
+[node name="Btn_Title" type="TextureButton" parent="InteractablesLayer"]
+layout_mode = 0
+offset_left = 658.0
+offset_top = 45.0
+offset_right = 1318.0
+offset_bottom = 375.0
+texture_normal = ExtResource("9_itwiy")
+script = ExtResource("3_xhre2")
+glow_hover_color = Color(1, 0.8039216, 0.63529414, 0)
+tint_hover_color = Color(1, 0.90588236, 0.18431373, 0)
+brightness_hover = 1.0
+
+[node name="Label" type="Label" parent="InteractablesLayer/Btn_Title"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -289.0
+offset_top = -59.0
+offset_right = 295.0
+offset_bottom = 28.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "BARRIO BAZAR"
+label_settings = SubResource("LabelSettings_qcsbv")
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 2
+text_overrun_behavior = 3
+
+[node name="Label2" type="Label" parent="InteractablesLayer/Btn_Title"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -290.0
+offset_top = 10.0
+offset_right = 294.0
+offset_bottom = 125.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "DON JC"
+label_settings = SubResource("LabelSettings_0f3jv")
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 2
+text_overrun_behavior = 3
+
+[node name="Btn_Time" type="TextureButton" parent="InteractablesLayer"]
+layout_mode = 0
+offset_left = 171.0
+offset_top = 359.0
+offset_right = 714.0
+offset_bottom = 485.0
+texture_normal = ExtResource("10_qcsbv")
+script = ExtResource("3_xhre2")
+
+[node name="Label" type="Label" parent="InteractablesLayer/Btn_Time"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -248.5
+offset_top = -7.0
+offset_right = 12.5
+offset_bottom = 25.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "DIA 1/4 LUNES"
+label_settings = SubResource("LabelSettings_0qgu1")
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 2
+text_overrun_behavior = 3
+
+[node name="Label2" type="Label" parent="InteractablesLayer/Btn_Time"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = 118.5
+offset_top = -7.0
+offset_right = 247.5
+offset_bottom = 24.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "6:30 AM"
+label_settings = SubResource("LabelSettings_0qgu1")
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 2
+text_overrun_behavior = 3

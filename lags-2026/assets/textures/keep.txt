@@ -1,3 +1,0 @@
-Archivo para mantener la carpeta en el repositorio.
-
-Texturas del juego.
