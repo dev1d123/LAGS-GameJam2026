@@ -1,0 +1,56 @@
+[gd_scene format=3 uid="uid://e33c7oon5crb"]
+
+[ext_resource type="Texture2D" uid="uid://bsft4p7rwj07o" path="res://assets/textures/hud/Barra estrés - vacía.png" id="1_xx08g"]
+[ext_resource type="Texture2D" uid="uid://w0cdkjchwevl" path="res://assets/textures/hud/Barra energía - vacía.png" id="2_yulwx"]
+[ext_resource type="Texture2D" uid="uid://djbpor18w51qs" path="res://assets/textures/hud/Panel-Dinero.png" id="3_fimwm"]
+[ext_resource type="FontFile" uid="uid://16qpop7b3hkx" path="res://assets/fonts/LazyFox Pixel Font 2.ttf" id="4_8yvdu"]
+[ext_resource type="Texture2D" uid="uid://cuqpbjfrwvrs2" path="res://assets/textures/hud/Panel-Día.png" id="4_st07x"]
+[ext_resource type="Texture2D" uid="uid://g1ca88ts8gr4" path="res://assets/textures/hud/Panel-Hora.png" id="5_8yvdu"]
+[ext_resource type="Texture2D" uid="uid://p72x422ool4t" path="res://assets/textures/hud/Panel-Pedidos.png" id="6_lmyhm"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_lmyhm"]
+font = ExtResource("4_8yvdu")
+font_color = Color(2.4065375e-07, 0.3019626, 0.036268592, 1)
+outline_size = 2
+shadow_size = 3
+shadow_color = Color(0, 0, 0, 1)
+
+[node name="Hud" type="Node2D" unique_id=1886604940]
+
+[node name="StressPrgressBar" type="TextureProgressBar" parent="." unique_id=1524615639]
+offset_left = 350.0
+offset_top = 330.0
+offset_right = 432.0
+offset_bottom = 346.0
+texture_under = ExtResource("1_xx08g")
+
+[node name="EnergyProgressBar" type="TextureProgressBar" parent="." unique_id=851617306]
+offset_left = 200.0
+offset_top = 330.0
+offset_right = 282.0
+offset_bottom = 346.0
+texture_under = ExtResource("2_yulwx")
+
+[node name="PanelDinero" type="Sprite2D" parent="." unique_id=1293015198]
+position = Vector2(70, 340)
+texture = ExtResource("3_fimwm")
+
+[node name="Label" type="Label" parent="PanelDinero" unique_id=1209187398]
+offset_left = -35.0
+offset_top = -12.0
+offset_right = 5.0
+offset_bottom = 11.0
+text = "123"
+label_settings = SubResource("LabelSettings_lmyhm")
+
+[node name="PanelDía" type="Sprite2D" parent="." unique_id=1828234535]
+position = Vector2(40, 16)
+texture = ExtResource("4_st07x")
+
+[node name="PanelHora" type="Sprite2D" parent="." unique_id=1900330640]
+position = Vector2(592, 14)
+texture = ExtResource("5_8yvdu")
+
+[node name="PanelPedidos" type="Sprite2D" parent="." unique_id=1637953310]
+position = Vector2(580, 340)
+texture = ExtResource("6_lmyhm")

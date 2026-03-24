@@ -137,7 +137,7 @@ script = ExtResource("1_bybyv")
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=8316885]
 sprite_frames = SubResource("SpriteFrames_ydbod")
 animation = &"walk_side"
-frame_progress = 0.44261208
+frame_progress = 0.43745178
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=2060164961]
 position = Vector2(0, 7.5)
