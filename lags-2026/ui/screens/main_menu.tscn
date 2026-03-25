@@ -1,15 +1,17 @@
-[gd_scene load_steps=16 format=3 uid="uid://cm1vkbm5j3tdp"]
+[gd_scene load_steps=20 format=3 uid="uid://cm1vkbm5j3tdp"]
 
-[ext_resource type="Texture2D" uid="uid://txovj4i2r1pc" path="res://assets/textures/background.png" id="1_0qgu1"]
+[ext_resource type="Texture2D" uid="uid://txovj4i2r1pc" path="res://assets/textures/menu-principal/background.png" id="1_0qgu1"]
 [ext_resource type="Script" uid="uid://rt10gby3gn34" path="res://ui/screens/main_menu.gd" id="1_xhre2"]
 [ext_resource type="Shader" uid="uid://bqjqb34gchgrp" path="res://ui/screens/main_menu.gdshader" id="2_xhre2"]
-[ext_resource type="Script" uid="uid://ct5axj04wjk42" path="res://ui/screens/diegetic_button.gd.gd" id="3_xhre2"]
+[ext_resource type="Script" uid="uid://bujv2o770p8tc" path="res://ui/components/diegetic_button.gd" id="3_xhre2"]
 [ext_resource type="FontFile" uid="uid://16qpop7b3hkx" path="res://assets/fonts/LazyFox Pixel Font 2.ttf" id="4_0rstm"]
-[ext_resource type="Texture2D" uid="uid://cgg471e4gc1ng" path="res://assets/textures/opciones.png" id="6_dpa1d"]
-[ext_resource type="Texture2D" uid="uid://ck4rt0wjp0nek" path="res://assets/textures/salir.png" id="7_wrge7"]
-[ext_resource type="Texture2D" uid="uid://ct0rtejx73kp8" path="res://assets/textures/creditos.png" id="8_rsufx"]
-[ext_resource type="Texture2D" uid="uid://dg5xqnm3nn224" path="res://assets/textures/cartel-principal.png" id="9_itwiy"]
-[ext_resource type="Texture2D" uid="uid://d2y136brggxqd" path="res://assets/textures/dia-hora.png" id="10_qcsbv"]
+[ext_resource type="FontFile" uid="uid://cu11g35n3hgqv" path="res://assets/fonts/PixelOperatorMonoHB.ttf" id="5_0f3jv"]
+[ext_resource type="Texture2D" uid="uid://cgg471e4gc1ng" path="res://assets/textures/menu-principal/opciones.png" id="6_dpa1d"]
+[ext_resource type="Texture2D" uid="uid://ck4rt0wjp0nek" path="res://assets/textures/menu-principal/salir.png" id="7_wrge7"]
+[ext_resource type="Texture2D" uid="uid://ct0rtejx73kp8" path="res://assets/textures/menu-principal/creditos.png" id="8_rsufx"]
+[ext_resource type="Texture2D" uid="uid://dg5xqnm3nn224" path="res://assets/textures/menu-principal/cartel-principal.png" id="9_itwiy"]
+[ext_resource type="Texture2D" uid="uid://d2y136brggxqd" path="res://assets/textures/menu-principal/dia-hora.png" id="10_qcsbv"]
+[ext_resource type="PackedScene" uid="uid://tmlrfmnpb1pt" path="res://ui/components/options_menu.tscn" id="11_opts"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_dpa1d"]
 shader = ExtResource("2_xhre2")
@@ -19,16 +21,19 @@ shader_parameter/glow_density = 1.5
 shader_parameter/saturation = 1.0
 shader_parameter/tint_color = Color(1, 0.8, 0.5, 1)
 shader_parameter/brightness = 1.0
+shader_parameter/use_base_color = false
+shader_parameter/base_color = Color(1, 1, 1, 1)
 
 [sub_resource type="CompressedTexture2D" id="CompressedTexture2D_0rstm"]
 load_path = "res://.godot/imported/jugar.png-523ce8d95d340b90e7bb15108c63a5e1.ctex"
 
 [sub_resource type="LabelSettings" id="LabelSettings_0qgu1"]
-font = ExtResource("4_0rstm")
-font_size = 25
-font_color = Color(0.7932026, 0.8341119, 0.81105787, 1)
+line_spacing = 2.0
+font = ExtResource("5_0f3jv")
+font_size = 35
+font_color = Color(0.6207868, 0.63924015, 0.74923116, 1)
 outline_size = 8
-outline_color = Color(0.16440266, 0.06643229, 6.016344e-09, 1)
+outline_color = Color(0.106452875, 0.03457466, 2.1057204e-08, 1)
 
 [sub_resource type="LabelSettings" id="LabelSettings_qcsbv"]
 font = ExtResource("4_0rstm")
@@ -43,6 +48,20 @@ font_size = 80
 font_color = Color(0.43137255, 0.41960785, 0.44705883, 1)
 outline_size = 20
 outline_color = Color(0.019607844, 0.007843138, 0.11372549, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_gn8gv"]
+font = ExtResource("5_0f3jv")
+font_size = 30
+font_color = Color(0.6207868, 0.63924015, 0.74923116, 1)
+outline_size = 8
+outline_color = Color(0.106452875, 0.03457466, 2.1057204e-08, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_sbcjp"]
+font = ExtResource("5_0f3jv")
+font_size = 30
+font_color = Color(0.6207868, 0.63924015, 0.74923116, 1)
+outline_size = 8
+outline_color = Color(0.106452875, 0.03457466, 2.1057204e-08, 1)
 
 [node name="MainMenu" type="Control"]
 layout_mode = 3
@@ -82,10 +101,10 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -153.0
-offset_top = -191.0
-offset_right = 123.0
-offset_bottom = -113.0
+offset_left = -163.0
+offset_top = -198.0
+offset_right = 132.0
+offset_bottom = -109.0
 grow_horizontal = 2
 grow_vertical = 2
 label_settings = SubResource("LabelSettings_0qgu1")
@@ -113,9 +132,9 @@ anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
 offset_left = -146.5
-offset_top = -157.5
+offset_top = -158.5
 offset_right = 146.5
-offset_bottom = -75.5
+offset_bottom = -76.5
 grow_horizontal = 2
 grow_vertical = 2
 label_settings = SubResource("LabelSettings_0qgu1")
@@ -174,9 +193,9 @@ anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
 offset_left = 64.0
-offset_top = -88.5
+offset_top = -92.5
 offset_right = 244.0
-offset_bottom = 24.5
+offset_bottom = 20.5
 grow_horizontal = 2
 grow_vertical = 2
 label_settings = SubResource("LabelSettings_0qgu1")
@@ -193,9 +212,6 @@ offset_right = 1318.0
 offset_bottom = 375.0
 texture_normal = ExtResource("9_itwiy")
 script = ExtResource("3_xhre2")
-glow_hover_color = Color(1, 0.8039216, 0.63529414, 0)
-tint_hover_color = Color(1, 0.90588236, 0.18431373, 0)
-brightness_hover = 1.0
 
 [node name="Label" type="Label" parent="InteractablesLayer/Btn_Title"]
 layout_mode = 1
@@ -254,13 +270,13 @@ anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
 offset_left = -248.5
-offset_top = -7.0
+offset_top = -11.0
 offset_right = 12.5
 offset_bottom = 25.0
 grow_horizontal = 2
 grow_vertical = 2
 text = "DIA 1/4 LUNES"
-label_settings = SubResource("LabelSettings_0qgu1")
+label_settings = SubResource("LabelSettings_gn8gv")
 horizontal_alignment = 1
 vertical_alignment = 1
 autowrap_mode = 2
@@ -274,16 +290,40 @@ anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
 offset_left = 118.5
-offset_top = -7.0
+offset_top = -9.0
 offset_right = 247.5
-offset_bottom = 24.0
+offset_bottom = 22.0
 grow_horizontal = 2
 grow_vertical = 2
 text = "6:30 AM"
-label_settings = SubResource("LabelSettings_0qgu1")
+label_settings = SubResource("LabelSettings_sbcjp")
 horizontal_alignment = 1
 vertical_alignment = 1
 autowrap_mode = 2
 text_overrun_behavior = 3
+
+[node name="OptionsOverlay" type="CanvasLayer" parent="."]
+visible = false
+
+[node name="ColorRect" type="ColorRect" parent="OptionsOverlay"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.705882)
+
+[node name="Options_Menu" parent="OptionsOverlay" instance=ExtResource("11_opts")]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -317.5
+offset_top = -276.5
+offset_right = 317.5
+offset_bottom = 276.5
+grow_horizontal = 2
+grow_vertical = 2
 
 [connection signal="pressed" from="InteractablesLayer/Btn_Exit" to="." method="_on_btn_exit_pressed"]

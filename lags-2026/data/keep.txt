@@ -1,3 +1,0 @@
-Archivo para mantener la carpeta en el repositorio.
-
-Datos del juego.

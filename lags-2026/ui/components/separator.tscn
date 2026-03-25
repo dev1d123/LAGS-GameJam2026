@@ -1,0 +1,15 @@
+[gd_scene load_steps=3 format=3 uid="uid://dmdfcoilyq7en"]
+
+[ext_resource type="Texture2D" uid="uid://by2tm3ntaova5" path="res://assets/textures/opciones-separador-fondo.png" id="1_dqsol"]
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_ne6gh"]
+texture = ExtResource("1_dqsol")
+texture_margin_left = 4.0
+texture_margin_top = 10.0
+texture_margin_right = 4.0
+texture_margin_bottom = 10.0
+
+[node name="Separator" type="PanelContainer"]
+offset_right = 8.0
+offset_bottom = 42.0
+theme_override_styles/panel = SubResource("StyleBoxTexture_ne6gh")

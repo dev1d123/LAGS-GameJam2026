@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dg5xqnm3nn224"
-path="res://.godot/imported/cartel-principal.png-398db35f25b28178304c8b90418f854d.ctex"
+uid="uid://ct0rtejx73kp8"
+path="res://.godot/imported/creditos.png-769c83baa6dfbe0b8ea1261c69fc4af3.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/textures/cartel-principal.png"
-dest_files=["res://.godot/imported/cartel-principal.png-398db35f25b28178304c8b90418f854d.ctex"]
+source_file="res://assets/textures/menu-principal/creditos.png"
+dest_files=["res://.godot/imported/creditos.png-769c83baa6dfbe0b8ea1261c69fc4af3.ctex"]
 
 [params]
 

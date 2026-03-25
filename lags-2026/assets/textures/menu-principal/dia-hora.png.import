@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://ck4rt0wjp0nek"
-path="res://.godot/imported/salir.png-bd66b362ae9fecb704ee0cba3d77153f.ctex"
+uid="uid://d2y136brggxqd"
+path="res://.godot/imported/dia-hora.png-e23afdfbfbd4b134130900ed54c5ff1d.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/textures/salir.png"
-dest_files=["res://.godot/imported/salir.png-bd66b362ae9fecb704ee0cba3d77153f.ctex"]
+source_file="res://assets/textures/menu-principal/dia-hora.png"
+dest_files=["res://.godot/imported/dia-hora.png-e23afdfbfbd4b134130900ed54c5ff1d.ctex"]
 
 [params]
 
