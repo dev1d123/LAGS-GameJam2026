@@ -37,6 +37,7 @@ func _ready() -> void:
 	sfx_right.pressed.connect(_on_sfx_right)
 	
 	btn_save.pressed.connect(_on_save_pressed)
+	btn_cancel.pressed.connect(_on_cancel_pressed)
 	# Actualiza labels locales cuando cambie el idioma si abren repetidamente
 	add_to_group("translatable")
 
