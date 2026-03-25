@@ -1,6 +1,12 @@
 @tool
 extends Button
 
+@export_group("Textos y Traducción")
+## Nombre del json (ej 'options_menu')
+@export var translation_category: String = "options_menu"
+## Clave de traducción dentro del JSON 
+@export var translation_key: String = ""
+
 @export_group("Color del Botón")
 ## Activa esto para elegir de qué color se pintará tu botón.
 @export var use_custom_color: bool = false:
@@ -20,6 +26,10 @@ var _styles_duplicated: bool = false
 @onready var click_sound: AudioStreamPlayer = $ClickSound
 
 func _ready() -> void:
+	# Unir a grupo de traducciones central
+	add_to_group("translatable")
+	update_translation()
+
 	# Nos aseguramos de que el pivote de escala sea el centro del botón
 	# Conectamos la señal "resized" por si el botón crece debido a un texto muy largo
 	resized.connect(_on_resized)
@@ -33,6 +43,10 @@ func _ready() -> void:
 		button_up.connect(_on_press_up)
 	
 	_update_colors()
+
+func update_translation() -> void:
+	if translation_key != "":
+		text = LocaleManager.get_text(translation_category, translation_key)
 
 func _update_colors() -> void:
 	if not is_inside_tree(): return

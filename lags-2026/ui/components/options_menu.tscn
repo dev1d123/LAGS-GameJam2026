@@ -1,4 +1,4 @@
-[gd_scene load_steps=47 format=3 uid="uid://tmlrfmnpb1pt"]
+[gd_scene load_steps=48 format=3 uid="uid://tmlrfmnpb1pt"]
 
 [ext_resource type="Script" uid="uid://bnqxy78crqn7" path="res://ui/components/options_menu.gd" id="1_script"]
 [ext_resource type="Texture2D" uid="uid://cpaxrpnv1gl7y" path="res://assets/textures/opciones-fondo.png" id="1_t1lix"]
@@ -9,6 +9,7 @@
 [ext_resource type="PackedScene" uid="uid://dmdfcoilyq7en" path="res://ui/components/separator.tscn" id="5_p0paa"]
 [ext_resource type="FontFile" uid="uid://cu11g35n3hgqv" path="res://assets/fonts/PixelOperatorMonoHB.ttf" id="6_jcm8s"]
 [ext_resource type="PackedScene" uid="uid://bd4c8541c4k74" path="res://ui/components/Button_1.tscn" id="7_exifp"]
+[ext_resource type="Script" uid="uid://c21nsbr3ibysq" path="res://ui/components/localized_text.gd" id="7_xiok3"]
 [ext_resource type="Texture2D" uid="uid://cfy6rj4bb8kwr" path="res://assets/textures/button_2.png" id="8_yan5x"]
 [ext_resource type="Texture2D" uid="uid://b6ly5wjw6c6xx" path="res://assets/textures/icon-music efects.png" id="9_xxl3d"]
 
@@ -410,6 +411,8 @@ theme_override_colors/font_color = Color(0.6877795, 0.6436458, 0.63261163, 1)
 theme_override_fonts/font = ExtResource("6_jcm8s")
 theme_override_font_sizes/font_size = 40
 text = "IDIOMA"
+script = ExtResource("7_xiok3")
+translation_key = "options_language"
 
 [node name="Espacio" type="Control" parent="MarginContainer/VBoxContainer/Opciones/VBoxContainer/Idioma/MarginContainer/HBoxContainer"]
 custom_minimum_size = Vector2(300, 0)
@@ -428,6 +431,8 @@ theme_override_styles/pressed = SubResource("StyleBoxTexture_xiok3")
 theme_override_styles/hover = SubResource("StyleBoxTexture_tqif0")
 text = "<
 "
+translation_category = null
+translation_key = null
 
 [node name="Button_4" parent="MarginContainer/VBoxContainer/Opciones/VBoxContainer/Idioma/MarginContainer/HBoxContainer/HBoxContainer2" instance=ExtResource("7_exifp")]
 custom_minimum_size = Vector2(260, 0)
@@ -439,6 +444,8 @@ theme_override_styles/normal = SubResource("StyleBoxTexture_fcbnd")
 theme_override_styles/pressed = SubResource("StyleBoxTexture_yegyj")
 theme_override_styles/hover = SubResource("StyleBoxTexture_ttw1t")
 text = "ESPAÑOL"
+translation_category = null
+translation_key = null
 
 [node name="Button_>" parent="MarginContainer/VBoxContainer/Opciones/VBoxContainer/Idioma/MarginContainer/HBoxContainer/HBoxContainer2" instance=ExtResource("7_exifp")]
 layout_mode = 2
@@ -448,6 +455,8 @@ theme_override_styles/pressed = SubResource("StyleBoxTexture_ikuay")
 theme_override_styles/hover = SubResource("StyleBoxTexture_7uo5k")
 text = ">
 "
+translation_category = null
+translation_key = null
 
 [node name="Volumen de Musica" type="PanelContainer" parent="MarginContainer/VBoxContainer/Opciones/VBoxContainer"]
 layout_mode = 2
@@ -490,6 +499,8 @@ theme_override_colors/font_color = Color(0.6877795, 0.6436458, 0.63261163, 1)
 theme_override_fonts/font = ExtResource("6_jcm8s")
 theme_override_font_sizes/font_size = 40
 text = "VOLUMEN DE MUSICA"
+script = ExtResource("7_xiok3")
+translation_key = "options_music"
 
 [node name="Espacio" type="Control" parent="MarginContainer/VBoxContainer/Opciones/VBoxContainer/Volumen de Musica/MarginContainer/HBoxContainer"]
 custom_minimum_size = Vector2(40, 0)
@@ -508,6 +519,8 @@ theme_override_styles/pressed = SubResource("StyleBoxTexture_xhciw")
 theme_override_styles/hover = SubResource("StyleBoxTexture_c6h1q")
 text = "<
 "
+translation_category = null
+translation_key = null
 
 [node name="Button_1" parent="MarginContainer/VBoxContainer/Opciones/VBoxContainer/Volumen de Musica/MarginContainer/HBoxContainer/HBoxContainer2" instance=ExtResource("7_exifp")]
 layout_mode = 2
@@ -518,6 +531,8 @@ theme_override_styles/normal = SubResource("StyleBoxTexture_kcj58")
 theme_override_styles/pressed = SubResource("StyleBoxTexture_mad1c")
 theme_override_styles/hover = SubResource("StyleBoxTexture_52s3x")
 text = "132"
+translation_category = null
+translation_key = null
 
 [node name="Button_>" parent="MarginContainer/VBoxContainer/Opciones/VBoxContainer/Volumen de Musica/MarginContainer/HBoxContainer/HBoxContainer2" instance=ExtResource("7_exifp")]
 layout_mode = 2
@@ -527,6 +542,8 @@ theme_override_styles/pressed = SubResource("StyleBoxTexture_2hooe")
 theme_override_styles/hover = SubResource("StyleBoxTexture_io8eq")
 text = ">
 "
+translation_category = null
+translation_key = null
 
 [node name="Volumen de Efectos" type="PanelContainer" parent="MarginContainer/VBoxContainer/Opciones/VBoxContainer"]
 layout_mode = 2
@@ -569,6 +586,8 @@ theme_override_colors/font_color = Color(0.6877795, 0.6436458, 0.63261163, 1)
 theme_override_fonts/font = ExtResource("6_jcm8s")
 theme_override_font_sizes/font_size = 40
 text = "VOLUMEN DE EFECTOS"
+script = ExtResource("7_xiok3")
+translation_key = "options_sfx"
 
 [node name="Espacio" type="Control" parent="MarginContainer/VBoxContainer/Opciones/VBoxContainer/Volumen de Efectos/MarginContainer/HBoxContainer"]
 custom_minimum_size = Vector2(40, 0)
@@ -587,6 +606,8 @@ theme_override_styles/pressed = SubResource("StyleBoxTexture_81wdu")
 theme_override_styles/hover = SubResource("StyleBoxTexture_dfyyd")
 text = "<
 "
+translation_category = null
+translation_key = null
 
 [node name="Button_1" parent="MarginContainer/VBoxContainer/Opciones/VBoxContainer/Volumen de Efectos/MarginContainer/HBoxContainer/HBoxContainer2" instance=ExtResource("7_exifp")]
 layout_mode = 2
@@ -597,6 +618,8 @@ theme_override_styles/normal = SubResource("StyleBoxTexture_b2ama")
 theme_override_styles/pressed = SubResource("StyleBoxTexture_8qnd4")
 theme_override_styles/hover = SubResource("StyleBoxTexture_oygi8")
 text = "10"
+translation_category = null
+translation_key = null
 
 [node name="Button_>" parent="MarginContainer/VBoxContainer/Opciones/VBoxContainer/Volumen de Efectos/MarginContainer/HBoxContainer/HBoxContainer2" instance=ExtResource("7_exifp")]
 layout_mode = 2
@@ -606,6 +629,8 @@ theme_override_styles/pressed = SubResource("StyleBoxTexture_h01dl")
 theme_override_styles/hover = SubResource("StyleBoxTexture_otb21")
 text = ">
 "
+translation_category = null
+translation_key = null
 
 [node name="Botones" type="HBoxContainer" parent="MarginContainer/VBoxContainer"]
 layout_mode = 2
@@ -620,6 +645,7 @@ theme_override_styles/normal = SubResource("StyleBoxTexture_h5w53")
 theme_override_styles/pressed = SubResource("StyleBoxTexture_lwuki")
 theme_override_styles/hover = SubResource("StyleBoxTexture_7fee7")
 text = "GUARDAR"
+translation_key = "options_save"
 
 [node name="Cancelar" parent="MarginContainer/VBoxContainer/Botones" instance=ExtResource("7_exifp")]
 layout_mode = 2
@@ -629,6 +655,7 @@ theme_override_styles/normal = SubResource("StyleBoxTexture_ocgmw")
 theme_override_styles/pressed = SubResource("StyleBoxTexture_lvafn")
 theme_override_styles/hover = SubResource("StyleBoxTexture_u1eko")
 text = "CANCELAR"
+translation_key = "options_cancel"
 
 [node name="Titulo" type="Control" parent="."]
 layout_mode = 2
@@ -645,6 +672,8 @@ offset_right = 147.5
 offset_bottom = 44.0
 grow_horizontal = 2
 text = "AJUSTES DEL JUEGO"
+script = ExtResource("7_xiok3")
+translation_key = "options_title"
 
 [editable path="MarginContainer/VBoxContainer/Opciones/VBoxContainer/Idioma/MarginContainer/HBoxContainer/Separator"]
 [editable path="MarginContainer/VBoxContainer/Opciones/VBoxContainer/Volumen de Musica/MarginContainer/HBoxContainer/Separator"]

@@ -37,27 +37,11 @@ func _ready() -> void:
 	sfx_right.pressed.connect(_on_sfx_right)
 	
 	btn_save.pressed.connect(_on_save_pressed)
-	btn_cancel.pressed.connect(_on_cancel_pressed)
-	
-	# Fetch static translations directly
-	$"MarginContainer/VBoxContainer/Opciones/VBoxContainer/Idioma/MarginContainer/HBoxContainer/Label".text = LocaleManager.get_text("options_menu", "options_language")
-	$"MarginContainer/VBoxContainer/Opciones/VBoxContainer/Volumen de Musica/MarginContainer/HBoxContainer/Label".text = LocaleManager.get_text("options_menu", "options_music")
-	$"MarginContainer/VBoxContainer/Opciones/VBoxContainer/Volumen de Efectos/MarginContainer/HBoxContainer/Label".text = LocaleManager.get_text("options_menu", "options_sfx")
-	btn_save.text = LocaleManager.get_text("options_menu", "options_save")
-	btn_cancel.text = LocaleManager.get_text("options_menu", "options_cancel")
-	$"Titulo/Title_1".text = LocaleManager.get_text("options_menu", "options_title")
-	
 	# Actualiza labels locales cuando cambie el idioma si abren repetidamente
 	add_to_group("translatable")
 
 func update_translation() -> void:
 	if is_inside_tree() and has_node("MarginContainer/VBoxContainer/Opciones"):
-		$"MarginContainer/VBoxContainer/Opciones/VBoxContainer/Idioma/MarginContainer/HBoxContainer/Label".text = LocaleManager.get_text("options_menu", "options_language")
-		$"MarginContainer/VBoxContainer/Opciones/VBoxContainer/Volumen de Musica/MarginContainer/HBoxContainer/Label".text = LocaleManager.get_text("options_menu", "options_music")
-		$"MarginContainer/VBoxContainer/Opciones/VBoxContainer/Volumen de Efectos/MarginContainer/HBoxContainer/Label".text = LocaleManager.get_text("options_menu", "options_sfx")
-		$"MarginContainer/VBoxContainer/Botones/Guardar".text = LocaleManager.get_text("options_menu", "options_save")
-		$"MarginContainer/VBoxContainer/Botones/Cancelar".text = LocaleManager.get_text("options_menu", "options_cancel")
-		$"Titulo/Title_1".text = LocaleManager.get_text("options_menu", "options_title")
 		_update_ui()
 
 func load_current_settings() -> void:

@@ -1,4 +1,4 @@
-class_name LocalizedLabel extends Label
+class_name LocalizedText extends Node
 
 @export_group("Textos y Traducción")
 ## Escribe el nombre del archivo JSON (ej. 'options_menu')
@@ -16,4 +16,8 @@ func _ready() -> void:
 
 func update_translation() -> void:
 	if translation_key != "":
-		text = LocaleManager.get_text(translation_category, translation_key)
+		# Asignamos el texto dinámicamente comprobando si este nodo
+		# o su nodo padre es de UI y tiene la propiedad "text".
+		# Al heredar 'Node', esto se le puede colocar a un Label o a un Button y funciona igual.
+		if "text" in self:
+			set("text", LocaleManager.get_text(translation_category, translation_key))
