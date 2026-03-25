@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://d2y136brggxqd"
-path="res://.godot/imported/dia-hora.png-3dba7118e9f53341cd668b600f74fcc3.ctex"
+uid="uid://txovj4i2r1pc"
+path="res://.godot/imported/background.png-6f608a0c99d2c1d5b94ffb1fd5ce3a42.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/textures/dia-hora.png"
-dest_files=["res://.godot/imported/dia-hora.png-3dba7118e9f53341cd668b600f74fcc3.ctex"]
+source_file="res://assets/textures/menu-principal/background.png"
+dest_files=["res://.godot/imported/background.png-6f608a0c99d2c1d5b94ffb1fd5ce3a42.ctex"]
 
 [params]
 

@@ -3,6 +3,12 @@ extends TextureButton
 @export_group("Textos y Traducción")
 @export var translation_key: String = "" 
 
+@export_group("Color Base del Botón")
+## Activa esto para elegir un color totalmente distinto para el botón.
+@export var use_base_color: bool = false
+## El color base del botón. Todo el sprite se convertirá a este tono.
+@export var base_color: Color = Color.WHITE
+
 @export_group("Resplandor Exterior (Glow)")
 @export var glow_hover_color: Color = Color("ffcda2") 
 @export var glow_hover_size: float = 3.0 
@@ -31,6 +37,11 @@ func _ready() -> void:
 		material.set_shader_parameter("glow_color", glow_hover_color)
 		# NUEVO: Pasamos el color del inspector al shader al iniciar
 		material.set_shader_parameter("tint_color", tint_hover_color)
+		
+		# Aplicamos el filtro de color base si está activado
+		material.set_shader_parameter("use_base_color", use_base_color)
+		if use_base_color:
+			material.set_shader_parameter("base_color", base_color)
 	
 	mouse_entered.connect(_on_hover_in)
 	mouse_exited.connect(_on_hover_out)

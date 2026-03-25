@@ -1,16 +1,17 @@
-[gd_scene load_steps=19 format=3 uid="uid://cm1vkbm5j3tdp"]
+[gd_scene load_steps=24 format=3 uid="uid://cm1vkbm5j3tdp"]
 
-[ext_resource type="Texture2D" uid="uid://txovj4i2r1pc" path="res://assets/textures/background.png" id="1_0qgu1"]
+[ext_resource type="Texture2D" uid="uid://txovj4i2r1pc" path="res://assets/textures/menu-principal/background.png" id="1_0qgu1"]
 [ext_resource type="Script" uid="uid://rt10gby3gn34" path="res://ui/screens/main_menu.gd" id="1_xhre2"]
 [ext_resource type="Shader" uid="uid://bqjqb34gchgrp" path="res://ui/screens/main_menu.gdshader" id="2_xhre2"]
 [ext_resource type="Script" uid="uid://ct5axj04wjk42" path="res://ui/screens/diegetic_button.gd.gd" id="3_xhre2"]
 [ext_resource type="FontFile" uid="uid://16qpop7b3hkx" path="res://assets/fonts/LazyFox Pixel Font 2.ttf" id="4_0rstm"]
 [ext_resource type="FontFile" uid="uid://cu11g35n3hgqv" path="res://assets/fonts/PixelOperatorMonoHB.ttf" id="5_0f3jv"]
-[ext_resource type="Texture2D" uid="uid://cgg471e4gc1ng" path="res://assets/textures/opciones.png" id="6_dpa1d"]
-[ext_resource type="Texture2D" uid="uid://ck4rt0wjp0nek" path="res://assets/textures/salir.png" id="7_wrge7"]
-[ext_resource type="Texture2D" uid="uid://ct0rtejx73kp8" path="res://assets/textures/creditos.png" id="8_rsufx"]
-[ext_resource type="Texture2D" uid="uid://dg5xqnm3nn224" path="res://assets/textures/cartel-principal.png" id="9_itwiy"]
-[ext_resource type="Texture2D" uid="uid://d2y136brggxqd" path="res://assets/textures/dia-hora.png" id="10_qcsbv"]
+[ext_resource type="Texture2D" uid="uid://cgg471e4gc1ng" path="res://assets/textures/menu-principal/opciones.png" id="6_dpa1d"]
+[ext_resource type="Texture2D" uid="uid://ck4rt0wjp0nek" path="res://assets/textures/menu-principal/salir.png" id="7_wrge7"]
+[ext_resource type="Texture2D" uid="uid://ct0rtejx73kp8" path="res://assets/textures/menu-principal/creditos.png" id="8_rsufx"]
+[ext_resource type="Texture2D" uid="uid://dg5xqnm3nn224" path="res://assets/textures/menu-principal/cartel-principal.png" id="9_itwiy"]
+[ext_resource type="Texture2D" uid="uid://d2y136brggxqd" path="res://assets/textures/menu-principal/dia-hora.png" id="10_qcsbv"]
+[ext_resource type="PackedScene" uid="uid://bd4c8541c4k74" path="res://ui/screens/Button_1.tscn" id="12_gn8gv"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_dpa1d"]
 shader = ExtResource("2_xhre2")
@@ -20,6 +21,8 @@ shader_parameter/glow_density = 1.5
 shader_parameter/saturation = 1.0
 shader_parameter/tint_color = Color(1, 0.8, 0.5, 1)
 shader_parameter/brightness = 1.0
+shader_parameter/use_base_color = false
+shader_parameter/base_color = Color(1, 1, 1, 1)
 
 [sub_resource type="CompressedTexture2D" id="CompressedTexture2D_0rstm"]
 load_path = "res://.godot/imported/jugar.png-523ce8d95d340b90e7bb15108c63a5e1.ctex"
@@ -59,6 +62,38 @@ font_size = 30
 font_color = Color(0.6207868, 0.63924015, 0.74923116, 1)
 outline_size = 8
 outline_color = Color(0.106452875, 0.03457466, 2.1057204e-08, 1)
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_k0e8i"]
+load_path = "res://.godot/imported/button_1.png-7c8c28c88fe928c71dcd48188b8f7869.ctex"
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_sbcjp"]
+texture = SubResource("CompressedTexture2D_k0e8i")
+texture_margin_left = 45.0
+texture_margin_top = 28.0
+texture_margin_right = 40.0
+texture_margin_bottom = 38.0
+axis_stretch_horizontal = 2
+axis_stretch_vertical = 2
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_dlvaj"]
+texture = SubResource("CompressedTexture2D_k0e8i")
+texture_margin_left = 45.0
+texture_margin_top = 28.0
+texture_margin_right = 40.0
+texture_margin_bottom = 38.0
+axis_stretch_horizontal = 2
+axis_stretch_vertical = 2
+modulate_color = Color(0.59, 0.49, 0.56, 1)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_kugh1"]
+texture = SubResource("CompressedTexture2D_k0e8i")
+texture_margin_left = 45.0
+texture_margin_top = 28.0
+texture_margin_right = 40.0
+texture_margin_bottom = 38.0
+axis_stretch_horizontal = 2
+axis_stretch_vertical = 2
+modulate_color = Color(0.76, 0.68, 0.74, 1)
 
 [node name="MainMenu" type="Control"]
 layout_mode = 3
@@ -301,5 +336,18 @@ horizontal_alignment = 1
 vertical_alignment = 1
 autowrap_mode = 2
 text_overrun_behavior = 3
+
+[node name="Button_1" parent="." instance=ExtResource("12_gn8gv")]
+layout_mode = 0
+offset_left = 1079.0
+offset_top = 892.0
+offset_right = 1304.0
+offset_bottom = 999.0
+pivot_offset = Vector2(112.5, 53.5)
+theme_override_styles/normal = SubResource("StyleBoxTexture_sbcjp")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_dlvaj")
+theme_override_styles/hover = SubResource("StyleBoxTexture_kugh1")
+text = "ACEPTAR
+"
 
 [connection signal="pressed" from="InteractablesLayer/Btn_Exit" to="." method="_on_btn_exit_pressed"]

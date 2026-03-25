@@ -1,7 +1,22 @@
+@tool
 extends Button
+
+@export_group("Color del Botón")
+## Activa esto para elegir de qué color se pintará tu botón.
+@export var use_custom_color: bool = false:
+	set(value):
+		use_custom_color = value
+		_update_colors()
+
+## El color que tendrá el botón. Creará automáticamente tonos exactos para sus animaciones.
+@export var base_color: Color = Color.WHITE:
+	set(value):
+		base_color = value
+		_update_colors()
 
 var tween: Tween
 var original_scale: Vector2 = Vector2(1.0, 1.0)
+var _styles_duplicated: bool = false
 
 func _ready() -> void:
 	# Nos aseguramos de que el pivote de escala sea el centro del botón
@@ -10,10 +25,39 @@ func _ready() -> void:
 	_on_resized() 
 	
 	# Conectamos las señales nativas del botón
-	mouse_entered.connect(_on_hover_in)
-	mouse_exited.connect(_on_hover_out)
-	button_down.connect(_on_press_down)
-	button_up.connect(_on_press_up)
+	if not Engine.is_editor_hint():
+		mouse_entered.connect(_on_hover_in)
+		mouse_exited.connect(_on_hover_out)
+		button_down.connect(_on_press_down)
+		button_up.connect(_on_press_up)
+	
+	_update_colors()
+
+func _update_colors() -> void:
+	if not is_inside_tree(): return
+	
+	# Aseguramos que cada botón instanciado tenga copias únicas para aplicar sus propios colores
+	if not _styles_duplicated:
+		add_theme_stylebox_override("normal", get_theme_stylebox("normal").duplicate())
+		add_theme_stylebox_override("hover", get_theme_stylebox("hover").duplicate())
+		add_theme_stylebox_override("pressed", get_theme_stylebox("pressed").duplicate())
+		_styles_duplicated = true
+		
+	var style_normal = get_theme_stylebox("normal") as StyleBoxTexture
+	var style_hover = get_theme_stylebox("hover") as StyleBoxTexture
+	var style_pressed = get_theme_stylebox("pressed") as StyleBoxTexture
+	
+	if style_normal and style_hover and style_pressed:
+		if use_custom_color:
+			# Aplicamos tu proporción original EXACTA de oscurecimiento y shift de color
+			style_normal.modulate_color = base_color
+			style_hover.modulate_color = base_color * Color(0.76, 0.68, 0.74, 1.0)
+			style_pressed.modulate_color = base_color * Color(0.59, 0.49, 0.56, 1.0)
+		else:
+			# Si se desactiva, restauramos tus colores manuales originales del .tscn
+			style_normal.modulate_color = Color.WHITE
+			style_hover.modulate_color = Color(0.76, 0.68, 0.74, 1.0)
+			style_pressed.modulate_color = Color(0.59, 0.49, 0.56, 1.0)
 
 # Calcula el centro matemático exacto cada vez que el botón cambia de tamaño
 func _on_resized() -> void:

@@ -14,6 +14,10 @@ uniform vec4 tint_color : source_color = vec4(1.0, 0.9, 0.7, 1.0);
 // 1.0 es el brillo neutral. > 1.0 mezcla tu dibujo con el tinte de arriba.
 uniform float brightness : hint_range(0.0, 5.0) = 1.0;
 
+// --- RECOLORIZACIÓN BASE DEL SPRITE ---
+uniform bool use_base_color = false;
+uniform vec4 base_color : source_color = vec4(1.0, 1.0, 1.0, 1.0);
+
 void fragment() {
 	vec2 ps = TEXTURE_PIXEL_SIZE;
 	vec4 col = texture(TEXTURE, UV);
@@ -37,6 +41,15 @@ void fragment() {
 
 	// 2. Aplicamos la Lógica de Color Interior al dibujo original
 	if (col.a > 0.0) {
+		
+		// --- RECOLORIZACIÓN BASE ---
+		// Convierte el sprite a escala de grises y lo tiñe con el color elegido.
+		if (use_base_color) {
+			float lum = dot(col.rgb, vec3(0.299, 0.587, 0.114));
+			vec3 grayscale_base = vec3(lum);
+			col.rgb = grayscale_base * base_color.rgb;
+		}
+		
 		// Primero la saturación (colores más ricos)
 		float luminance = dot(col.rgb, vec3(0.299, 0.587, 0.114));
 		vec3 grayscale = vec3(luminance);
