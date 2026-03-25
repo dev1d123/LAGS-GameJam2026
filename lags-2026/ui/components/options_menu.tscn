@@ -27,7 +27,7 @@ texture_margin_top = 20.0
 texture_margin_right = 30.0
 texture_margin_bottom = 20.0
 
-[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_eneer"]
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_xiok3"]
 texture = ExtResource("8_yan5x")
 texture_margin_left = 30.0
 texture_margin_top = 20.0
@@ -35,16 +35,6 @@ texture_margin_right = 30.0
 texture_margin_bottom = 25.0
 axis_stretch_horizontal = 2
 axis_stretch_vertical = 2
-
-[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_xiok3"]
-texture = ExtResource("8_yan5x")
-texture_margin_left = 30.0
-texture_margin_top = 23.0
-texture_margin_right = 30.0
-texture_margin_bottom = 25.0
-axis_stretch_horizontal = 2
-axis_stretch_vertical = 2
-modulate_color = Color(0.59, 0.49, 0.56, 1)
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_tqif0"]
 texture = ExtResource("8_yan5x")
@@ -54,18 +44,9 @@ texture_margin_right = 30.0
 texture_margin_bottom = 25.0
 axis_stretch_horizontal = 2
 axis_stretch_vertical = 2
-modulate_color = Color(0.76, 0.68, 0.74, 1)
+modulate_color = Color(0.59, 0.49, 0.56, 1)
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_fcbnd"]
-texture = ExtResource("8_yan5x")
-texture_margin_left = 30.0
-texture_margin_top = 20.0
-texture_margin_right = 30.0
-texture_margin_bottom = 25.0
-axis_stretch_horizontal = 2
-axis_stretch_vertical = 2
-
-[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_yegyj"]
 texture = ExtResource("8_yan5x")
 texture_margin_left = 30.0
 texture_margin_top = 23.0
@@ -73,7 +54,16 @@ texture_margin_right = 30.0
 texture_margin_bottom = 25.0
 axis_stretch_horizontal = 2
 axis_stretch_vertical = 2
-modulate_color = Color(0.59, 0.49, 0.56, 1)
+modulate_color = Color(0.76, 0.68, 0.74, 1)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_yegyj"]
+texture = ExtResource("8_yan5x")
+texture_margin_left = 30.0
+texture_margin_top = 20.0
+texture_margin_right = 30.0
+texture_margin_bottom = 25.0
+axis_stretch_horizontal = 2
+axis_stretch_vertical = 2
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_ttw1t"]
 texture = ExtResource("8_yan5x")
@@ -83,18 +73,9 @@ texture_margin_right = 30.0
 texture_margin_bottom = 25.0
 axis_stretch_horizontal = 2
 axis_stretch_vertical = 2
-modulate_color = Color(0.76, 0.68, 0.74, 1)
+modulate_color = Color(0.59, 0.49, 0.56, 1)
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_ccdkx"]
-texture = ExtResource("8_yan5x")
-texture_margin_left = 30.0
-texture_margin_top = 20.0
-texture_margin_right = 30.0
-texture_margin_bottom = 25.0
-axis_stretch_horizontal = 2
-axis_stretch_vertical = 2
-
-[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_ikuay"]
 texture = ExtResource("8_yan5x")
 texture_margin_left = 30.0
 texture_margin_top = 23.0
@@ -102,7 +83,16 @@ texture_margin_right = 30.0
 texture_margin_bottom = 25.0
 axis_stretch_horizontal = 2
 axis_stretch_vertical = 2
-modulate_color = Color(0.59, 0.49, 0.56, 1)
+modulate_color = Color(0.76, 0.68, 0.74, 1)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_ikuay"]
+texture = ExtResource("8_yan5x")
+texture_margin_left = 30.0
+texture_margin_top = 20.0
+texture_margin_right = 30.0
+texture_margin_bottom = 25.0
+axis_stretch_horizontal = 2
+axis_stretch_vertical = 2
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_7uo5k"]
 texture = ExtResource("8_yan5x")
@@ -112,18 +102,9 @@ texture_margin_right = 30.0
 texture_margin_bottom = 25.0
 axis_stretch_horizontal = 2
 axis_stretch_vertical = 2
-modulate_color = Color(0.76, 0.68, 0.74, 1)
+modulate_color = Color(0.59, 0.49, 0.56, 1)
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_kq5ky"]
-texture = ExtResource("8_yan5x")
-texture_margin_left = 30.0
-texture_margin_top = 20.0
-texture_margin_right = 30.0
-texture_margin_bottom = 25.0
-axis_stretch_horizontal = 2
-axis_stretch_vertical = 2
-
-[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_xhciw"]
 texture = ExtResource("8_yan5x")
 texture_margin_left = 30.0
 texture_margin_top = 23.0
@@ -131,7 +112,16 @@ texture_margin_right = 30.0
 texture_margin_bottom = 25.0
 axis_stretch_horizontal = 2
 axis_stretch_vertical = 2
-modulate_color = Color(0.59, 0.49, 0.56, 1)
+modulate_color = Color(0.76, 0.68, 0.74, 1)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_xhciw"]
+texture = ExtResource("8_yan5x")
+texture_margin_left = 30.0
+texture_margin_top = 20.0
+texture_margin_right = 30.0
+texture_margin_bottom = 25.0
+axis_stretch_horizontal = 2
+axis_stretch_vertical = 2
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_c6h1q"]
 texture = ExtResource("8_yan5x")
@@ -141,18 +131,9 @@ texture_margin_right = 30.0
 texture_margin_bottom = 25.0
 axis_stretch_horizontal = 2
 axis_stretch_vertical = 2
-modulate_color = Color(0.76, 0.68, 0.74, 1)
+modulate_color = Color(0.59, 0.49, 0.56, 1)
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_kcj58"]
-texture = ExtResource("8_yan5x")
-texture_margin_left = 30.0
-texture_margin_top = 20.0
-texture_margin_right = 30.0
-texture_margin_bottom = 25.0
-axis_stretch_horizontal = 2
-axis_stretch_vertical = 2
-
-[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_mad1c"]
 texture = ExtResource("8_yan5x")
 texture_margin_left = 30.0
 texture_margin_top = 23.0
@@ -160,7 +141,16 @@ texture_margin_right = 30.0
 texture_margin_bottom = 25.0
 axis_stretch_horizontal = 2
 axis_stretch_vertical = 2
-modulate_color = Color(0.59, 0.49, 0.56, 1)
+modulate_color = Color(0.76, 0.68, 0.74, 1)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_mad1c"]
+texture = ExtResource("8_yan5x")
+texture_margin_left = 30.0
+texture_margin_top = 20.0
+texture_margin_right = 30.0
+texture_margin_bottom = 25.0
+axis_stretch_horizontal = 2
+axis_stretch_vertical = 2
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_52s3x"]
 texture = ExtResource("8_yan5x")
@@ -170,18 +160,9 @@ texture_margin_right = 30.0
 texture_margin_bottom = 25.0
 axis_stretch_horizontal = 2
 axis_stretch_vertical = 2
-modulate_color = Color(0.76, 0.68, 0.74, 1)
+modulate_color = Color(0.59, 0.49, 0.56, 1)
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_e3vus"]
-texture = ExtResource("8_yan5x")
-texture_margin_left = 30.0
-texture_margin_top = 20.0
-texture_margin_right = 30.0
-texture_margin_bottom = 25.0
-axis_stretch_horizontal = 2
-axis_stretch_vertical = 2
-
-[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_2hooe"]
 texture = ExtResource("8_yan5x")
 texture_margin_left = 30.0
 texture_margin_top = 23.0
@@ -189,7 +170,16 @@ texture_margin_right = 30.0
 texture_margin_bottom = 25.0
 axis_stretch_horizontal = 2
 axis_stretch_vertical = 2
-modulate_color = Color(0.59, 0.49, 0.56, 1)
+modulate_color = Color(0.76, 0.68, 0.74, 1)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_2hooe"]
+texture = ExtResource("8_yan5x")
+texture_margin_left = 30.0
+texture_margin_top = 20.0
+texture_margin_right = 30.0
+texture_margin_bottom = 25.0
+axis_stretch_horizontal = 2
+axis_stretch_vertical = 2
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_io8eq"]
 texture = ExtResource("8_yan5x")
@@ -199,18 +189,9 @@ texture_margin_right = 30.0
 texture_margin_bottom = 25.0
 axis_stretch_horizontal = 2
 axis_stretch_vertical = 2
-modulate_color = Color(0.76, 0.68, 0.74, 1)
+modulate_color = Color(0.59, 0.49, 0.56, 1)
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_uf0dp"]
-texture = ExtResource("8_yan5x")
-texture_margin_left = 30.0
-texture_margin_top = 20.0
-texture_margin_right = 30.0
-texture_margin_bottom = 25.0
-axis_stretch_horizontal = 2
-axis_stretch_vertical = 2
-
-[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_81wdu"]
 texture = ExtResource("8_yan5x")
 texture_margin_left = 30.0
 texture_margin_top = 23.0
@@ -218,7 +199,16 @@ texture_margin_right = 30.0
 texture_margin_bottom = 25.0
 axis_stretch_horizontal = 2
 axis_stretch_vertical = 2
-modulate_color = Color(0.59, 0.49, 0.56, 1)
+modulate_color = Color(0.76, 0.68, 0.74, 1)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_81wdu"]
+texture = ExtResource("8_yan5x")
+texture_margin_left = 30.0
+texture_margin_top = 20.0
+texture_margin_right = 30.0
+texture_margin_bottom = 25.0
+axis_stretch_horizontal = 2
+axis_stretch_vertical = 2
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_dfyyd"]
 texture = ExtResource("8_yan5x")
@@ -228,18 +218,9 @@ texture_margin_right = 30.0
 texture_margin_bottom = 25.0
 axis_stretch_horizontal = 2
 axis_stretch_vertical = 2
-modulate_color = Color(0.76, 0.68, 0.74, 1)
+modulate_color = Color(0.59, 0.49, 0.56, 1)
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_b2ama"]
-texture = ExtResource("8_yan5x")
-texture_margin_left = 30.0
-texture_margin_top = 20.0
-texture_margin_right = 30.0
-texture_margin_bottom = 25.0
-axis_stretch_horizontal = 2
-axis_stretch_vertical = 2
-
-[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_8qnd4"]
 texture = ExtResource("8_yan5x")
 texture_margin_left = 30.0
 texture_margin_top = 23.0
@@ -247,7 +228,16 @@ texture_margin_right = 30.0
 texture_margin_bottom = 25.0
 axis_stretch_horizontal = 2
 axis_stretch_vertical = 2
-modulate_color = Color(0.59, 0.49, 0.56, 1)
+modulate_color = Color(0.76, 0.68, 0.74, 1)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_8qnd4"]
+texture = ExtResource("8_yan5x")
+texture_margin_left = 30.0
+texture_margin_top = 20.0
+texture_margin_right = 30.0
+texture_margin_bottom = 25.0
+axis_stretch_horizontal = 2
+axis_stretch_vertical = 2
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_oygi8"]
 texture = ExtResource("8_yan5x")
@@ -257,18 +247,9 @@ texture_margin_right = 30.0
 texture_margin_bottom = 25.0
 axis_stretch_horizontal = 2
 axis_stretch_vertical = 2
-modulate_color = Color(0.76, 0.68, 0.74, 1)
+modulate_color = Color(0.59, 0.49, 0.56, 1)
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_imu83"]
-texture = ExtResource("8_yan5x")
-texture_margin_left = 30.0
-texture_margin_top = 20.0
-texture_margin_right = 30.0
-texture_margin_bottom = 25.0
-axis_stretch_horizontal = 2
-axis_stretch_vertical = 2
-
-[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_h01dl"]
 texture = ExtResource("8_yan5x")
 texture_margin_left = 30.0
 texture_margin_top = 23.0
@@ -276,7 +257,16 @@ texture_margin_right = 30.0
 texture_margin_bottom = 25.0
 axis_stretch_horizontal = 2
 axis_stretch_vertical = 2
-modulate_color = Color(0.59, 0.49, 0.56, 1)
+modulate_color = Color(0.76, 0.68, 0.74, 1)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_h01dl"]
+texture = ExtResource("8_yan5x")
+texture_margin_left = 30.0
+texture_margin_top = 20.0
+texture_margin_right = 30.0
+texture_margin_bottom = 25.0
+axis_stretch_horizontal = 2
+axis_stretch_vertical = 2
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_otb21"]
 texture = ExtResource("8_yan5x")
@@ -286,18 +276,9 @@ texture_margin_right = 30.0
 texture_margin_bottom = 25.0
 axis_stretch_horizontal = 2
 axis_stretch_vertical = 2
-modulate_color = Color(0.76, 0.68, 0.74, 1)
+modulate_color = Color(0.59, 0.49, 0.56, 1)
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_h5w53"]
-texture = ExtResource("8_yan5x")
-texture_margin_left = 30.0
-texture_margin_top = 20.0
-texture_margin_right = 30.0
-texture_margin_bottom = 25.0
-axis_stretch_horizontal = 2
-axis_stretch_vertical = 2
-
-[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_lwuki"]
 texture = ExtResource("8_yan5x")
 texture_margin_left = 30.0
 texture_margin_top = 23.0
@@ -305,7 +286,16 @@ texture_margin_right = 30.0
 texture_margin_bottom = 25.0
 axis_stretch_horizontal = 2
 axis_stretch_vertical = 2
-modulate_color = Color(0.59, 0.49, 0.56, 1)
+modulate_color = Color(0.76, 0.68, 0.74, 1)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_lwuki"]
+texture = ExtResource("8_yan5x")
+texture_margin_left = 30.0
+texture_margin_top = 20.0
+texture_margin_right = 30.0
+texture_margin_bottom = 25.0
+axis_stretch_horizontal = 2
+axis_stretch_vertical = 2
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_7fee7"]
 texture = ExtResource("8_yan5x")
@@ -315,9 +305,19 @@ texture_margin_right = 30.0
 texture_margin_bottom = 25.0
 axis_stretch_horizontal = 2
 axis_stretch_vertical = 2
-modulate_color = Color(0.76, 0.68, 0.74, 1)
+modulate_color = Color(0.59, 0.49, 0.56, 1)
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_ocgmw"]
+texture = ExtResource("8_yan5x")
+texture_margin_left = 30.0
+texture_margin_top = 23.0
+texture_margin_right = 30.0
+texture_margin_bottom = 25.0
+axis_stretch_horizontal = 2
+axis_stretch_vertical = 2
+modulate_color = Color(0.76, 0.68, 0.74, 1)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_lvafn"]
 texture = ExtResource("8_yan5x")
 texture_margin_left = 30.0
 texture_margin_top = 20.0
@@ -326,7 +326,7 @@ texture_margin_bottom = 25.0
 axis_stretch_horizontal = 2
 axis_stretch_vertical = 2
 
-[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_lvafn"]
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_u1eko"]
 texture = ExtResource("8_yan5x")
 texture_margin_left = 30.0
 texture_margin_top = 23.0
@@ -336,7 +336,7 @@ axis_stretch_horizontal = 2
 axis_stretch_vertical = 2
 modulate_color = Color(0.59, 0.49, 0.56, 1)
 
-[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_u1eko"]
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_y0jq8"]
 texture = ExtResource("8_yan5x")
 texture_margin_left = 30.0
 texture_margin_top = 23.0
@@ -426,13 +426,11 @@ theme_override_constants/separation = -5
 [node name="Button_<" parent="MarginContainer/VBoxContainer/Opciones/VBoxContainer/Idioma/MarginContainer/HBoxContainer/HBoxContainer2" instance=ExtResource("7_exifp")]
 layout_mode = 2
 theme_override_font_sizes/font_size = 40
-theme_override_styles/normal = SubResource("StyleBoxTexture_eneer")
-theme_override_styles/pressed = SubResource("StyleBoxTexture_xiok3")
-theme_override_styles/hover = SubResource("StyleBoxTexture_tqif0")
+theme_override_styles/normal = SubResource("StyleBoxTexture_xiok3")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_tqif0")
+theme_override_styles/hover = SubResource("StyleBoxTexture_fcbnd")
 text = "<
 "
-translation_category = null
-translation_key = null
 
 [node name="Button_4" parent="MarginContainer/VBoxContainer/Opciones/VBoxContainer/Idioma/MarginContainer/HBoxContainer/HBoxContainer2" instance=ExtResource("7_exifp")]
 custom_minimum_size = Vector2(260, 0)
@@ -440,23 +438,19 @@ layout_mode = 2
 size_flags_horizontal = 10
 size_flags_vertical = 4
 theme_override_font_sizes/font_size = 40
-theme_override_styles/normal = SubResource("StyleBoxTexture_fcbnd")
-theme_override_styles/pressed = SubResource("StyleBoxTexture_yegyj")
-theme_override_styles/hover = SubResource("StyleBoxTexture_ttw1t")
+theme_override_styles/normal = SubResource("StyleBoxTexture_yegyj")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_ttw1t")
+theme_override_styles/hover = SubResource("StyleBoxTexture_ccdkx")
 text = "ESPAÑOL"
-translation_category = null
-translation_key = null
 
 [node name="Button_>" parent="MarginContainer/VBoxContainer/Opciones/VBoxContainer/Idioma/MarginContainer/HBoxContainer/HBoxContainer2" instance=ExtResource("7_exifp")]
 layout_mode = 2
 theme_override_font_sizes/font_size = 40
-theme_override_styles/normal = SubResource("StyleBoxTexture_ccdkx")
-theme_override_styles/pressed = SubResource("StyleBoxTexture_ikuay")
-theme_override_styles/hover = SubResource("StyleBoxTexture_7uo5k")
+theme_override_styles/normal = SubResource("StyleBoxTexture_ikuay")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_7uo5k")
+theme_override_styles/hover = SubResource("StyleBoxTexture_kq5ky")
 text = ">
 "
-translation_category = null
-translation_key = null
 
 [node name="Volumen de Musica" type="PanelContainer" parent="MarginContainer/VBoxContainer/Opciones/VBoxContainer"]
 layout_mode = 2
@@ -514,36 +508,30 @@ theme_override_constants/separation = -5
 [node name="Button_<" parent="MarginContainer/VBoxContainer/Opciones/VBoxContainer/Volumen de Musica/MarginContainer/HBoxContainer/HBoxContainer2" instance=ExtResource("7_exifp")]
 layout_mode = 2
 theme_override_font_sizes/font_size = 40
-theme_override_styles/normal = SubResource("StyleBoxTexture_kq5ky")
-theme_override_styles/pressed = SubResource("StyleBoxTexture_xhciw")
-theme_override_styles/hover = SubResource("StyleBoxTexture_c6h1q")
+theme_override_styles/normal = SubResource("StyleBoxTexture_xhciw")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_c6h1q")
+theme_override_styles/hover = SubResource("StyleBoxTexture_kcj58")
 text = "<
 "
-translation_category = null
-translation_key = null
 
 [node name="Button_1" parent="MarginContainer/VBoxContainer/Opciones/VBoxContainer/Volumen de Musica/MarginContainer/HBoxContainer/HBoxContainer2" instance=ExtResource("7_exifp")]
 layout_mode = 2
 size_flags_horizontal = 10
 size_flags_vertical = 4
 theme_override_font_sizes/font_size = 40
-theme_override_styles/normal = SubResource("StyleBoxTexture_kcj58")
-theme_override_styles/pressed = SubResource("StyleBoxTexture_mad1c")
-theme_override_styles/hover = SubResource("StyleBoxTexture_52s3x")
+theme_override_styles/normal = SubResource("StyleBoxTexture_mad1c")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_52s3x")
+theme_override_styles/hover = SubResource("StyleBoxTexture_e3vus")
 text = "132"
-translation_category = null
-translation_key = null
 
 [node name="Button_>" parent="MarginContainer/VBoxContainer/Opciones/VBoxContainer/Volumen de Musica/MarginContainer/HBoxContainer/HBoxContainer2" instance=ExtResource("7_exifp")]
 layout_mode = 2
 theme_override_font_sizes/font_size = 40
-theme_override_styles/normal = SubResource("StyleBoxTexture_e3vus")
-theme_override_styles/pressed = SubResource("StyleBoxTexture_2hooe")
-theme_override_styles/hover = SubResource("StyleBoxTexture_io8eq")
+theme_override_styles/normal = SubResource("StyleBoxTexture_2hooe")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_io8eq")
+theme_override_styles/hover = SubResource("StyleBoxTexture_uf0dp")
 text = ">
 "
-translation_category = null
-translation_key = null
 
 [node name="Volumen de Efectos" type="PanelContainer" parent="MarginContainer/VBoxContainer/Opciones/VBoxContainer"]
 layout_mode = 2
@@ -601,36 +589,30 @@ theme_override_constants/separation = -5
 [node name="Button_<" parent="MarginContainer/VBoxContainer/Opciones/VBoxContainer/Volumen de Efectos/MarginContainer/HBoxContainer/HBoxContainer2" instance=ExtResource("7_exifp")]
 layout_mode = 2
 theme_override_font_sizes/font_size = 40
-theme_override_styles/normal = SubResource("StyleBoxTexture_uf0dp")
-theme_override_styles/pressed = SubResource("StyleBoxTexture_81wdu")
-theme_override_styles/hover = SubResource("StyleBoxTexture_dfyyd")
+theme_override_styles/normal = SubResource("StyleBoxTexture_81wdu")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_dfyyd")
+theme_override_styles/hover = SubResource("StyleBoxTexture_b2ama")
 text = "<
 "
-translation_category = null
-translation_key = null
 
 [node name="Button_1" parent="MarginContainer/VBoxContainer/Opciones/VBoxContainer/Volumen de Efectos/MarginContainer/HBoxContainer/HBoxContainer2" instance=ExtResource("7_exifp")]
 layout_mode = 2
 size_flags_horizontal = 10
 size_flags_vertical = 4
 theme_override_font_sizes/font_size = 40
-theme_override_styles/normal = SubResource("StyleBoxTexture_b2ama")
-theme_override_styles/pressed = SubResource("StyleBoxTexture_8qnd4")
-theme_override_styles/hover = SubResource("StyleBoxTexture_oygi8")
+theme_override_styles/normal = SubResource("StyleBoxTexture_8qnd4")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_oygi8")
+theme_override_styles/hover = SubResource("StyleBoxTexture_imu83")
 text = "10"
-translation_category = null
-translation_key = null
 
 [node name="Button_>" parent="MarginContainer/VBoxContainer/Opciones/VBoxContainer/Volumen de Efectos/MarginContainer/HBoxContainer/HBoxContainer2" instance=ExtResource("7_exifp")]
 layout_mode = 2
 theme_override_font_sizes/font_size = 40
-theme_override_styles/normal = SubResource("StyleBoxTexture_imu83")
-theme_override_styles/pressed = SubResource("StyleBoxTexture_h01dl")
-theme_override_styles/hover = SubResource("StyleBoxTexture_otb21")
+theme_override_styles/normal = SubResource("StyleBoxTexture_h01dl")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_otb21")
+theme_override_styles/hover = SubResource("StyleBoxTexture_h5w53")
 text = ">
 "
-translation_category = null
-translation_key = null
 
 [node name="Botones" type="HBoxContainer" parent="MarginContainer/VBoxContainer"]
 layout_mode = 2
@@ -641,9 +623,9 @@ theme_override_constants/separation = 50
 layout_mode = 2
 size_flags_horizontal = 4
 theme_override_font_sizes/font_size = 50
-theme_override_styles/normal = SubResource("StyleBoxTexture_h5w53")
-theme_override_styles/pressed = SubResource("StyleBoxTexture_lwuki")
-theme_override_styles/hover = SubResource("StyleBoxTexture_7fee7")
+theme_override_styles/normal = SubResource("StyleBoxTexture_lwuki")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_7fee7")
+theme_override_styles/hover = SubResource("StyleBoxTexture_ocgmw")
 text = "GUARDAR"
 translation_key = "options_save"
 
@@ -651,9 +633,9 @@ translation_key = "options_save"
 layout_mode = 2
 size_flags_horizontal = 4
 theme_override_font_sizes/font_size = 50
-theme_override_styles/normal = SubResource("StyleBoxTexture_ocgmw")
-theme_override_styles/pressed = SubResource("StyleBoxTexture_lvafn")
-theme_override_styles/hover = SubResource("StyleBoxTexture_u1eko")
+theme_override_styles/normal = SubResource("StyleBoxTexture_lvafn")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_u1eko")
+theme_override_styles/hover = SubResource("StyleBoxTexture_y0jq8")
 text = "CANCELAR"
 translation_key = "options_cancel"
 
@@ -674,6 +656,8 @@ grow_horizontal = 2
 text = "AJUSTES DEL JUEGO"
 script = ExtResource("7_xiok3")
 translation_key = "options_title"
+
+[connection signal="pressed" from="MarginContainer/VBoxContainer/Botones/Cancelar" to="." method="_on_cancelar_pressed"]
 
 [editable path="MarginContainer/VBoxContainer/Opciones/VBoxContainer/Idioma/MarginContainer/HBoxContainer/Separator"]
 [editable path="MarginContainer/VBoxContainer/Opciones/VBoxContainer/Volumen de Musica/MarginContainer/HBoxContainer/Separator"]

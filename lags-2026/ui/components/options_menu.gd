@@ -93,5 +93,5 @@ func _on_save_pressed() -> void:
 	# NO se hace hide() aquí porque el main_menu.gd se encarga de ocultarlo todo.
 	menu_closed.emit()
 
-func _on_cancel_pressed() -> void:
+func _on_cancelar_pressed() -> void:
 	menu_closed.emit()
