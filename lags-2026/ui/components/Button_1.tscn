@@ -1,10 +1,11 @@
-[gd_scene load_steps=8 format=3 uid="uid://bd4c8541c4k74"]
+[gd_scene load_steps=9 format=3 uid="uid://bd4c8541c4k74"]
 
 [ext_resource type="FontFile" uid="uid://cu11g35n3hgqv" path="res://assets/fonts/PixelOperatorMonoHB.ttf" id="1_5ucpd"]
-[ext_resource type="Script" uid="uid://b2oh7tyeb3plc" path="res://ui/screens/button_1.gd" id="2_5ucpd"]
+[ext_resource type="Script" uid="uid://b2oh7tyeb3plc" path="res://ui/components/button_1.gd" id="2_5ucpd"]
 [ext_resource type="Texture2D" uid="uid://cfy6rj4bb8kwr" path="res://assets/textures/button_2.png" id="2_r0vak"]
+[ext_resource type="AudioStream" uid="uid://b4tivf7i3xd37" path="res://assets/audio/button_click_1.mp3" id="4_audio"]
 
-[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_ervh4"]
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_gc5xf"]
 texture = ExtResource("2_r0vak")
 texture_margin_left = 30.0
 texture_margin_top = 20.0
@@ -13,7 +14,7 @@ texture_margin_bottom = 25.0
 axis_stretch_horizontal = 2
 axis_stretch_vertical = 2
 
-[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_k0e8i"]
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_wqcha"]
 texture = ExtResource("2_r0vak")
 texture_margin_left = 30.0
 texture_margin_top = 23.0
@@ -21,9 +22,9 @@ texture_margin_right = 30.0
 texture_margin_bottom = 25.0
 axis_stretch_horizontal = 2
 axis_stretch_vertical = 2
-modulate_color = Color(0.5882353, 0.49411765, 0.5647059, 1)
+modulate_color = Color(0.59, 0.49, 0.56, 1)
 
-[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_nnaeg"]
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_oldsj"]
 texture = ExtResource("2_r0vak")
 texture_margin_left = 30.0
 texture_margin_top = 23.0
@@ -31,13 +32,14 @@ texture_margin_right = 30.0
 texture_margin_bottom = 25.0
 axis_stretch_horizontal = 2
 axis_stretch_vertical = 2
-modulate_color = Color(0.7607843, 0.68235296, 0.7411765, 1)
+modulate_color = Color(0.76, 0.68, 0.74, 1)
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_5ucpd"]
 
 [node name="Button_1" type="Button"]
 offset_right = 300.0
 offset_bottom = 76.0
+pivot_offset = Vector2(150, 38)
 theme_override_colors/font_color = Color(0.8721908, 0.8545585, 0.7160444, 1)
 theme_override_colors/font_focus_color = Color(0.87058824, 0.85490197, 0.7176471, 1)
 theme_override_colors/font_pressed_color = Color(0.87058824, 0.85490197, 0.7176471, 1)
@@ -46,10 +48,14 @@ theme_override_colors/font_outline_color = Color(0.20133486, 0.102102675, 0.1331
 theme_override_constants/outline_size = 12
 theme_override_fonts/font = ExtResource("1_5ucpd")
 theme_override_font_sizes/font_size = 30
-theme_override_styles/normal = SubResource("StyleBoxTexture_ervh4")
-theme_override_styles/pressed = SubResource("StyleBoxTexture_k0e8i")
-theme_override_styles/hover = SubResource("StyleBoxTexture_nnaeg")
+theme_override_styles/normal = SubResource("StyleBoxTexture_gc5xf")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_wqcha")
+theme_override_styles/hover = SubResource("StyleBoxTexture_oldsj")
 theme_override_styles/focus = SubResource("StyleBoxEmpty_5ucpd")
 text = "BOTON RESPONSIVE"
 script = ExtResource("2_5ucpd")
 base_color = Color(0.46618086, 0.4661808, 0.4661808, 1)
+
+[node name="ClickSound" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("4_audio")
+bus = &"SFX"

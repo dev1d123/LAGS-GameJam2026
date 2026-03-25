@@ -2,9 +2,9 @@
 
 [ext_resource type="Texture2D" uid="uid://d3mn8iy0m7bf" path="res://assets/textures/opciones-campo-fondo.png" id="1_41clu"]
 [ext_resource type="Texture2D" uid="uid://8l5bj5fyro1j" path="res://assets/textures/icon-language.png" id="2_8dixk"]
-[ext_resource type="PackedScene" uid="uid://dmdfcoilyq7en" path="res://ui/screens/separator.tscn" id="3_flsmu"]
+[ext_resource type="PackedScene" uid="uid://dmdfcoilyq7en" path="res://ui/components/separator.tscn" id="3_flsmu"]
 [ext_resource type="FontFile" uid="uid://cu11g35n3hgqv" path="res://assets/fonts/PixelOperatorMonoHB.ttf" id="4_dlgrg"]
-[ext_resource type="PackedScene" uid="uid://bd4c8541c4k74" path="res://ui/screens/Button_1.tscn" id="5_nufi1"]
+[ext_resource type="PackedScene" uid="uid://bd4c8541c4k74" path="res://ui/components/Button_1.tscn" id="5_nufi1"]
 [ext_resource type="Texture2D" uid="uid://cfy6rj4bb8kwr" path="res://assets/textures/button_2.png" id="6_x8nps"]
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_nb1h7"]

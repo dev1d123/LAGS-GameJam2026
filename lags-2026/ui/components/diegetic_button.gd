@@ -1,6 +1,11 @@
 class_name DiegeticButton extends TextureButton
 
+@export_group("Textos y Traducción")
+## Escribe el nombre del archivo JSON (ej. 'main_menu')
+@export var translation_category: String = "main_menu"
+## La clave dentro de ese archivo JSON
 @export var translation_key: String = ""
+
 @export var hover_scale_factor: float = 1.05 # Cuánto crece al pasar el ratón
 @export var click_scale_factor: float = 0.95 # Cuánto se hunde al hacer clic
 
@@ -45,7 +50,7 @@ func _ready() -> void:
 
 func update_translation() -> void:
 	if label and translation_key != "":
-		label.text = LocaleManager.get_text(translation_key)
+		label.text = LocaleManager.get_text(translation_category, translation_key)
 
 func _animate_scale(target_scale: Vector2, duration: float) -> void:
 	# Matamos el tween anterior si existe para evitar conflictos

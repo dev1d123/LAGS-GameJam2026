@@ -17,6 +17,7 @@ extends Button
 var tween: Tween
 var original_scale: Vector2 = Vector2(1.0, 1.0)
 var _styles_duplicated: bool = false
+@onready var click_sound: AudioStreamPlayer = $ClickSound
 
 func _ready() -> void:
 	# Nos aseguramos de que el pivote de escala sea el centro del botón
@@ -76,6 +77,8 @@ func _on_hover_out() -> void:
 	_animate(original_scale, 0.2) # Vuelve a la normalidad
 
 func _on_press_down() -> void: 
+	if click_sound:
+		click_sound.play()
 	_animate(original_scale * 0.98, 0.05) # Se hunde un 5% rápido
 
 func _on_press_up() -> void: 
