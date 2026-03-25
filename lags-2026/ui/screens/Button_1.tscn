@@ -1,0 +1,53 @@
+[gd_scene load_steps=7 format=3 uid="uid://bd4c8541c4k74"]
+
+[ext_resource type="FontFile" uid="uid://cu11g35n3hgqv" path="res://assets/fonts/PixelOperatorMonoHB.ttf" id="1_5ucpd"]
+[ext_resource type="Script" uid="uid://b2oh7tyeb3plc" path="res://ui/screens/button_1.gd" id="2_5ucpd"]
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_k0e8i"]
+load_path = "res://.godot/imported/button_1.png-7c8c28c88fe928c71dcd48188b8f7869.ctex"
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_ervh4"]
+texture = SubResource("CompressedTexture2D_k0e8i")
+texture_margin_left = 45.0
+texture_margin_top = 28.0
+texture_margin_right = 40.0
+texture_margin_bottom = 38.0
+axis_stretch_horizontal = 2
+axis_stretch_vertical = 2
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_k0e8i"]
+texture = SubResource("CompressedTexture2D_k0e8i")
+texture_margin_left = 45.0
+texture_margin_top = 28.0
+texture_margin_right = 40.0
+texture_margin_bottom = 38.0
+axis_stretch_horizontal = 2
+axis_stretch_vertical = 2
+modulate_color = Color(0.5882353, 0.49411765, 0.5647059, 1)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_nnaeg"]
+texture = SubResource("CompressedTexture2D_k0e8i")
+texture_margin_left = 45.0
+texture_margin_top = 28.0
+texture_margin_right = 40.0
+texture_margin_bottom = 38.0
+axis_stretch_horizontal = 2
+axis_stretch_vertical = 2
+modulate_color = Color(0.7607843, 0.68235296, 0.7411765, 1)
+
+[node name="Button_1" type="Button"]
+offset_right = 605.0
+offset_bottom = 146.0
+theme_override_colors/font_color = Color(0.8721908, 0.8545585, 0.7160444, 1)
+theme_override_colors/font_focus_color = Color(0.87058824, 0.85490197, 0.7176471, 1)
+theme_override_colors/font_pressed_color = Color(0.87058824, 0.85490197, 0.7176471, 1)
+theme_override_colors/font_hover_color = Color(0.87058824, 0.85490197, 0.7176471, 1)
+theme_override_colors/font_outline_color = Color(0.20133486, 0.102102675, 0.13315502, 1)
+theme_override_constants/outline_size = 20
+theme_override_fonts/font = ExtResource("1_5ucpd")
+theme_override_font_sizes/font_size = 80
+theme_override_styles/normal = SubResource("StyleBoxTexture_ervh4")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_k0e8i")
+theme_override_styles/hover = SubResource("StyleBoxTexture_nnaeg")
+text = "Iniciar Juego"
+script = ExtResource("2_5ucpd")
