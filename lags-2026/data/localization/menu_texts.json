@@ -5,14 +5,14 @@
     "pt": "ENTRAR NO TRABALHO\n(JOGAR)"
   },
   "menu_options": {
-    "es": "HERRAMIENTAS Y AJUSTES\n(OPCIONES)",
-    "en": "TOOLS & SETTINGS\n(OPTIONS)",
-    "pt": "FERRAMENTAS E AJUSTES\n(OPÇÕES)"
+	"es": "HERRAMIENTAS Y AJUSTES\n(OPCIONES)",
+	"en": "TOOLS & SETTINGS\n(OPTIONS)",
+	"pt": "FERRAMENTAS E AJUSTES\n(OPÇÕES)"
   },
   "menu_exit": {
-    "es": "SALIR\n(CERRAR LOCAL)",
-    "en": "EXIT\n(CLOSE SHOP)",
-    "pt": "SAIR\n(FECHAR LOJA)"
+	"es": "SALIR\n(CERRAR LOCAL)",
+	"en": "EXIT\n(CLOSE SHOP)",
+	"pt": "SAIR\n(FECHAR LOJA)"
   },
   "menu_credits": {
     "es": "CREDITOS\n(VER CREDITOS)",

@@ -1,0 +1,100 @@
+[gd_scene format=3 uid="uid://e33c7oon5crb"]
+
+[ext_resource type="Script" uid="uid://dobwvdexvtjlp" path="res://hud/hud.gd" id="1_r0cji"]
+[ext_resource type="Texture2D" uid="uid://bsft4p7rwj07o" path="res://assets/textures/hud/Barra estrés - vacía.png" id="1_xx08g"]
+[ext_resource type="Texture2D" uid="uid://d15ypg56rqun8" path="res://assets/textures/hud/health_bar.png" id="2_lmyhm"]
+[ext_resource type="Texture2D" uid="uid://w0cdkjchwevl" path="res://assets/textures/hud/Barra energía - vacía.png" id="2_yulwx"]
+[ext_resource type="Texture2D" uid="uid://djbpor18w51qs" path="res://assets/textures/hud/Panel-Dinero.png" id="3_fimwm"]
+[ext_resource type="FontFile" uid="uid://16qpop7b3hkx" path="res://assets/fonts/LazyFox Pixel Font 2.ttf" id="4_8yvdu"]
+[ext_resource type="Texture2D" uid="uid://disq1ns3sqnbt" path="res://assets/textures/hud/green_bar.png" id="4_r0cji"]
+[ext_resource type="Texture2D" uid="uid://cuqpbjfrwvrs2" path="res://assets/textures/hud/Panel-Día.png" id="4_st07x"]
+[ext_resource type="Texture2D" uid="uid://g1ca88ts8gr4" path="res://assets/textures/hud/Panel-Hora.png" id="5_8yvdu"]
+[ext_resource type="Texture2D" uid="uid://p72x422ool4t" path="res://assets/textures/hud/Panel-Pedidos.png" id="6_lmyhm"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_lmyhm"]
+font = ExtResource("4_8yvdu")
+font_size = 12
+shadow_color = Color(0, 0, 0, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_k8hvg"]
+font = ExtResource("4_8yvdu")
+font_size = 10
+outline_size = 2
+outline_color = Color(0, 0, 0, 1)
+shadow_size = 2
+shadow_color = Color(0.38039216, 0.050980393, 0, 1)
+
+[node name="Hud" type="Control" unique_id=977867959]
+layout_mode = 3
+anchors_preset = 0
+script = ExtResource("1_r0cji")
+
+[node name="StressProgressBar" type="TextureProgressBar" parent="." unique_id=1524615639]
+layout_mode = 0
+offset_left = 350.0
+offset_top = 340.0
+offset_right = 423.0
+offset_bottom = 356.0
+texture_over = ExtResource("1_xx08g")
+texture_progress = ExtResource("2_lmyhm")
+texture_progress_offset = Vector2(16.895, 2.915)
+
+[node name="EnergyProgressBar" type="TextureProgressBar" parent="." unique_id=851617306]
+layout_mode = 0
+offset_left = 200.0
+offset_top = 340.0
+offset_right = 282.00012
+offset_bottom = 356.0
+texture_over = ExtResource("2_yulwx")
+texture_progress = ExtResource("4_r0cji")
+texture_progress_offset = Vector2(16.91, 3.015)
+
+[node name="PanelDinero" type="Sprite2D" parent="." unique_id=1293015198]
+position = Vector2(70, 350)
+texture = ExtResource("3_fimwm")
+
+[node name="LabelDinero" type="Label" parent="PanelDinero" unique_id=1209187398]
+offset_left = -35.0
+offset_top = -9.0
+offset_right = 54.0
+offset_bottom = 14.0
+label_settings = SubResource("LabelSettings_lmyhm")
+
+[node name="PanelDía" type="Sprite2D" parent="." unique_id=1828234535]
+position = Vector2(40, 16)
+texture = ExtResource("4_st07x")
+
+[node name="LabelDia" type="Label" parent="PanelDía" unique_id=198694724]
+offset_left = -29.0
+offset_top = -8.0
+offset_right = 29.0
+offset_bottom = 7.0
+label_settings = SubResource("LabelSettings_k8hvg")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="PanelHora" type="Sprite2D" parent="." unique_id=1900330640]
+position = Vector2(592, 14)
+texture = ExtResource("5_8yvdu")
+
+[node name="LabelHora" type="Label" parent="PanelHora" unique_id=1086032002]
+offset_left = -29.0
+offset_top = -8.0
+offset_right = 29.0
+offset_bottom = 7.0
+label_settings = SubResource("LabelSettings_k8hvg")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="PanelPerdidos" type="Sprite2D" parent="." unique_id=1637953310]
+position = Vector2(580, 350)
+texture = ExtResource("6_lmyhm")
+
+[node name="LabelPerdidos" type="Label" parent="PanelPerdidos" unique_id=615681842]
+offset_left = -37.0
+offset_top = -8.0
+offset_right = 42.0
+offset_bottom = 7.0
+label_settings = SubResource("LabelSettings_k8hvg")
+horizontal_alignment = 1
+vertical_alignment = 1

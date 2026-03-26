@@ -1,0 +1,19 @@
+[gd_scene format=3 uid="uid://6grwsqyuxgsx"]
+
+[ext_resource type="Texture2D" uid="uid://vtbetmemoqye" path="res://levels/WhatsApp Image 2026-03-24 at 6.39.53 PM.jpeg" id="1_cca5j"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_x2nql"]
+size = Vector2(225, 141)
+
+[node name="MainPlace" type="Node2D" unique_id=831352782]
+
+[node name="BackGround" type="Sprite2D" parent="." unique_id=2097675038]
+texture = ExtResource("1_cca5j")
+
+[node name="Node" type="Node" parent="." unique_id=897230593]
+
+[node name="StaticBody2D" type="StaticBody2D" parent="Node" unique_id=1360872949]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Node/StaticBody2D" unique_id=12467797]
+position = Vector2(25, -46)
+shape = SubResource("RectangleShape2D_x2nql")
