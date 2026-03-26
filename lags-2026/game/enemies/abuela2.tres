@@ -1,0 +1,70 @@
+[gd_resource type="SpriteFrames" format=3 uid="uid://bnx7u1yqf2g22"]
+
+[ext_resource type="Texture2D" uid="uid://dw4fh0edqauyi" path="res://assets/sprites/abuela.png" id="1_ggj3i"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_3oqja"]
+atlas = ExtResource("1_ggj3i")
+region = Rect2(0, 64, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_7tfiw"]
+atlas = ExtResource("1_ggj3i")
+region = Rect2(64, 64, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5v2tx"]
+atlas = ExtResource("1_ggj3i")
+region = Rect2(192, 64, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_bf618"]
+atlas = ExtResource("1_ggj3i")
+region = Rect2(128, 64, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_04urh"]
+atlas = ExtResource("1_ggj3i")
+region = Rect2(0, 64, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_whqfh"]
+atlas = ExtResource("1_ggj3i")
+region = Rect2(256, 64, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_d5885"]
+atlas = ExtResource("1_ggj3i")
+region = Rect2(320, 64, 64, 64)
+
+[resource]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_3oqja")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_7tfiw")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_5v2tx")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_bf618")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_04urh")
+}],
+"loop": true,
+"name": &"walk_side",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_whqfh")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_d5885")
+}],
+"loop": true,
+"name": &"walk_up",
+"speed": 5.0
+}]

@@ -1,8 +1,9 @@
 [gd_scene format=3 uid="uid://bcf0hqm47necg"]
 
-[ext_resource type="Texture2D" uid="uid://roruo5pdkxfj" path="res://assets/textures/mapa_original.png" id="1_1mo47"]
+[ext_resource type="Texture2D" uid="uid://roruo5pdkxfj" path="res://assets/textures/mapa/mapa_original.png" id="1_1mo47"]
 [ext_resource type="PackedScene" uid="uid://ccouoo3ylpe13" path="res://game/player/PlayerScene.tscn" id="1_hsexo"]
 [ext_resource type="PackedScene" uid="uid://e33c7oon5crb" path="res://hud/HUD.tscn" id="1_qehkn"]
+[ext_resource type="PackedScene" uid="uid://2ifrvk7tfpyc" path="res://game/player/NPC.tscn" id="4_qehkn"]
 
 [sub_resource type="SegmentShape2D" id="SegmentShape2D_hsexo"]
 a = Vector2(1, -24)
@@ -502,3 +503,7 @@ scale = Vector2(1.72, 1.72)
 
 [node name="Hud" parent="." unique_id=977867959 instance=ExtResource("1_qehkn")]
 scale = Vector2(1.735, 1.735)
+
+[node name="PlayerNpc" parent="." unique_id=1664666080 instance=ExtResource("4_qehkn")]
+position = Vector2(719.7674, 126.16279)
+scale = Vector2(1.72, 1.72)

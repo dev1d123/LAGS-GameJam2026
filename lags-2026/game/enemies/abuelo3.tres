@@ -1,0 +1,70 @@
+[gd_resource type="SpriteFrames" format=3 uid="uid://dy6r5gm3qpvxq"]
+
+[ext_resource type="Texture2D" uid="uid://isb13ib4rh5n" path="res://assets/sprites/abuelo.png" id="1_4lklk"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_6dhh3"]
+atlas = ExtResource("1_4lklk")
+region = Rect2(0, 128, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_reyqv"]
+atlas = ExtResource("1_4lklk")
+region = Rect2(64, 128, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_wwv58"]
+atlas = ExtResource("1_4lklk")
+region = Rect2(128, 128, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_8bulg"]
+atlas = ExtResource("1_4lklk")
+region = Rect2(0, 128, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_tfqhr"]
+atlas = ExtResource("1_4lklk")
+region = Rect2(192, 128, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_6c2tc"]
+atlas = ExtResource("1_4lklk")
+region = Rect2(256, 128, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_kt2x3"]
+atlas = ExtResource("1_4lklk")
+region = Rect2(320, 128, 64, 64)
+
+[resource]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_6dhh3")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_reyqv")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_wwv58")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_8bulg")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_tfqhr")
+}],
+"loop": true,
+"name": &"walk_side",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_6c2tc")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_kt2x3")
+}],
+"loop": true,
+"name": &"walk_up",
+"speed": 5.0
+}]

@@ -1,0 +1,28 @@
+[gd_scene format=3 uid="uid://2ifrvk7tfpyc"]
+
+[ext_resource type="Script" uid="uid://fvbhjv6u20jn" path="res://game/player/npc.gd" id="1_5rsjf"]
+[ext_resource type="AudioStream" uid="uid://cnesiba6fvdwi" path="res://assets/audio/sfx/walk.wav" id="2_5rsjf"]
+[ext_resource type="SpriteFrames" uid="uid://k81r5e6xyspr" path="res://game/enemies/playerSprites.tres" id="2_avroh"]
+[ext_resource type="SpriteFrames" uid="uid://bd2kx2m15h0x3" path="res://game/enemies/niño3.tres" id="4_avroh"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_srlok"]
+size = Vector2(23, 7)
+
+[node name="PlayerNpc" type="CharacterBody2D" unique_id=1664666080]
+script = ExtResource("1_5rsjf")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=1193926036]
+visible = false
+sprite_frames = ExtResource("2_avroh")
+animation = &"idle_down"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=977684875]
+position = Vector2(-1, 27)
+shape = SubResource("RectangleShape2D_srlok")
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="." unique_id=132563678]
+stream = ExtResource("2_5rsjf")
+
+[node name="AnimatedSprite2D2" type="AnimatedSprite2D" parent="." unique_id=1927269216]
+sprite_frames = ExtResource("4_avroh")
+animation = &"walk_side"
