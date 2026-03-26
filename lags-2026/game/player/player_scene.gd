@@ -1,7 +1,7 @@
 extends CharacterBody2D
 
-@export var max_speed: float = 200.0
-@export var acceleration: float = 800.0
+@export var max_speed: float = 600.0
+@export var acceleration: float = 1200.0
 @export var step_interval: float = 0.35 
 
 @onready var sprite = $AnimatedSprite2D
