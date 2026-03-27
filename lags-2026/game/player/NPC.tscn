@@ -24,8 +24,6 @@ shape = SubResource("RectangleShape2D_srlok")
 stream = ExtResource("2_5rsjf")
 
 [node name="NavigationAgent2D" type="NavigationAgent2D" parent="." unique_id=340574848]
-path_desired_distance = 2.0
-target_desired_distance = 2.0
 debug_enabled = true
 debug_path_custom_color = Color(1, 0, 0, 1)
 
