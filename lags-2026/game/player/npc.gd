@@ -50,6 +50,7 @@ func _on_wait_timer_timeout():
 	make_path()
 	
 func _physics_process(delta: float) -> void:
+	z_index = int(global_position.y)
 	if pos == null:
 		return
 

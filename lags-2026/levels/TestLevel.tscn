@@ -504,10 +504,6 @@ shape = SubResource("SegmentShape2D_sgo7n")
 position = Vector2(454, 748)
 shape = SubResource("SegmentShape2D_sgo7n")
 
-[node name="PlayerScene" parent="." unique_id=1653825361 instance=ExtResource("1_hsexo")]
-position = Vector2(356.97668, 152.90698)
-scale = Vector2(1.72, 1.72)
-
 [node name="Hud" parent="." unique_id=977867959 instance=ExtResource("1_qehkn")]
 scale = Vector2(1.735, 1.735)
 
@@ -635,3 +631,7 @@ position = Vector2(1313, 301)
 
 [node name="Marker2D6" type="Marker2D" parent="cafe" unique_id=1886214311]
 position = Vector2(1219, 302)
+
+[node name="PlayerScene" parent="." unique_id=1653825361 instance=ExtResource("1_hsexo")]
+position = Vector2(356.97668, 152.90698)
+scale = Vector2(1.7200001, 1.7200001)

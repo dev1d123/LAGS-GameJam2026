@@ -82,5 +82,4 @@ func _spawn_npc() -> void:
 		npc.lugar = random_marker.get_parent().name
 	print("NPC tipo:", npc.tipo, "-> va a:", npc.lugar)
 	add_child(npc)
-	move_child(npc, 1)
 	npc.global_position = $Marker2DEnter.global_position
