@@ -1,25 +1,57 @@
+# NPC.gd
 extends CharacterBody2D
 
+var mis_animaciones: SpriteFrames
+const speed = 100
 
-const SPEED = 300.0
-const JUMP_VELOCITY = -400.0
+@onready var sprite: AnimatedSprite2D = $AnimatedSprite2D
+@onready var nav_agent: NavigationAgent2D = $NavigationAgent2D
 
+@export var player: Node2D
+
+func _ready() -> void:
+	if mis_animaciones:
+		sprite.sprite_frames = mis_animaciones
+		sprite.play()
+	$Timer.timeout.connect(_on_timer_timeout)
+
+	# Esperar un frame para que el mapa de navegación esté listo
+	await get_tree().physics_frame
+	make_path()
+
+
+
+
+
+var last_position: Vector2
+var stuck_timer: float = 0.0
+const STUCK_THRESHOLD = 1.5  # segundos parado
+const STUCK_MIN_DIST = 2.0   # píxeles mínimos para considerar que se movió
 
 func _physics_process(delta: float) -> void:
-	# Add the gravity.
-	if not is_on_floor():
-		velocity += get_gravity() * delta
+	if nav_agent.is_navigation_finished():
+		velocity = Vector2.ZERO
+		move_and_slide()
+		return
 
-	# Handle jump.
-	if Input.is_action_just_pressed("ui_accept") and is_on_floor():
-		velocity.y = JUMP_VELOCITY
+	# Stuck detection
+	stuck_timer += delta
+	if stuck_timer >= STUCK_THRESHOLD:
+		stuck_timer = 0.0
+		if global_position.distance_to(last_position) < STUCK_MIN_DIST:
+			make_path()  # Forzar recálculo
+		last_position = global_position
 
-	# Get the input direction and handle the movement/deceleration.
-	# As good practice, you should replace UI actions with custom gameplay actions.
-	var direction := Input.get_axis("ui_left", "ui_right")
-	if direction:
-		velocity.x = direction * SPEED
-	else:
-		velocity.x = move_toward(velocity.x, 0, SPEED)
-
+	var next_pos = nav_agent.get_next_path_position()
+	var dir = global_position.direction_to(next_pos)
+	velocity = dir * speed
 	move_and_slide()
+
+func make_path() -> void:
+	if player == null:
+		print("ERROR: player no asignado")
+		return
+	nav_agent.target_position = player.global_position
+
+func _on_timer_timeout() -> void:
+	make_path()
