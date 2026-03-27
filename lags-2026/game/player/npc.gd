@@ -1,5 +1,7 @@
 # NPC.gd
 extends CharacterBody2D
+
+
 enum TipoNPC {
 	ABUELA,
 	ABUELO,
@@ -10,6 +12,14 @@ enum TipoNPC {
 var tipo: TipoNPC
 var lugar: String 
 
+enum Estado {
+	ENTRANDO,
+	ESPERANDO,
+	SALIENDO
+}
+var estado = Estado.ENTRANDO
+@onready var wait_timer: Timer = $WaitTimer
+
 var mis_animaciones: SpriteFrames
 const speed = 300
 const STOP_DISTANCE = 12.0
@@ -17,13 +27,14 @@ const STOP_DISTANCE = 12.0
 @onready var nav_agent: NavigationAgent2D = $NavigationAgent2D
 
 @export var pos: Node2D
+@export var posSalida: Node2D
 
 func _ready() -> void:
 	if mis_animaciones:
 		sprite.sprite_frames = mis_animaciones
 		sprite.play()
 	$Timer.timeout.connect(_on_timer_timeout)
-
+	wait_timer.timeout.connect(_on_wait_timer_timeout)
 	# Esperar un frame para que el mapa de navegación esté listo
 	await get_tree().physics_frame
 	make_path()
@@ -33,6 +44,11 @@ var stuck_timer: float = 0.0
 const STUCK_THRESHOLD = 1.5  # segundos parado
 const STUCK_MIN_DIST = 2.0   # píxeles mínimos para considerar que se movió
 
+func _on_wait_timer_timeout():
+	estado = Estado.SALIENDO
+	pos = posSalida
+	make_path()
+	
 func _physics_process(delta: float) -> void:
 	if pos == null:
 		return
@@ -42,10 +58,18 @@ func _physics_process(delta: float) -> void:
 	if dist_to_target <= STOP_DISTANCE:
 		velocity = Vector2.ZERO
 		move_and_slide()
+		if estado == Estado.SALIENDO:
+			queue_free()
+			return
 
+		if estado != Estado.ESPERANDO:
+			estado = Estado.ESPERANDO
+			wait_timer.start(5)
+		
 		if sprite.animation != "idle":
 			sprite.play("idle")
 		return
+		
 	if nav_agent.is_navigation_finished():
 		velocity = Vector2.ZERO
 		move_and_slide()

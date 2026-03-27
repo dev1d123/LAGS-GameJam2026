@@ -1,4 +1,4 @@
-[gd_scene load_steps=20 format=3 uid="uid://cm1vkbm5j3tdp"]
+[gd_scene format=3 uid="uid://cm1vkbm5j3tdp"]
 
 [ext_resource type="Texture2D" uid="uid://txovj4i2r1pc" path="res://assets/textures/menu-principal/background.png" id="1_0qgu1"]
 [ext_resource type="Script" uid="uid://rt10gby3gn34" path="res://ui/screens/main_menu.gd" id="1_xhre2"]
@@ -63,7 +63,7 @@ font_color = Color(0.6207868, 0.63924015, 0.74923116, 1)
 outline_size = 8
 outline_color = Color(0.106452875, 0.03457466, 2.1057204e-08, 1)
 
-[node name="MainMenu" type="Control"]
+[node name="MainMenu" type="Control" unique_id=166807514]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -302,10 +302,10 @@ vertical_alignment = 1
 autowrap_mode = 2
 text_overrun_behavior = 3
 
-[node name="OptionsOverlay" type="CanvasLayer" parent="."]
+[node name="OptionsOverlay" type="CanvasLayer" parent="." unique_id=388616113]
 visible = false
 
-[node name="ColorRect" type="ColorRect" parent="OptionsOverlay"]
+[node name="ColorRect" type="ColorRect" parent="OptionsOverlay" unique_id=455611229]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -313,7 +313,7 @@ grow_horizontal = 2
 grow_vertical = 2
 color = Color(0, 0, 0, 0.705882)
 
-[node name="Options_Menu" parent="OptionsOverlay" instance=ExtResource("11_opts")]
+[node name="Options_Menu" parent="OptionsOverlay" unique_id=198521262 instance=ExtResource("11_opts")]
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5

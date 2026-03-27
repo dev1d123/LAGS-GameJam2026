@@ -3,6 +3,7 @@ extends Node2D
 const NPC_SCENE = preload("res://game/player/NPC.tscn")
 
 @export var pos: Node2D
+@export var posSalida: Node2D
 
 var sprite_paths: Array[String] = [
 	"res://game/enemies/abuela1.tres", "res://game/enemies/abuela2.tres", "res://game/enemies/abuela3.tres",
@@ -75,7 +76,7 @@ func _spawn_npc() -> void:
 	# 🔴 definir destino según tipo
 	var random_marker = get_random_marker_by_tipo(tipo)
 	npc.pos = random_marker
-
+	npc.posSalida = posSalida
 	# 🔴 guardar nombre del lugar
 	if random_marker != null:
 		npc.lugar = random_marker.get_parent().name

@@ -30,3 +30,5 @@ debug_path_custom_color = Color(1, 0, 0, 1)
 [node name="Timer" type="Timer" parent="." unique_id=1176952259]
 wait_time = 0.52
 autostart = true
+
+[node name="WaitTimer" type="Timer" parent="." unique_id=1218014538]
