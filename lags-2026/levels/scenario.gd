@@ -1,7 +1,7 @@
 extends Node2D
 
 const NPC_SCENE = preload("res://game/player/NPC.tscn")
-@export var player: Node2D
+@export var pos: Node2D
 var sprite_paths: Array[String] = [
 	"res://game/enemies/abuela1.tres", "res://game/enemies/abuela2.tres", "res://game/enemies/abuela3.tres",
 	"res://game/enemies/abuelo1.tres", "res://game/enemies/abuelo2.tres", "res://game/enemies/abuelo3.tres",
@@ -26,7 +26,7 @@ func _spawn_npc() -> void:
 	npc.scale = Vector2(1.72, 1.72)
 	var random_sprite = sprite_paths.pick_random()
 	npc.mis_animaciones = load(random_sprite)
-	npc.player = player 
+	npc.pos = pos 
 	add_child(npc)
 
 	npc.global_position = $Marker2DEnter.global_position
