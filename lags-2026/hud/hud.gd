@@ -49,11 +49,19 @@ func _process(delta: float) -> void:
 			timer = cooldown
 
 		elif Input.is_key_pressed(KEY_5):
-			test_stress()
+			test_stress_down()
 			timer = cooldown
 
 		elif Input.is_key_pressed(KEY_6):
-			test_energy()
+			test_stress_up()
+			timer = cooldown
+
+		elif Input.is_key_pressed(KEY_7):
+			test_energy_down()
+			timer = cooldown
+
+		elif Input.is_key_pressed(KEY_8):
+			test_energy_up()
 			timer = cooldown
 
 # =========================
@@ -263,8 +271,15 @@ func test_hora():
 func test_perdidos():
 	actualizar_perdidos(1)
 
-func test_stress():
+func test_stress_down():
+	actualizar_stress(-10)
+
+func test_stress_up():
 	actualizar_stress(10)
 
-func test_energy():
+func test_energy_down():
+	actualizar_energy(-10)
+
+func test_energy_up():
 	actualizar_energy(10)
+	
