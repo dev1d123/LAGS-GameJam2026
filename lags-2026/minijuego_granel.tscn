@@ -1,0 +1,469 @@
+[gd_scene load_steps=24 format=3 uid="uid://cqmecw3pq1eim"]
+
+[ext_resource type="Script" uid="uid://35m8dpef3ci8" path="res://minijuego_granel.gd" id="1_1qtbl"]
+[ext_resource type="Texture2D" uid="uid://cpaxrpnv1gl7y" path="res://assets/textures/opciones-fondo.png" id="1_6wkra"]
+[ext_resource type="Texture2D" uid="uid://d3mn8iy0m7bf" path="res://assets/textures/opciones-campo-fondo.png" id="2_mc1d4"]
+[ext_resource type="PackedScene" uid="uid://cmcxrcsqm31xd" path="res://saco_arroz.tscn" id="2_qxgr3"]
+[ext_resource type="Texture2D" uid="uid://bkkrt23fwky0a" path="res://assets/textures/minigame-granel/tecla_espacio.png" id="3_all76"]
+[ext_resource type="PackedScene" uid="uid://dt8mxkr2r38bl" path="res://balanza.tscn" id="3_qp0ic"]
+[ext_resource type="PackedScene" uid="uid://hqmdfy0qhwxh" path="res://ui/components/Title_1.tscn" id="3_td63n"]
+[ext_resource type="PackedScene" uid="uid://bd4c8541c4k74" path="res://ui/components/Button_1.tscn" id="4_ffk5m"]
+[ext_resource type="FontFile" uid="uid://cu11g35n3hgqv" path="res://assets/fonts/PixelOperatorMonoHB.ttf" id="4_qp0ic"]
+[ext_resource type="Texture2D" uid="uid://chqfblrhrr1ag" path="res://assets/textures/minigame-granel/tecla_c.png" id="5_6wkra"]
+[ext_resource type="Texture2D" uid="uid://cfy6rj4bb8kwr" path="res://assets/textures/button_2.png" id="5_kuw1m"]
+[ext_resource type="Texture2D" uid="uid://damvpumyuefnw" path="res://assets/textures/minigame-granel/medalla_cobre.png" id="6_qxgr3"]
+[ext_resource type="Texture2D" uid="uid://6qen2cwmu7m1" path="res://assets/textures/minigame-granel/tecla_r.png" id="6_td63n"]
+[ext_resource type="Texture2D" uid="uid://dalayrl55r6fb" path="res://assets/textures/minigame-granel/icono-oro.png" id="11_td63n"]
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_rav2f"]
+texture = ExtResource("1_6wkra")
+texture_margin_left = 40.0
+texture_margin_top = 40.0
+texture_margin_right = 40.0
+texture_margin_bottom = 40.0
+axis_stretch_horizontal = 2
+axis_stretch_vertical = 2
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_5p0ss"]
+texture = ExtResource("2_mc1d4")
+texture_margin_left = 30.0
+texture_margin_top = 20.0
+texture_margin_right = 30.0
+texture_margin_bottom = 20.0
+modulate_color = Color(2.4060245, 1.9000973, 1.1570377, 1)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_nb1h7"]
+texture = ExtResource("2_mc1d4")
+texture_margin_left = 30.0
+texture_margin_top = 20.0
+texture_margin_right = 30.0
+texture_margin_bottom = 20.0
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_wxopf"]
+texture = ExtResource("2_mc1d4")
+texture_margin_left = 40.0
+texture_margin_top = 40.0
+texture_margin_right = 40.0
+texture_margin_bottom = 40.0
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_mdw7k"]
+texture = ExtResource("2_mc1d4")
+texture_margin_left = 30.0
+texture_margin_top = 20.0
+texture_margin_right = 30.0
+texture_margin_bottom = 20.0
+modulate_color = Color(1.3935692, 0.87213355, 0.98352003, 1)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_r18hf"]
+texture = ExtResource("2_mc1d4")
+texture_margin_left = 30.0
+texture_margin_top = 30.0
+texture_margin_right = 30.0
+texture_margin_bottom = 30.0
+axis_stretch_horizontal = 2
+axis_stretch_vertical = 2
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_td63n"]
+texture = ExtResource("5_kuw1m")
+texture_margin_left = 30.0
+texture_margin_top = 20.0
+texture_margin_right = 30.0
+texture_margin_bottom = 25.0
+axis_stretch_horizontal = 2
+axis_stretch_vertical = 2
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_lfwgi"]
+texture = ExtResource("5_kuw1m")
+texture_margin_left = 30.0
+texture_margin_top = 23.0
+texture_margin_right = 30.0
+texture_margin_bottom = 25.0
+axis_stretch_horizontal = 2
+axis_stretch_vertical = 2
+modulate_color = Color(0.59, 0.49, 0.56, 1)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_s7f56"]
+texture = ExtResource("5_kuw1m")
+texture_margin_left = 30.0
+texture_margin_top = 23.0
+texture_margin_right = 30.0
+texture_margin_bottom = 25.0
+axis_stretch_horizontal = 2
+axis_stretch_vertical = 2
+modulate_color = Color(0.76, 0.68, 0.74, 1)
+
+[node name="MinijuegoGranel" type="PanelContainer" node_paths=PackedStringArray("saco", "balanza", "boton_aceptar", "sello_calificacion", "label_objetivo")]
+offset_right = 40.0
+offset_bottom = 40.0
+theme_override_styles/panel = SubResource("StyleBoxTexture_rav2f")
+script = ExtResource("1_1qtbl")
+saco = NodePath("HBoxContainer/VBoxContainer/HBoxContainer/Balanza-Saco/Saco_Arroz")
+balanza = NodePath("HBoxContainer/VBoxContainer/HBoxContainer/Balanza-Saco/Balanza")
+boton_aceptar = NodePath("HBoxContainer/Control2/Button")
+sello_calificacion = NodePath("HBoxContainer/VBoxContainer/HBoxContainer/Panel Derecho/PanelContainer/VBoxContainer/Medallas")
+label_objetivo = NodePath("HBoxContainer/VBoxContainer/HBoxContainer/Panel Derecho/Objetivos/Option_Container/MarginContainer/HBoxContainer/LabelObjetivo")
+peso_objetivo = 1.5
+tasa_llenado_continuo = 0.25
+peso_por_toque = 0.01
+
+[node name="HBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 2
+
+[node name="Control" type="Control" parent="HBoxContainer"]
+custom_minimum_size = Vector2(0, 50)
+layout_mode = 2
+
+[node name="Title_1" parent="HBoxContainer/Control" instance=ExtResource("3_td63n")]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -267.5
+offset_top = -78.0
+offset_right = 267.5
+offset_bottom = 51.0
+grow_horizontal = 2
+size_flags_horizontal = 4
+text = "PESAJE A GRANEL"
+
+[node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer"]
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="HBoxContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="Guia Rapida" type="VBoxContainer" parent="HBoxContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 0
+theme_override_constants/separation = -20
+
+[node name="Option_Container4" type="PanelContainer" parent="HBoxContainer/VBoxContainer/HBoxContainer/Guia Rapida"]
+custom_minimum_size = Vector2(375, 0)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxTexture_5p0ss")
+
+[node name="MarginContainer" type="MarginContainer" parent="HBoxContainer/VBoxContainer/HBoxContainer/Guia Rapida/Option_Container4"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="HBoxContainer/VBoxContainer/HBoxContainer/Guia Rapida/Option_Container4/MarginContainer"]
+custom_minimum_size = Vector2(170, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.6877795, 0.6436458, 0.63261163, 1)
+theme_override_colors/font_outline_color = Color(0.18982935, 0.08277359, 0.0013466984, 1)
+theme_override_constants/outline_size = 9
+theme_override_fonts/font = ExtResource("4_qp0ic")
+theme_override_font_sizes/font_size = 40
+text = "GUÍA RÁPIDA"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Option_Container" type="PanelContainer" parent="HBoxContainer/VBoxContainer/HBoxContainer/Guia Rapida"]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxTexture_nb1h7")
+
+[node name="MarginContainer" type="MarginContainer" parent="HBoxContainer/VBoxContainer/HBoxContainer/Guia Rapida/Option_Container"]
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="HBoxContainer/VBoxContainer/HBoxContainer/Guia Rapida/Option_Container/MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="TextureRect" type="TextureRect" parent="HBoxContainer/VBoxContainer/HBoxContainer/Guia Rapida/Option_Container/MarginContainer/HBoxContainer"]
+layout_mode = 2
+texture = ExtResource("3_all76")
+
+[node name="Label" type="Label" parent="HBoxContainer/VBoxContainer/HBoxContainer/Guia Rapida/Option_Container/MarginContainer/HBoxContainer"]
+custom_minimum_size = Vector2(170, 0)
+layout_mode = 2
+size_flags_horizontal = 10
+theme_override_colors/font_color = Color(0.6877795, 0.6436458, 0.63261163, 1)
+theme_override_fonts/font = ExtResource("4_qp0ic")
+theme_override_font_sizes/font_size = 30
+text = "INCLINAR
+Y VERTER"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Option_Container2" type="PanelContainer" parent="HBoxContainer/VBoxContainer/HBoxContainer/Guia Rapida"]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxTexture_nb1h7")
+
+[node name="MarginContainer" type="MarginContainer" parent="HBoxContainer/VBoxContainer/HBoxContainer/Guia Rapida/Option_Container2"]
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="HBoxContainer/VBoxContainer/HBoxContainer/Guia Rapida/Option_Container2/MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="TextureRect" type="TextureRect" parent="HBoxContainer/VBoxContainer/HBoxContainer/Guia Rapida/Option_Container2/MarginContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 6
+texture = ExtResource("5_6wkra")
+
+[node name="Label" type="Label" parent="HBoxContainer/VBoxContainer/HBoxContainer/Guia Rapida/Option_Container2/MarginContainer/HBoxContainer"]
+custom_minimum_size = Vector2(170, 0)
+layout_mode = 2
+size_flags_horizontal = 10
+theme_override_colors/font_color = Color(0.6877795, 0.6436458, 0.63261163, 1)
+theme_override_fonts/font = ExtResource("4_qp0ic")
+theme_override_font_sizes/font_size = 30
+text = "TOQUES DE
+PRESICION"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Option_Container3" type="PanelContainer" parent="HBoxContainer/VBoxContainer/HBoxContainer/Guia Rapida"]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxTexture_nb1h7")
+
+[node name="MarginContainer" type="MarginContainer" parent="HBoxContainer/VBoxContainer/HBoxContainer/Guia Rapida/Option_Container3"]
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="HBoxContainer/VBoxContainer/HBoxContainer/Guia Rapida/Option_Container3/MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="TextureRect" type="TextureRect" parent="HBoxContainer/VBoxContainer/HBoxContainer/Guia Rapida/Option_Container3/MarginContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 6
+texture = ExtResource("6_td63n")
+
+[node name="Label" type="Label" parent="HBoxContainer/VBoxContainer/HBoxContainer/Guia Rapida/Option_Container3/MarginContainer/HBoxContainer"]
+custom_minimum_size = Vector2(170, 0)
+layout_mode = 2
+size_flags_horizontal = 10
+theme_override_colors/font_color = Color(0.6877795, 0.6436458, 0.63261163, 1)
+theme_override_fonts/font = ExtResource("4_qp0ic")
+theme_override_font_sizes/font_size = 30
+text = "DEVOLVER DE
+LA BALANZA"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="HBoxContainer" type="HBoxContainer" parent="HBoxContainer/VBoxContainer/HBoxContainer/Guia Rapida"]
+layout_mode = 2
+
+[node name="Balanza-Saco" type="PanelContainer" parent="HBoxContainer/VBoxContainer/HBoxContainer"]
+custom_minimum_size = Vector2(550, 725)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxTexture_wxopf")
+
+[node name="Balanza" parent="HBoxContainer/VBoxContainer/HBoxContainer/Balanza-Saco" instance=ExtResource("3_qp0ic")]
+position = Vector2(278, 613)
+
+[node name="Saco_Arroz" parent="HBoxContainer/VBoxContainer/HBoxContainer/Balanza-Saco" instance=ExtResource("2_qxgr3")]
+position = Vector2(167, 181)
+
+[node name="Panel Derecho" type="VBoxContainer" parent="HBoxContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+
+[node name="Objetivos" type="VBoxContainer" parent="HBoxContainer/VBoxContainer/HBoxContainer/Panel Derecho"]
+layout_mode = 2
+size_flags_vertical = 2
+theme_override_constants/separation = -20
+
+[node name="Option_Container4" type="PanelContainer" parent="HBoxContainer/VBoxContainer/HBoxContainer/Panel Derecho/Objetivos"]
+custom_minimum_size = Vector2(375, 0)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxTexture_5p0ss")
+
+[node name="MarginContainer" type="MarginContainer" parent="HBoxContainer/VBoxContainer/HBoxContainer/Panel Derecho/Objetivos/Option_Container4"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="HBoxContainer/VBoxContainer/HBoxContainer/Panel Derecho/Objetivos/Option_Container4/MarginContainer"]
+custom_minimum_size = Vector2(170, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.6877795, 0.6436458, 0.63261163, 1)
+theme_override_colors/font_outline_color = Color(0.18982935, 0.08277359, 0.0013466984, 1)
+theme_override_constants/outline_size = 9
+theme_override_fonts/font = ExtResource("4_qp0ic")
+theme_override_font_sizes/font_size = 40
+text = "OBJETIVOS"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Option_Container" type="PanelContainer" parent="HBoxContainer/VBoxContainer/HBoxContainer/Panel Derecho/Objetivos"]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxTexture_mdw7k")
+
+[node name="MarginContainer" type="MarginContainer" parent="HBoxContainer/VBoxContainer/HBoxContainer/Panel Derecho/Objetivos/Option_Container"]
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="HBoxContainer/VBoxContainer/HBoxContainer/Panel Derecho/Objetivos/Option_Container/MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="LabelObjetivo" type="Label" parent="HBoxContainer/VBoxContainer/HBoxContainer/Panel Derecho/Objetivos/Option_Container/MarginContainer/HBoxContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(170, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.7798362, 0.60324824, 0.59726447, 1)
+theme_override_fonts/font = ExtResource("4_qp0ic")
+theme_override_font_sizes/font_size = 35
+text = "PESO OBJETIVO:
+32.34 KG"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Option_Container2" type="PanelContainer" parent="HBoxContainer/VBoxContainer/HBoxContainer/Panel Derecho/Objetivos"]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxTexture_nb1h7")
+
+[node name="MarginContainer" type="MarginContainer" parent="HBoxContainer/VBoxContainer/HBoxContainer/Panel Derecho/Objetivos/Option_Container2"]
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="HBoxContainer/VBoxContainer/HBoxContainer/Panel Derecho/Objetivos/Option_Container2/MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 0
+
+[node name="Label" type="Label" parent="HBoxContainer/VBoxContainer/HBoxContainer/Panel Derecho/Objetivos/Option_Container2/MarginContainer/HBoxContainer"]
+custom_minimum_size = Vector2(170, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.6877795, 0.6436458, 0.63261163, 1)
+theme_override_fonts/font = ExtResource("4_qp0ic")
+theme_override_font_sizes/font_size = 30
+text = "PRIMER PEDIDO"
+vertical_alignment = 1
+
+[node name="Icono_Medalla" type="TextureRect" parent="HBoxContainer/VBoxContainer/HBoxContainer/Panel Derecho/Objetivos/Option_Container2/MarginContainer/HBoxContainer"]
+custom_minimum_size = Vector2(50, 50)
+layout_mode = 2
+size_flags_horizontal = 10
+size_flags_vertical = 4
+texture = ExtResource("11_td63n")
+expand_mode = 4
+stretch_mode = 5
+
+[node name="Option_Container3" type="PanelContainer" parent="HBoxContainer/VBoxContainer/HBoxContainer/Panel Derecho/Objetivos"]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxTexture_nb1h7")
+
+[node name="MarginContainer" type="MarginContainer" parent="HBoxContainer/VBoxContainer/HBoxContainer/Panel Derecho/Objetivos/Option_Container3"]
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="HBoxContainer/VBoxContainer/HBoxContainer/Panel Derecho/Objetivos/Option_Container3/MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 0
+
+[node name="Label" type="Label" parent="HBoxContainer/VBoxContainer/HBoxContainer/Panel Derecho/Objetivos/Option_Container3/MarginContainer/HBoxContainer"]
+custom_minimum_size = Vector2(170, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.6877795, 0.6436458, 0.63261163, 1)
+theme_override_fonts/font = ExtResource("4_qp0ic")
+theme_override_font_sizes/font_size = 30
+text = "SEGUNDO PEDIDO"
+vertical_alignment = 1
+
+[node name="Icono_Medalla" type="TextureRect" parent="HBoxContainer/VBoxContainer/HBoxContainer/Panel Derecho/Objetivos/Option_Container3/MarginContainer/HBoxContainer"]
+custom_minimum_size = Vector2(50, 50)
+layout_mode = 2
+size_flags_horizontal = 10
+texture = ExtResource("11_td63n")
+expand_mode = 4
+stretch_mode = 5
+
+[node name="Option_Container5" type="PanelContainer" parent="HBoxContainer/VBoxContainer/HBoxContainer/Panel Derecho/Objetivos"]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxTexture_nb1h7")
+
+[node name="MarginContainer" type="MarginContainer" parent="HBoxContainer/VBoxContainer/HBoxContainer/Panel Derecho/Objetivos/Option_Container5"]
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="HBoxContainer/VBoxContainer/HBoxContainer/Panel Derecho/Objetivos/Option_Container5/MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 0
+
+[node name="Label" type="Label" parent="HBoxContainer/VBoxContainer/HBoxContainer/Panel Derecho/Objetivos/Option_Container5/MarginContainer/HBoxContainer"]
+custom_minimum_size = Vector2(170, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.6877795, 0.6436458, 0.63261163, 1)
+theme_override_fonts/font = ExtResource("4_qp0ic")
+theme_override_font_sizes/font_size = 30
+text = "TERCER PEDIDO"
+vertical_alignment = 1
+
+[node name="Icono_Medalla" type="TextureRect" parent="HBoxContainer/VBoxContainer/HBoxContainer/Panel Derecho/Objetivos/Option_Container5/MarginContainer/HBoxContainer"]
+custom_minimum_size = Vector2(50, 50)
+layout_mode = 2
+size_flags_horizontal = 10
+texture = ExtResource("11_td63n")
+expand_mode = 4
+stretch_mode = 5
+
+[node name="PanelContainer" type="PanelContainer" parent="HBoxContainer/VBoxContainer/HBoxContainer/Panel Derecho"]
+custom_minimum_size = Vector2(0, 420)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxTexture_r18hf")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer/VBoxContainer/HBoxContainer/Panel Derecho/PanelContainer"]
+layout_mode = 2
+
+[node name="Option_Container4" type="PanelContainer" parent="HBoxContainer/VBoxContainer/HBoxContainer/Panel Derecho/PanelContainer/VBoxContainer"]
+custom_minimum_size = Vector2(375, 0)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxTexture_5p0ss")
+
+[node name="MarginContainer" type="MarginContainer" parent="HBoxContainer/VBoxContainer/HBoxContainer/Panel Derecho/PanelContainer/VBoxContainer/Option_Container4"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="HBoxContainer/VBoxContainer/HBoxContainer/Panel Derecho/PanelContainer/VBoxContainer/Option_Container4/MarginContainer"]
+custom_minimum_size = Vector2(170, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.6877795, 0.6436458, 0.63261163, 1)
+theme_override_colors/font_outline_color = Color(0.18982935, 0.08277359, 0.0013466984, 1)
+theme_override_constants/outline_size = 9
+theme_override_fonts/font = ExtResource("4_qp0ic")
+theme_override_font_sizes/font_size = 40
+text = "RESULTADOS"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Medallas" type="TextureRect" parent="HBoxContainer/VBoxContainer/HBoxContainer/Panel Derecho/PanelContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 6
+texture = ExtResource("6_qxgr3")
+
+[node name="Label" type="Label" parent="HBoxContainer/VBoxContainer/HBoxContainer/Panel Derecho/PanelContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 10
+theme_override_colors/font_color = Color(0.900055, 0.86405474, 0.8629792, 1)
+theme_override_colors/font_outline_color = Color(0.11997277, 0.08216684, 0.008644554, 1)
+theme_override_fonts/font = ExtResource("4_qp0ic")
+theme_override_font_sizes/font_size = 55
+text = "EXELENTE!"
+horizontal_alignment = 1
+vertical_alignment = 2
+
+[node name="Control2" type="Control" parent="HBoxContainer"]
+custom_minimum_size = Vector2(0, 50)
+layout_mode = 2
+
+[node name="Button" parent="HBoxContainer/Control2" instance=ExtResource("4_ffk5m")]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -264.0
+offset_top = -9.5
+offset_right = 264.0
+offset_bottom = 91.5
+grow_horizontal = 2
+grow_vertical = 2
+pivot_offset = Vector2(264, 50.5)
+size_flags_horizontal = 4
+size_flags_vertical = 8
+theme_override_font_sizes/font_size = 55
+theme_override_styles/normal = SubResource("StyleBoxTexture_td63n")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_lfwgi")
+theme_override_styles/hover = SubResource("StyleBoxTexture_s7f56")
+text = "ENTREGAR PRODUCTO"
