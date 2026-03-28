@@ -1,0 +1,67 @@
+[gd_scene load_steps=0 format=3 uid="uid://2ifrvk7tfpyc"]
+
+[ext_resource type="Script" uid="uid://fvbhjv6u20jn" path="res://game/player/npc.gd" id="1_5rsjf"]
+[ext_resource type="AudioStream" uid="uid://cnesiba6fvdwi" path="res://assets/audio/sfx/walk.wav" id="2_5rsjf"]
+[ext_resource type="SpriteFrames" uid="uid://exp0288nifx4" path="res://game/enemies/joven2.tres" id="2_avroh"]
+[ext_resource type="Texture2D" uid="uid://dg0iumuxi8r2k" path="res://assets/sprites/ui/warehouseMinigame.png" id="4_avroh"]
+[ext_resource type="Script" uid="uid://bbd8rokjuhaq6" path="res://game/player/icon_script.gd" id="5_srlok"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_srlok"]
+size = Vector2(23, 7)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_dl3yb"]
+size = Vector2(22, 66)
+
+[node name="PlayerNpc" type="CharacterBody2D" unique_id=1664666080]
+collision_layer = 0
+collision_mask = 0
+script = ExtResource("1_5rsjf")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=1193926036]
+position = Vector2(1, -27)
+sprite_frames = ExtResource("2_avroh")
+animation = &"idle"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=977684875]
+shape = SubResource("RectangleShape2D_srlok")
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="." unique_id=132563678]
+stream = ExtResource("2_5rsjf")
+
+[node name="NavigationAgent2D" type="NavigationAgent2D" parent="." unique_id=340574848]
+debug_enabled = true
+debug_path_custom_color = Color(1, 0, 0, 1)
+
+[node name="Timer" type="Timer" parent="." unique_id=1176952259]
+wait_time = 0.52
+autostart = true
+
+[node name="WaitTimer" type="Timer" parent="." unique_id=1218014538]
+
+[node name="Marker2D" type="Marker2D" parent="." unique_id=1799368577]
+position = Vector2(0, -57)
+
+[node name="TimeBar" type="ProgressBar" parent="." unique_id=1747947673]
+modulate = Color(18.892157, 0, 0, 1)
+offset_left = -9.0
+offset_top = -76.0
+offset_right = 9.0
+offset_bottom = -72.0
+theme_override_colors/font_color = Color(0.078431375, 1, 1, 1)
+max_value = 10.0
+value = 4.3
+show_percentage = false
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=650523496]
+visible = false
+position = Vector2(0, -57)
+texture = ExtResource("4_avroh")
+script = ExtResource("5_srlok")
+
+[node name="Area2D" type="Area2D" parent="." unique_id=579544284]
+collision_layer = 32768
+collision_mask = 8
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D" unique_id=274514290]
+position = Vector2(0, -30)
+shape = SubResource("RectangleShape2D_dl3yb")

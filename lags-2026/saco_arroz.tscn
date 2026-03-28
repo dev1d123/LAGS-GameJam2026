@@ -1,0 +1,118 @@
+[gd_scene load_steps=16 format=3 uid="uid://cmcxrcsqm31xd"]
+
+[ext_resource type="Texture2D" uid="uid://cqqqnk5xp0d80" path="res://assets/textures/minigame-granel/saco_arroz.png" id="1_n6h8e"]
+[ext_resource type="Script" uid="uid://q1esjkgm5eqr" path="res://saco_arroz.gd" id="1_y1pq6"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_y1pq6"]
+atlas = ExtResource("1_n6h8e")
+region = Rect2(0, 0, 294, 513)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_tnaw1"]
+atlas = ExtResource("1_n6h8e")
+region = Rect2(1764, 0, 294, 513)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_hjsf0"]
+atlas = ExtResource("1_n6h8e")
+region = Rect2(2058, 0, 294, 513)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_q3jt6"]
+atlas = ExtResource("1_n6h8e")
+region = Rect2(0, 513, 294, 513)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_wx6co"]
+atlas = ExtResource("1_n6h8e")
+region = Rect2(294, 513, 294, 513)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_u4fsa"]
+atlas = ExtResource("1_n6h8e")
+region = Rect2(588, 513, 294, 513)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_2pm4y"]
+atlas = ExtResource("1_n6h8e")
+region = Rect2(0, 0, 294, 513)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_nfl2g"]
+atlas = ExtResource("1_n6h8e")
+region = Rect2(294, 0, 294, 513)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_d81bk"]
+atlas = ExtResource("1_n6h8e")
+region = Rect2(588, 0, 294, 513)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_x45xr"]
+atlas = ExtResource("1_n6h8e")
+region = Rect2(882, 0, 294, 513)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ll8f0"]
+atlas = ExtResource("1_n6h8e")
+region = Rect2(1176, 0, 294, 513)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_q2dgb"]
+atlas = ExtResource("1_n6h8e")
+region = Rect2(1470, 0, 294, 513)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_7ddoa"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_y1pq6")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 0.25,
+"texture": SubResource("AtlasTexture_tnaw1")
+}, {
+"duration": 0.25,
+"texture": SubResource("AtlasTexture_hjsf0")
+}],
+"loop": false,
+"name": &"hechar",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 0.5,
+"texture": SubResource("AtlasTexture_q3jt6")
+}, {
+"duration": 0.5,
+"texture": SubResource("AtlasTexture_wx6co")
+}, {
+"duration": 0.5,
+"texture": SubResource("AtlasTexture_u4fsa")
+}],
+"loop": true,
+"name": &"idle_hechando",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 0.25,
+"texture": SubResource("AtlasTexture_2pm4y")
+}, {
+"duration": 0.25,
+"texture": SubResource("AtlasTexture_nfl2g")
+}, {
+"duration": 0.25,
+"texture": SubResource("AtlasTexture_d81bk")
+}, {
+"duration": 0.25,
+"texture": SubResource("AtlasTexture_x45xr")
+}, {
+"duration": 0.25,
+"texture": SubResource("AtlasTexture_ll8f0")
+}, {
+"duration": 0.25,
+"texture": SubResource("AtlasTexture_q2dgb")
+}],
+"loop": false,
+"name": &"inclinar",
+"speed": 5.0
+}]
+
+[node name="Saco_Arroz" type="Node2D"]
+script = ExtResource("1_y1pq6")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+position = Vector2(5, 124)
+sprite_frames = SubResource("SpriteFrames_7ddoa")

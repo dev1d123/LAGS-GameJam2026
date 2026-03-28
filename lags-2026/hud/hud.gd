@@ -19,7 +19,7 @@ var perdidos: int = 0
 
 # Idioma
 var lang := "es"
-
+	
 # Control input
 var cooldown := 0.2
 var timer := 0.0
@@ -113,6 +113,24 @@ func actualizar_dia(cantidad: int):
 
 	animar_ui(label_dia)
 
+
+func set_dia(valor: int) -> void:
+	dia = valor
+	if dia > max_dias:
+		dia = ((dia - 1) % max_dias) + 1
+	elif dia < 1:
+		dia = max_dias
+
+	match lang:
+		"es":
+			label_dia.text = "Día %d/%d" % [dia, max_dias]
+		"en":
+			label_dia.text = "Day %d/%d" % [dia, max_dias]
+		"pt":
+			label_dia.text = "Dia %d/%d" % [dia, max_dias]
+
+	animar_ui(label_dia)
+
 func actualizar_hora(cantidad: int):
 	hora += cantidad
 
@@ -120,6 +138,30 @@ func actualizar_hora(cantidad: int):
 		hora = 0
 	elif hora < 0:
 		hora = 23
+
+	var periodo = "AM"
+	var hora_mostrar = hora
+
+	if hora >= 12:
+		periodo = "PM"
+		if hora > 12:
+			hora_mostrar = hora - 12
+	if hora == 0:
+		hora_mostrar = 12
+
+	match lang:
+		"es":
+			label_hora.text = "Hora %d %s" % [hora_mostrar, periodo]
+		"en":
+			label_hora.text = "Time %d %s" % [hora_mostrar, periodo]
+		"pt":
+			label_hora.text = "Hora %d %s" % [hora_mostrar, periodo]
+
+	animar_ui(label_hora)
+
+
+func set_hora(valor: int) -> void:
+	hora = wrapi(valor, 0, 24)
 
 	var periodo = "AM"
 	var hora_mostrar = hora
@@ -161,6 +203,39 @@ func actualizar_stress(cantidad: float):
 func actualizar_energy(cantidad: float):
 	energy_bar.value = clamp(energy_bar.value + cantidad, 0, energy_bar.max_value)
 	animar_ui(energy_bar)
+
+
+func iniciar_dia_stats() -> void:
+	# Cada inicio de dia: energia al 100%.
+	energy_bar.value = energy_bar.max_value
+	animar_ui(energy_bar)
+
+	# Base 0% de estres + 20% por cada 5 clientes perdidos acumulados.
+	var stress_steps: int = int(perdidos / 5)
+	var stress_percent: float = clamp(float(stress_steps * 20), 0.0, 100.0)
+	stress_bar.value = clamp((stress_percent / 100.0) * stress_bar.max_value, 0.0, stress_bar.max_value)
+	animar_ui(stress_bar)
+
+
+func consumir_energia_mision(coste_percent: float = 20.0) -> void:
+	var max_energy: float = float(energy_bar.max_value)
+	var delta: float = -(max_energy * (coste_percent / 100.0))
+	energy_bar.value = clamp(float(energy_bar.value) + delta, 0.0, max_energy)
+	animar_ui(energy_bar)
+
+
+func get_energy_percent() -> float:
+	var max_energy: float = float(energy_bar.max_value)
+	if max_energy <= 0.0:
+		return 0.0
+	return clamp((float(energy_bar.value) / max_energy) * 100.0, 0.0, 100.0)
+
+
+func get_stress_percent() -> float:
+	var max_stress: float = float(stress_bar.max_value)
+	if max_stress <= 0.0:
+		return 0.0
+	return clamp((float(stress_bar.value) / max_stress) * 100.0, 0.0, 100.0)
 
 # =========================
 # REFRESH

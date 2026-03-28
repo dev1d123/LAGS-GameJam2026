@@ -1,0 +1,84 @@
+[gd_resource type="SpriteFrames" load_steps=0 format=3 uid="uid://cvqfoon5mqxyl"]
+
+[ext_resource type="Texture2D" uid="uid://bxstih3ybjset" path="res://assets/sprites/mujer.png" id="1_5csfi"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_dpl13"]
+atlas = ExtResource("1_5csfi")
+region = Rect2(0, 64, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_fy503"]
+atlas = ExtResource("1_5csfi")
+region = Rect2(64, 64, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_44jpo"]
+atlas = ExtResource("1_5csfi")
+region = Rect2(0, 64, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_dhcvo"]
+atlas = ExtResource("1_5csfi")
+region = Rect2(64, 64, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_gcxij"]
+atlas = ExtResource("1_5csfi")
+region = Rect2(0, 64, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ymq1p"]
+atlas = ExtResource("1_5csfi")
+region = Rect2(128, 64, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_l412d"]
+atlas = ExtResource("1_5csfi")
+region = Rect2(192, 64, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_mek6f"]
+atlas = ExtResource("1_5csfi")
+region = Rect2(256, 64, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_vf64d"]
+atlas = ExtResource("1_5csfi")
+region = Rect2(320, 64, 64, 64)
+
+[resource]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_dpl13")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_fy503")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_44jpo")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_dhcvo")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_gcxij")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ymq1p")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_l412d")
+}],
+"loop": true,
+"name": &"walk_side",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_mek6f")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_vf64d")
+}],
+"loop": true,
+"name": &"walk_up",
+"speed": 5.0
+}]

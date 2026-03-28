@@ -1,10 +1,13 @@
 extends Control
 
+const GAME_SCENE_PATH := "res://levels/TestLevel.tscn"
+
 @onready var options_overlay = $OptionsOverlay
 @onready var options_menu = $OptionsOverlay/Options_Menu
 @onready var options_bg = $OptionsOverlay/ColorRect
 
 func _ready() -> void:
+	$InteractablesLayer/Btn_Start.pressed.connect(_on_btn_start_pressed)
 	$InteractablesLayer/Btn_Options.pressed.connect(_on_btn_options_pressed)
 	options_overlay.hide()
 	options_menu.modulate.a = 0.0
@@ -13,6 +16,10 @@ func _ready() -> void:
 
 func _process(delta: float) -> void:
 	pass
+
+
+func _on_btn_start_pressed() -> void:
+	get_tree().change_scene_to_file(GAME_SCENE_PATH)
 	
 func _on_btn_options_pressed() -> void:
 	options_menu.load_current_settings()

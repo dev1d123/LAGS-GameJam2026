@@ -18,6 +18,7 @@ func update_translation() -> void:
 	if translation_key != "":
 		# Asignamos el texto dinámicamente comprobando si este nodo
 		# o su nodo padre es de UI y tiene la propiedad "text".
-		# Al heredar 'Node', esto se le puede colocar a un Label o a un Button y funciona igual.
 		if "text" in self:
 			set("text", LocaleManager.get_text(translation_category, translation_key))
+		elif get_parent() and "text" in get_parent():
+			get_parent().set("text", LocaleManager.get_text(translation_category, translation_key))

@@ -1,0 +1,17 @@
+[gd_scene format=3 uid="uid://cwjdokacw0mf7"]
+
+[ext_resource type="Script" uid="uid://b1gmk51pfrjq8" path="res://minijuegos/escenas/box.gd" id="1_le15w"]
+[ext_resource type="Texture2D" uid="uid://47g4bqt3cake" path="res://minijuegos/sprites/caja.png" id="2_j6qpm"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_j6qpm"]
+size = Vector2(24, 28)
+
+[node name="Box" type="Area2D" unique_id=440536666]
+collision_mask = 8
+script = ExtResource("1_le15w")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1931260419]
+texture = ExtResource("2_j6qpm")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1664012078]
+shape = SubResource("RectangleShape2D_j6qpm")

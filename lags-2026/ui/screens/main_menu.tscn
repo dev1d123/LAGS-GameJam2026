@@ -1,10 +1,11 @@
-[gd_scene load_steps=20 format=3 uid="uid://cm1vkbm5j3tdp"]
+[gd_scene load_steps=21 format=3 uid="uid://cm1vkbm5j3tdp"]
 
 [ext_resource type="Texture2D" uid="uid://txovj4i2r1pc" path="res://assets/textures/menu-principal/background.png" id="1_0qgu1"]
 [ext_resource type="Script" uid="uid://rt10gby3gn34" path="res://ui/screens/main_menu.gd" id="1_xhre2"]
 [ext_resource type="Shader" uid="uid://bqjqb34gchgrp" path="res://ui/screens/main_menu.gdshader" id="2_xhre2"]
 [ext_resource type="Script" uid="uid://bujv2o770p8tc" path="res://ui/components/diegetic_button.gd" id="3_xhre2"]
 [ext_resource type="FontFile" uid="uid://16qpop7b3hkx" path="res://assets/fonts/LazyFox Pixel Font 2.ttf" id="4_0rstm"]
+[ext_resource type="Texture2D" uid="uid://co5atdt578ijg" path="res://assets/textures/menu-principal/jugar.png" id="4_sbcjp"]
 [ext_resource type="FontFile" uid="uid://cu11g35n3hgqv" path="res://assets/fonts/PixelOperatorMonoHB.ttf" id="5_0f3jv"]
 [ext_resource type="Texture2D" uid="uid://cgg471e4gc1ng" path="res://assets/textures/menu-principal/opciones.png" id="6_dpa1d"]
 [ext_resource type="Texture2D" uid="uid://ck4rt0wjp0nek" path="res://assets/textures/menu-principal/salir.png" id="7_wrge7"]
@@ -12,6 +13,7 @@
 [ext_resource type="Texture2D" uid="uid://dg5xqnm3nn224" path="res://assets/textures/menu-principal/cartel-principal.png" id="9_itwiy"]
 [ext_resource type="Texture2D" uid="uid://d2y136brggxqd" path="res://assets/textures/menu-principal/dia-hora.png" id="10_qcsbv"]
 [ext_resource type="PackedScene" uid="uid://tmlrfmnpb1pt" path="res://ui/components/options_menu.tscn" id="11_opts"]
+[ext_resource type="AudioStream" uid="uid://clp7f2j36orei" path="res://assets/audio/game/MenuTheme.ogg" id="12_mtheme"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_dpa1d"]
 shader = ExtResource("2_xhre2")
@@ -23,9 +25,6 @@ shader_parameter/tint_color = Color(1, 0.8, 0.5, 1)
 shader_parameter/brightness = 1.0
 shader_parameter/use_base_color = false
 shader_parameter/base_color = Color(1, 1, 1, 1)
-
-[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_0rstm"]
-load_path = "res://.godot/imported/jugar.png-523ce8d95d340b90e7bb15108c63a5e1.ctex"
 
 [sub_resource type="LabelSettings" id="LabelSettings_0qgu1"]
 line_spacing = 2.0
@@ -72,29 +71,34 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_xhre2")
 
-[node name="Background" type="TextureRect" parent="." unique_id=1068934018]
+[node name="MenuMusic" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("12_mtheme")
+volume_db = -8.0
+autoplay = true
+
+[node name="Background" type="TextureRect" parent="."]
 layout_mode = 0
 offset_right = 40.0
 offset_bottom = 40.0
 texture = ExtResource("1_0qgu1")
 
-[node name="InteractablesLayer" type="Control" parent="." unique_id=1256945140]
+[node name="InteractablesLayer" type="Control" parent="."]
 anchors_preset = 0
 offset_right = 40.0
 offset_bottom = 40.0
 
-[node name="Btn_Start" type="TextureButton" parent="InteractablesLayer" unique_id=1786522421]
+[node name="Btn_Start" type="TextureButton" parent="InteractablesLayer"]
 material = SubResource("ShaderMaterial_dpa1d")
 layout_mode = 0
 offset_left = 841.0
 offset_top = 407.0
 offset_right = 1189.0
 offset_bottom = 869.0
-texture_normal = SubResource("CompressedTexture2D_0rstm")
+texture_normal = ExtResource("4_sbcjp")
 script = ExtResource("3_xhre2")
 translation_key = "menu_play"
 
-[node name="Label" type="Label" parent="InteractablesLayer/Btn_Start" unique_id=1035569503]
+[node name="Label" type="Label" parent="InteractablesLayer/Btn_Start"]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -113,7 +117,7 @@ vertical_alignment = 1
 autowrap_mode = 2
 text_overrun_behavior = 3
 
-[node name="Btn_Options" type="TextureButton" parent="InteractablesLayer" unique_id=801953927]
+[node name="Btn_Options" type="TextureButton" parent="InteractablesLayer"]
 material = SubResource("ShaderMaterial_dpa1d")
 layout_mode = 0
 offset_left = 1534.0
@@ -124,7 +128,7 @@ texture_normal = ExtResource("6_dpa1d")
 script = ExtResource("3_xhre2")
 translation_key = "menu_options"
 
-[node name="Label" type="Label" parent="InteractablesLayer/Btn_Options" unique_id=855489384]
+[node name="Label" type="Label" parent="InteractablesLayer/Btn_Options"]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -143,7 +147,7 @@ vertical_alignment = 1
 autowrap_mode = 2
 text_overrun_behavior = 3
 
-[node name="Btn_Credits" type="TextureButton" parent="InteractablesLayer" unique_id=2087369941]
+[node name="Btn_Credits" type="TextureButton" parent="InteractablesLayer"]
 material = SubResource("ShaderMaterial_dpa1d")
 layout_mode = 0
 offset_left = 90.0
@@ -154,7 +158,7 @@ texture_normal = ExtResource("8_rsufx")
 script = ExtResource("3_xhre2")
 translation_key = "menu_credits"
 
-[node name="Label" type="Label" parent="InteractablesLayer/Btn_Credits" unique_id=1590851128]
+[node name="Label" type="Label" parent="InteractablesLayer/Btn_Credits"]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -174,7 +178,7 @@ vertical_alignment = 1
 autowrap_mode = 2
 text_overrun_behavior = 3
 
-[node name="Btn_Exit" type="TextureButton" parent="InteractablesLayer" unique_id=1237541218]
+[node name="Btn_Exit" type="TextureButton" parent="InteractablesLayer"]
 material = SubResource("ShaderMaterial_dpa1d")
 layout_mode = 0
 offset_left = 1357.0
@@ -185,7 +189,7 @@ texture_normal = ExtResource("7_wrge7")
 script = ExtResource("3_xhre2")
 translation_key = "menu_exit"
 
-[node name="Label" type="Label" parent="InteractablesLayer/Btn_Exit" unique_id=2036641605]
+[node name="Label" type="Label" parent="InteractablesLayer/Btn_Exit"]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -204,7 +208,7 @@ vertical_alignment = 1
 autowrap_mode = 2
 text_overrun_behavior = 3
 
-[node name="Btn_Title" type="TextureButton" parent="InteractablesLayer" unique_id=1006943965]
+[node name="Btn_Title" type="TextureButton" parent="InteractablesLayer"]
 layout_mode = 0
 offset_left = 658.0
 offset_top = 45.0
@@ -213,7 +217,7 @@ offset_bottom = 375.0
 texture_normal = ExtResource("9_itwiy")
 script = ExtResource("3_xhre2")
 
-[node name="Label" type="Label" parent="InteractablesLayer/Btn_Title" unique_id=1709966635]
+[node name="Label" type="Label" parent="InteractablesLayer/Btn_Title"]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -233,7 +237,7 @@ vertical_alignment = 1
 autowrap_mode = 2
 text_overrun_behavior = 3
 
-[node name="Label2" type="Label" parent="InteractablesLayer/Btn_Title" unique_id=2077544016]
+[node name="Label2" type="Label" parent="InteractablesLayer/Btn_Title"]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -253,7 +257,7 @@ vertical_alignment = 1
 autowrap_mode = 2
 text_overrun_behavior = 3
 
-[node name="Btn_Time" type="TextureButton" parent="InteractablesLayer" unique_id=1522156671]
+[node name="Btn_Time" type="TextureButton" parent="InteractablesLayer"]
 layout_mode = 0
 offset_left = 171.0
 offset_top = 359.0
@@ -262,7 +266,7 @@ offset_bottom = 485.0
 texture_normal = ExtResource("10_qcsbv")
 script = ExtResource("3_xhre2")
 
-[node name="Label" type="Label" parent="InteractablesLayer/Btn_Time" unique_id=872747358]
+[node name="Label" type="Label" parent="InteractablesLayer/Btn_Time"]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -282,7 +286,7 @@ vertical_alignment = 1
 autowrap_mode = 2
 text_overrun_behavior = 3
 
-[node name="Label2" type="Label" parent="InteractablesLayer/Btn_Time" unique_id=1844286429]
+[node name="Label2" type="Label" parent="InteractablesLayer/Btn_Time"]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
