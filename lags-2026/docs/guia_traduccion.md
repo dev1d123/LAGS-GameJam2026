@@ -8,9 +8,9 @@ Dentro, define tus claves y los idiomas soportados:
 ```json
 {
   "inventory_title": {
-    "es": "INVENTARIO",
-    "en": "INVENTORY",
-    "pt": "INVENTÁRIO"
+	"es": "INVENTARIO",
+	"en": "INVENTORY",
+	"pt": "INVENTÁRIO"
   }
 }
 ```

@@ -1,0 +1,39 @@
+[gd_scene load_steps=5 format=3 uid="uid://dt8mxkr2r38bl"]
+
+[ext_resource type="Script" uid="uid://c20su2sy10vj7" path="res://balanza.gd" id="1_uuq8m"]
+[ext_resource type="Texture2D" uid="uid://c11aay8kjew5t" path="res://assets/textures/minigame-granel/balanza.png" id="2_gxyqb"]
+[ext_resource type="FontFile" uid="uid://cu11g35n3hgqv" path="res://assets/fonts/PixelOperatorMonoHB.ttf" id="4_0d0ln"]
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_jxyxv"]
+load_path = "res://.godot/imported/arroz.png-dc34a5aa7d3b00c4d4a30957af429f16.ctex"
+
+[node name="Balanza" type="Node2D"]
+script = ExtResource("1_uuq8m")
+umbrales_frames = Array[float]([0.0, 0.2, 0.5, 1.0, 1.5, 2.0, 3.0, 5.0, 8.0, 10.0])
+
+[node name="BaseBalanza" type="Sprite2D" parent="."]
+scale = Vector2(0.6, 0.6)
+texture = ExtResource("2_gxyqb")
+
+[node name="MontonArroz" type="Sprite2D" parent="."]
+position = Vector2(0, -99)
+scale = Vector2(0.6, 0.6)
+texture = SubResource("CompressedTexture2D_jxyxv")
+hframes = 8
+vframes = 2
+
+[node name="PantallaDigital" type="Label" parent="."]
+offset_left = -121.0
+offset_top = 13.0
+offset_right = 124.0
+offset_bottom = 64.0
+theme_override_colors/font_color = Color(0.67516816, 0.62712306, 0.57548594, 1)
+theme_override_fonts/font = ExtResource("4_0d0ln")
+theme_override_font_sizes/font_size = 40
+text = "0.00 KG"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="TimerRetraso" type="Timer" parent="."]
+wait_time = 0.5
+autostart = true
