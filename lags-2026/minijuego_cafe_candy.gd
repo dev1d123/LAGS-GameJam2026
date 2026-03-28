@@ -1,0 +1,265 @@
+extends Control
+
+signal minigame_finished(success: bool, score: int, total_rounds: int)
+
+const I18N_CATEGORY := "minigame_cafe_candy"
+
+@export var total_rounds: int = 5
+@export var round_time_base: float = 18.0
+
+@onready var title_label: Button = $MainPanel/Margin/VBox/TitleSlot/Title
+@onready var guide_title_label: Label = $MainPanel/Margin/VBox/Content/LeftPanel/GuideTitle/GuideTitleLabel
+@onready var guide1_label: Label = $MainPanel/Margin/VBox/Content/LeftPanel/Guide1/Guide1Label
+@onready var guide2_label: Label = $MainPanel/Margin/VBox/Content/LeftPanel/Guide2/Guide2Label
+@onready var guide3_label: Label = $MainPanel/Margin/VBox/Content/LeftPanel/Guide3/Guide3Label
+@onready var objectives_title_label: Label = $MainPanel/Margin/VBox/Content/RightPanel/ObjectivesTitle/ObjectivesTitleLabel
+@onready var rounds_label: Label = $MainPanel/Margin/VBox/Content/RightPanel/ObjectivesBody/ObjectivesVBox/Rounds
+@onready var instruction_label: Label = $MainPanel/Margin/VBox/Content/RightPanel/ObjectivesBody/ObjectivesVBox/Instruction
+@onready var results_title_label: Label = $MainPanel/Margin/VBox/Content/RightPanel/ResultsTitle/ResultsTitleLabel
+@onready var request_label: Label = $MainPanel/Margin/VBox/Content/CenterPanel/Request
+@onready var timer_label: Label = $MainPanel/Margin/VBox/Content/CenterPanel/Timer
+@onready var candy_grid: GridContainer = $MainPanel/Margin/VBox/Content/CenterPanel/CandyField/CandyGrid
+@onready var submit_button: Button = $MainPanel/Margin/VBox/Content/CenterPanel/ActionRow/SubmitButton
+@onready var selected_counter_label: Label = $MainPanel/Margin/VBox/Content/CenterPanel/ActionRow/SelectedCounter
+@onready var round_result_label: Label = $MainPanel/Margin/VBox/Content/RightPanel/ResultsBody/ResultsVBox/Result
+@onready var finish_button: Button = $MainPanel/Margin/VBox/Content/RightPanel/ResultsBody/ResultsVBox/FinishButton
+
+var candy_types: Array[String] = ["strawberry", "mint", "cola", "lemon"]
+var candy_type_colors: Dictionary = {
+	"strawberry": Color(0.96, 0.39, 0.46, 1.0),
+	"mint": Color(0.39, 0.84, 0.56, 1.0),
+	"cola": Color(0.58, 0.43, 0.34, 1.0),
+	"lemon": Color(0.95, 0.86, 0.35, 1.0)
+}
+
+var current_round: int = 0
+var score: int = 0
+var round_time_left: float = 0.0
+var pending_next_round: float = -1.0
+
+var request_type: String = ""
+var request_amount: int = 0
+var selected_count: int = 0
+
+var is_round_locked: bool = false
+
+
+func _ready() -> void:
+	randomize()
+	submit_button.pressed.connect(_on_submit_button_pressed)
+	finish_button.pressed.connect(_on_finish_button_pressed)
+	_update_static_texts()
+	call_deferred("_start_round")
+
+
+func _process(delta: float) -> void:
+	if current_round <= 0:
+		return
+
+	if not is_round_locked:
+		round_time_left = max(0.0, round_time_left - delta)
+		timer_label.text = _t("timer") % [snappedf(round_time_left, 0.1)]
+		if round_time_left <= 0.0:
+			_resolve_round(false, "timeout")
+			return
+
+	if pending_next_round >= 0.0:
+		pending_next_round -= delta
+		if pending_next_round <= 0.0:
+			pending_next_round = -1.0
+			_start_round()
+
+
+func _update_static_texts() -> void:
+	title_label.text = _t("title")
+	guide_title_label.text = _t("quick_guide")
+	guide1_label.text = _t("guide_1")
+	guide2_label.text = _t("guide_2")
+	guide3_label.text = _t("guide_3")
+	objectives_title_label.text = _t("objectives")
+	results_title_label.text = _t("results")
+	instruction_label.text = _t("instruction")
+	submit_button.text = _t("submit")
+	finish_button.text = _t("finish")
+	rounds_label.text = _t("rounds") % [0, total_rounds]
+	timer_label.text = _t("timer") % [0.0]
+	request_label.text = ""
+	selected_counter_label.text = _t("selected_counter") % [0, 0]
+	round_result_label.text = ""
+	round_result_label.visible = false
+	finish_button.visible = false
+
+
+func _start_round() -> void:
+	if current_round >= total_rounds:
+		_finish_minigame()
+		return
+
+	current_round += 1
+	is_round_locked = false
+	round_result_label.visible = false
+	submit_button.disabled = false
+
+	_build_round_board(current_round)
+
+	rounds_label.text = _t("rounds") % [current_round, total_rounds]
+	round_time_left = max(8.0, round_time_base - float(current_round - 1) * 1.5)
+	timer_label.text = _t("timer") % [snappedf(round_time_left, 0.1)]
+	selected_counter_label.text = _t("selected_counter") % [selected_count, request_amount]
+
+
+func _build_round_board(round_number: int) -> void:
+	for child in candy_grid.get_children():
+		child.queue_free()
+
+	request_type = candy_types[randi_range(0, candy_types.size() - 1)]
+	request_amount = randi_range(2, min(6, 2 + round_number))
+
+	var total_cells: int = 10 + round_number * 2
+	var required_positions: Array[int] = []
+	while required_positions.size() < request_amount:
+		var idx: int = randi_range(0, total_cells - 1)
+		if not required_positions.has(idx):
+			required_positions.append(idx)
+
+	selected_count = 0
+	request_label.text = _t("request") % [_t("candy_" + request_type), request_amount]
+
+	for i in total_cells:
+		var candy_type: String = request_type if required_positions.has(i) else candy_types[randi_range(0, candy_types.size() - 1)]
+		var button := _create_candy_button(candy_type)
+		candy_grid.add_child(button)
+
+
+func _create_candy_button(candy_type: String) -> Button:
+	var button := Button.new()
+	button.custom_minimum_size = Vector2(110, 66)
+	button.toggle_mode = true
+	button.text = _t("candy_" + candy_type)
+	button.add_theme_font_size_override("font_size", 20)
+
+	var normal := StyleBoxFlat.new()
+	normal.bg_color = _get_button_normal_color(candy_type)
+	normal.border_width_left = 2
+	normal.border_width_top = 2
+	normal.border_width_right = 2
+	normal.border_width_bottom = 2
+	normal.border_color = Color(0.25, 0.14, 0.05, 1.0)
+	normal.corner_radius_top_left = 6
+	normal.corner_radius_top_right = 6
+	normal.corner_radius_bottom_right = 6
+	normal.corner_radius_bottom_left = 6
+
+	var pressed := StyleBoxFlat.new()
+	pressed.bg_color = _get_button_pressed_color(candy_type)
+	pressed.border_width_left = 2
+	pressed.border_width_top = 2
+	pressed.border_width_right = 2
+	pressed.border_width_bottom = 2
+	pressed.border_color = Color(0.25, 0.14, 0.05, 1.0)
+	pressed.corner_radius_top_left = 6
+	pressed.corner_radius_top_right = 6
+	pressed.corner_radius_bottom_right = 6
+	pressed.corner_radius_bottom_left = 6
+
+	button.add_theme_stylebox_override("normal", normal)
+	button.add_theme_stylebox_override("hover", normal)
+	button.add_theme_stylebox_override("pressed", pressed)
+	button.add_theme_stylebox_override("focus", pressed)
+	button.set_meta("candy_type", candy_type)
+	button.toggled.connect(_on_candy_toggled.bind(button))
+	return button
+
+
+func _get_button_normal_color(candy_type: String) -> Color:
+	var base: Color = candy_type_colors.get(candy_type, Color(0.8, 0.8, 0.8, 1.0))
+	return Color(base.r * 0.85, base.g * 0.85, base.b * 0.85, 1.0)
+
+
+func _get_button_pressed_color(candy_type: String) -> Color:
+	var base: Color = candy_type_colors.get(candy_type, Color(0.8, 0.8, 0.8, 1.0))
+	return Color(min(1.0, base.r + 0.1), min(1.0, base.g + 0.1), min(1.0, base.b + 0.1), 1.0)
+
+
+func _on_candy_toggled(pressed: bool, button: Button) -> void:
+	if is_round_locked:
+		button.set_pressed_no_signal(false)
+		return
+
+	if pressed:
+		selected_count += 1
+	else:
+		selected_count = max(0, selected_count - 1)
+
+	selected_counter_label.text = _t("selected_counter") % [selected_count, request_amount]
+
+
+func _on_submit_button_pressed() -> void:
+	if is_round_locked:
+		return
+
+	var right_selected: int = 0
+	var wrong_selected: int = 0
+	for child in candy_grid.get_children():
+		var button := child as Button
+		if button == null or not button.button_pressed:
+			continue
+		if String(button.get_meta("candy_type", "")) == request_type:
+			right_selected += 1
+		else:
+			wrong_selected += 1
+
+	var success: bool = right_selected == request_amount and wrong_selected == 0
+	_resolve_round(success, "submit")
+
+
+func _resolve_round(success: bool, reason: String) -> void:
+	if is_round_locked:
+		return
+
+	is_round_locked = true
+	submit_button.disabled = true
+
+	for child in candy_grid.get_children():
+		var button := child as Button
+		if button != null:
+			button.disabled = true
+
+	if success:
+		score += 1
+		round_result_label.text = _t("correct")
+		round_result_label.modulate = Color(0.55, 1.0, 0.55, 1.0)
+	else:
+		if reason == "timeout":
+			round_result_label.text = _t("timeout")
+		else:
+			round_result_label.text = _t("incorrect")
+		round_result_label.modulate = Color(1.0, 0.55, 0.55, 1.0)
+
+	round_result_label.visible = true
+	pending_next_round = 1.0
+
+
+func _finish_minigame() -> void:
+	is_round_locked = true
+	submit_button.disabled = true
+
+	var success: bool = score >= int(ceil(float(total_rounds) * 0.6))
+	if success:
+		round_result_label.text = _t("final_success") % [score, total_rounds]
+		round_result_label.modulate = Color(0.55, 1.0, 0.55, 1.0)
+	else:
+		round_result_label.text = _t("final_fail") % [score, total_rounds]
+		round_result_label.modulate = Color(1.0, 0.55, 0.55, 1.0)
+
+	round_result_label.visible = true
+	finish_button.visible = true
+	emit_signal("minigame_finished", success, score, total_rounds)
+
+
+func _on_finish_button_pressed() -> void:
+	queue_free()
+
+
+func _t(key: String) -> String:
+	return LocaleManager.get_text(I18N_CATEGORY, key)

@@ -1,0 +1,137 @@
+{
+  "title": {
+    "es": "CONEXION DE CABLES",
+    "en": "CABLE CONNECTION",
+    "pt": "CONEXAO DE CABOS"
+  },
+  "instruction": {
+    "es": "Selecciona un cable y conectalo con su puerto correcto antes de que termine el tiempo.",
+    "en": "Select a cable and connect it to the correct port before time runs out.",
+    "pt": "Selecione um cabo e conecte-o na porta correta antes do tempo acabar."
+  },
+  "quick_guide": {
+    "es": "GUIA RAPIDA",
+    "en": "QUICK GUIDE",
+    "pt": "GUIA RAPIDO"
+  },
+  "guide_1": {
+    "es": "1) ELIGE UN CABLE DE LA IZQUIERDA",
+    "en": "1) PICK A CABLE FROM THE LEFT",
+    "pt": "1) ESCOLHA UM CABO DA ESQUERDA"
+  },
+  "guide_2": {
+    "es": "2) CONECTALO CON SU PUERTO CORRECTO",
+    "en": "2) CONNECT IT TO THE MATCHING PORT",
+    "pt": "2) CONECTE-O A PORTA CORRETA"
+  },
+  "guide_3": {
+    "es": "3) COMPLETA TODOS ANTES DEL TIEMPO",
+    "en": "3) COMPLETE THEM ALL BEFORE TIME ENDS",
+    "pt": "3) COMPLETE TODOS ANTES DO TEMPO"
+  },
+  "objectives": {
+    "es": "OBJETIVOS",
+    "en": "OBJECTIVES",
+    "pt": "OBJETIVOS"
+  },
+  "results": {
+    "es": "RESULTADOS",
+    "en": "RESULTS",
+    "pt": "RESULTADOS"
+  },
+  "rounds": {
+    "es": "Ronda %d/%d",
+    "en": "Round %d/%d",
+    "pt": "Rodada %d/%d"
+  },
+  "timer": {
+    "es": "Tiempo: %.1f",
+    "en": "Time: %.1f",
+    "pt": "Tempo: %.1f"
+  },
+  "request": {
+    "es": "Conecta %d cables correctamente",
+    "en": "Connect %d cables correctly",
+    "pt": "Conecte %d cabos corretamente"
+  },
+  "selected_source": {
+    "es": "Cable seleccionado: %s",
+    "en": "Selected cable: %s",
+    "pt": "Cabo selecionado: %s"
+  },
+  "selected_source_none": {
+    "es": "Cable seleccionado: ninguno",
+    "en": "Selected cable: none",
+    "pt": "Cabo selecionado: nenhum"
+  },
+  "progress": {
+    "es": "Conexiones: %d/%d",
+    "en": "Connections: %d/%d",
+    "pt": "Conexoes: %d/%d"
+  },
+  "submit": {
+    "es": "Confirmar",
+    "en": "Submit",
+    "pt": "Confirmar"
+  },
+  "correct": {
+    "es": "Conexion correcta",
+    "en": "Correct connection",
+    "pt": "Conexao correta"
+  },
+  "incorrect": {
+    "es": "Faltan conexiones",
+    "en": "Missing connections",
+    "pt": "Faltam conexoes"
+  },
+  "timeout": {
+    "es": "Tiempo agotado",
+    "en": "Time is up",
+    "pt": "Tempo esgotado"
+  },
+  "final_success": {
+    "es": "Completado: %d/%d rondas correctas",
+    "en": "Completed: %d/%d successful rounds",
+    "pt": "Concluido: %d/%d rodadas corretas"
+  },
+  "final_fail": {
+    "es": "Fallaste: %d/%d rondas correctas",
+    "en": "Failed: %d/%d successful rounds",
+    "pt": "Falhou: %d/%d rodadas corretas"
+  },
+  "finish": {
+    "es": "Finalizar",
+    "en": "Finish",
+    "pt": "Finalizar"
+  },
+  "cable_blue": {
+    "es": "Azul",
+    "en": "Blue",
+    "pt": "Azul"
+  },
+  "cable_red": {
+    "es": "Rojo",
+    "en": "Red",
+    "pt": "Vermelho"
+  },
+  "cable_green": {
+    "es": "Verde",
+    "en": "Green",
+    "pt": "Verde"
+  },
+  "cable_yellow": {
+    "es": "Amarillo",
+    "en": "Yellow",
+    "pt": "Amarelo"
+  },
+  "cable_white": {
+    "es": "Blanco",
+    "en": "White",
+    "pt": "Branco"
+  },
+  "cable_black": {
+    "es": "Negro",
+    "en": "Black",
+    "pt": "Preto"
+  }
+}

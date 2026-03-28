@@ -1,0 +1,97 @@
+{
+  "title": {
+    "es": "SIRVIENDO CERVEZA",
+    "en": "POURING BEER",
+    "pt": "SERVINDO CERVEJA"
+  },
+  "instruction": {
+    "es": "Mantén presionada la manija y suelta en la línea objetivo.",
+    "en": "Hold the handle and release on the target line.",
+    "pt": "Segure a alavanca e solte na linha alvo."
+  },
+  "quick_guide": {
+    "es": "GUIA RAPIDA",
+    "en": "QUICK GUIDE",
+    "pt": "GUIA RAPIDO"
+  },
+  "guide_1": {
+    "es": "1) MANTEN CLIC SOBRE LA MANIJA",
+    "en": "1) HOLD CLICK ON THE HANDLE",
+    "pt": "1) SEGURE O CLIQUE NA ALAVANCA"
+  },
+  "guide_2": {
+    "es": "2) LLENA HASTA LA LINEA OBJETIVO",
+    "en": "2) FILL UP TO THE TARGET LINE",
+    "pt": "2) ENCHA ATE A LINHA ALVO"
+  },
+  "guide_3": {
+    "es": "3) SUELTA PARA DETENER EL LLENADO",
+    "en": "3) RELEASE TO STOP POURING",
+    "pt": "3) SOLTE PARA PARAR DE ENCHER"
+  },
+  "objectives": {
+    "es": "OBJETIVOS",
+    "en": "OBJECTIVES",
+    "pt": "OBJETIVOS"
+  },
+  "results": {
+    "es": "RESULTADOS",
+    "en": "RESULTS",
+    "pt": "RESULTADOS"
+  },
+  "rounds": {
+    "es": "Ronda %d/%d",
+    "en": "Round %d/%d",
+    "pt": "Rodada %d/%d"
+  },
+  "timer": {
+    "es": "Tiempo: %.1f",
+    "en": "Time: %.1f",
+    "pt": "Tempo: %.1f"
+  },
+  "client_request": {
+    "es": "Cliente pide: llena al %d%%",
+    "en": "Customer asks: fill to %d%%",
+    "pt": "Cliente pede: encha ate %d%%"
+  },
+  "hold": {
+    "es": "MANTENER",
+    "en": "HOLD",
+    "pt": "SEGURAR"
+  },
+  "correct": {
+    "es": "¡Perfecto! Nivel correcto",
+    "en": "Perfect! Correct level",
+    "pt": "Perfeito! Nivel correto"
+  },
+  "incorrect": {
+    "es": "Te pasaste o falto cerveza",
+    "en": "You over/underfilled the glass",
+    "pt": "Voce passou ou faltou cerveja"
+  },
+  "timeout": {
+    "es": "Tiempo agotado",
+    "en": "Time is up",
+    "pt": "Tempo esgotado"
+  },
+  "overfill": {
+    "es": "Se rebalso la cerveza",
+    "en": "Beer overflowed",
+    "pt": "A cerveja transbordou"
+  },
+  "final_success": {
+    "es": "Completado: %d/%d vasos bien servidos",
+    "en": "Completed: %d/%d correctly poured glasses",
+    "pt": "Concluido: %d/%d copos bem servidos"
+  },
+  "final_fail": {
+    "es": "Fallaste: %d/%d vasos bien servidos",
+    "en": "Failed: %d/%d correctly poured glasses",
+    "pt": "Falhou: %d/%d copos bem servidos"
+  },
+  "finish": {
+    "es": "Finalizar",
+    "en": "Finish",
+    "pt": "Finalizar"
+  }
+}

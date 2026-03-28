@@ -1,0 +1,117 @@
+{
+  "title": {
+    "es": "SELECCION DE CARAMELOS",
+    "en": "CANDY SELECTION",
+    "pt": "SELECAO DE DOCES"
+  },
+  "instruction": {
+    "es": "Selecciona solo el tipo pedido y la cantidad exacta antes de que termine el tiempo.",
+    "en": "Pick only the requested type and exact amount before time runs out.",
+    "pt": "Selecione apenas o tipo pedido e a quantidade exata antes do tempo acabar."
+  },
+  "quick_guide": {
+    "es": "GUIA RAPIDA",
+    "en": "QUICK GUIDE",
+    "pt": "GUIA RAPIDO"
+  },
+  "guide_1": {
+    "es": "1) LEE EL PEDIDO DEL CLIENTE",
+    "en": "1) READ THE CUSTOMER ORDER",
+    "pt": "1) LEIA O PEDIDO DO CLIENTE"
+  },
+  "guide_2": {
+    "es": "2) MARCA SOLO LOS CARAMELOS CORRECTOS",
+    "en": "2) MARK ONLY THE CORRECT CANDIES",
+    "pt": "2) MARQUE APENAS OS DOCES CORRETOS"
+  },
+  "guide_3": {
+    "es": "3) CONFIRMA LA CANTIDAD EXACTA",
+    "en": "3) CONFIRM THE EXACT AMOUNT",
+    "pt": "3) CONFIRME A QUANTIDADE EXATA"
+  },
+  "objectives": {
+    "es": "OBJETIVOS",
+    "en": "OBJECTIVES",
+    "pt": "OBJETIVOS"
+  },
+  "results": {
+    "es": "RESULTADOS",
+    "en": "RESULTS",
+    "pt": "RESULTADOS"
+  },
+  "rounds": {
+    "es": "Ronda %d/%d",
+    "en": "Round %d/%d",
+    "pt": "Rodada %d/%d"
+  },
+  "timer": {
+    "es": "Tiempo: %.1f",
+    "en": "Time: %.1f",
+    "pt": "Tempo: %.1f"
+  },
+  "request": {
+    "es": "Pedido: %s x%d",
+    "en": "Order: %s x%d",
+    "pt": "Pedido: %s x%d"
+  },
+  "selected_counter": {
+    "es": "Seleccionados: %d/%d",
+    "en": "Selected: %d/%d",
+    "pt": "Selecionados: %d/%d"
+  },
+  "submit": {
+    "es": "Confirmar",
+    "en": "Submit",
+    "pt": "Confirmar"
+  },
+  "correct": {
+    "es": "Pedido correcto",
+    "en": "Correct order",
+    "pt": "Pedido correto"
+  },
+  "incorrect": {
+    "es": "Pedido incorrecto",
+    "en": "Wrong order",
+    "pt": "Pedido incorreto"
+  },
+  "timeout": {
+    "es": "Tiempo agotado",
+    "en": "Time is up",
+    "pt": "Tempo esgotado"
+  },
+  "final_success": {
+    "es": "Completado: %d/%d pedidos correctos",
+    "en": "Completed: %d/%d correct orders",
+    "pt": "Concluido: %d/%d pedidos corretos"
+  },
+  "final_fail": {
+    "es": "Fallaste: %d/%d pedidos correctos",
+    "en": "Failed: %d/%d correct orders",
+    "pt": "Falhou: %d/%d pedidos corretos"
+  },
+  "finish": {
+    "es": "Finalizar",
+    "en": "Finish",
+    "pt": "Finalizar"
+  },
+  "candy_strawberry": {
+    "es": "Fresa",
+    "en": "Strawberry",
+    "pt": "Morango"
+  },
+  "candy_mint": {
+    "es": "Menta",
+    "en": "Mint",
+    "pt": "Menta"
+  },
+  "candy_cola": {
+    "es": "Cola",
+    "en": "Cola",
+    "pt": "Cola"
+  },
+  "candy_lemon": {
+    "es": "Limon",
+    "en": "Lemon",
+    "pt": "Limao"
+  }
+}

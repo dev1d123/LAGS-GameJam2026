@@ -1,0 +1,142 @@
+{
+  "title": {
+    "es": "BUSQUEDA EN TIENDA",
+    "en": "STORE SEARCH",
+    "pt": "BUSCA NA LOJA"
+  },
+  "instruction": {
+    "es": "Encuentra el objeto pedido en el menor numero de intentos antes de que se acabe el tiempo.",
+    "en": "Find the requested item with as few attempts as possible before time runs out.",
+    "pt": "Encontre o objeto pedido com o menor numero de tentativas antes do tempo acabar."
+  },
+  "quick_guide": {
+    "es": "GUIA RAPIDA",
+    "en": "QUICK GUIDE",
+    "pt": "GUIA RAPIDO"
+  },
+  "guide_1": {
+    "es": "1) MEMORIZA EL OBJETO PEDIDO",
+    "en": "1) MEMORIZE THE REQUESTED ITEM",
+    "pt": "1) MEMORIZE O OBJETO PEDIDO"
+  },
+  "guide_2": {
+    "es": "2) ABRE CASILLAS HASTA ENCONTRARLO",
+    "en": "2) OPEN TILES UNTIL YOU FIND IT",
+    "pt": "2) ABRA AS CELULAS ATE ENCONTRAR"
+  },
+  "guide_3": {
+    "es": "3) EVITA MUCHOS ERRORES Y EL TIEMPO",
+    "en": "3) AVOID TOO MANY MISTAKES AND TIMEOUT",
+    "pt": "3) EVITE MUITOS ERROS E O TEMPO"
+  },
+  "objectives": {
+    "es": "OBJETIVOS",
+    "en": "OBJECTIVES",
+    "pt": "OBJETIVOS"
+  },
+  "results": {
+    "es": "RESULTADOS",
+    "en": "RESULTS",
+    "pt": "RESULTADOS"
+  },
+  "rounds": {
+    "es": "Ronda %d/%d",
+    "en": "Round %d/%d",
+    "pt": "Rodada %d/%d"
+  },
+  "timer": {
+    "es": "Tiempo: %.1f",
+    "en": "Time: %.1f",
+    "pt": "Tempo: %.1f"
+  },
+  "request": {
+    "es": "Busca: %s",
+    "en": "Find: %s",
+    "pt": "Procure: %s"
+  },
+  "errors": {
+    "es": "Errores: %d/%d",
+    "en": "Errors: %d/%d",
+    "pt": "Erros: %d/%d"
+  },
+  "found": {
+    "es": "Encontrados: %d",
+    "en": "Found: %d",
+    "pt": "Encontrados: %d"
+  },
+  "skip": {
+    "es": "Saltar",
+    "en": "Skip",
+    "pt": "Pular"
+  },
+  "correct": {
+    "es": "Objeto encontrado",
+    "en": "Item found",
+    "pt": "Objeto encontrado"
+  },
+  "incorrect": {
+    "es": "No encontrado",
+    "en": "Not found",
+    "pt": "Nao encontrado"
+  },
+  "too_many_errors": {
+    "es": "Demasiados errores",
+    "en": "Too many mistakes",
+    "pt": "Erros demais"
+  },
+  "timeout": {
+    "es": "Tiempo agotado",
+    "en": "Time is up",
+    "pt": "Tempo esgotado"
+  },
+  "final_success": {
+    "es": "Completado: %d/%d rondas exitosas",
+    "en": "Completed: %d/%d successful rounds",
+    "pt": "Concluido: %d/%d rodadas bem sucedidas"
+  },
+  "final_fail": {
+    "es": "Fallaste: %d/%d rondas exitosas",
+    "en": "Failed: %d/%d successful rounds",
+    "pt": "Falhou: %d/%d rodadas bem sucedidas"
+  },
+  "finish": {
+    "es": "Finalizar",
+    "en": "Finish",
+    "pt": "Finalizar"
+  },
+  "item_milk": {
+    "es": "Leche",
+    "en": "Milk",
+    "pt": "Leite"
+  },
+  "item_bread": {
+    "es": "Pan",
+    "en": "Bread",
+    "pt": "Pao"
+  },
+  "item_soap": {
+    "es": "Jabon",
+    "en": "Soap",
+    "pt": "Sabonete"
+  },
+  "item_battery": {
+    "es": "Pilas",
+    "en": "Battery",
+    "pt": "Pilha"
+  },
+  "item_soda": {
+    "es": "Gaseosa",
+    "en": "Soda",
+    "pt": "Refrigerante"
+  },
+  "item_cookies": {
+    "es": "Galletas",
+    "en": "Cookies",
+    "pt": "Biscoitos"
+  },
+  "item_rice": {
+    "es": "Arroz",
+    "en": "Rice",
+    "pt": "Arroz"
+  }
+}
