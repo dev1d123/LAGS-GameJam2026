@@ -1,0 +1,22 @@
+[gd_scene load_steps=4 format=3 uid="uid://cxms5nyd7hgjy"]
+
+[ext_resource type="Script" uid="uid://cp7imyjqy6fie" path="res://scenes/minigameIndications/HitZone.gd" id="1_na3ys"]
+[ext_resource type="Texture2D" uid="uid://bh5gmki2inqlc" path="res://scenes/minigameIndications/zonaCabeza.png" id="2_4owrq"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_na3ys"]
+size = Vector2(316, 26)
+
+[node name="HitZone" type="Area2D"]
+script = ExtResource("1_na3ys")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(148, 1)
+shape = SubResource("RectangleShape2D_na3ys")
+
+[node name="SpriteCabeza" type="Sprite2D" parent="."]
+position = Vector2(150.99998, -4.9999995)
+scale = Vector2(0.9538461, 0.95)
+texture = ExtResource("2_4owrq")
+
+[connection signal="area_entered" from="." to="." method="_on_area_entered"]
+[connection signal="area_exited" from="." to="." method="_on_area_exited"]

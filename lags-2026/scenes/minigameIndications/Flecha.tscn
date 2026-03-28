@@ -1,0 +1,26 @@
+[gd_scene load_steps=8 format=3 uid="uid://hnj774rlahl5"]
+
+[ext_resource type="Script" uid="uid://b6qeeg3i0e6c1" path="res://scenes/minigameIndications/Flecha.gd" id="1_58uef"]
+[ext_resource type="Texture2D" uid="uid://7anbdppmuh0u" path="res://icon.svg" id="2_i6c1l"]
+[ext_resource type="Texture2D" uid="uid://dhik54oug8y3b" path="res://scenes/minigameIndications/FlechArriba.png" id="2_r8q6b"]
+[ext_resource type="Texture2D" uid="uid://f7vkf1cahiy1" path="res://scenes/minigameIndications/FlechaBajo.png" id="3_n1krc"]
+[ext_resource type="Texture2D" uid="uid://di8eqkgnmelh6" path="res://scenes/minigameIndications/FlechaIzquierda.png" id="4_cnb6c"]
+[ext_resource type="Texture2D" uid="uid://82j05ougrup3" path="res://scenes/minigameIndications/FlechaDerecha.png" id="5_0jyyy"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_nbget"]
+size = Vector2(188, 136)
+
+[node name="Flecha" type="Area2D" groups=["flechas"]]
+script = ExtResource("1_58uef")
+tex_arriba = ExtResource("2_r8q6b")
+tex_abajo = ExtResource("3_n1krc")
+tex_izquierda = ExtResource("4_cnb6c")
+tex_derecha = ExtResource("5_0jyyy")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+scale = Vector2(1.5, 1.066)
+texture = ExtResource("2_i6c1l")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(1, 0)
+shape = SubResource("RectangleShape2D_nbget")
