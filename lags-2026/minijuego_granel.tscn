@@ -1,4 +1,4 @@
-[gd_scene load_steps=27 format=3 uid="uid://cqmecw3pq1eim"]
+[gd_scene load_steps=28 format=3 uid="uid://cqmecw3pq1eim"]
 
 [ext_resource type="Script" uid="uid://35m8dpef3ci8" path="res://minijuego_granel.gd" id="1_1qtbl"]
 [ext_resource type="Texture2D" uid="uid://cpaxrpnv1gl7y" path="res://assets/textures/opciones-fondo.png" id="1_6wkra"]
@@ -14,6 +14,7 @@
 [ext_resource type="Texture2D" uid="uid://damvpumyuefnw" path="res://assets/textures/minigame-granel/medalla_cobre.png" id="6_qxgr3"]
 [ext_resource type="Texture2D" uid="uid://6qen2cwmu7m1" path="res://assets/textures/minigame-granel/tecla_r.png" id="6_td63n"]
 [ext_resource type="Texture2D" uid="uid://dalayrl55r6fb" path="res://assets/textures/minigame-granel/icono-oro.png" id="11_td63n"]
+[ext_resource type="Script" uid="uid://c21nsbr3ibysq" path="res://ui/components/localized_text.gd" id="100_loctext"]
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_rav2f"]
 texture = ExtResource("1_6wkra")
@@ -63,7 +64,7 @@ texture_margin_bottom = 30.0
 axis_stretch_horizontal = 2
 axis_stretch_vertical = 2
 
-[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_td63n"]
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_lfwgi"]
 texture = ExtResource("5_kuw1m")
 texture_margin_left = 30.0
 texture_margin_top = 20.0
@@ -71,16 +72,6 @@ texture_margin_right = 30.0
 texture_margin_bottom = 25.0
 axis_stretch_horizontal = 2
 axis_stretch_vertical = 2
-
-[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_lfwgi"]
-texture = ExtResource("5_kuw1m")
-texture_margin_left = 30.0
-texture_margin_top = 23.0
-texture_margin_right = 30.0
-texture_margin_bottom = 25.0
-axis_stretch_horizontal = 2
-axis_stretch_vertical = 2
-modulate_color = Color(0.59, 0.49, 0.56, 1)
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_s7f56"]
 texture = ExtResource("5_kuw1m")
@@ -90,9 +81,19 @@ texture_margin_right = 30.0
 texture_margin_bottom = 25.0
 axis_stretch_horizontal = 2
 axis_stretch_vertical = 2
-modulate_color = Color(0.76, 0.68, 0.74, 1)
+modulate_color = Color(0.59, 0.49, 0.56, 1)
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_xekxj"]
+texture = ExtResource("5_kuw1m")
+texture_margin_left = 30.0
+texture_margin_top = 23.0
+texture_margin_right = 30.0
+texture_margin_bottom = 25.0
+axis_stretch_horizontal = 2
+axis_stretch_vertical = 2
+modulate_color = Color(0.76, 0.68, 0.74, 1)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_bfvhx"]
 texture = ExtResource("5_kuw1m")
 texture_margin_left = 30.0
 texture_margin_top = 20.0
@@ -101,7 +102,7 @@ texture_margin_bottom = 25.0
 axis_stretch_horizontal = 2
 axis_stretch_vertical = 2
 
-[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_bfvhx"]
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_ylccf"]
 texture = ExtResource("5_kuw1m")
 texture_margin_left = 30.0
 texture_margin_top = 23.0
@@ -111,7 +112,7 @@ axis_stretch_horizontal = 2
 axis_stretch_vertical = 2
 modulate_color = Color(0.59, 0.49, 0.56, 1)
 
-[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_ylccf"]
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_n2225"]
 texture = ExtResource("5_kuw1m")
 texture_margin_left = 30.0
 texture_margin_top = 23.0
@@ -157,6 +158,9 @@ offset_bottom = 51.0
 grow_horizontal = 2
 size_flags_horizontal = 4
 text = "PESAJE A GRANEL"
+script = ExtResource("100_loctext")
+translation_category = "minigame_granel"
+translation_key = "title_granel"
 
 [node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer"]
 layout_mode = 2
@@ -192,6 +196,9 @@ theme_override_font_sizes/font_size = 40
 text = "GUÍA RÁPIDA"
 horizontal_alignment = 1
 vertical_alignment = 1
+script = ExtResource("100_loctext")
+translation_category = "minigame_granel"
+translation_key = "guia_rapida"
 
 [node name="Instruccion_Espacio" type="PanelContainer" parent="HBoxContainer/VBoxContainer/HBoxContainer/Panel Izquierdo/Guia Rapida"]
 layout_mode = 2
@@ -222,6 +229,9 @@ text = "INCLINAR Y
 VERTER"
 horizontal_alignment = 1
 vertical_alignment = 1
+script = ExtResource("100_loctext")
+translation_category = "minigame_granel"
+translation_key = "instruccion_espacio"
 
 [node name="Instruccion_C" type="PanelContainer" parent="HBoxContainer/VBoxContainer/HBoxContainer/Panel Izquierdo/Guia Rapida"]
 layout_mode = 2
@@ -252,6 +262,9 @@ text = "TOQUES DE
 PRESICION"
 horizontal_alignment = 1
 vertical_alignment = 1
+script = ExtResource("100_loctext")
+translation_category = "minigame_granel"
+translation_key = "instruccion_c"
 
 [node name="Instruccion_R" type="PanelContainer" parent="HBoxContainer/VBoxContainer/HBoxContainer/Panel Izquierdo/Guia Rapida"]
 layout_mode = 2
@@ -282,6 +295,9 @@ text = "SACAR DE
 LA BALANZA"
 horizontal_alignment = 1
 vertical_alignment = 1
+script = ExtResource("100_loctext")
+translation_category = "minigame_granel"
+translation_key = "instruccion_c"
 
 [node name="HBoxContainer" type="HBoxContainer" parent="HBoxContainer/VBoxContainer/HBoxContainer/Panel Izquierdo/Guia Rapida"]
 layout_mode = 2
@@ -306,7 +322,7 @@ size_flags_vertical = 2
 theme_override_constants/separation = -20
 
 [node name="Titulo" type="PanelContainer" parent="HBoxContainer/VBoxContainer/HBoxContainer/Panel Derecho/Objetivos"]
-custom_minimum_size = Vector2(375, 0)
+custom_minimum_size = Vector2(550, 0)
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxTexture_5p0ss")
 
@@ -325,6 +341,9 @@ theme_override_font_sizes/font_size = 40
 text = "OBJETIVOS"
 horizontal_alignment = 1
 vertical_alignment = 1
+script = ExtResource("100_loctext")
+translation_category = "minigame_granel"
+translation_key = "objetivos"
 
 [node name="Peso Objetivo" type="PanelContainer" parent="HBoxContainer/VBoxContainer/HBoxContainer/Panel Derecho/Objetivos"]
 layout_mode = 2
@@ -345,8 +364,7 @@ size_flags_horizontal = 3
 theme_override_colors/font_color = Color(0.7798362, 0.60324824, 0.59726447, 1)
 theme_override_fonts/font = ExtResource("4_qp0ic")
 theme_override_font_sizes/font_size = 35
-text = "PESO OBJETIVO:
-32.34 KG"
+text = "PESO OBJETIVO: 32.34 KG"
 horizontal_alignment = 1
 vertical_alignment = 1
 
@@ -370,6 +388,9 @@ theme_override_fonts/font = ExtResource("4_qp0ic")
 theme_override_font_sizes/font_size = 30
 text = "1° PEDIDO: 10.00kg"
 vertical_alignment = 1
+script = ExtResource("100_loctext")
+translation_category = "minigame_granel"
+translation_key = "primer_pedido_espera"
 
 [node name="Icono_Medalla" type="TextureRect" parent="HBoxContainer/VBoxContainer/HBoxContainer/Panel Derecho/Objetivos/Primer Pedido/MarginContainer/HBoxContainer"]
 custom_minimum_size = Vector2(50, 50)
@@ -400,6 +421,9 @@ theme_override_fonts/font = ExtResource("4_qp0ic")
 theme_override_font_sizes/font_size = 30
 text = "SEGUNDO PEDIDO"
 vertical_alignment = 1
+script = ExtResource("100_loctext")
+translation_category = "minigame_granel"
+translation_key = "segundo_pedido"
 
 [node name="Icono_Medalla" type="TextureRect" parent="HBoxContainer/VBoxContainer/HBoxContainer/Panel Derecho/Objetivos/Segundo Pedido/MarginContainer/HBoxContainer"]
 custom_minimum_size = Vector2(50, 50)
@@ -429,6 +453,9 @@ theme_override_fonts/font = ExtResource("4_qp0ic")
 theme_override_font_sizes/font_size = 30
 text = "TERCER PEDIDO"
 vertical_alignment = 1
+script = ExtResource("100_loctext")
+translation_category = "minigame_granel"
+translation_key = "tercer_pedido"
 
 [node name="Icono_Medalla" type="TextureRect" parent="HBoxContainer/VBoxContainer/HBoxContainer/Panel Derecho/Objetivos/Tercer Pedido/MarginContainer/HBoxContainer"]
 custom_minimum_size = Vector2(50, 50)
@@ -466,10 +493,13 @@ theme_override_font_sizes/font_size = 40
 text = "RESULTADOS"
 horizontal_alignment = 1
 vertical_alignment = 1
+script = ExtResource("100_loctext")
+translation_category = "minigame_granel"
+translation_key = "resultados"
 
 [node name="Tiempo Total" type="Label" parent="HBoxContainer/VBoxContainer/HBoxContainer/Panel Derecho/Resultados/VBoxContainer"]
 layout_mode = 2
-size_flags_vertical = 10
+size_flags_vertical = 2
 theme_override_colors/font_color = Color(0.900055, 0.86405474, 0.8629792, 1)
 theme_override_colors/font_outline_color = Color(0.11997277, 0.08216684, 0.008644554, 1)
 theme_override_fonts/font = ExtResource("4_qp0ic")
@@ -479,14 +509,16 @@ horizontal_alignment = 1
 vertical_alignment = 2
 
 [node name="Medallas" type="TextureRect" parent="HBoxContainer/VBoxContainer/HBoxContainer/Panel Derecho/Resultados/VBoxContainer"]
+custom_minimum_size = Vector2(0, 175)
 layout_mode = 2
 size_flags_horizontal = 4
-size_flags_vertical = 6
+size_flags_vertical = 2
 texture = ExtResource("6_qxgr3")
+expand_mode = 3
 
 [node name="Resultado Label" type="Label" parent="HBoxContainer/VBoxContainer/HBoxContainer/Panel Derecho/Resultados/VBoxContainer"]
 layout_mode = 2
-size_flags_vertical = 10
+size_flags_vertical = 2
 theme_override_colors/font_color = Color(0.900055, 0.86405474, 0.8629792, 1)
 theme_override_colors/font_outline_color = Color(0.11997277, 0.08216684, 0.008644554, 1)
 theme_override_fonts/font = ExtResource("4_qp0ic")
@@ -494,6 +526,9 @@ theme_override_font_sizes/font_size = 55
 text = "EXELENTE!"
 horizontal_alignment = 1
 vertical_alignment = 2
+script = ExtResource("100_loctext")
+translation_category = "minigame_granel"
+translation_key = "r_excelente"
 
 [node name="Control2" type="Control" parent="HBoxContainer"]
 custom_minimum_size = Vector2(0, 50)
@@ -516,10 +551,12 @@ pivot_offset = Vector2(264, 50.5)
 size_flags_horizontal = 4
 size_flags_vertical = 8
 theme_override_font_sizes/font_size = 55
-theme_override_styles/normal = SubResource("StyleBoxTexture_td63n")
-theme_override_styles/pressed = SubResource("StyleBoxTexture_lfwgi")
-theme_override_styles/hover = SubResource("StyleBoxTexture_s7f56")
+theme_override_styles/normal = SubResource("StyleBoxTexture_lfwgi")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_s7f56")
+theme_override_styles/hover = SubResource("StyleBoxTexture_xekxj")
 text = "ENTREGAR PRODUCTO"
+translation_category = "minigame_granel"
+translation_key = "entregar_producto"
 
 [node name="Control3" type="Control" parent="HBoxContainer"]
 layout_mode = 2
@@ -542,7 +579,9 @@ pivot_offset = Vector2(168, 50.5)
 size_flags_horizontal = 4
 size_flags_vertical = 8
 theme_override_font_sizes/font_size = 55
-theme_override_styles/normal = SubResource("StyleBoxTexture_xekxj")
-theme_override_styles/pressed = SubResource("StyleBoxTexture_bfvhx")
-theme_override_styles/hover = SubResource("StyleBoxTexture_ylccf")
+theme_override_styles/normal = SubResource("StyleBoxTexture_bfvhx")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_ylccf")
+theme_override_styles/hover = SubResource("StyleBoxTexture_n2225")
 text = "CONTINUAR"
+translation_category = "minigame_granel"
+translation_key = "continuar"

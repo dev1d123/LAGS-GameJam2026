@@ -86,6 +86,12 @@ func _ready():
 			contenedores_pedidos[i].visible = true
 			var icon = _get_icono_pedido(contenedores_pedidos[i])
 			if icon: icon.visible = false
+			
+			var lbl = _get_label_pedido(contenedores_pedidos[i])
+			if lbl:
+				if i == 0: lbl.text = LocaleManager.get_text("minigame_granel", "primer_pedido_espera")
+				elif i == 1: lbl.text = LocaleManager.get_text("minigame_granel", "segundo_pedido")
+				elif i == 2: lbl.text = LocaleManager.get_text("minigame_granel", "tercer_pedido")
 		else:
 			contenedores_pedidos[i].visible = false
 			
@@ -117,11 +123,11 @@ func _preparar_ronda():
 	if boton_continuar: boton_continuar.visible = false
 	boton_aceptar.visible = true
 	
-	label_objetivo.text = "PESO OBJETIVO:\n%.2f KG" % peso_objetivo
+	label_objetivo.text = LocaleManager.get_text("minigame_granel", "peso_objetivo") % peso_objetivo
 	if contenedores_pedidos.size() > 0:
 		var lbl_pedido = _get_label_pedido(contenedores_pedidos[ronda_actual - 1])
 		if lbl_pedido:
-			lbl_pedido.text = str(ronda_actual) + "° PEDIDO: %.2f KG" % peso_objetivo
+			lbl_pedido.text = LocaleManager.get_text("minigame_granel", "pedido_inicial") % [ronda_actual, peso_objetivo]
 
 func _formatear_tiempo(segundos: float) -> String:
 	var mins = int(segundos) / 60
@@ -215,28 +221,28 @@ func _on_boton_aceptar_presionado():
 		acumulado_puntos += 3
 		tex_medalla = load("res://assets/textures/minigame-granel/medalla_oro.png")
 		tex_icono = load("res://assets/textures/minigame-granel/icono-oro.png")
-		if label_resultado_texto: label_resultado_texto.text = "¡EXCELENTE!"
+		if label_resultado_texto: label_resultado_texto.text = LocaleManager.get_text("minigame_granel", "r_excelente")
 		audio_medalla.stream = stream_ok
 		audio_medalla.pitch_scale = 1.3 # Tono más feliz y agudo
 	elif diferencia <= 0.10:
 		acumulado_puntos += 2
 		tex_medalla = load("res://assets/textures/minigame-granel/medalla_plata.png")
 		tex_icono = load("res://assets/textures/minigame-granel/icono-plata.png")
-		if label_resultado_texto: label_resultado_texto.text = "¡MUY BIEN!"
+		if label_resultado_texto: label_resultado_texto.text = LocaleManager.get_text("minigame_granel", "r_muy_bien")
 		audio_medalla.stream = stream_ok
 		audio_medalla.pitch_scale = 1.0 # Tono base
 	elif diferencia <= 0.30:
 		acumulado_puntos += 1
 		tex_medalla = load("res://assets/textures/minigame-granel/medalla_cobre.png")
 		tex_icono = load("res://assets/textures/minigame-granel/icono-cobre.png")
-		if label_resultado_texto: label_resultado_texto.text = "NADA MAL"
+		if label_resultado_texto: label_resultado_texto.text = LocaleManager.get_text("minigame_granel", "r_nada_mal")
 		audio_medalla.stream = stream_ok
 		audio_medalla.pitch_scale = 0.75 # Tono grave/decepcionante
 	else:
 		acumulado_puntos += 0
 		tex_medalla = load("res://assets/textures/minigame-granel/medalla_error.png")
 		tex_icono = load("res://assets/textures/minigame-granel/icono-fallo.png")
-		if label_resultado_texto: label_resultado_texto.text = "¡FALLASTE!"
+		if label_resultado_texto: label_resultado_texto.text = LocaleManager.get_text("minigame_granel", "r_fallaste")
 		audio_medalla.stream = stream_error
 		audio_medalla.pitch_scale = 1.0
 		
@@ -251,13 +257,13 @@ func _on_boton_aceptar_presionado():
 			icon.visible = true
 		var lbl_pedido = _get_label_pedido(contenedores_pedidos[ronda_actual - 1])
 		if lbl_pedido:
-			lbl_pedido.text = str(ronda_actual) + "° PEDIDO: %.2f KG - " % peso_objetivo + _formatear_tiempo(tiempo_ronda_actual)
+			lbl_pedido.text = LocaleManager.get_text("minigame_granel", "pedido_formato") % [ronda_actual, peso_objetivo, _formatear_tiempo(tiempo_ronda_actual)]
 			
 	if boton_continuar:
 		if ronda_actual < total_rondas:
-			boton_continuar.text = "SIGUIENTE"
+			boton_continuar.text = LocaleManager.get_text("minigame_granel", "siguiente")
 		else:
-			boton_continuar.text = "VER RESULTADOS"
+			boton_continuar.text = LocaleManager.get_text("minigame_granel", "ver_resultados")
 			
 	_animar_medalla()
 
@@ -283,22 +289,22 @@ func _mostrar_resultado_final():
 	
 	if prom >= 2.5:
 		tex_medalla = load("res://assets/textures/minigame-granel/medalla_oro.png")
-		if label_resultado_texto: label_resultado_texto.text = "¡MAESTRO GRANELERO!"
+		if label_resultado_texto: label_resultado_texto.text = LocaleManager.get_text("minigame_granel", "oro")
 		audio_medalla.stream = stream_ok
 		audio_medalla.pitch_scale = 1.3
 	elif prom >= 1.5:
 		tex_medalla = load("res://assets/textures/minigame-granel/medalla_plata.png")
-		if label_resultado_texto: label_resultado_texto.text = "¡TRABAJO SÓLIDO!"
+		if label_resultado_texto: label_resultado_texto.text = LocaleManager.get_text("minigame_granel", "plata")
 		audio_medalla.stream = stream_ok
 		audio_medalla.pitch_scale = 1.0
 	elif prom >= 0.5:
 		tex_medalla = load("res://assets/textures/minigame-granel/medalla_cobre.png")
-		if label_resultado_texto: label_resultado_texto.text = "PUEDES MEJORAR"
+		if label_resultado_texto: label_resultado_texto.text = LocaleManager.get_text("minigame_granel", "cobre")
 		audio_medalla.stream = stream_ok
 		audio_medalla.pitch_scale = 0.75
 	else:
 		tex_medalla = load("res://assets/textures/minigame-granel/medalla_error.png")
-		if label_resultado_texto: label_resultado_texto.text = "DESPIDO INMINENTE"
+		if label_resultado_texto: label_resultado_texto.text = LocaleManager.get_text("minigame_granel", "fallo")
 		audio_medalla.stream = stream_error
 		audio_medalla.pitch_scale = 1.0
 		
@@ -306,12 +312,12 @@ func _mostrar_resultado_final():
 	audio_medalla.play()
 	
 	if label_tiempo_total:
-		label_tiempo_total.text = "TIEMPO TOTAL: " + _formatear_tiempo(tiempo_total)
+		label_tiempo_total.text = LocaleManager.get_text("minigame_granel", "tiempo_total") % _formatear_tiempo(tiempo_total)
 		label_tiempo_total.visible = true
 		label_tiempo_total.modulate.a = 0.0
 		
 	if boton_continuar:
-		boton_continuar.text = "FINALIZAR"
+		boton_continuar.text = LocaleManager.get_text("minigame_granel", "finalizar")
 		
 	_animar_medalla()
 
