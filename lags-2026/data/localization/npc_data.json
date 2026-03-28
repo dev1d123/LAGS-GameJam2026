@@ -1,0 +1,294 @@
+{
+  "npc": {
+	"abuela": [
+	  {
+		"nombre": {
+		  "es": "Doña Carmen",
+		  "pt": "Dona Carmen",
+		  "en": "Mrs. Carmen"
+		},
+		"descripcion": {
+		  "es": "Revisa precios y pesos; detecta errores y retrasa la fila.",
+		  "pt": "Verifica preços e pesos; detecta erros e atrasa a fila.",
+		  "en": "Checks prices and weights; catches mistakes and slows the line."
+		},
+		"edad": 72,
+		"variacion": 1
+	  },
+	  {
+		"nombre": {
+		  "es": "Doña Rosa",
+		  "pt": "Dona Rosa",
+		  "en": "Mrs. Rosa"
+		},
+		"descripcion": {
+		  "es": "Habla mucho; distrae y alarga la atención.",
+		  "pt": "Fala muito; distrai e prolonga o atendimento.",
+		  "en": "Talks a lot; distracts and delays service."
+		},
+		"edad": 68,
+		"variacion": 2
+	  },
+	  {
+		"nombre": {
+		  "es": "Doña Elvira",
+		  "pt": "Dona Elvira",
+		  "en": "Mrs. Elvira"
+		},
+		"descripcion": {
+		  "es": "Exige precisión; se molesta por errores.",
+		  "pt": "Exige precisão; se irrita com erros.",
+		  "en": "Demands precision; gets upset at mistakes."
+		},
+		"edad": 75,
+		"variacion": 3
+	  },
+	  {
+		"nombre": {
+		  "es": "Doña Marta",
+		  "pt": "Dona Marta",
+		  "en": "Mrs. Marta"
+		},
+		"descripcion": {
+		  "es": "Cambia pedidos; genera confusión.",
+		  "pt": "Muda pedidos; gera confusão.",
+		  "en": "Changes orders; creates confusion."
+		},
+		"edad": 70,
+		"variacion": 1
+	  }
+	],
+	"abuelo": [
+	  {
+		"nombre": {
+		  "es": "Don Julio",
+		  "pt": "Seu Júlio",
+		  "en": "Mr. Julio"
+		},
+		"descripcion": {
+		  "es": "Paga exacto; toma más tiempo.",
+		  "pt": "Paga exato; leva mais tempo.",
+		  "en": "Pays exact; takes more time."
+		},
+		"edad": 74,
+		"variacion": 1
+	  },
+	  {
+		"nombre": {
+		  "es": "Don Pedro",
+		  "pt": "Seu Pedro",
+		  "en": "Mr. Pedro"
+		},
+		"descripcion": {
+		  "es": "Indeciso; retrasa la cola.",
+		  "pt": "Indeciso; atrasa a fila.",
+		  "en": "Indecisive; slows the line."
+		},
+		"edad": 77,
+		"variacion": 2
+	  },
+	  {
+		"nombre": {
+		  "es": "Don Ernesto",
+		  "pt": "Seu Ernesto",
+		  "en": "Mr. Ernesto"
+		},
+		"descripcion": {
+		  "es": "Bromea; distrae al jugador.",
+		  "pt": "Brinca; distrai o jogador.",
+		  "en": "Jokes; distracts the player."
+		},
+		"edad": 69,
+		"variacion": 3
+	  },
+	  {
+		"nombre": {
+		  "es": "Don Luis",
+		  "pt": "Seu Luís",
+		  "en": "Mr. Luis"
+		},
+		"descripcion": {
+		  "es": "Impaciente; se va si espera.",
+		  "pt": "Impaciente; vai embora se espera.",
+		  "en": "Impatient; leaves if waiting."
+		},
+		"edad": 73,
+		"variacion": 2
+	  }
+	],
+	"joven": [
+	  {
+		"nombre": {
+		  "es": "Kevin",
+		  "pt": "Kevin",
+		  "en": "Kevin"
+		},
+		"descripcion": {
+		  "es": "Apurado; mete presión.",
+		  "pt": "Apressado; pressiona.",
+		  "en": "Rushed; adds pressure."
+		},
+		"edad": 19,
+		"variacion": 1
+	  },
+	  {
+		"nombre": {
+		  "es": "Brayan",
+		  "pt": "Brayan",
+		  "en": "Brian"
+		},
+		"descripcion": {
+		  "es": "Cambia pedidos; complica.",
+		  "pt": "Muda pedidos; complica.",
+		  "en": "Changes orders; complicates."
+		},
+		"edad": 21,
+		"variacion": 2
+	  },
+	  {
+		"nombre": {
+		  "es": "Luis",
+		  "pt": "Luís",
+		  "en": "Luis"
+		},
+		"descripcion": {
+		  "es": "Relajado; no apura.",
+		  "pt": "Relaxado; não pressiona.",
+		  "en": "Relaxed; no rush."
+		},
+		"edad": 23,
+		"variacion": 3
+	  },
+	  {
+		"nombre": {
+		  "es": "Diego",
+		  "pt": "Diego",
+		  "en": "Diego"
+		},
+		"descripcion": {
+		  "es": "Se irrita rápido; sube estrés.",
+		  "pt": "Irrita-se rápido; aumenta o estresse.",
+		  "en": "Gets upset fast; raises stress."
+		},
+		"edad": 20,
+		"variacion": 1
+	  }
+	],
+	"mujer": [
+	  {
+		"nombre": {
+		  "es": "Ana",
+		  "pt": "Ana",
+		  "en": "Ana"
+		},
+		"descripcion": {
+		  "es": "Rápida y clara; mejora el flujo.",
+		  "pt": "Rápida e clara; melhora o fluxo.",
+		  "en": "Fast and clear; improves flow."
+		},
+		"edad": 35,
+		"variacion": 1
+	  },
+	  {
+		"nombre": {
+		  "es": "Lucía",
+		  "pt": "Lúcia",
+		  "en": "Lucia"
+		},
+		"descripcion": {
+		  "es": "Exigente; revisa todo.",
+		  "pt": "Exigente; verifica tudo.",
+		  "en": "Demanding; checks everything."
+		},
+		"edad": 40,
+		"variacion": 2
+	  },
+	  {
+		"nombre": {
+		  "es": "Carla",
+		  "pt": "Carla",
+		  "en": "Carla"
+		},
+		"descripcion": {
+		  "es": "Duda; retrasa pedidos.",
+		  "pt": "Hesita; atrasa pedidos.",
+		  "en": "Hesitates; delays orders."
+		},
+		"edad": 32,
+		"variacion": 3
+	  },
+	  {
+		"nombre": {
+		  "es": "María",
+		  "pt": "Maria",
+		  "en": "Maria"
+		},
+		"descripcion": {
+		  "es": "Apurada; se va si demora.",
+		  "pt": "Apressada; vai embora se demora.",
+		  "en": "In a hurry; leaves if delayed."
+		},
+		"edad": 38,
+		"variacion": 2
+	  }
+	],
+	"niño": [
+	  {
+		"nombre": {
+		  "es": "Juanito",
+		  "pt": "Joãozinho",
+		  "en": "Johnny"
+		},
+		"descripcion": {
+		  "es": "Curioso; distrae fácilmente.",
+		  "pt": "Curioso; distrai facilmente.",
+		  "en": "Curious; easily distracts."
+		},
+		"edad": 8,
+		"variacion": 1
+	  },
+	  {
+		"nombre": {
+		  "es": "Carlitos",
+		  "pt": "Carlinhos",
+		  "en": "Carl"
+		},
+		"descripcion": {
+		  "es": "Inquieto; pierde paciencia.",
+		  "pt": "Inquieto; perde a paciência.",
+		  "en": "Restless; loses patience."
+		},
+		"edad": 7,
+		"variacion": 2
+	  },
+	  {
+		"nombre": {
+		  "es": "Pedrito",
+		  "pt": "Pedrinho",
+		  "en": "Peter"
+		},
+		"descripcion": {
+		  "es": "Tímido; tarda en pedir.",
+		  "pt": "Tímido; demora para pedir.",
+		  "en": "Shy; slow to order."
+		},
+		"edad": 9,
+		"variacion": 3
+	  },
+	  {
+		"nombre": {
+		  "es": "Luisito",
+		  "pt": "Luisinho",
+		  "en": "Little Luis"
+		},
+		"descripcion": {
+		  "es": "Compra dulces; satura la zona.",
+		  "pt": "Compra doces; satura a área.",
+		  "en": "Buys candy; clogs the area."
+		},
+		"edad": 6,
+		"variacion": 1
+	  }
+	]
+  }
+}

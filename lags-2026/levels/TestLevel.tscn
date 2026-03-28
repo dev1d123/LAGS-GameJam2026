@@ -1,9 +1,15 @@
 [gd_scene format=3 uid="uid://bcf0hqm47necg"]
 
 [ext_resource type="Texture2D" uid="uid://roruo5pdkxfj" path="res://assets/textures/mapa_original.png" id="1_1mo47"]
+[ext_resource type="Script" uid="uid://cwrmr62ruw68q" path="res://levels/scenario.gd" id="1_8lu1o"]
 [ext_resource type="PackedScene" uid="uid://ccouoo3ylpe13" path="res://game/player/PlayerScene.tscn" id="1_hsexo"]
 [ext_resource type="PackedScene" uid="uid://e33c7oon5crb" path="res://hud/HUD.tscn" id="1_qehkn"]
-[ext_resource type="Script" uid="uid://cwrmr62ruw68q" path="res://levels/scenario.gd" id="1_yvpdy"]
+[ext_resource type="Script" uid="uid://wcqdptq7y1o" path="res://levels/spawner.gd" id="2_us3su"]
+[ext_resource type="Texture2D" uid="uid://blb5n5n0jlf5r" path="res://assets/sprites/ui/signA2.png" id="5_bcaos"]
+[ext_resource type="Texture2D" uid="uid://bwpv2a7impqor" path="res://assets/sprites/ui/signB2.png" id="5_tqdee"]
+[ext_resource type="FontFile" uid="uid://gsp1lrkpmnlj" path="res://assets/fonts/others/PixelOperatorHB8.ttf" id="6_yvpdy"]
+[ext_resource type="FontFile" uid="uid://drgge5qv147s" path="res://assets/fonts/others/PixelOperatorHB.ttf" id="7_qeqti"]
+[ext_resource type="PackedScene" uid="uid://dy0tomrtf5150" path="res://ui/alert/npc_description.tscn" id="9_us3su"]
 
 [sub_resource type="SegmentShape2D" id="SegmentShape2D_hsexo"]
 a = Vector2(1, -24)
@@ -82,556 +88,642 @@ vertices = PackedVector2Array(602.2969, 378.95313, 613.0781, 484.21094, 620.1328
 polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3, 4, 5, 6, 7, 8), PackedInt32Array(9, 10, 11, 12), PackedInt32Array(13, 11, 10), PackedInt32Array(9, 12, 14, 15), PackedInt32Array(15, 14, 16, 17), PackedInt32Array(8, 18, 19, 20, 21), PackedInt32Array(22, 23, 24, 17), PackedInt32Array(25, 26, 27, 28), PackedInt32Array(25, 28, 29), PackedInt32Array(25, 29, 30), PackedInt32Array(31, 25, 30, 32), PackedInt32Array(33, 31, 32, 34), PackedInt32Array(35, 36, 37, 38, 39), PackedInt32Array(29, 28, 40, 34), PackedInt32Array(41, 33, 34, 40, 42, 43), PackedInt32Array(44, 45, 46, 0), PackedInt32Array(47, 48, 49, 50), PackedInt32Array(50, 49, 51, 52), PackedInt32Array(53, 54, 33, 41), PackedInt32Array(38, 55, 56, 39), PackedInt32Array(57, 35, 39, 58, 59, 60), PackedInt32Array(8, 21, 61, 0), PackedInt32Array(62, 63, 57, 60), PackedInt32Array(64, 65, 66, 13, 10, 67), PackedInt32Array(24, 68, 67), PackedInt32Array(6, 69, 70, 7), PackedInt32Array(71, 52, 51, 72), PackedInt32Array(71, 72, 73, 2, 74), PackedInt32Array(75, 60, 59, 44, 0, 61), PackedInt32Array(17, 16, 22), PackedInt32Array(10, 17, 24, 67), PackedInt32Array(65, 64, 76), PackedInt32Array(75, 65, 76, 60), PackedInt32Array(1, 74, 2), PackedInt32Array(77, 7, 70, 43), PackedInt32Array(43, 70, 41)])
 outlines = Array[PackedVector2Array]([PackedVector2Array(542.4418, -90.116264, 622.09296, -90.116264, 622.67444, 149.41861, 793.5089, 150.2219, 993.60474, 151.1628, 993.0233, 201.7442, 981.9768, 201.16281, 981.9768, 246.51164, 936.0466, 246.51164, 936.0466, 196.51164, 775.5814, 198.25583, 613.95355, 191.27908, 623.8373, 364.5349, 774.41864, 365.6977, 773.8373, 388.95352, 613.37213, 388.95352, 622.67444, 479.65118, 644.76746, 501.74423, 672.67444, 500.58142, 683.1396, 483.72095, 829.65125, 483.72095, 830.814, 445.34888, 1068.0233, 444.18607, 1067.4419, 516.2791, 723.25586, 516.2791, 719.1861, 562.7907, 718.0233, 572.0931, 630.2326, 570.3489, 630.814, 628.4884, 586.6279, 720.9303, 531.9768, 629.0698, 531.3954, 571.51166, 487.79074, 568.0233, 487.20932, 518.6047, 410.46515, 519.76746, 404.0698, 566.8605, 322.67444, 567.4419, 322.67444, 526.7442, 94.76745, 523.8372, 94.76745, 408.13956, 344.76746, 408.72095, 343.0233, 436.62793, 143.02327, 436.62793, 145.34885, 496.51166, 265.6977, 498.83725, 269.18607, 436.04654, 343.0233, 436.04654, 341.86047, 481.3954, 443.0233, 482.55817, 467.4419, 490.1163, 485.46515, 482.55817, 531.9768, 480.2326, 541.2791, 382.55817, 442.4418, 388.37204, 442.4418, 305.8139, 492.4419, 309.88373, 521.51166, 326.7442, 545.3489, 305.23257, 534.30237, 195.34885, 490.1163, 193.02327, 490.1163, 222.09303, 352.907, 223.83722, 350.58142, 246.51164, 352.907, 298.83722, 136.04652, 295.34885, 136.04652, 248.83722, 55.813957, 246.51164, 55.232563, 136.62791, 182.55815, 144.76746, 323.83716, 142.44183, 325.58136, 182.55812, 181.39532, 177.90695, 172.093, 241.86043, 311.62787, 247.09299, 309.88367, 148.2558, 480.814, 140.11629, 490.6977, 152.90698, 534.8837, 151.1628)])
 
-[node name="Scenario" type="Node2D" unique_id=899648425 node_paths=PackedStringArray("posSalida")]
-scale = Vector2(1.72, 1.72)
-script = ExtResource("1_yvpdy")
-posSalida = NodePath("Marker2DExit")
+[sub_resource type="SpriteFrames" id="SpriteFrames_us3su"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("5_tqdee")
+}, {
+"duration": 1.0,
+"texture": ExtResource("5_bcaos")
+}],
+"loop": true,
+"name": &"default",
+"speed": 1.0
+}]
 
-[node name="BackGround" type="Sprite2D" parent="." unique_id=2008944765]
-position = Vector2(558.1419, 313.94742)
-scale = Vector2(0.5813928, 0.58140653)
+[sub_resource type="LabelSettings" id="LabelSettings_qeqti"]
+font = ExtResource("6_yvpdy")
+font_size = 15
+outline_size = 4
+outline_color = Color(0, 0, 0, 1)
+shadow_size = 6
+shadow_color = Color(0, 0, 0, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_bcaos"]
+line_spacing = -4.825
+font = ExtResource("7_qeqti")
+font_size = 18
+font_color = Color(0, 0, 0, 1)
+
+[node name="Scenario" type="Node2D" unique_id=899648425]
+process_mode = 3
+scale = Vector2(1.72, 1.72)
+script = ExtResource("1_8lu1o")
+
+[node name="Spawner" type="Node2D" parent="." unique_id=521785950 node_paths=PackedStringArray("posSalida", "player_scene")]
+script = ExtResource("2_us3su")
+posSalida = NodePath("Marker2DExit")
+player_scene = NodePath("PlayerScene")
+
+[node name="BackGround" type="Sprite2D" parent="Spawner" unique_id=2008944765]
+position = Vector2(558.14197, 313.94745)
+scale = Vector2(0.5813929, 0.5814066)
 texture = ExtResource("1_1mo47")
 
-[node name="Node" type="Node" parent="." unique_id=390734605]
+[node name="Node" type="Node" parent="Spawner" unique_id=390734605]
 
-[node name="StaticBody2D" type="StaticBody2D" parent="Node" unique_id=2047882977]
+[node name="StaticBody2D" type="StaticBody2D" parent="Spawner/Node" unique_id=2047882977]
 visible = false
 
-[node name="CollisionShape2D16" type="CollisionShape2D" parent="Node/StaticBody2D" unique_id=1799991889]
+[node name="CollisionShape2D16" type="CollisionShape2D" parent="Spawner/Node/StaticBody2D" unique_id=1799991889]
 position = Vector2(89, 54)
 shape = SubResource("SegmentShape2D_hsexo")
 debug_color = Color(1, 0, 0.016666412, 0.41960785)
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Node/StaticBody2D" unique_id=279928478]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Spawner/Node/StaticBody2D" unique_id=279928478]
 position = Vector2(91, 210)
 shape = SubResource("SegmentShape2D_1mo47")
 debug_color = Color(0.7019608, 0, 0.011764706, 0.41960785)
 
-[node name="CollisionShape2D2" type="CollisionShape2D" parent="Node/StaticBody2D" unique_id=703484255]
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="Spawner/Node/StaticBody2D" unique_id=703484255]
 position = Vector2(117, 233)
 shape = SubResource("SegmentShape2D_qehkn")
 
-[node name="CollisionShape2D3" type="CollisionShape2D" parent="Node/StaticBody2D" unique_id=1517300213]
+[node name="CollisionShape2D3" type="CollisionShape2D" parent="Spawner/Node/StaticBody2D" unique_id=1517300213]
 position = Vector2(191, 241)
 shape = SubResource("SegmentShape2D_tqdee")
 
-[node name="CollisionShape2D4" type="CollisionShape2D" parent="Node/StaticBody2D" unique_id=1992947602]
+[node name="CollisionShape2D4" type="CollisionShape2D" parent="Spawner/Node/StaticBody2D" unique_id=1992947602]
 position = Vector2(89, 431)
 shape = SubResource("SegmentShape2D_yvpdy")
 
-[node name="CollisionShape2D5" type="CollisionShape2D" parent="Node/StaticBody2D" unique_id=80249786]
+[node name="CollisionShape2D5" type="CollisionShape2D" parent="Spawner/Node/StaticBody2D" unique_id=80249786]
 position = Vector2(225, 432)
 shape = SubResource("SegmentShape2D_qeqti")
 
-[node name="CollisionShape2D6" type="CollisionShape2D" parent="Node/StaticBody2D" unique_id=1973981096]
+[node name="CollisionShape2D6" type="CollisionShape2D" parent="Spawner/Node/StaticBody2D" unique_id=1973981096]
 position = Vector2(109, 514)
 shape = SubResource("SegmentShape2D_bcaos")
 
-[node name="CollisionShape2D7" type="CollisionShape2D" parent="Node/StaticBody2D" unique_id=1364922367]
+[node name="CollisionShape2D7" type="CollisionShape2D" parent="Spawner/Node/StaticBody2D" unique_id=1364922367]
 position = Vector2(300, 322)
 shape = SubResource("SegmentShape2D_us3su")
 
-[node name="CollisionShape2D8" type="CollisionShape2D" parent="Node/StaticBody2D" unique_id=2052932453]
+[node name="CollisionShape2D8" type="CollisionShape2D" parent="Spawner/Node/StaticBody2D" unique_id=2052932453]
 position = Vector2(525, 323)
 shape = SubResource("SegmentShape2D_us3su")
 
-[node name="CollisionShape2D9" type="CollisionShape2D" parent="Node/StaticBody2D" unique_id=1332290460]
+[node name="CollisionShape2D9" type="CollisionShape2D" parent="Spawner/Node/StaticBody2D" unique_id=1332290460]
 position = Vector2(299, 404)
 shape = SubResource("SegmentShape2D_8lu1o")
 
-[node name="CollisionShape2D10" type="CollisionShape2D" parent="Node/StaticBody2D" unique_id=38247873]
+[node name="CollisionShape2D10" type="CollisionShape2D" parent="Spawner/Node/StaticBody2D" unique_id=38247873]
 position = Vector2(299, 349)
 shape = SubResource("SegmentShape2D_8lu1o")
 
-[node name="CollisionShape2D11" type="CollisionShape2D" parent="Node/StaticBody2D" unique_id=897964796]
+[node name="CollisionShape2D11" type="CollisionShape2D" parent="Spawner/Node/StaticBody2D" unique_id=897964796]
 position = Vector2(289, 326)
 shape = SubResource("SegmentShape2D_yrmuy")
 
-[node name="CollisionShape2D12" type="CollisionShape2D" parent="Node/StaticBody2D" unique_id=1306214360]
+[node name="CollisionShape2D12" type="CollisionShape2D" parent="Spawner/Node/StaticBody2D" unique_id=1306214360]
 position = Vector2(420, 264)
 shape = SubResource("SegmentShape2D_1y6o6")
 
-[node name="CollisionShape2D13" type="CollisionShape2D" parent="Node/StaticBody2D" unique_id=1676528856]
+[node name="CollisionShape2D13" type="CollisionShape2D" parent="Spawner/Node/StaticBody2D" unique_id=1676528856]
 position = Vector2(393, 292)
 shape = SubResource("SegmentShape2D_ujexn")
 
-[node name="CollisionShape2D14" type="CollisionShape2D" parent="Node/StaticBody2D" unique_id=235024142]
+[node name="CollisionShape2D14" type="CollisionShape2D" parent="Spawner/Node/StaticBody2D" unique_id=235024142]
 position = Vector2(437, 292)
 shape = SubResource("SegmentShape2D_7ftcw")
 
-[node name="CollisionShape2D15" type="CollisionShape2D" parent="Node/StaticBody2D" unique_id=385941353]
+[node name="CollisionShape2D15" type="CollisionShape2D" parent="Spawner/Node/StaticBody2D" unique_id=385941353]
 position = Vector2(476, 322)
 shape = SubResource("SegmentShape2D_8fu3k")
 
-[node name="CollisionShape2D17" type="CollisionShape2D" parent="Node/StaticBody2D" unique_id=403650347]
+[node name="CollisionShape2D17" type="CollisionShape2D" parent="Spawner/Node/StaticBody2D" unique_id=403650347]
 position = Vector2(607, 386)
 shape = SubResource("SegmentShape2D_a48kt")
 
-[node name="CollisionShape2D18" type="CollisionShape2D" parent="Node/StaticBody2D" unique_id=1339237592]
+[node name="CollisionShape2D18" type="CollisionShape2D" parent="Spawner/Node/StaticBody2D" unique_id=1339237592]
 position = Vector2(1156, 386)
 shape = SubResource("SegmentShape2D_a48kt")
 
-[node name="CollisionShape2D19" type="CollisionShape2D" parent="Node/StaticBody2D" unique_id=351986072]
+[node name="CollisionShape2D19" type="CollisionShape2D" parent="Spawner/Node/StaticBody2D" unique_id=351986072]
 position = Vector2(845, 339)
 shape = SubResource("SegmentShape2D_us3su")
 
-[node name="CollisionShape2D20" type="CollisionShape2D" parent="Node/StaticBody2D" unique_id=775736656]
+[node name="CollisionShape2D20" type="CollisionShape2D" parent="Spawner/Node/StaticBody2D" unique_id=775736656]
 position = Vector2(917, 339)
 shape = SubResource("SegmentShape2D_us3su")
 
-[node name="CollisionShape2D21" type="CollisionShape2D" parent="Node/StaticBody2D" unique_id=1203630374]
+[node name="CollisionShape2D21" type="CollisionShape2D" parent="Spawner/Node/StaticBody2D" unique_id=1203630374]
 position = Vector2(917, 422)
 shape = SubResource("SegmentShape2D_us3su")
 
-[node name="CollisionShape2D22" type="CollisionShape2D" parent="Node/StaticBody2D" unique_id=606941818]
+[node name="CollisionShape2D22" type="CollisionShape2D" parent="Spawner/Node/StaticBody2D" unique_id=606941818]
 position = Vector2(1081, 339)
 shape = SubResource("SegmentShape2D_us3su")
 
-[node name="CollisionShape2D23" type="CollisionShape2D" parent="Node/StaticBody2D" unique_id=697431578]
+[node name="CollisionShape2D23" type="CollisionShape2D" parent="Spawner/Node/StaticBody2D" unique_id=697431578]
 position = Vector2(1081, 422)
 shape = SubResource("SegmentShape2D_us3su")
 
-[node name="CollisionShape2D24" type="CollisionShape2D" parent="Node/StaticBody2D" unique_id=868366018]
+[node name="CollisionShape2D24" type="CollisionShape2D" parent="Spawner/Node/StaticBody2D" unique_id=868366018]
 position = Vector2(844, 340)
 shape = SubResource("SegmentShape2D_afyat")
 
-[node name="CollisionShape2D25" type="CollisionShape2D" parent="Node/StaticBody2D" unique_id=933956182]
+[node name="CollisionShape2D25" type="CollisionShape2D" parent="Spawner/Node/StaticBody2D" unique_id=933956182]
 position = Vector2(843, 257)
 shape = SubResource("SegmentShape2D_afyat")
 
-[node name="CollisionShape2D26" type="CollisionShape2D" parent="Node/StaticBody2D" unique_id=929646828]
+[node name="CollisionShape2D26" type="CollisionShape2D" parent="Spawner/Node/StaticBody2D" unique_id=929646828]
 position = Vector2(1080, 340)
 shape = SubResource("SegmentShape2D_afyat")
 
-[node name="CollisionShape2D27" type="CollisionShape2D" parent="Node/StaticBody2D" unique_id=1737324542]
+[node name="CollisionShape2D27" type="CollisionShape2D" parent="Spawner/Node/StaticBody2D" unique_id=1737324542]
 position = Vector2(1080, 257)
 shape = SubResource("SegmentShape2D_afyat")
 
-[node name="CollisionShape2D28" type="CollisionShape2D" parent="Node/StaticBody2D" unique_id=1397178544]
+[node name="CollisionShape2D28" type="CollisionShape2D" parent="Spawner/Node/StaticBody2D" unique_id=1397178544]
 position = Vector2(608, 385)
 shape = SubResource("SegmentShape2D_y8ix5")
 
-[node name="CollisionShape2D29" type="CollisionShape2D" parent="Node/StaticBody2D" unique_id=83360836]
+[node name="CollisionShape2D29" type="CollisionShape2D" parent="Spawner/Node/StaticBody2D" unique_id=83360836]
 position = Vector2(1418, 754)
 shape = SubResource("SegmentShape2D_tqdee")
 
-[node name="CollisionShape2D30" type="CollisionShape2D" parent="Node/StaticBody2D" unique_id=1476053172]
+[node name="CollisionShape2D30" type="CollisionShape2D" parent="Spawner/Node/StaticBody2D" unique_id=1476053172]
 position = Vector2(1079, 626)
 shape = SubResource("SegmentShape2D_tqdee")
 
-[node name="CollisionShape2D31" type="CollisionShape2D" parent="Node/StaticBody2D" unique_id=930109625]
+[node name="CollisionShape2D31" type="CollisionShape2D" parent="Spawner/Node/StaticBody2D" unique_id=930109625]
 position = Vector2(-45, 694)
 shape = SubResource("SegmentShape2D_tqdee")
 
-[node name="CollisionShape2D32" type="CollisionShape2D" parent="Node/StaticBody2D" unique_id=1885979332]
+[node name="CollisionShape2D32" type="CollisionShape2D" parent="Spawner/Node/StaticBody2D" unique_id=1885979332]
 position = Vector2(1081, 505)
 shape = SubResource("SegmentShape2D_us3su")
 
-[node name="CollisionShape2D33" type="CollisionShape2D" parent="Node/StaticBody2D" unique_id=818264353]
+[node name="CollisionShape2D33" type="CollisionShape2D" parent="Spawner/Node/StaticBody2D" unique_id=818264353]
 position = Vector2(1081, 545)
 shape = SubResource("SegmentShape2D_us3su")
 
-[node name="CollisionShape2D34" type="CollisionShape2D" parent="Node/StaticBody2D" unique_id=1397779811]
+[node name="CollisionShape2D34" type="CollisionShape2D" parent="Spawner/Node/StaticBody2D" unique_id=1397779811]
 position = Vector2(917, 128)
 shape = SubResource("SegmentShape2D_y8ix5")
 
-[node name="CollisionShape2D35" type="CollisionShape2D" parent="Node/StaticBody2D" unique_id=485448852]
+[node name="CollisionShape2D35" type="CollisionShape2D" parent="Spawner/Node/StaticBody2D" unique_id=485448852]
 position = Vector2(917, 0)
 shape = SubResource("SegmentShape2D_y8ix5")
 
-[node name="CollisionShape2D36" type="CollisionShape2D" parent="Node/StaticBody2D" unique_id=704391230]
+[node name="CollisionShape2D36" type="CollisionShape2D" parent="Spawner/Node/StaticBody2D" unique_id=704391230]
 position = Vector2(1081, 128)
 shape = SubResource("SegmentShape2D_y8ix5")
 
-[node name="CollisionShape2D37" type="CollisionShape2D" parent="Node/StaticBody2D" unique_id=709555983]
+[node name="CollisionShape2D37" type="CollisionShape2D" parent="Spawner/Node/StaticBody2D" unique_id=709555983]
 position = Vector2(1081, 0)
 shape = SubResource("SegmentShape2D_y8ix5")
 
-[node name="CollisionShape2D38" type="CollisionShape2D" parent="Node/StaticBody2D" unique_id=1933971852]
+[node name="CollisionShape2D38" type="CollisionShape2D" parent="Spawner/Node/StaticBody2D" unique_id=1933971852]
 position = Vector2(1156, 254)
 shape = SubResource("SegmentShape2D_oqj3d")
 
-[node name="CollisionShape2D39" type="CollisionShape2D" parent="Node/StaticBody2D" unique_id=620839636]
+[node name="CollisionShape2D39" type="CollisionShape2D" parent="Spawner/Node/StaticBody2D" unique_id=620839636]
 position = Vector2(1528, 127)
 shape = SubResource("SegmentShape2D_y8ix5")
 
-[node name="CollisionShape2D40" type="CollisionShape2D" parent="Node/StaticBody2D" unique_id=1035504995]
+[node name="CollisionShape2D40" type="CollisionShape2D" parent="Spawner/Node/StaticBody2D" unique_id=1035504995]
 position = Vector2(1419, 387)
 shape = SubResource("SegmentShape2D_17w3s")
 
-[node name="CollisionShape2D41" type="CollisionShape2D" parent="Node/StaticBody2D" unique_id=1251502165]
+[node name="CollisionShape2D41" type="CollisionShape2D" parent="Spawner/Node/StaticBody2D" unique_id=1251502165]
 position = Vector2(1600, 436)
 shape = SubResource("SegmentShape2D_a48kt")
 
-[node name="CollisionShape2D42" type="CollisionShape2D" parent="Node/StaticBody2D" unique_id=130072654]
+[node name="CollisionShape2D42" type="CollisionShape2D" parent="Spawner/Node/StaticBody2D" unique_id=130072654]
 position = Vector2(1460, 340)
 shape = SubResource("SegmentShape2D_elqyy")
 
-[node name="CollisionShape2D43" type="CollisionShape2D" parent="Node/StaticBody2D" unique_id=1469188200]
+[node name="CollisionShape2D43" type="CollisionShape2D" parent="Spawner/Node/StaticBody2D" unique_id=1469188200]
 position = Vector2(1156, 341)
 shape = SubResource("SegmentShape2D_us3su")
 
-[node name="CollisionShape2D44" type="CollisionShape2D" parent="Node/StaticBody2D" unique_id=634567966]
+[node name="CollisionShape2D44" type="CollisionShape2D" parent="Spawner/Node/StaticBody2D" unique_id=634567966]
 position = Vector2(1600, 350)
 shape = SubResource("SegmentShape2D_us3su")
 
-[node name="CollisionShape2D45" type="CollisionShape2D" parent="Node/StaticBody2D" unique_id=14560891]
+[node name="CollisionShape2D45" type="CollisionShape2D" parent="Spawner/Node/StaticBody2D" unique_id=14560891]
 position = Vector2(1702, 354)
 shape = SubResource("SegmentShape2D_us3su")
 
-[node name="CollisionShape2D46" type="CollisionShape2D" parent="Node/StaticBody2D" unique_id=1975266311]
+[node name="CollisionShape2D46" type="CollisionShape2D" parent="Spawner/Node/StaticBody2D" unique_id=1975266311]
 position = Vector2(1783, 354)
 shape = SubResource("SegmentShape2D_us3su")
 
-[node name="CollisionShape2D47" type="CollisionShape2D" parent="Node/StaticBody2D" unique_id=1564020106]
+[node name="CollisionShape2D47" type="CollisionShape2D" parent="Spawner/Node/StaticBody2D" unique_id=1564020106]
 position = Vector2(1593, 221)
 shape = SubResource("SegmentShape2D_a48kt")
 
-[node name="CollisionShape2D48" type="CollisionShape2D" parent="Node/StaticBody2D" unique_id=379730136]
+[node name="CollisionShape2D48" type="CollisionShape2D" parent="Spawner/Node/StaticBody2D" unique_id=379730136]
 position = Vector2(1594, 94)
 shape = SubResource("SegmentShape2D_y8ix5")
 
-[node name="CollisionShape2D49" type="CollisionShape2D" parent="Node/StaticBody2D" unique_id=1880984341]
+[node name="CollisionShape2D49" type="CollisionShape2D" parent="Spawner/Node/StaticBody2D" unique_id=1880984341]
 position = Vector2(1529, 172)
 shape = SubResource("SegmentShape2D_a48kt")
 
-[node name="CollisionShape2D50" type="CollisionShape2D" parent="Node/StaticBody2D" unique_id=583633272]
+[node name="CollisionShape2D50" type="CollisionShape2D" parent="Spawner/Node/StaticBody2D" unique_id=583633272]
 position = Vector2(1843, 67)
 shape = SubResource("SegmentShape2D_hsexo")
 debug_color = Color(1, 0, 0.016666412, 0.41960785)
 
-[node name="CollisionShape2D51" type="CollisionShape2D" parent="Node/StaticBody2D" unique_id=18932143]
+[node name="CollisionShape2D51" type="CollisionShape2D" parent="Spawner/Node/StaticBody2D" unique_id=18932143]
 position = Vector2(1727, 221)
 shape = SubResource("SegmentShape2D_y8ix5")
 
-[node name="CollisionShape2D52" type="CollisionShape2D" parent="Node/StaticBody2D" unique_id=1417050905]
+[node name="CollisionShape2D52" type="CollisionShape2D" parent="Spawner/Node/StaticBody2D" unique_id=1417050905]
 position = Vector2(1703, 355)
 shape = SubResource("SegmentShape2D_a48kt")
 
-[node name="CollisionShape2D53" type="CollisionShape2D" parent="Node/StaticBody2D" unique_id=673236768]
+[node name="CollisionShape2D53" type="CollisionShape2D" parent="Spawner/Node/StaticBody2D" unique_id=673236768]
 position = Vector2(751, 516)
 shape = SubResource("SegmentShape2D_y8ix5")
 
-[node name="CollisionShape2D54" type="CollisionShape2D" parent="Node/StaticBody2D" unique_id=1436918379]
+[node name="CollisionShape2D54" type="CollisionShape2D" parent="Spawner/Node/StaticBody2D" unique_id=1436918379]
 position = Vector2(751, 549)
 shape = SubResource("SegmentShape2D_y8ix5")
 
-[node name="CollisionShape2D55" type="CollisionShape2D" parent="Node/StaticBody2D" unique_id=1026186949]
+[node name="CollisionShape2D55" type="CollisionShape2D" parent="Spawner/Node/StaticBody2D" unique_id=1026186949]
 position = Vector2(654, 514)
 shape = SubResource("SegmentShape2D_a48kt")
 
-[node name="CollisionShape2D56" type="CollisionShape2D" parent="Node/StaticBody2D" unique_id=116105195]
+[node name="CollisionShape2D56" type="CollisionShape2D" parent="Spawner/Node/StaticBody2D" unique_id=116105195]
 position = Vector2(917, 432)
 shape = SubResource("SegmentShape2D_us3su")
 
-[node name="CollisionShape2D57" type="CollisionShape2D" parent="Node/StaticBody2D" unique_id=1104629104]
+[node name="CollisionShape2D57" type="CollisionShape2D" parent="Spawner/Node/StaticBody2D" unique_id=1104629104]
 position = Vector2(651, 676)
 shape = SubResource("SegmentShape2D_a48kt")
 
-[node name="CollisionShape2D58" type="CollisionShape2D" parent="Node/StaticBody2D" unique_id=2047887611]
+[node name="CollisionShape2D58" type="CollisionShape2D" parent="Spawner/Node/StaticBody2D" unique_id=2047887611]
 position = Vector2(1087, 677)
 shape = SubResource("SegmentShape2D_a48kt")
 
-[node name="CollisionShape2D59" type="CollisionShape2D" parent="Node/StaticBody2D" unique_id=427645064]
+[node name="CollisionShape2D59" type="CollisionShape2D" parent="Spawner/Node/StaticBody2D" unique_id=427645064]
 position = Vector2(1348, 596)
 shape = SubResource("SegmentShape2D_us3su")
 
-[node name="CollisionShape2D60" type="CollisionShape2D" parent="Node/StaticBody2D" unique_id=820371866]
+[node name="CollisionShape2D60" type="CollisionShape2D" parent="Spawner/Node/StaticBody2D" unique_id=820371866]
 position = Vector2(852, 461)
 shape = SubResource("SegmentShape2D_us3su")
 
-[node name="CollisionShape2D61" type="CollisionShape2D" parent="Node/StaticBody2D" unique_id=1500516952]
+[node name="CollisionShape2D61" type="CollisionShape2D" parent="Spawner/Node/StaticBody2D" unique_id=1500516952]
 position = Vector2(851, 545)
 shape = SubResource("SegmentShape2D_lslyv")
 
-[node name="CollisionShape2D62" type="CollisionShape2D" parent="Node/StaticBody2D" unique_id=1719385983]
+[node name="CollisionShape2D62" type="CollisionShape2D" parent="Spawner/Node/StaticBody2D" unique_id=1719385983]
 position = Vector2(917, 463)
 shape = SubResource("SegmentShape2D_us3su")
 
-[node name="CollisionShape2D63" type="CollisionShape2D" parent="Node/StaticBody2D" unique_id=410265584]
+[node name="CollisionShape2D63" type="CollisionShape2D" parent="Spawner/Node/StaticBody2D" unique_id=410265584]
 position = Vector2(913, 742)
 shape = SubResource("SegmentShape2D_us3su")
 
-[node name="CollisionShape2D64" type="CollisionShape2D" parent="Node/StaticBody2D" unique_id=740099743]
+[node name="CollisionShape2D64" type="CollisionShape2D" parent="Spawner/Node/StaticBody2D" unique_id=740099743]
 position = Vector2(913, 675)
 shape = SubResource("SegmentShape2D_us3su")
 
-[node name="CollisionShape2D65" type="CollisionShape2D" parent="Node/StaticBody2D" unique_id=808858755]
+[node name="CollisionShape2D65" type="CollisionShape2D" parent="Spawner/Node/StaticBody2D" unique_id=808858755]
 position = Vector2(1088, 742)
 shape = SubResource("SegmentShape2D_us3su")
 
-[node name="CollisionShape2D66" type="CollisionShape2D" parent="Node/StaticBody2D" unique_id=688480355]
+[node name="CollisionShape2D66" type="CollisionShape2D" parent="Spawner/Node/StaticBody2D" unique_id=688480355]
 position = Vector2(1088, 675)
 shape = SubResource("SegmentShape2D_us3su")
 
-[node name="CollisionShape2D67" type="CollisionShape2D" parent="Node/StaticBody2D" unique_id=888790540]
+[node name="CollisionShape2D67" type="CollisionShape2D" parent="Spawner/Node/StaticBody2D" unique_id=888790540]
 position = Vector2(151, 693)
 shape = SubResource("SegmentShape2D_y8ix5")
 
-[node name="CollisionShape2D68" type="CollisionShape2D" parent="Node/StaticBody2D" unique_id=1706699901]
+[node name="CollisionShape2D68" type="CollisionShape2D" parent="Spawner/Node/StaticBody2D" unique_id=1706699901]
 position = Vector2(151, 797)
 shape = SubResource("SegmentShape2D_y8ix5")
 
-[node name="CollisionShape2D69" type="CollisionShape2D" parent="Node/StaticBody2D" unique_id=1583725579]
+[node name="CollisionShape2D69" type="CollisionShape2D" parent="Spawner/Node/StaticBody2D" unique_id=1583725579]
 position = Vector2(-100, 908)
 shape = SubResource("SegmentShape2D_tqdee")
 
-[node name="CollisionShape2D70" type="CollisionShape2D" parent="Node/StaticBody2D" unique_id=1471353121]
+[node name="CollisionShape2D70" type="CollisionShape2D" parent="Spawner/Node/StaticBody2D" unique_id=1471353121]
 position = Vector2(49, 982)
 shape = SubResource("SegmentShape2D_tqdee")
 
-[node name="CollisionShape2D71" type="CollisionShape2D" parent="Node/StaticBody2D" unique_id=578563943]
+[node name="CollisionShape2D71" type="CollisionShape2D" parent="Spawner/Node/StaticBody2D" unique_id=578563943]
 position = Vector2(551, 907)
 shape = SubResource("SegmentShape2D_us3su")
 
-[node name="CollisionShape2D72" type="CollisionShape2D" parent="Node/StaticBody2D" unique_id=595801373]
+[node name="CollisionShape2D72" type="CollisionShape2D" parent="Spawner/Node/StaticBody2D" unique_id=595801373]
 position = Vector2(704, 901)
 shape = SubResource("SegmentShape2D_us3su")
 
-[node name="CollisionShape2D73" type="CollisionShape2D" parent="Node/StaticBody2D" unique_id=1957795679]
+[node name="CollisionShape2D73" type="CollisionShape2D" parent="Spawner/Node/StaticBody2D" unique_id=1957795679]
 position = Vector2(703, 902)
 shape = SubResource("SegmentShape2D_afyat")
 
-[node name="CollisionShape2D74" type="CollisionShape2D" parent="Node/StaticBody2D" unique_id=1408911089]
+[node name="CollisionShape2D74" type="CollisionShape2D" parent="Spawner/Node/StaticBody2D" unique_id=1408911089]
 position = Vector2(832, 898)
 shape = SubResource("SegmentShape2D_us3su")
 
-[node name="CollisionShape2D75" type="CollisionShape2D" parent="Node/StaticBody2D" unique_id=1118650402]
+[node name="CollisionShape2D75" type="CollisionShape2D" parent="Spawner/Node/StaticBody2D" unique_id=1118650402]
 position = Vector2(766, 893)
 shape = SubResource("SegmentShape2D_lslyv")
 
-[node name="CollisionShape2D76" type="CollisionShape2D" parent="Node/StaticBody2D" unique_id=495802031]
+[node name="CollisionShape2D76" type="CollisionShape2D" parent="Spawner/Node/StaticBody2D" unique_id=495802031]
 position = Vector2(771, 853)
 shape = SubResource("SegmentShape2D_lslyv")
 
-[node name="CollisionShape2D77" type="CollisionShape2D" parent="Node/StaticBody2D" unique_id=310855503]
+[node name="CollisionShape2D77" type="CollisionShape2D" parent="Spawner/Node/StaticBody2D" unique_id=310855503]
 position = Vector2(606, 823)
 shape = SubResource("SegmentShape2D_a48kt")
 
-[node name="CollisionShape2D78" type="CollisionShape2D" parent="Node/StaticBody2D" unique_id=1995284889]
+[node name="CollisionShape2D78" type="CollisionShape2D" parent="Spawner/Node/StaticBody2D" unique_id=1995284889]
 position = Vector2(650, 823)
 shape = SubResource("SegmentShape2D_a48kt")
 
-[node name="CollisionShape2D79" type="CollisionShape2D" parent="Node/StaticBody2D" unique_id=1111317016]
+[node name="CollisionShape2D79" type="CollisionShape2D" parent="Spawner/Node/StaticBody2D" unique_id=1111317016]
 position = Vector2(835, 771)
 shape = SubResource("SegmentShape2D_us3su")
 
-[node name="CollisionShape2D80" type="CollisionShape2D" parent="Node/StaticBody2D" unique_id=1931446333]
+[node name="CollisionShape2D80" type="CollisionShape2D" parent="Spawner/Node/StaticBody2D" unique_id=1931446333]
 position = Vector2(773, 771)
 shape = SubResource("SegmentShape2D_us3su")
 
-[node name="CollisionShape2D81" type="CollisionShape2D" parent="Node/StaticBody2D" unique_id=432602635]
+[node name="CollisionShape2D81" type="CollisionShape2D" parent="Spawner/Node/StaticBody2D" unique_id=432602635]
 position = Vector2(773, 771)
 shape = SubResource("SegmentShape2D_us3su")
 
-[node name="CollisionShape2D82" type="CollisionShape2D" parent="Node/StaticBody2D" unique_id=1116990705]
+[node name="CollisionShape2D82" type="CollisionShape2D" parent="Spawner/Node/StaticBody2D" unique_id=1116990705]
 position = Vector2(607, 694)
 shape = SubResource("SegmentShape2D_y8ix5")
 
-[node name="CollisionShape2D83" type="CollisionShape2D" parent="Node/StaticBody2D" unique_id=1292113816]
+[node name="CollisionShape2D83" type="CollisionShape2D" parent="Spawner/Node/StaticBody2D" unique_id=1292113816]
 position = Vector2(1373, 880)
 shape = SubResource("SegmentShape2D_tqdee")
 
-[node name="CollisionShape2D84" type="CollisionShape2D" parent="Node/StaticBody2D" unique_id=1603640657]
+[node name="CollisionShape2D84" type="CollisionShape2D" parent="Spawner/Node/StaticBody2D" unique_id=1603640657]
 position = Vector2(1417, 742)
 shape = SubResource("SegmentShape2D_us3su")
 
-[node name="CollisionShape2D85" type="CollisionShape2D" parent="Node/StaticBody2D" unique_id=564079483]
+[node name="CollisionShape2D85" type="CollisionShape2D" parent="Spawner/Node/StaticBody2D" unique_id=564079483]
 position = Vector2(1087, 824)
 shape = SubResource("SegmentShape2D_a48kt")
 
-[node name="CollisionShape2D86" type="CollisionShape2D" parent="Node/StaticBody2D" unique_id=304618585]
+[node name="CollisionShape2D86" type="CollisionShape2D" parent="Spawner/Node/StaticBody2D" unique_id=304618585]
 position = Vector2(1153, 824)
 shape = SubResource("SegmentShape2D_a48kt")
 
-[node name="CollisionShape2D87" type="CollisionShape2D" parent="Node/StaticBody2D" unique_id=1196868678]
+[node name="CollisionShape2D87" type="CollisionShape2D" parent="Spawner/Node/StaticBody2D" unique_id=1196868678]
 position = Vector2(1234, 893)
 shape = SubResource("SegmentShape2D_us3su")
 
-[node name="CollisionShape2D88" type="CollisionShape2D" parent="Node/StaticBody2D" unique_id=123989411]
+[node name="CollisionShape2D88" type="CollisionShape2D" parent="Spawner/Node/StaticBody2D" unique_id=123989411]
 position = Vector2(1233, 892)
 shape = SubResource("SegmentShape2D_a48kt")
 
-[node name="CollisionShape2D89" type="CollisionShape2D" parent="Node/StaticBody2D" unique_id=1031926267]
+[node name="CollisionShape2D89" type="CollisionShape2D" parent="Spawner/Node/StaticBody2D" unique_id=1031926267]
 position = Vector2(1234, 901)
 shape = SubResource("SegmentShape2D_us3su")
 
-[node name="CollisionShape2D90" type="CollisionShape2D" parent="Node/StaticBody2D" unique_id=1243767224]
+[node name="CollisionShape2D90" type="CollisionShape2D" parent="Spawner/Node/StaticBody2D" unique_id=1243767224]
 position = Vector2(1370, 880)
 shape = SubResource("SegmentShape2D_us3su")
 
-[node name="CollisionShape2D91" type="CollisionShape2D" parent="Node/StaticBody2D" unique_id=301501420]
+[node name="CollisionShape2D91" type="CollisionShape2D" parent="Spawner/Node/StaticBody2D" unique_id=301501420]
 position = Vector2(1086, 982)
 shape = SubResource("SegmentShape2D_a48kt")
 
-[node name="CollisionShape2D92" type="CollisionShape2D" parent="Node/StaticBody2D" unique_id=1902752415]
+[node name="CollisionShape2D92" type="CollisionShape2D" parent="Spawner/Node/StaticBody2D" unique_id=1902752415]
 position = Vector2(832, 982)
 shape = SubResource("SegmentShape2D_afyat")
 
-[node name="CollisionShape2D93" type="CollisionShape2D" parent="Node/StaticBody2D" unique_id=938620222]
+[node name="CollisionShape2D93" type="CollisionShape2D" parent="Spawner/Node/StaticBody2D" unique_id=938620222]
 position = Vector2(840, 982)
 shape = SubResource("SegmentShape2D_afyat")
 
-[node name="CollisionShape2D94" type="CollisionShape2D" parent="Node/StaticBody2D" unique_id=402267258]
+[node name="CollisionShape2D94" type="CollisionShape2D" parent="Spawner/Node/StaticBody2D" unique_id=402267258]
 position = Vector2(913, 981)
 shape = SubResource("SegmentShape2D_us3su")
 
-[node name="CollisionShape2D95" type="CollisionShape2D" parent="Node/StaticBody2D" unique_id=2040052795]
+[node name="CollisionShape2D95" type="CollisionShape2D" parent="Spawner/Node/StaticBody2D" unique_id=2040052795]
 position = Vector2(1088, 981)
 shape = SubResource("SegmentShape2D_us3su")
 
-[node name="CollisionShape2D96" type="CollisionShape2D" parent="Node/StaticBody2D" unique_id=1761908164]
+[node name="CollisionShape2D96" type="CollisionShape2D" parent="Spawner/Node/StaticBody2D" unique_id=1761908164]
 position = Vector2(913, 998)
 shape = SubResource("SegmentShape2D_us3su")
 
-[node name="CollisionShape2D97" type="CollisionShape2D" parent="Node/StaticBody2D" unique_id=1065903214]
+[node name="CollisionShape2D97" type="CollisionShape2D" parent="Spawner/Node/StaticBody2D" unique_id=1065903214]
 position = Vector2(1088, 998)
 shape = SubResource("SegmentShape2D_us3su")
 
-[node name="CollisionShape2D98" type="CollisionShape2D" parent="Node/StaticBody2D" unique_id=136310200]
+[node name="CollisionShape2D98" type="CollisionShape2D" parent="Spawner/Node/StaticBody2D" unique_id=136310200]
 position = Vector2(253, 749)
 shape = SubResource("SegmentShape2D_pe1os")
 
-[node name="CollisionShape2D99" type="CollisionShape2D" parent="Node/StaticBody2D" unique_id=1202221426]
+[node name="CollisionShape2D99" type="CollisionShape2D" parent="Spawner/Node/StaticBody2D" unique_id=1202221426]
 position = Vector2(255, 856)
 shape = SubResource("SegmentShape2D_pe1os")
 
-[node name="CollisionShape2D100" type="CollisionShape2D" parent="Node/StaticBody2D" unique_id=1766469808]
+[node name="CollisionShape2D100" type="CollisionShape2D" parent="Spawner/Node/StaticBody2D" unique_id=1766469808]
 position = Vector2(254, 750)
 shape = SubResource("SegmentShape2D_sgo7n")
 
-[node name="CollisionShape2D101" type="CollisionShape2D" parent="Node/StaticBody2D" unique_id=1404432627]
+[node name="CollisionShape2D101" type="CollisionShape2D" parent="Spawner/Node/StaticBody2D" unique_id=1404432627]
 position = Vector2(454, 748)
 shape = SubResource("SegmentShape2D_sgo7n")
 
-[node name="Hud" parent="." unique_id=977867959 instance=ExtResource("1_qehkn")]
+[node name="Hud" parent="Spawner" unique_id=977867959 instance=ExtResource("1_qehkn")]
 scale = Vector2(1.735, 1.735)
 
-[node name="Marker2DExit" type="Marker2D" parent="." unique_id=67913123]
-position = Vector2(581.395, 5.477)
-
-[node name="Marker2DEnter" type="Marker2D" parent="." unique_id=1156385818]
-position = Vector2(579.06976, 573.2558)
-
-[node name="NavigationRegion2D" type="NavigationRegion2D" parent="." unique_id=1588374626]
+[node name="Marker2DExit" type="Marker2D" parent="Spawner" unique_id=67913123]
+position = Vector2(581.3951, 5.4770007)
 scale = Vector2(1.0000001, 1.0000001)
+
+[node name="Marker2DEnter" type="Marker2D" parent="Spawner" unique_id=1156385818]
+position = Vector2(580.814, 629.06976)
+scale = Vector2(1.0000001, 1.0000001)
+
+[node name="NavigationRegion2D" type="NavigationRegion2D" parent="Spawner" unique_id=1588374626]
+scale = Vector2(1.0000002, 1.0000002)
 navigation_polygon = SubResource("NavigationPolygon_tqdee")
 
-[node name="restaurant" type="Node" parent="." unique_id=1940911104]
+[node name="restaurant" type="Node" parent="Spawner" unique_id=1940911104]
 
-[node name="Marker2D" type="Marker2D" parent="restaurant" unique_id=314400286]
+[node name="Marker2D" type="Marker2D" parent="Spawner/restaurant" unique_id=314400286]
 position = Vector2(145, 279)
 
-[node name="Marker2D2" type="Marker2D" parent="restaurant" unique_id=812804253]
+[node name="Marker2D2" type="Marker2D" parent="Spawner/restaurant" unique_id=812804253]
 position = Vector2(137, 386)
 
-[node name="Marker2D3" type="Marker2D" parent="restaurant" unique_id=1704348155]
+[node name="Marker2D3" type="Marker2D" parent="Spawner/restaurant" unique_id=1704348155]
 position = Vector2(236, 338)
 
-[node name="Marker2D4" type="Marker2D" parent="restaurant" unique_id=850974493]
+[node name="Marker2D4" type="Marker2D" parent="Spawner/restaurant" unique_id=850974493]
 position = Vector2(303, 461)
 
-[node name="Marker2D5" type="Marker2D" parent="restaurant" unique_id=916995144]
+[node name="Marker2D5" type="Marker2D" parent="Spawner/restaurant" unique_id=916995144]
 position = Vector2(408, 466)
 
-[node name="Marker2D6" type="Marker2D" parent="restaurant" unique_id=1974584750]
+[node name="Marker2D6" type="Marker2D" parent="Spawner/restaurant" unique_id=1974584750]
 position = Vector2(543, 474)
 
-[node name="Marker2D7" type="Marker2D" parent="restaurant" unique_id=1188950517]
+[node name="Marker2D7" type="Marker2D" parent="Spawner/restaurant" unique_id=1188950517]
 position = Vector2(416, 275)
 
-[node name="Marker2D8" type="Marker2D" parent="restaurant" unique_id=867842079]
+[node name="Marker2D8" type="Marker2D" parent="Spawner/restaurant" unique_id=867842079]
 position = Vector2(797, 355)
 
-[node name="Marker2D9" type="Marker2D" parent="restaurant" unique_id=1406275345]
+[node name="Marker2D9" type="Marker2D" parent="Spawner/restaurant" unique_id=1406275345]
 position = Vector2(645, 342)
 
-[node name="bar" type="Node" parent="." unique_id=45484278]
+[node name="bar" type="Node" parent="Spawner" unique_id=45484278]
 
-[node name="Marker2D" type="Marker2D" parent="bar" unique_id=949642268]
+[node name="Marker2D" type="Marker2D" parent="Spawner/bar" unique_id=949642268]
 position = Vector2(815, 563)
 
-[node name="Marker2D2" type="Marker2D" parent="bar" unique_id=1973819656]
+[node name="Marker2D2" type="Marker2D" parent="Spawner/bar" unique_id=1973819656]
 position = Vector2(811, 631)
 
-[node name="Marker2D3" type="Marker2D" parent="bar" unique_id=336491726]
+[node name="Marker2D3" type="Marker2D" parent="Spawner/bar" unique_id=336491726]
 position = Vector2(1099, 649)
 
-[node name="Marker2D4" type="Marker2D" parent="bar" unique_id=5397913]
+[node name="Marker2D4" type="Marker2D" parent="Spawner/bar" unique_id=5397913]
 position = Vector2(1205, 648)
 
-[node name="Marker2D5" type="Marker2D" parent="bar" unique_id=143124859]
+[node name="Marker2D5" type="Marker2D" parent="Spawner/bar" unique_id=143124859]
 position = Vector2(1307, 649)
 
-[node name="shop" type="Node" parent="." unique_id=911012678]
+[node name="shop" type="Node" parent="Spawner" unique_id=911012678]
 
-[node name="Marker2D" type="Marker2D" parent="shop" unique_id=1229906127]
+[node name="Marker2D" type="Marker2D" parent="Spawner/shop" unique_id=1229906127]
 position = Vector2(209, 732)
 
-[node name="Marker2D2" type="Marker2D" parent="shop" unique_id=498631134]
+[node name="Marker2D2" type="Marker2D" parent="Spawner/shop" unique_id=498631134]
 position = Vector2(208, 798)
 
-[node name="Marker2D3" type="Marker2D" parent="shop" unique_id=1114307867]
+[node name="Marker2D3" type="Marker2D" parent="Spawner/shop" unique_id=1114307867]
 position = Vector2(210, 873)
 
-[node name="Marker2D4" type="Marker2D" parent="shop" unique_id=1889739026]
+[node name="Marker2D4" type="Marker2D" parent="Spawner/shop" unique_id=1889739026]
 position = Vector2(290, 726)
 
-[node name="Marker2D5" type="Marker2D" parent="shop" unique_id=779837686]
+[node name="Marker2D5" type="Marker2D" parent="Spawner/shop" unique_id=779837686]
 position = Vector2(427, 727)
 
-[node name="Marker2D6" type="Marker2D" parent="shop" unique_id=944817697]
+[node name="Marker2D6" type="Marker2D" parent="Spawner/shop" unique_id=944817697]
 position = Vector2(522, 730)
 
-[node name="Marker2D7" type="Marker2D" parent="shop" unique_id=1257993085]
+[node name="Marker2D7" type="Marker2D" parent="Spawner/shop" unique_id=1257993085]
 position = Vector2(521, 793)
 
-[node name="Marker2D8" type="Marker2D" parent="shop" unique_id=2123646543]
+[node name="Marker2D8" type="Marker2D" parent="Spawner/shop" unique_id=2123646543]
 position = Vector2(528, 874)
 
-[node name="Marker2D9" type="Marker2D" parent="shop" unique_id=558074392]
+[node name="Marker2D9" type="Marker2D" parent="Spawner/shop" unique_id=558074392]
 position = Vector2(354, 881)
 
-[node name="store" type="Node" parent="." unique_id=188375283]
+[node name="store" type="Node" parent="Spawner" unique_id=188375283]
 
-[node name="Marker2D" type="Marker2D" parent="store" unique_id=673537182]
+[node name="Marker2D" type="Marker2D" parent="Spawner/store" unique_id=673537182]
 position = Vector2(1792, 793)
 
-[node name="Marker2D2" type="Marker2D" parent="store" unique_id=67479519]
+[node name="Marker2D2" type="Marker2D" parent="Spawner/store" unique_id=67479519]
 position = Vector2(1687, 799)
 
-[node name="Marker2D3" type="Marker2D" parent="store" unique_id=1391794974]
+[node name="Marker2D3" type="Marker2D" parent="Spawner/store" unique_id=1391794974]
 position = Vector2(1736, 851)
 
-[node name="Marker2D4" type="Marker2D" parent="store" unique_id=724166256]
+[node name="Marker2D4" type="Marker2D" parent="Spawner/store" unique_id=724166256]
 position = Vector2(1463, 797)
 
-[node name="Marker2D5" type="Marker2D" parent="store" unique_id=1555223496]
+[node name="Marker2D5" type="Marker2D" parent="Spawner/store" unique_id=1555223496]
 position = Vector2(1537, 857)
 
-[node name="Marker2D6" type="Marker2D" parent="store" unique_id=166218262]
+[node name="Marker2D6" type="Marker2D" parent="Spawner/store" unique_id=166218262]
 position = Vector2(1561, 797)
 
-[node name="cafe" type="Node" parent="." unique_id=1588494465]
+[node name="cafe" type="Node" parent="Spawner" unique_id=1588494465]
 
-[node name="Marker2D" type="Marker2D" parent="cafe" unique_id=1151936813]
+[node name="Marker2D" type="Marker2D" parent="Spawner/cafe" unique_id=1151936813]
 position = Vector2(1650, 390)
 
-[node name="Marker2D2" type="Marker2D" parent="cafe" unique_id=2102870576]
+[node name="Marker2D2" type="Marker2D" parent="Spawner/cafe" unique_id=2102870576]
 position = Vector2(1652, 301)
 
-[node name="Marker2D3" type="Marker2D" parent="cafe" unique_id=843933447]
+[node name="Marker2D3" type="Marker2D" parent="Spawner/cafe" unique_id=843933447]
 position = Vector2(1552, 299)
 
-[node name="Marker2D4" type="Marker2D" parent="cafe" unique_id=1139241250]
+[node name="Marker2D4" type="Marker2D" parent="Spawner/cafe" unique_id=1139241250]
 position = Vector2(1420, 301)
 
-[node name="Marker2D5" type="Marker2D" parent="cafe" unique_id=1221826363]
+[node name="Marker2D5" type="Marker2D" parent="Spawner/cafe" unique_id=1221826363]
 position = Vector2(1313, 301)
 
-[node name="Marker2D6" type="Marker2D" parent="cafe" unique_id=1886214311]
+[node name="Marker2D6" type="Marker2D" parent="Spawner/cafe" unique_id=1886214311]
 position = Vector2(1219, 302)
 
-[node name="PlayerScene" parent="." unique_id=1653825361 instance=ExtResource("1_hsexo")]
+[node name="PlayerScene" parent="Spawner" unique_id=1653825361 groups=["player"] instance=ExtResource("1_hsexo")]
 position = Vector2(356.97668, 152.90698)
-scale = Vector2(1.7200001, 1.7200001)
+scale = Vector2(1.7200003, 1.7200003)
+
+[node name="Node2D" type="Node2D" parent="Spawner" unique_id=369893469]
+visible = false
+position = Vector2(1132.5582, 586.628)
+scale = Vector2(1.0000001, 1.0000001)
+
+[node name="box" type="AnimatedSprite2D" parent="Spawner/Node2D" unique_id=788001627]
+position = Vector2(-185.81398, -40.26167)
+scale = Vector2(0.69250655, 0.64389527)
+sprite_frames = SubResource("SpriteFrames_us3su")
+frame_progress = 0.050871156
+
+[node name="name" type="Label" parent="Spawner/Node2D" unique_id=1717214361]
+z_index = 4096
+offset_left = -345.34885
+offset_top = -72.67446
+offset_right = -116.86044
+offset_bottom = -49.67446
+label_settings = SubResource("LabelSettings_qeqti")
+horizontal_alignment = 1
+vertical_alignment = 1
+metadata/_edit_use_anchors_ = true
+
+[node name="age" type="Label" parent="Spawner/Node2D" unique_id=344061334]
+z_index = 4096
+offset_left = -104.651184
+offset_top = -72.09306
+offset_right = -50.58142
+offset_bottom = -49.093063
+label_settings = SubResource("LabelSettings_qeqti")
+horizontal_alignment = 1
+vertical_alignment = 1
+metadata/_edit_use_anchors_ = true
+
+[node name="desc" type="Label" parent="Spawner/Node2D" unique_id=1435680086]
+z_index = 4096
+offset_left = -344.7674
+offset_top = -52.907013
+offset_right = -49.41858
+offset_bottom = -6.976776
+label_settings = SubResource("LabelSettings_bcaos")
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 3
+metadata/_edit_use_anchors_ = true
+
+[node name="NpcDescription" parent="." unique_id=791786126 instance=ExtResource("9_us3su")]
+process_mode = 3
+visible = false
+z_index = 4096
+position = Vector2(558.72095, 306.39536)
