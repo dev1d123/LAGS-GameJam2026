@@ -5,9 +5,37 @@ signal sumar_peso_precision()
 
 @onready var anim = $AnimatedSprite2D
 
-var accion_actual = "ninguna" # Puede ser: "continuo", "precision", o "ninguna"
+var accion_actual = "ninguna"
+var bloqueado: bool = false
+var base_y: float = 0.0
+
+var audio_1: AudioStreamPlayer
+var audio_2: AudioStreamPlayer
+var tween_volumen: Tween
+var _is_pouring_audio: bool = false
 
 func _ready():
+	base_y = anim.position.y
+	
+	# TRUCO DEFINITIVO PARA MP3: "PARALLEL OFFSET MASKING"
+	# Creamos dos audios, y desfasamos el 2do a exactamente 
+	# el 50% de la pista. Así, ¡jamás se quedarán callados al mismo tiempo!
+	var snd = load("res://assets/audio/minigame-granel/arroz_cayendo.mp3")
+	if snd is AudioStreamMP3:
+		snd.loop = true
+	
+	audio_1 = AudioStreamPlayer.new()
+	audio_2 = AudioStreamPlayer.new()
+	for p in [audio_1, audio_2]:
+		p.stream = snd
+		p.bus = &"SFX"
+		p.volume_db = -80.0
+		add_child(p)
+		p.play()
+		
+	# ¡La magia del desfase!
+	audio_2.seek(snd.get_length() / 2.0)
+	
 	anim.stop()
 	anim.animation = "inclinar"
 	anim.frame = 0
@@ -16,8 +44,8 @@ func _ready():
 		anim.animation_finished.connect(_al_terminar_animacion)
 
 func _process(delta):
-	var espacio = Input.is_key_pressed(KEY_SPACE)
-	var tecla_c = Input.is_key_pressed(KEY_C)
+	var espacio = Input.is_key_pressed(KEY_SPACE) and not bloqueado
+	var tecla_c = Input.is_key_pressed(KEY_C) and not bloqueado
 
 	# 1. SUMAR PESO CONTINUAMENTE
 	if anim.animation == "idle_hechando" and accion_actual == "continuo":
@@ -40,6 +68,29 @@ func _process(delta):
 		elif tecla_c:
 			accion_actual = "precision"
 			_avanzar_secuencia()
+			
+	# --- EFECTO VISUAL SACUDIDA AL VERTER ---
+	var esta_vertiendo = anim.animation in ["hechar", "idle_hechando"]
+	
+	if esta_vertiendo:
+		# Temblor rítmico basado en una onda seno sobre el tiempo de la máquina
+		anim.position.y = base_y + sin(Time.get_ticks_msec() * 0.025) * 5.0
+	else:
+		# Regresar a la posición de descanso suavemente al terminar (Interpolación)
+		anim.position.y = lerpf(anim.position.y, base_y, 15.0 * delta)
+		
+	# --- FADE DE AUDIO IMPENETRABLE ---
+	if esta_vertiendo != _is_pouring_audio:
+		_is_pouring_audio = esta_vertiendo
+		# Utilizamos un volumen ligeramente reducido (-5dB) ya que se escucharán dos pistas sumadas a la vez
+		var target_db = -5.0 if esta_vertiendo else -80.0
+		
+		if tween_volumen and tween_volumen.is_valid():
+			tween_volumen.kill()
+		tween_volumen = create_tween().set_parallel(true)
+		
+		tween_volumen.tween_property(audio_1, "volume_db", target_db, 0.15)
+		tween_volumen.tween_property(audio_2, "volume_db", target_db, 0.15)
 
 
 # --- RUTAS DE ANIMACIÓN ---

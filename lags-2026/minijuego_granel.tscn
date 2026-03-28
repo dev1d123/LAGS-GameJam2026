@@ -1,4 +1,4 @@
-[gd_scene load_steps=24 format=3 uid="uid://cqmecw3pq1eim"]
+[gd_scene load_steps=27 format=3 uid="uid://cqmecw3pq1eim"]
 
 [ext_resource type="Script" uid="uid://35m8dpef3ci8" path="res://minijuego_granel.gd" id="1_1qtbl"]
 [ext_resource type="Texture2D" uid="uid://cpaxrpnv1gl7y" path="res://assets/textures/opciones-fondo.png" id="1_6wkra"]
@@ -92,7 +92,36 @@ axis_stretch_horizontal = 2
 axis_stretch_vertical = 2
 modulate_color = Color(0.76, 0.68, 0.74, 1)
 
-[node name="MinijuegoGranel" type="PanelContainer" node_paths=PackedStringArray("saco", "balanza", "boton_aceptar", "sello_calificacion", "label_objetivo")]
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_xekxj"]
+texture = ExtResource("5_kuw1m")
+texture_margin_left = 30.0
+texture_margin_top = 20.0
+texture_margin_right = 30.0
+texture_margin_bottom = 25.0
+axis_stretch_horizontal = 2
+axis_stretch_vertical = 2
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_bfvhx"]
+texture = ExtResource("5_kuw1m")
+texture_margin_left = 30.0
+texture_margin_top = 23.0
+texture_margin_right = 30.0
+texture_margin_bottom = 25.0
+axis_stretch_horizontal = 2
+axis_stretch_vertical = 2
+modulate_color = Color(0.59, 0.49, 0.56, 1)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_ylccf"]
+texture = ExtResource("5_kuw1m")
+texture_margin_left = 30.0
+texture_margin_top = 23.0
+texture_margin_right = 30.0
+texture_margin_bottom = 25.0
+axis_stretch_horizontal = 2
+axis_stretch_vertical = 2
+modulate_color = Color(0.76, 0.68, 0.74, 1)
+
+[node name="MinijuegoGranel" type="PanelContainer" node_paths=PackedStringArray("saco", "balanza", "boton_aceptar", "sello_calificacion", "label_objetivo", "label_resultado_texto", "boton_continuar")]
 offset_right = 40.0
 offset_bottom = 40.0
 theme_override_styles/panel = SubResource("StyleBoxTexture_rav2f")
@@ -100,11 +129,12 @@ script = ExtResource("1_1qtbl")
 saco = NodePath("HBoxContainer/VBoxContainer/HBoxContainer/Balanza-Saco/Saco_Arroz")
 balanza = NodePath("HBoxContainer/VBoxContainer/HBoxContainer/Balanza-Saco/Balanza")
 boton_aceptar = NodePath("HBoxContainer/Control2/Button")
-sello_calificacion = NodePath("HBoxContainer/VBoxContainer/HBoxContainer/Panel Derecho/PanelContainer/VBoxContainer/Medallas")
-label_objetivo = NodePath("HBoxContainer/VBoxContainer/HBoxContainer/Panel Derecho/Objetivos/Option_Container/MarginContainer/HBoxContainer/LabelObjetivo")
+sello_calificacion = NodePath("HBoxContainer/VBoxContainer/HBoxContainer/Panel Derecho/Resultados/VBoxContainer/Medallas")
+label_objetivo = NodePath("HBoxContainer/VBoxContainer/HBoxContainer/Panel Derecho/Objetivos/Peso Objetivo/MarginContainer/HBoxContainer/LabelObjetivo")
 peso_objetivo = 1.5
 tasa_llenado_continuo = 0.25
-peso_por_toque = 0.01
+label_resultado_texto = NodePath("HBoxContainer/VBoxContainer/HBoxContainer/Panel Derecho/Resultados/VBoxContainer/Resultado Label")
+boton_continuar = NodePath("HBoxContainer/Control3/Continuar")
 
 [node name="HBoxContainer" type="VBoxContainer" parent="."]
 layout_mode = 2
@@ -137,15 +167,15 @@ layout_mode = 2
 size_flags_vertical = 0
 theme_override_constants/separation = -20
 
-[node name="Option_Container4" type="PanelContainer" parent="HBoxContainer/VBoxContainer/HBoxContainer/Guia Rapida"]
+[node name="Titulo" type="PanelContainer" parent="HBoxContainer/VBoxContainer/HBoxContainer/Guia Rapida"]
 custom_minimum_size = Vector2(375, 0)
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxTexture_5p0ss")
 
-[node name="MarginContainer" type="MarginContainer" parent="HBoxContainer/VBoxContainer/HBoxContainer/Guia Rapida/Option_Container4"]
+[node name="MarginContainer" type="MarginContainer" parent="HBoxContainer/VBoxContainer/HBoxContainer/Guia Rapida/Titulo"]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="HBoxContainer/VBoxContainer/HBoxContainer/Guia Rapida/Option_Container4/MarginContainer"]
+[node name="Label" type="Label" parent="HBoxContainer/VBoxContainer/HBoxContainer/Guia Rapida/Titulo/MarginContainer"]
 custom_minimum_size = Vector2(170, 0)
 layout_mode = 2
 size_flags_horizontal = 3
@@ -158,22 +188,22 @@ text = "GUÍA RÁPIDA"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Option_Container" type="PanelContainer" parent="HBoxContainer/VBoxContainer/HBoxContainer/Guia Rapida"]
+[node name="Instruccion_Espacio" type="PanelContainer" parent="HBoxContainer/VBoxContainer/HBoxContainer/Guia Rapida"]
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxTexture_nb1h7")
 
-[node name="MarginContainer" type="MarginContainer" parent="HBoxContainer/VBoxContainer/HBoxContainer/Guia Rapida/Option_Container"]
+[node name="MarginContainer" type="MarginContainer" parent="HBoxContainer/VBoxContainer/HBoxContainer/Guia Rapida/Instruccion_Espacio"]
 layout_mode = 2
 
-[node name="HBoxContainer" type="HBoxContainer" parent="HBoxContainer/VBoxContainer/HBoxContainer/Guia Rapida/Option_Container/MarginContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="HBoxContainer/VBoxContainer/HBoxContainer/Guia Rapida/Instruccion_Espacio/MarginContainer"]
 layout_mode = 2
 theme_override_constants/separation = 10
 
-[node name="TextureRect" type="TextureRect" parent="HBoxContainer/VBoxContainer/HBoxContainer/Guia Rapida/Option_Container/MarginContainer/HBoxContainer"]
+[node name="TextureRect" type="TextureRect" parent="HBoxContainer/VBoxContainer/HBoxContainer/Guia Rapida/Instruccion_Espacio/MarginContainer/HBoxContainer"]
 layout_mode = 2
 texture = ExtResource("3_all76")
 
-[node name="Label" type="Label" parent="HBoxContainer/VBoxContainer/HBoxContainer/Guia Rapida/Option_Container/MarginContainer/HBoxContainer"]
+[node name="Label" type="Label" parent="HBoxContainer/VBoxContainer/HBoxContainer/Guia Rapida/Instruccion_Espacio/MarginContainer/HBoxContainer"]
 custom_minimum_size = Vector2(170, 0)
 layout_mode = 2
 size_flags_horizontal = 10
@@ -185,23 +215,23 @@ Y VERTER"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Option_Container2" type="PanelContainer" parent="HBoxContainer/VBoxContainer/HBoxContainer/Guia Rapida"]
+[node name="Instruccion_C" type="PanelContainer" parent="HBoxContainer/VBoxContainer/HBoxContainer/Guia Rapida"]
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxTexture_nb1h7")
 
-[node name="MarginContainer" type="MarginContainer" parent="HBoxContainer/VBoxContainer/HBoxContainer/Guia Rapida/Option_Container2"]
+[node name="MarginContainer" type="MarginContainer" parent="HBoxContainer/VBoxContainer/HBoxContainer/Guia Rapida/Instruccion_C"]
 layout_mode = 2
 
-[node name="HBoxContainer" type="HBoxContainer" parent="HBoxContainer/VBoxContainer/HBoxContainer/Guia Rapida/Option_Container2/MarginContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="HBoxContainer/VBoxContainer/HBoxContainer/Guia Rapida/Instruccion_C/MarginContainer"]
 layout_mode = 2
 theme_override_constants/separation = 10
 
-[node name="TextureRect" type="TextureRect" parent="HBoxContainer/VBoxContainer/HBoxContainer/Guia Rapida/Option_Container2/MarginContainer/HBoxContainer"]
+[node name="TextureRect" type="TextureRect" parent="HBoxContainer/VBoxContainer/HBoxContainer/Guia Rapida/Instruccion_C/MarginContainer/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 6
 texture = ExtResource("5_6wkra")
 
-[node name="Label" type="Label" parent="HBoxContainer/VBoxContainer/HBoxContainer/Guia Rapida/Option_Container2/MarginContainer/HBoxContainer"]
+[node name="Label" type="Label" parent="HBoxContainer/VBoxContainer/HBoxContainer/Guia Rapida/Instruccion_C/MarginContainer/HBoxContainer"]
 custom_minimum_size = Vector2(170, 0)
 layout_mode = 2
 size_flags_horizontal = 10
@@ -213,23 +243,23 @@ PRESICION"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Option_Container3" type="PanelContainer" parent="HBoxContainer/VBoxContainer/HBoxContainer/Guia Rapida"]
+[node name="Instruccion_R" type="PanelContainer" parent="HBoxContainer/VBoxContainer/HBoxContainer/Guia Rapida"]
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxTexture_nb1h7")
 
-[node name="MarginContainer" type="MarginContainer" parent="HBoxContainer/VBoxContainer/HBoxContainer/Guia Rapida/Option_Container3"]
+[node name="MarginContainer" type="MarginContainer" parent="HBoxContainer/VBoxContainer/HBoxContainer/Guia Rapida/Instruccion_R"]
 layout_mode = 2
 
-[node name="HBoxContainer" type="HBoxContainer" parent="HBoxContainer/VBoxContainer/HBoxContainer/Guia Rapida/Option_Container3/MarginContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="HBoxContainer/VBoxContainer/HBoxContainer/Guia Rapida/Instruccion_R/MarginContainer"]
 layout_mode = 2
 theme_override_constants/separation = 10
 
-[node name="TextureRect" type="TextureRect" parent="HBoxContainer/VBoxContainer/HBoxContainer/Guia Rapida/Option_Container3/MarginContainer/HBoxContainer"]
+[node name="TextureRect" type="TextureRect" parent="HBoxContainer/VBoxContainer/HBoxContainer/Guia Rapida/Instruccion_R/MarginContainer/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 6
 texture = ExtResource("6_td63n")
 
-[node name="Label" type="Label" parent="HBoxContainer/VBoxContainer/HBoxContainer/Guia Rapida/Option_Container3/MarginContainer/HBoxContainer"]
+[node name="Label" type="Label" parent="HBoxContainer/VBoxContainer/HBoxContainer/Guia Rapida/Instruccion_R/MarginContainer/HBoxContainer"]
 custom_minimum_size = Vector2(170, 0)
 layout_mode = 2
 size_flags_horizontal = 10
@@ -263,15 +293,15 @@ layout_mode = 2
 size_flags_vertical = 2
 theme_override_constants/separation = -20
 
-[node name="Option_Container4" type="PanelContainer" parent="HBoxContainer/VBoxContainer/HBoxContainer/Panel Derecho/Objetivos"]
+[node name="Titulo" type="PanelContainer" parent="HBoxContainer/VBoxContainer/HBoxContainer/Panel Derecho/Objetivos"]
 custom_minimum_size = Vector2(375, 0)
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxTexture_5p0ss")
 
-[node name="MarginContainer" type="MarginContainer" parent="HBoxContainer/VBoxContainer/HBoxContainer/Panel Derecho/Objetivos/Option_Container4"]
+[node name="MarginContainer" type="MarginContainer" parent="HBoxContainer/VBoxContainer/HBoxContainer/Panel Derecho/Objetivos/Titulo"]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="HBoxContainer/VBoxContainer/HBoxContainer/Panel Derecho/Objetivos/Option_Container4/MarginContainer"]
+[node name="Label" type="Label" parent="HBoxContainer/VBoxContainer/HBoxContainer/Panel Derecho/Objetivos/Titulo/MarginContainer"]
 custom_minimum_size = Vector2(170, 0)
 layout_mode = 2
 size_flags_horizontal = 3
@@ -284,18 +314,18 @@ text = "OBJETIVOS"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Option_Container" type="PanelContainer" parent="HBoxContainer/VBoxContainer/HBoxContainer/Panel Derecho/Objetivos"]
+[node name="Peso Objetivo" type="PanelContainer" parent="HBoxContainer/VBoxContainer/HBoxContainer/Panel Derecho/Objetivos"]
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxTexture_mdw7k")
 
-[node name="MarginContainer" type="MarginContainer" parent="HBoxContainer/VBoxContainer/HBoxContainer/Panel Derecho/Objetivos/Option_Container"]
+[node name="MarginContainer" type="MarginContainer" parent="HBoxContainer/VBoxContainer/HBoxContainer/Panel Derecho/Objetivos/Peso Objetivo"]
 layout_mode = 2
 
-[node name="HBoxContainer" type="HBoxContainer" parent="HBoxContainer/VBoxContainer/HBoxContainer/Panel Derecho/Objetivos/Option_Container/MarginContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="HBoxContainer/VBoxContainer/HBoxContainer/Panel Derecho/Objetivos/Peso Objetivo/MarginContainer"]
 layout_mode = 2
 theme_override_constants/separation = 10
 
-[node name="LabelObjetivo" type="Label" parent="HBoxContainer/VBoxContainer/HBoxContainer/Panel Derecho/Objetivos/Option_Container/MarginContainer/HBoxContainer"]
+[node name="LabelObjetivo" type="Label" parent="HBoxContainer/VBoxContainer/HBoxContainer/Panel Derecho/Objetivos/Peso Objetivo/MarginContainer/HBoxContainer"]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(170, 0)
 layout_mode = 2
@@ -308,18 +338,18 @@ text = "PESO OBJETIVO:
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Option_Container2" type="PanelContainer" parent="HBoxContainer/VBoxContainer/HBoxContainer/Panel Derecho/Objetivos"]
+[node name="Primer Pedido" type="PanelContainer" parent="HBoxContainer/VBoxContainer/HBoxContainer/Panel Derecho/Objetivos"]
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxTexture_nb1h7")
 
-[node name="MarginContainer" type="MarginContainer" parent="HBoxContainer/VBoxContainer/HBoxContainer/Panel Derecho/Objetivos/Option_Container2"]
+[node name="MarginContainer" type="MarginContainer" parent="HBoxContainer/VBoxContainer/HBoxContainer/Panel Derecho/Objetivos/Primer Pedido"]
 layout_mode = 2
 
-[node name="HBoxContainer" type="HBoxContainer" parent="HBoxContainer/VBoxContainer/HBoxContainer/Panel Derecho/Objetivos/Option_Container2/MarginContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="HBoxContainer/VBoxContainer/HBoxContainer/Panel Derecho/Objetivos/Primer Pedido/MarginContainer"]
 layout_mode = 2
 theme_override_constants/separation = 0
 
-[node name="Label" type="Label" parent="HBoxContainer/VBoxContainer/HBoxContainer/Panel Derecho/Objetivos/Option_Container2/MarginContainer/HBoxContainer"]
+[node name="Label" type="Label" parent="HBoxContainer/VBoxContainer/HBoxContainer/Panel Derecho/Objetivos/Primer Pedido/MarginContainer/HBoxContainer"]
 custom_minimum_size = Vector2(170, 0)
 layout_mode = 2
 size_flags_horizontal = 3
@@ -329,7 +359,7 @@ theme_override_font_sizes/font_size = 30
 text = "PRIMER PEDIDO"
 vertical_alignment = 1
 
-[node name="Icono_Medalla" type="TextureRect" parent="HBoxContainer/VBoxContainer/HBoxContainer/Panel Derecho/Objetivos/Option_Container2/MarginContainer/HBoxContainer"]
+[node name="Icono_Medalla" type="TextureRect" parent="HBoxContainer/VBoxContainer/HBoxContainer/Panel Derecho/Objetivos/Primer Pedido/MarginContainer/HBoxContainer"]
 custom_minimum_size = Vector2(50, 50)
 layout_mode = 2
 size_flags_horizontal = 10
@@ -338,18 +368,18 @@ texture = ExtResource("11_td63n")
 expand_mode = 4
 stretch_mode = 5
 
-[node name="Option_Container3" type="PanelContainer" parent="HBoxContainer/VBoxContainer/HBoxContainer/Panel Derecho/Objetivos"]
+[node name="Segundo Pedido" type="PanelContainer" parent="HBoxContainer/VBoxContainer/HBoxContainer/Panel Derecho/Objetivos"]
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxTexture_nb1h7")
 
-[node name="MarginContainer" type="MarginContainer" parent="HBoxContainer/VBoxContainer/HBoxContainer/Panel Derecho/Objetivos/Option_Container3"]
+[node name="MarginContainer" type="MarginContainer" parent="HBoxContainer/VBoxContainer/HBoxContainer/Panel Derecho/Objetivos/Segundo Pedido"]
 layout_mode = 2
 
-[node name="HBoxContainer" type="HBoxContainer" parent="HBoxContainer/VBoxContainer/HBoxContainer/Panel Derecho/Objetivos/Option_Container3/MarginContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="HBoxContainer/VBoxContainer/HBoxContainer/Panel Derecho/Objetivos/Segundo Pedido/MarginContainer"]
 layout_mode = 2
 theme_override_constants/separation = 0
 
-[node name="Label" type="Label" parent="HBoxContainer/VBoxContainer/HBoxContainer/Panel Derecho/Objetivos/Option_Container3/MarginContainer/HBoxContainer"]
+[node name="Label" type="Label" parent="HBoxContainer/VBoxContainer/HBoxContainer/Panel Derecho/Objetivos/Segundo Pedido/MarginContainer/HBoxContainer"]
 custom_minimum_size = Vector2(170, 0)
 layout_mode = 2
 size_flags_horizontal = 3
@@ -359,7 +389,7 @@ theme_override_font_sizes/font_size = 30
 text = "SEGUNDO PEDIDO"
 vertical_alignment = 1
 
-[node name="Icono_Medalla" type="TextureRect" parent="HBoxContainer/VBoxContainer/HBoxContainer/Panel Derecho/Objetivos/Option_Container3/MarginContainer/HBoxContainer"]
+[node name="Icono_Medalla" type="TextureRect" parent="HBoxContainer/VBoxContainer/HBoxContainer/Panel Derecho/Objetivos/Segundo Pedido/MarginContainer/HBoxContainer"]
 custom_minimum_size = Vector2(50, 50)
 layout_mode = 2
 size_flags_horizontal = 10
@@ -367,18 +397,18 @@ texture = ExtResource("11_td63n")
 expand_mode = 4
 stretch_mode = 5
 
-[node name="Option_Container5" type="PanelContainer" parent="HBoxContainer/VBoxContainer/HBoxContainer/Panel Derecho/Objetivos"]
+[node name="Tercer Pedido" type="PanelContainer" parent="HBoxContainer/VBoxContainer/HBoxContainer/Panel Derecho/Objetivos"]
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxTexture_nb1h7")
 
-[node name="MarginContainer" type="MarginContainer" parent="HBoxContainer/VBoxContainer/HBoxContainer/Panel Derecho/Objetivos/Option_Container5"]
+[node name="MarginContainer" type="MarginContainer" parent="HBoxContainer/VBoxContainer/HBoxContainer/Panel Derecho/Objetivos/Tercer Pedido"]
 layout_mode = 2
 
-[node name="HBoxContainer" type="HBoxContainer" parent="HBoxContainer/VBoxContainer/HBoxContainer/Panel Derecho/Objetivos/Option_Container5/MarginContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="HBoxContainer/VBoxContainer/HBoxContainer/Panel Derecho/Objetivos/Tercer Pedido/MarginContainer"]
 layout_mode = 2
 theme_override_constants/separation = 0
 
-[node name="Label" type="Label" parent="HBoxContainer/VBoxContainer/HBoxContainer/Panel Derecho/Objetivos/Option_Container5/MarginContainer/HBoxContainer"]
+[node name="Label" type="Label" parent="HBoxContainer/VBoxContainer/HBoxContainer/Panel Derecho/Objetivos/Tercer Pedido/MarginContainer/HBoxContainer"]
 custom_minimum_size = Vector2(170, 0)
 layout_mode = 2
 size_flags_horizontal = 3
@@ -388,7 +418,7 @@ theme_override_font_sizes/font_size = 30
 text = "TERCER PEDIDO"
 vertical_alignment = 1
 
-[node name="Icono_Medalla" type="TextureRect" parent="HBoxContainer/VBoxContainer/HBoxContainer/Panel Derecho/Objetivos/Option_Container5/MarginContainer/HBoxContainer"]
+[node name="Icono_Medalla" type="TextureRect" parent="HBoxContainer/VBoxContainer/HBoxContainer/Panel Derecho/Objetivos/Tercer Pedido/MarginContainer/HBoxContainer"]
 custom_minimum_size = Vector2(50, 50)
 layout_mode = 2
 size_flags_horizontal = 10
@@ -396,23 +426,23 @@ texture = ExtResource("11_td63n")
 expand_mode = 4
 stretch_mode = 5
 
-[node name="PanelContainer" type="PanelContainer" parent="HBoxContainer/VBoxContainer/HBoxContainer/Panel Derecho"]
+[node name="Resultados" type="PanelContainer" parent="HBoxContainer/VBoxContainer/HBoxContainer/Panel Derecho"]
 custom_minimum_size = Vector2(0, 420)
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxTexture_r18hf")
 
-[node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer/VBoxContainer/HBoxContainer/Panel Derecho/PanelContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer/VBoxContainer/HBoxContainer/Panel Derecho/Resultados"]
 layout_mode = 2
 
-[node name="Option_Container4" type="PanelContainer" parent="HBoxContainer/VBoxContainer/HBoxContainer/Panel Derecho/PanelContainer/VBoxContainer"]
+[node name="Option_Container4" type="PanelContainer" parent="HBoxContainer/VBoxContainer/HBoxContainer/Panel Derecho/Resultados/VBoxContainer"]
 custom_minimum_size = Vector2(375, 0)
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxTexture_5p0ss")
 
-[node name="MarginContainer" type="MarginContainer" parent="HBoxContainer/VBoxContainer/HBoxContainer/Panel Derecho/PanelContainer/VBoxContainer/Option_Container4"]
+[node name="MarginContainer" type="MarginContainer" parent="HBoxContainer/VBoxContainer/HBoxContainer/Panel Derecho/Resultados/VBoxContainer/Option_Container4"]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="HBoxContainer/VBoxContainer/HBoxContainer/Panel Derecho/PanelContainer/VBoxContainer/Option_Container4/MarginContainer"]
+[node name="Label" type="Label" parent="HBoxContainer/VBoxContainer/HBoxContainer/Panel Derecho/Resultados/VBoxContainer/Option_Container4/MarginContainer"]
 custom_minimum_size = Vector2(170, 0)
 layout_mode = 2
 size_flags_horizontal = 3
@@ -425,13 +455,13 @@ text = "RESULTADOS"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Medallas" type="TextureRect" parent="HBoxContainer/VBoxContainer/HBoxContainer/Panel Derecho/PanelContainer/VBoxContainer"]
+[node name="Medallas" type="TextureRect" parent="HBoxContainer/VBoxContainer/HBoxContainer/Panel Derecho/Resultados/VBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 6
 texture = ExtResource("6_qxgr3")
 
-[node name="Label" type="Label" parent="HBoxContainer/VBoxContainer/HBoxContainer/Panel Derecho/PanelContainer/VBoxContainer"]
+[node name="Resultado Label" type="Label" parent="HBoxContainer/VBoxContainer/HBoxContainer/Panel Derecho/Resultados/VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 10
 theme_override_colors/font_color = Color(0.900055, 0.86405474, 0.8629792, 1)
@@ -467,3 +497,29 @@ theme_override_styles/normal = SubResource("StyleBoxTexture_td63n")
 theme_override_styles/pressed = SubResource("StyleBoxTexture_lfwgi")
 theme_override_styles/hover = SubResource("StyleBoxTexture_s7f56")
 text = "ENTREGAR PRODUCTO"
+
+[node name="Control3" type="Control" parent="HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 8
+
+[node name="Continuar" parent="HBoxContainer/Control3" instance=ExtResource("4_ffk5m")]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -275.0
+offset_top = -37.5
+offset_right = 61.0
+offset_bottom = 63.5
+grow_horizontal = 2
+grow_vertical = 2
+pivot_offset = Vector2(168, 50.5)
+size_flags_horizontal = 4
+size_flags_vertical = 8
+theme_override_font_sizes/font_size = 55
+theme_override_styles/normal = SubResource("StyleBoxTexture_xekxj")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_bfvhx")
+theme_override_styles/hover = SubResource("StyleBoxTexture_ylccf")
+text = "CONTINUAR"
