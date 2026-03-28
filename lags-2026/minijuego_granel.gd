@@ -24,11 +24,18 @@ var extrayendo_porcion: bool = false
 var total_rondas: int = 1
 var ronda_actual: int = 1
 
+var estado_final: bool = false
+var tiempo_total: float = 0.0
+var tiempo_ronda_actual: float = 0.0
+var acumulado_puntos: int = 0
+
 var audio_bgm: AudioStreamPlayer
 var audio_medalla: AudioStreamPlayer
 var audio_siguiente: AudioStreamPlayer
-@export var label_resultado_texto: Label # <- ¡Asigna tu nodo 'Resultado Label' aquí desde el Inspector!
-@export var boton_continuar: Button # <- ¡Asigna tu nuevo botón de Continuar aquí!
+@export var label_resultado_texto: Label
+@export var boton_continuar: Button
+@export_category("UI Final")
+@export var label_tiempo_total: Label # <- ¡Nuevo! Asigna tu Label de Tiempo Total aquí
 
 func _ready():
 	randomize()
@@ -68,6 +75,10 @@ func _ready():
 	# 3. Preparar Lógica Multirondas
 	total_rondas = randi_range(1, 3)
 	ronda_actual = 1
+	tiempo_total = 0.0
+	acumulado_puntos = 0
+	estado_final = false
+	if label_tiempo_total: label_tiempo_total.visible = false
 	
 	# Ocultamos los paneles de pedidos que no se usarán
 	for i in range(contenedores_pedidos.size()):
@@ -97,6 +108,8 @@ func _preparar_ronda():
 	peso_actual = 0.0
 	juego_terminado = false
 	extrayendo_porcion = false
+	tiempo_ronda_actual = 0.0
+	if label_tiempo_total: label_tiempo_total.visible = false
 	
 	balanza.set_peso(0.0)
 	sello_calificacion.visible = false
@@ -110,8 +123,17 @@ func _preparar_ronda():
 		if lbl_pedido:
 			lbl_pedido.text = str(ronda_actual) + "° PEDIDO: %.2f KG" % peso_objetivo
 
+func _formatear_tiempo(segundos: float) -> String:
+	var mins = int(segundos) / 60
+	var secs = int(segundos) % 60
+	return "%02d:%02d" % [mins, secs]
+
 func _process(delta):
-	if juego_terminado or extrayendo_porcion: return # Bloquea controles si ya terminó o está sacando
+	if not juego_terminado and not estado_final:
+		tiempo_ronda_actual += delta
+		tiempo_total += delta
+		
+	if juego_terminado or extrayendo_porcion or estado_final: return # Bloquea controles si ya terminó o está sacando
 	
 	# Lógica de la Tecla R (Devolver porción)
 	if Input.is_action_just_pressed("ui_cancel") or Input.is_key_pressed(KEY_R):
@@ -181,6 +203,7 @@ func _on_boton_aceptar_presionado():
 	
 	# Calculamos la diferencia entre lo que echó y el objetivo
 	var diferencia = abs(peso_actual - peso_objetivo)
+	
 	var stream_ok = load("res://assets/audio/minigame-granel/ok_base.mp3")
 	var stream_error = load("res://assets/audio/minigame-granel/error.mp3")
 	
@@ -189,24 +212,28 @@ func _on_boton_aceptar_presionado():
 	
 	# Definimos los márgenes de error ajustados para alta precisión (0.01 por C)
 	if diferencia <= 0.01:
+		acumulado_puntos += 3
 		tex_medalla = load("res://assets/textures/minigame-granel/medalla_oro.png")
 		tex_icono = load("res://assets/textures/minigame-granel/icono-oro.png")
 		if label_resultado_texto: label_resultado_texto.text = "¡EXCELENTE!"
 		audio_medalla.stream = stream_ok
 		audio_medalla.pitch_scale = 1.3 # Tono más feliz y agudo
 	elif diferencia <= 0.10:
+		acumulado_puntos += 2
 		tex_medalla = load("res://assets/textures/minigame-granel/medalla_plata.png")
 		tex_icono = load("res://assets/textures/minigame-granel/icono-plata.png")
 		if label_resultado_texto: label_resultado_texto.text = "¡MUY BIEN!"
 		audio_medalla.stream = stream_ok
 		audio_medalla.pitch_scale = 1.0 # Tono base
 	elif diferencia <= 0.30:
+		acumulado_puntos += 1
 		tex_medalla = load("res://assets/textures/minigame-granel/medalla_cobre.png")
 		tex_icono = load("res://assets/textures/minigame-granel/icono-cobre.png")
 		if label_resultado_texto: label_resultado_texto.text = "NADA MAL"
 		audio_medalla.stream = stream_ok
 		audio_medalla.pitch_scale = 0.75 # Tono grave/decepcionante
 	else:
+		acumulado_puntos += 0
 		tex_medalla = load("res://assets/textures/minigame-granel/medalla_error.png")
 		tex_icono = load("res://assets/textures/minigame-granel/icono-fallo.png")
 		if label_resultado_texto: label_resultado_texto.text = "¡FALLASTE!"
@@ -216,28 +243,77 @@ func _on_boton_aceptar_presionado():
 	sello_calificacion.texture = tex_medalla
 	audio_medalla.play()
 	
-	# Actualizar el panel de "Pedido" con el icono correcto
+	# Actualizar el panel de "Pedido" con el icono y tiempo
 	if contenedores_pedidos.size() > 0:
 		var icon = _get_icono_pedido(contenedores_pedidos[ronda_actual - 1])
 		if icon:
 			icon.texture = tex_icono
 			icon.visible = true
+		var lbl_pedido = _get_label_pedido(contenedores_pedidos[ronda_actual - 1])
+		if lbl_pedido:
+			lbl_pedido.text = str(ronda_actual) + "° PEDIDO: %.2f KG - " % peso_objetivo + _formatear_tiempo(tiempo_ronda_actual)
 			
 	if boton_continuar:
 		if ronda_actual < total_rondas:
 			boton_continuar.text = "SIGUIENTE"
 		else:
-			boton_continuar.text = "CONTINUAR"
+			boton_continuar.text = "VER RESULTADOS"
 			
 	_animar_medalla()
 
 func _on_boton_continuar_presionado():
+	if estado_final:
+		self.queue_free()
+		return
+		
 	if ronda_actual < total_rondas:
 		if audio_siguiente: audio_siguiente.play()
 		ronda_actual += 1
 		_preparar_ronda()
 	else:
-		self.queue_free()
+		_mostrar_resultado_final()
+
+func _mostrar_resultado_final():
+	estado_final = true
+	var prom = float(acumulado_puntos) / total_rondas
+	
+	var stream_ok = load("res://assets/audio/minigame-granel/ok_base.mp3")
+	var stream_error = load("res://assets/audio/minigame-granel/error.mp3")
+	var tex_medalla: Texture2D
+	
+	if prom >= 2.5:
+		tex_medalla = load("res://assets/textures/minigame-granel/medalla_oro.png")
+		if label_resultado_texto: label_resultado_texto.text = "¡MAESTRO GRANELERO!"
+		audio_medalla.stream = stream_ok
+		audio_medalla.pitch_scale = 1.3
+	elif prom >= 1.5:
+		tex_medalla = load("res://assets/textures/minigame-granel/medalla_plata.png")
+		if label_resultado_texto: label_resultado_texto.text = "¡TRABAJO SÓLIDO!"
+		audio_medalla.stream = stream_ok
+		audio_medalla.pitch_scale = 1.0
+	elif prom >= 0.5:
+		tex_medalla = load("res://assets/textures/minigame-granel/medalla_cobre.png")
+		if label_resultado_texto: label_resultado_texto.text = "PUEDES MEJORAR"
+		audio_medalla.stream = stream_ok
+		audio_medalla.pitch_scale = 0.75
+	else:
+		tex_medalla = load("res://assets/textures/minigame-granel/medalla_error.png")
+		if label_resultado_texto: label_resultado_texto.text = "DESPIDO INMINENTE"
+		audio_medalla.stream = stream_error
+		audio_medalla.pitch_scale = 1.0
+		
+	sello_calificacion.texture = tex_medalla
+	audio_medalla.play()
+	
+	if label_tiempo_total:
+		label_tiempo_total.text = "TIEMPO TOTAL: " + _formatear_tiempo(tiempo_total)
+		label_tiempo_total.visible = true
+		label_tiempo_total.modulate.a = 0.0
+		
+	if boton_continuar:
+		boton_continuar.text = "FINALIZAR"
+		
+	_animar_medalla()
 
 func _animar_medalla():
 	sello_calificacion.visible = true
@@ -252,6 +328,11 @@ func _animar_medalla():
 		label_resultado_texto.pivot_offset = label_resultado_texto.size / 2.0
 		label_resultado_texto.scale = Vector2.ZERO
 		label_resultado_texto.modulate.a = 0.0
+		
+	if label_tiempo_total and label_tiempo_total.visible:
+		label_tiempo_total.pivot_offset = label_tiempo_total.size / 2.0
+		label_tiempo_total.scale = Vector2.ZERO
+		label_tiempo_total.modulate.a = 0.0
 
 	if boton_continuar:
 		boton_continuar.modulate.a = 0.0
@@ -270,6 +351,10 @@ func _animar_medalla():
 	if label_resultado_texto:
 		tween.tween_property(label_resultado_texto, "scale", Vector2(1, 1), 0.5)
 		tween.tween_property(label_resultado_texto, "modulate:a", 1.0, 0.5)
+		
+	if label_tiempo_total and label_tiempo_total.visible:
+		tween.tween_property(label_tiempo_total, "scale", Vector2(1, 1), 0.5)
+		tween.tween_property(label_tiempo_total, "modulate:a", 1.0, 0.5)
 		
 	if boton_continuar:
 		tween.tween_property(boton_continuar, "modulate:a", 1.0, 0.5)

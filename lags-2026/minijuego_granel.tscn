@@ -121,7 +121,7 @@ axis_stretch_horizontal = 2
 axis_stretch_vertical = 2
 modulate_color = Color(0.76, 0.68, 0.74, 1)
 
-[node name="MinijuegoGranel" type="PanelContainer" node_paths=PackedStringArray("saco", "balanza", "boton_aceptar", "sello_calificacion", "label_objetivo", "contenedores_pedidos", "label_resultado_texto", "boton_continuar")]
+[node name="MinijuegoGranel" type="PanelContainer" node_paths=PackedStringArray("saco", "balanza", "boton_aceptar", "sello_calificacion", "label_objetivo", "contenedores_pedidos", "label_resultado_texto", "boton_continuar", "label_tiempo_total")]
 offset_right = 40.0
 offset_bottom = 40.0
 theme_override_styles/panel = SubResource("StyleBoxTexture_rav2f")
@@ -136,6 +136,7 @@ tasa_llenado_continuo = 0.5
 contenedores_pedidos = [NodePath("HBoxContainer/VBoxContainer/HBoxContainer/Panel Derecho/Objetivos/Primer Pedido"), NodePath("HBoxContainer/VBoxContainer/HBoxContainer/Panel Derecho/Objetivos/Segundo Pedido"), NodePath("HBoxContainer/VBoxContainer/HBoxContainer/Panel Derecho/Objetivos/Tercer Pedido")]
 label_resultado_texto = NodePath("HBoxContainer/VBoxContainer/HBoxContainer/Panel Derecho/Resultados/VBoxContainer/Resultado Label")
 boton_continuar = NodePath("HBoxContainer/Control3/Continuar")
+label_tiempo_total = NodePath("HBoxContainer/VBoxContainer/HBoxContainer/Panel Derecho/Resultados/VBoxContainer/Tiempo Total")
 
 [node name="HBoxContainer" type="VBoxContainer" parent="."]
 layout_mode = 2
@@ -163,20 +164,23 @@ layout_mode = 2
 [node name="HBoxContainer" type="HBoxContainer" parent="HBoxContainer/VBoxContainer"]
 layout_mode = 2
 
-[node name="Guia Rapida" type="VBoxContainer" parent="HBoxContainer/VBoxContainer/HBoxContainer"]
+[node name="Panel Izquierdo" type="VBoxContainer" parent="HBoxContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+
+[node name="Guia Rapida" type="VBoxContainer" parent="HBoxContainer/VBoxContainer/HBoxContainer/Panel Izquierdo"]
 layout_mode = 2
 size_flags_vertical = 0
 theme_override_constants/separation = -20
 
-[node name="Titulo" type="PanelContainer" parent="HBoxContainer/VBoxContainer/HBoxContainer/Guia Rapida"]
-custom_minimum_size = Vector2(375, 0)
+[node name="Titulo" type="PanelContainer" parent="HBoxContainer/VBoxContainer/HBoxContainer/Panel Izquierdo/Guia Rapida"]
+custom_minimum_size = Vector2(400, 0)
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxTexture_5p0ss")
 
-[node name="MarginContainer" type="MarginContainer" parent="HBoxContainer/VBoxContainer/HBoxContainer/Guia Rapida/Titulo"]
+[node name="MarginContainer" type="MarginContainer" parent="HBoxContainer/VBoxContainer/HBoxContainer/Panel Izquierdo/Guia Rapida/Titulo"]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="HBoxContainer/VBoxContainer/HBoxContainer/Guia Rapida/Titulo/MarginContainer"]
+[node name="Label" type="Label" parent="HBoxContainer/VBoxContainer/HBoxContainer/Panel Izquierdo/Guia Rapida/Titulo/MarginContainer"]
 custom_minimum_size = Vector2(170, 0)
 layout_mode = 2
 size_flags_horizontal = 3
@@ -189,90 +193,97 @@ text = "GUÍA RÁPIDA"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Instruccion_Espacio" type="PanelContainer" parent="HBoxContainer/VBoxContainer/HBoxContainer/Guia Rapida"]
+[node name="Instruccion_Espacio" type="PanelContainer" parent="HBoxContainer/VBoxContainer/HBoxContainer/Panel Izquierdo/Guia Rapida"]
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxTexture_nb1h7")
 
-[node name="MarginContainer" type="MarginContainer" parent="HBoxContainer/VBoxContainer/HBoxContainer/Guia Rapida/Instruccion_Espacio"]
+[node name="MarginContainer" type="MarginContainer" parent="HBoxContainer/VBoxContainer/HBoxContainer/Panel Izquierdo/Guia Rapida/Instruccion_Espacio"]
 layout_mode = 2
 
-[node name="HBoxContainer" type="HBoxContainer" parent="HBoxContainer/VBoxContainer/HBoxContainer/Guia Rapida/Instruccion_Espacio/MarginContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="HBoxContainer/VBoxContainer/HBoxContainer/Panel Izquierdo/Guia Rapida/Instruccion_Espacio/MarginContainer"]
 layout_mode = 2
 theme_override_constants/separation = 10
 
-[node name="TextureRect" type="TextureRect" parent="HBoxContainer/VBoxContainer/HBoxContainer/Guia Rapida/Instruccion_Espacio/MarginContainer/HBoxContainer"]
+[node name="TextureRect" type="TextureRect" parent="HBoxContainer/VBoxContainer/HBoxContainer/Panel Izquierdo/Guia Rapida/Instruccion_Espacio/MarginContainer/HBoxContainer"]
+custom_minimum_size = Vector2(0, 50)
 layout_mode = 2
+size_flags_horizontal = 6
 texture = ExtResource("3_all76")
+expand_mode = 3
 
-[node name="Label" type="Label" parent="HBoxContainer/VBoxContainer/HBoxContainer/Guia Rapida/Instruccion_Espacio/MarginContainer/HBoxContainer"]
+[node name="Label" type="Label" parent="HBoxContainer/VBoxContainer/HBoxContainer/Panel Izquierdo/Guia Rapida/Instruccion_Espacio/MarginContainer/HBoxContainer"]
 custom_minimum_size = Vector2(170, 0)
 layout_mode = 2
 size_flags_horizontal = 10
 theme_override_colors/font_color = Color(0.6877795, 0.6436458, 0.63261163, 1)
 theme_override_fonts/font = ExtResource("4_qp0ic")
 theme_override_font_sizes/font_size = 30
-text = "INCLINAR
-Y VERTER"
+text = "INCLINAR Y 
+VERTER"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Instruccion_C" type="PanelContainer" parent="HBoxContainer/VBoxContainer/HBoxContainer/Guia Rapida"]
+[node name="Instruccion_C" type="PanelContainer" parent="HBoxContainer/VBoxContainer/HBoxContainer/Panel Izquierdo/Guia Rapida"]
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxTexture_nb1h7")
 
-[node name="MarginContainer" type="MarginContainer" parent="HBoxContainer/VBoxContainer/HBoxContainer/Guia Rapida/Instruccion_C"]
+[node name="MarginContainer" type="MarginContainer" parent="HBoxContainer/VBoxContainer/HBoxContainer/Panel Izquierdo/Guia Rapida/Instruccion_C"]
 layout_mode = 2
 
-[node name="HBoxContainer" type="HBoxContainer" parent="HBoxContainer/VBoxContainer/HBoxContainer/Guia Rapida/Instruccion_C/MarginContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="HBoxContainer/VBoxContainer/HBoxContainer/Panel Izquierdo/Guia Rapida/Instruccion_C/MarginContainer"]
 layout_mode = 2
 theme_override_constants/separation = 10
 
-[node name="TextureRect" type="TextureRect" parent="HBoxContainer/VBoxContainer/HBoxContainer/Guia Rapida/Instruccion_C/MarginContainer/HBoxContainer"]
+[node name="TextureRect" type="TextureRect" parent="HBoxContainer/VBoxContainer/HBoxContainer/Panel Izquierdo/Guia Rapida/Instruccion_C/MarginContainer/HBoxContainer"]
+custom_minimum_size = Vector2(0, 50)
 layout_mode = 2
 size_flags_horizontal = 6
 texture = ExtResource("5_6wkra")
+expand_mode = 3
 
-[node name="Label" type="Label" parent="HBoxContainer/VBoxContainer/HBoxContainer/Guia Rapida/Instruccion_C/MarginContainer/HBoxContainer"]
+[node name="Label" type="Label" parent="HBoxContainer/VBoxContainer/HBoxContainer/Panel Izquierdo/Guia Rapida/Instruccion_C/MarginContainer/HBoxContainer"]
 custom_minimum_size = Vector2(170, 0)
 layout_mode = 2
 size_flags_horizontal = 10
 theme_override_colors/font_color = Color(0.6877795, 0.6436458, 0.63261163, 1)
 theme_override_fonts/font = ExtResource("4_qp0ic")
 theme_override_font_sizes/font_size = 30
-text = "TOQUES DE
+text = "TOQUES DE 
 PRESICION"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Instruccion_R" type="PanelContainer" parent="HBoxContainer/VBoxContainer/HBoxContainer/Guia Rapida"]
+[node name="Instruccion_R" type="PanelContainer" parent="HBoxContainer/VBoxContainer/HBoxContainer/Panel Izquierdo/Guia Rapida"]
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxTexture_nb1h7")
 
-[node name="MarginContainer" type="MarginContainer" parent="HBoxContainer/VBoxContainer/HBoxContainer/Guia Rapida/Instruccion_R"]
+[node name="MarginContainer" type="MarginContainer" parent="HBoxContainer/VBoxContainer/HBoxContainer/Panel Izquierdo/Guia Rapida/Instruccion_R"]
 layout_mode = 2
 
-[node name="HBoxContainer" type="HBoxContainer" parent="HBoxContainer/VBoxContainer/HBoxContainer/Guia Rapida/Instruccion_R/MarginContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="HBoxContainer/VBoxContainer/HBoxContainer/Panel Izquierdo/Guia Rapida/Instruccion_R/MarginContainer"]
 layout_mode = 2
 theme_override_constants/separation = 10
 
-[node name="TextureRect" type="TextureRect" parent="HBoxContainer/VBoxContainer/HBoxContainer/Guia Rapida/Instruccion_R/MarginContainer/HBoxContainer"]
+[node name="TextureRect" type="TextureRect" parent="HBoxContainer/VBoxContainer/HBoxContainer/Panel Izquierdo/Guia Rapida/Instruccion_R/MarginContainer/HBoxContainer"]
+custom_minimum_size = Vector2(0, 50)
 layout_mode = 2
 size_flags_horizontal = 6
 texture = ExtResource("6_td63n")
+expand_mode = 3
 
-[node name="Label" type="Label" parent="HBoxContainer/VBoxContainer/HBoxContainer/Guia Rapida/Instruccion_R/MarginContainer/HBoxContainer"]
+[node name="Label" type="Label" parent="HBoxContainer/VBoxContainer/HBoxContainer/Panel Izquierdo/Guia Rapida/Instruccion_R/MarginContainer/HBoxContainer"]
 custom_minimum_size = Vector2(170, 0)
 layout_mode = 2
 size_flags_horizontal = 10
 theme_override_colors/font_color = Color(0.6877795, 0.6436458, 0.63261163, 1)
 theme_override_fonts/font = ExtResource("4_qp0ic")
 theme_override_font_sizes/font_size = 30
-text = "DEVOLVER DE
+text = "SACAR DE 
 LA BALANZA"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="HBoxContainer" type="HBoxContainer" parent="HBoxContainer/VBoxContainer/HBoxContainer/Guia Rapida"]
+[node name="HBoxContainer" type="HBoxContainer" parent="HBoxContainer/VBoxContainer/HBoxContainer/Panel Izquierdo/Guia Rapida"]
 layout_mode = 2
 
 [node name="Balanza-Saco" type="PanelContainer" parent="HBoxContainer/VBoxContainer/HBoxContainer"]
@@ -455,6 +466,17 @@ theme_override_font_sizes/font_size = 40
 text = "RESULTADOS"
 horizontal_alignment = 1
 vertical_alignment = 1
+
+[node name="Tiempo Total" type="Label" parent="HBoxContainer/VBoxContainer/HBoxContainer/Panel Derecho/Resultados/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 10
+theme_override_colors/font_color = Color(0.900055, 0.86405474, 0.8629792, 1)
+theme_override_colors/font_outline_color = Color(0.11997277, 0.08216684, 0.008644554, 1)
+theme_override_fonts/font = ExtResource("4_qp0ic")
+theme_override_font_sizes/font_size = 35
+text = "Tiempo Total: 2:32"
+horizontal_alignment = 1
+vertical_alignment = 2
 
 [node name="Medallas" type="TextureRect" parent="HBoxContainer/VBoxContainer/HBoxContainer/Panel Derecho/Resultados/VBoxContainer"]
 layout_mode = 2
