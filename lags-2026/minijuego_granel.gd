@@ -16,36 +16,23 @@ extends Control
 # Variables internas
 var peso_actual: float = 0.0
 var juego_terminado: bool = false
-var extrayendo_porcion: bool = false # Bloquea acciones durante sacudida
+var extrayendo_porcion: bool = false
+
+@export_category("UI Pedidos")
+@export var contenedores_pedidos: Array[PanelContainer] # ¡Asigna Primer, Segundo y Tercer Pedido aquí!
+
+var total_rondas: int = 1
+var ronda_actual: int = 1
 
 var audio_bgm: AudioStreamPlayer
 var audio_medalla: AudioStreamPlayer
+var audio_siguiente: AudioStreamPlayer
 @export var label_resultado_texto: Label # <- ¡Asigna tu nodo 'Resultado Label' aquí desde el Inspector!
 @export var boton_continuar: Button # <- ¡Asigna tu nuevo botón de Continuar aquí!
 
 func _ready():
-	# 1. Configurar estado inicial
-	sello_calificacion.visible = false
-	if label_resultado_texto:
-		label_resultado_texto.visible = false
-	if boton_continuar:
-		boton_continuar.visible = false
-		
-	balanza.set_peso(0.0) # Aseguramos que empiece vacía
-	
-	label_objetivo.text = "PESO OBJETIVO: " + str(peso_objetivo) + " kg"
-	
-	# 2. Conectar las señales del Saco al Controlador
-	saco.sumar_peso_continuo.connect(_on_saco_sumar_continuo)
-	saco.sumar_peso_precision.connect(_on_saco_sumar_precision)
-	
-	# 3. Conectar los botones de la Interfaz
-	boton_aceptar.pressed.connect(_on_boton_aceptar_presionado)
-	if boton_continuar:
-		# Elimina este modal de la memoria y la pantalla al finalizar
-		boton_continuar.pressed.connect(func(): self.queue_free())
-	
-	# 4. Configurar Audio Musical y Medallas dinámicamente
+	randomize()
+	# 1. Configurar Audio Musical, Medallas y Siguiente dinámicamente
 	audio_bgm = AudioStreamPlayer.new()
 	var bgm = load("res://assets/audio/minigame-granel/minijuego_granel_musica.mp3")
 	if bgm is AudioStreamMP3: bgm.loop = false
@@ -54,7 +41,6 @@ func _ready():
 	audio_bgm.volume_db = -8.0
 	add_child(audio_bgm)
 	
-	# Timer para bucle con 5s de retraso
 	var timer_bgm = Timer.new()
 	timer_bgm.wait_time = 5.0
 	timer_bgm.one_shot = true
@@ -66,6 +52,63 @@ func _ready():
 	audio_medalla = AudioStreamPlayer.new()
 	audio_medalla.bus = &"SFX"
 	add_child(audio_medalla)
+	
+	audio_siguiente = AudioStreamPlayer.new()
+	audio_siguiente.stream = load("res://assets/audio/minigame-granel/siguiente.mp3")
+	audio_siguiente.bus = &"SFX"
+	add_child(audio_siguiente)
+
+	# 2. Conectar las señales
+	saco.sumar_peso_continuo.connect(_on_saco_sumar_continuo)
+	saco.sumar_peso_precision.connect(_on_saco_sumar_precision)
+	boton_aceptar.pressed.connect(_on_boton_aceptar_presionado)
+	if boton_continuar:
+		boton_continuar.pressed.connect(_on_boton_continuar_presionado)
+
+	# 3. Preparar Lógica Multirondas
+	total_rondas = randi_range(1, 3)
+	ronda_actual = 1
+	
+	# Ocultamos los paneles de pedidos que no se usarán
+	for i in range(contenedores_pedidos.size()):
+		if i < total_rondas:
+			contenedores_pedidos[i].visible = true
+			var icon = _get_icono_pedido(contenedores_pedidos[i])
+			if icon: icon.visible = false
+		else:
+			contenedores_pedidos[i].visible = false
+			
+	_preparar_ronda()
+
+func _get_label_pedido(panel: PanelContainer) -> Label:
+	return panel.get_node("MarginContainer/HBoxContainer/Label") as Label
+
+func _get_icono_pedido(panel: PanelContainer) -> TextureRect:
+	return panel.get_node("MarginContainer/HBoxContainer/Icono_Medalla") as TextureRect
+
+func _preparar_ronda():
+	# Generar peso de 0 a 10, pero con un 70% de probabilidad de caer entre 2 y 5
+	if randf() < 0.7:
+		peso_objetivo = randf_range(2.0, 5.0)
+	else:
+		peso_objetivo = randf_range(0.0, 10.0)
+	peso_objetivo = snappedf(peso_objetivo, 0.01)
+	
+	peso_actual = 0.0
+	juego_terminado = false
+	extrayendo_porcion = false
+	
+	balanza.set_peso(0.0)
+	sello_calificacion.visible = false
+	if label_resultado_texto: label_resultado_texto.visible = false
+	if boton_continuar: boton_continuar.visible = false
+	boton_aceptar.visible = true
+	
+	label_objetivo.text = "PESO OBJETIVO:\n%.2f KG" % peso_objetivo
+	if contenedores_pedidos.size() > 0:
+		var lbl_pedido = _get_label_pedido(contenedores_pedidos[ronda_actual - 1])
+		if lbl_pedido:
+			lbl_pedido.text = str(ronda_actual) + "° PEDIDO: %.2f KG" % peso_objetivo
 
 func _process(delta):
 	if juego_terminado or extrayendo_porcion: return # Bloquea controles si ya terminó o está sacando
@@ -138,39 +181,63 @@ func _on_boton_aceptar_presionado():
 	
 	# Calculamos la diferencia entre lo que echó y el objetivo
 	var diferencia = abs(peso_actual - peso_objetivo)
-	
 	var stream_ok = load("res://assets/audio/minigame-granel/ok_base.mp3")
 	var stream_error = load("res://assets/audio/minigame-granel/error.mp3")
 	
+	var tex_medalla: Texture2D
+	var tex_icono: Texture2D
+	
 	# Definimos los márgenes de error ajustados para alta precisión (0.01 por C)
 	if diferencia <= 0.01:
-		print("¡EXCELENTE! Precisión perfecta.")
-		sello_calificacion.texture = load("res://assets/textures/minigame-granel/medalla_oro.png")
+		tex_medalla = load("res://assets/textures/minigame-granel/medalla_oro.png")
+		tex_icono = load("res://assets/textures/minigame-granel/icono-oro.png")
 		if label_resultado_texto: label_resultado_texto.text = "¡EXCELENTE!"
 		audio_medalla.stream = stream_ok
 		audio_medalla.pitch_scale = 1.3 # Tono más feliz y agudo
 	elif diferencia <= 0.10:
-		print("BUENO. Un poco desviado, pero aceptable.")
-		sello_calificacion.texture = load("res://assets/textures/minigame-granel/medalla_plata.png")
+		tex_medalla = load("res://assets/textures/minigame-granel/medalla_plata.png")
+		tex_icono = load("res://assets/textures/minigame-granel/icono-plata.png")
 		if label_resultado_texto: label_resultado_texto.text = "¡MUY BIEN!"
 		audio_medalla.stream = stream_ok
 		audio_medalla.pitch_scale = 1.0 # Tono base
 	elif diferencia <= 0.30:
-		print("REGULAR. Bastante alejado de la meta.")
-		sello_calificacion.texture = load("res://assets/textures/minigame-granel/medalla_cobre.png")
+		tex_medalla = load("res://assets/textures/minigame-granel/medalla_cobre.png")
+		tex_icono = load("res://assets/textures/minigame-granel/icono-cobre.png")
 		if label_resultado_texto: label_resultado_texto.text = "NADA MAL"
 		audio_medalla.stream = stream_ok
 		audio_medalla.pitch_scale = 0.75 # Tono grave/decepcionante
 	else:
-		print("MALO. Fallaste por completo el peso solicitado.")
-		sello_calificacion.texture = load("res://assets/textures/minigame-granel/medalla_error.png")
+		tex_medalla = load("res://assets/textures/minigame-granel/medalla_error.png")
+		tex_icono = load("res://assets/textures/minigame-granel/icono-fallo.png")
 		if label_resultado_texto: label_resultado_texto.text = "¡FALLASTE!"
 		audio_medalla.stream = stream_error
 		audio_medalla.pitch_scale = 1.0
 		
+	sello_calificacion.texture = tex_medalla
 	audio_medalla.play()
-	sello_calificacion.visible = true
+	
+	# Actualizar el panel de "Pedido" con el icono correcto
+	if contenedores_pedidos.size() > 0:
+		var icon = _get_icono_pedido(contenedores_pedidos[ronda_actual - 1])
+		if icon:
+			icon.texture = tex_icono
+			icon.visible = true
+			
+	if boton_continuar:
+		if ronda_actual < total_rondas:
+			boton_continuar.text = "SIGUIENTE"
+		else:
+			boton_continuar.text = "CONTINUAR"
+			
 	_animar_medalla()
+
+func _on_boton_continuar_presionado():
+	if ronda_actual < total_rondas:
+		if audio_siguiente: audio_siguiente.play()
+		ronda_actual += 1
+		_preparar_ronda()
+	else:
+		self.queue_free()
 
 func _animar_medalla():
 	sello_calificacion.visible = true

@@ -121,7 +121,7 @@ axis_stretch_horizontal = 2
 axis_stretch_vertical = 2
 modulate_color = Color(0.76, 0.68, 0.74, 1)
 
-[node name="MinijuegoGranel" type="PanelContainer" node_paths=PackedStringArray("saco", "balanza", "boton_aceptar", "sello_calificacion", "label_objetivo", "label_resultado_texto", "boton_continuar")]
+[node name="MinijuegoGranel" type="PanelContainer" node_paths=PackedStringArray("saco", "balanza", "boton_aceptar", "sello_calificacion", "label_objetivo", "contenedores_pedidos", "label_resultado_texto", "boton_continuar")]
 offset_right = 40.0
 offset_bottom = 40.0
 theme_override_styles/panel = SubResource("StyleBoxTexture_rav2f")
@@ -132,7 +132,8 @@ boton_aceptar = NodePath("HBoxContainer/Control2/Button")
 sello_calificacion = NodePath("HBoxContainer/VBoxContainer/HBoxContainer/Panel Derecho/Resultados/VBoxContainer/Medallas")
 label_objetivo = NodePath("HBoxContainer/VBoxContainer/HBoxContainer/Panel Derecho/Objetivos/Peso Objetivo/MarginContainer/HBoxContainer/LabelObjetivo")
 peso_objetivo = 1.5
-tasa_llenado_continuo = 0.25
+tasa_llenado_continuo = 0.5
+contenedores_pedidos = [NodePath("HBoxContainer/VBoxContainer/HBoxContainer/Panel Derecho/Objetivos/Primer Pedido"), NodePath("HBoxContainer/VBoxContainer/HBoxContainer/Panel Derecho/Objetivos/Segundo Pedido"), NodePath("HBoxContainer/VBoxContainer/HBoxContainer/Panel Derecho/Objetivos/Tercer Pedido")]
 label_resultado_texto = NodePath("HBoxContainer/VBoxContainer/HBoxContainer/Panel Derecho/Resultados/VBoxContainer/Resultado Label")
 boton_continuar = NodePath("HBoxContainer/Control3/Continuar")
 
@@ -356,7 +357,7 @@ size_flags_horizontal = 3
 theme_override_colors/font_color = Color(0.6877795, 0.6436458, 0.63261163, 1)
 theme_override_fonts/font = ExtResource("4_qp0ic")
 theme_override_font_sizes/font_size = 30
-text = "PRIMER PEDIDO"
+text = "1° PEDIDO: 10.00kg"
 vertical_alignment = 1
 
 [node name="Icono_Medalla" type="TextureRect" parent="HBoxContainer/VBoxContainer/HBoxContainer/Panel Derecho/Objetivos/Primer Pedido/MarginContainer/HBoxContainer"]
