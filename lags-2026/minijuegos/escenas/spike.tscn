@@ -1,0 +1,17 @@
+[gd_scene format=3 uid="uid://glgg27ur7ai"]
+
+[ext_resource type="Script" uid="uid://dos50oa2ic6tk" path="res://minijuegos/escenas/spike.gd" id="1_6ylvo"]
+[ext_resource type="Texture2D" uid="uid://cber5vgt16wi" path="res://minijuegos/sprites/spike.png" id="1_aw78s"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_6ylvo"]
+size = Vector2(30, 31)
+
+[node name="Spike" type="Area2D" unique_id=252424641]
+script = ExtResource("1_6ylvo")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1087053673]
+texture = ExtResource("1_aw78s")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=577433537]
+position = Vector2(0, 0.5)
+shape = SubResource("RectangleShape2D_6ylvo")
