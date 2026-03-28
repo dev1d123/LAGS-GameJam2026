@@ -1,19 +1,57 @@
-[gd_scene load_steps=11 format=3 uid="uid://04jdxy6fvs4e"]
+[gd_scene load_steps=18 format=3 uid="uid://cqnfhonkcs3ql"]
 
 [ext_resource type="PackedScene" uid="uid://cxms5nyd7hgjy" path="res://scenes/minigameIndications/HitZone.tscn" id="1_4fips"]
 [ext_resource type="Script" uid="uid://bvt3smow1tkjr" path="res://scenes/minigameIndications/MiniJuego.gd" id="1_dgihs"]
 [ext_resource type="PackedScene" uid="uid://hnj774rlahl5" path="res://scenes/minigameIndications/Flecha.tscn" id="2_dun53"]
 [ext_resource type="Texture2D" uid="uid://cec3xx2mt020" path="res://scenes/minigameIndications/FondoModal.png" id="3_dgihs"]
+[ext_resource type="PackedScene" uid="uid://hqmdfy0qhwxh" path="res://ui/components/Title_1.tscn" id="4_title"]
 [ext_resource type="AudioStream" uid="uid://c8ye660caqpy5" path="res://scenes/minigameIndications/open.ogg" id="5_j1frl"]
+[ext_resource type="Texture2D" uid="uid://cpaxrpnv1gl7y" path="res://assets/textures/opciones-fondo.png" id="5_ui_bg"]
 [ext_resource type="AudioStream" uid="uid://cwkiu8455jt36" path="res://scenes/minigameIndications/close.ogg" id="6_if2ku"]
 [ext_resource type="AudioStream" uid="uid://cfpekorgnj6rv" path="res://scenes/minigameIndications/success.ogg" id="7_hxscy"]
 [ext_resource type="AudioStream" uid="uid://ddhaq5etee87y" path="res://scenes/minigameIndications/error.ogg" id="8_sao3l"]
+[ext_resource type="Texture2D" uid="uid://d3mn8iy0m7bf" path="res://assets/textures/opciones-campo-fondo.png" id="9_ui_panel"]
+[ext_resource type="FontFile" uid="uid://cu11g35n3hgqv" path="res://assets/fonts/PixelOperatorMonoHB.ttf" id="10_ui_font"]
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_dgihs"]
-bg_color = Color(0.088388, 0.112066425, 0.0802327, 1)
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_main"]
+texture = ExtResource("5_ui_bg")
+texture_margin_left = 40.0
+texture_margin_top = 40.0
+texture_margin_right = 40.0
+texture_margin_bottom = 40.0
+axis_stretch_horizontal = 2
+axis_stretch_vertical = 2
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_dun53"]
-bg_color = Color(0.36922625, 0.6978329, 0, 1)
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_title_box"]
+texture = ExtResource("9_ui_panel")
+texture_margin_left = 30.0
+texture_margin_top = 20.0
+texture_margin_right = 30.0
+texture_margin_bottom = 20.0
+modulate_color = Color(2.4060245, 1.9000973, 1.1570377, 1)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_card"]
+texture = ExtResource("9_ui_panel")
+texture_margin_left = 30.0
+texture_margin_top = 20.0
+texture_margin_right = 30.0
+texture_margin_bottom = 20.0
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_fill"]
+texture = ExtResource("9_ui_panel")
+texture_margin_left = 30.0
+texture_margin_top = 20.0
+texture_margin_right = 30.0
+texture_margin_bottom = 20.0
+modulate_color = Color(0.36922625, 0.6978329, 0, 1)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_playfield"]
+texture = ExtResource("9_ui_panel")
+texture_margin_left = 30.0
+texture_margin_top = 20.0
+texture_margin_right = 30.0
+texture_margin_bottom = 20.0
+modulate_color = Color(1.3935692, 0.87213355, 0.98352003, 1)
 
 [node name="MiniJuego" type="Node2D"]
 script = ExtResource("1_dgihs")
@@ -25,68 +63,270 @@ autostart = true
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
-[node name="BarraProgreso" type="ProgressBar" parent="CanvasLayer"]
-z_index = 1
-offset_left = 151.0
-offset_top = 94.0
-offset_right = 487.0
-offset_bottom = 104.0
-theme_override_styles/background = SubResource("StyleBoxFlat_dgihs")
-theme_override_styles/fill = SubResource("StyleBoxFlat_dun53")
-max_value = 10.0
-step = 1.0
-show_percentage = false
-
-[node name="LabelPregunta" type="RichTextLabel" parent="CanvasLayer"]
-z_index = 1
-offset_left = 137.0
-offset_top = 57.0
-offset_right = 502.0
-offset_bottom = 99.0
-theme_override_font_sizes/normal_font_size = 12
-theme_override_font_sizes/bold_font_size = 12
-theme_override_font_sizes/bold_italics_font_size = 12
-theme_override_font_sizes/italics_font_size = 12
-theme_override_font_sizes/mono_font_size = 12
-text = "a"
-horizontal_alignment = 1
-
-[node name="ColorRect" type="ColorRect" parent="CanvasLayer/LabelPregunta"]
-z_index = -1
-layout_mode = 0
-offset_right = 365.0
-offset_bottom = 41.0
-color = Color(0, 0, 0, 0.75686276)
-
-[node name="FondoModal" type="NinePatchRect" parent="CanvasLayer"]
-self_modulate = Color(1, 1, 1, 0.6784314)
+[node name="MainPanel" type="PanelContainer" parent="CanvasLayer"]
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -190.0
-offset_top = -130.0
-offset_right = 190.0
-offset_bottom = 130.0
+offset_left = -640.0
+offset_top = -330.0
+offset_right = 640.0
+offset_bottom = 330.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxTexture_main")
+
+[node name="Margin" type="MarginContainer" parent="CanvasLayer/MainPanel"]
+layout_mode = 2
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_right = 20
+theme_override_constants/margin_bottom = 20
+
+[node name="VBox" type="VBoxContainer" parent="CanvasLayer/MainPanel/Margin"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="TitleSlot" type="Control" parent="CanvasLayer/MainPanel/Margin/VBox"]
+custom_minimum_size = Vector2(0, 50)
+layout_mode = 2
+
+[node name="Title" parent="CanvasLayer/MainPanel/Margin/VBox/TitleSlot" instance=ExtResource("4_title")]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -267.5
+offset_top = -78.0
+offset_right = 267.5
+offset_bottom = 51.0
+grow_horizontal = 2
+text = "DAR INDICACIONES"
+
+[node name="Content" type="HBoxContainer" parent="CanvasLayer/MainPanel/Margin/VBox"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="LeftPanel" type="VBoxContainer" parent="CanvasLayer/MainPanel/Margin/VBox/Content"]
+custom_minimum_size = Vector2(140, 0)
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="GuideTitle" type="PanelContainer" parent="CanvasLayer/MainPanel/Margin/VBox/Content/LeftPanel"]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxTexture_title_box")
+
+[node name="GuideTitleLabel" type="Label" parent="CanvasLayer/MainPanel/Margin/VBox/Content/LeftPanel/GuideTitle"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.687779, 0.643646, 0.632612, 1)
+theme_override_colors/font_outline_color = Color(0.189829, 0.0827736, 0.0013467, 1)
+theme_override_constants/outline_size = 7
+theme_override_fonts/font = ExtResource("10_ui_font")
+theme_override_font_sizes/font_size = 30
+text = "GUIA RAPIDA"
+horizontal_alignment = 1
+
+[node name="Guide1" type="PanelContainer" parent="CanvasLayer/MainPanel/Margin/VBox/Content/LeftPanel"]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxTexture_card")
+
+[node name="Guide1Label" type="Label" parent="CanvasLayer/MainPanel/Margin/VBox/Content/LeftPanel/Guide1"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.687779, 0.643646, 0.632612, 1)
+theme_override_colors/font_outline_color = Color(0.189829, 0.0827736, 0.0013467, 1)
+theme_override_constants/outline_size = 6
+theme_override_fonts/font = ExtResource("10_ui_font")
+theme_override_font_sizes/font_size = 22
+text = "1) LEE LA PREGUNTA DEL CLIENTE"
+horizontal_alignment = 1
+autowrap_mode = 3
+
+[node name="Guide2" type="PanelContainer" parent="CanvasLayer/MainPanel/Margin/VBox/Content/LeftPanel"]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxTexture_card")
+
+[node name="Guide2Label" type="Label" parent="CanvasLayer/MainPanel/Margin/VBox/Content/LeftPanel/Guide2"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.687779, 0.643646, 0.632612, 1)
+theme_override_colors/font_outline_color = Color(0.189829, 0.0827736, 0.0013467, 1)
+theme_override_constants/outline_size = 6
+theme_override_fonts/font = ExtResource("10_ui_font")
+theme_override_font_sizes/font_size = 22
+text = "2) USA FLECHAS ARRIBA/ABAJO/IZQ/DER"
+horizontal_alignment = 1
+autowrap_mode = 3
+
+[node name="Guide3" type="PanelContainer" parent="CanvasLayer/MainPanel/Margin/VBox/Content/LeftPanel"]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxTexture_card")
+
+[node name="Guide3Label" type="Label" parent="CanvasLayer/MainPanel/Margin/VBox/Content/LeftPanel/Guide3"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.687779, 0.643646, 0.632612, 1)
+theme_override_colors/font_outline_color = Color(0.189829, 0.0827736, 0.0013467, 1)
+theme_override_constants/outline_size = 6
+theme_override_fonts/font = ExtResource("10_ui_font")
+theme_override_font_sizes/font_size = 22
+text = "3) NO DEJES PASAR FLECHAS REALES"
+horizontal_alignment = 1
+autowrap_mode = 3
+
+[node name="CenterPanel" type="VBoxContainer" parent="CanvasLayer/MainPanel/Margin/VBox/Content"]
+custom_minimum_size = Vector2(940, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 8
+
+[node name="QuestionPanel" type="PanelContainer" parent="CanvasLayer/MainPanel/Margin/VBox/Content/CenterPanel"]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxTexture_card")
+
+[node name="LabelPregunta" type="RichTextLabel" parent="CanvasLayer/MainPanel/Margin/VBox/Content/CenterPanel/QuestionPanel"]
+custom_minimum_size = Vector2(0, 58)
+layout_mode = 2
+theme_override_colors/default_color = Color(0.687779, 0.643646, 0.632612, 1)
+theme_override_colors/font_outline_color = Color(0.189829, 0.0827736, 0.0013467, 1)
+theme_override_constants/outline_size = 5
+theme_override_fonts/normal_font = ExtResource("10_ui_font")
+theme_override_fonts/bold_font = ExtResource("10_ui_font")
+theme_override_fonts/bold_italics_font = ExtResource("10_ui_font")
+theme_override_fonts/italics_font = ExtResource("10_ui_font")
+theme_override_fonts/mono_font = ExtResource("10_ui_font")
+theme_override_font_sizes/normal_font_size = 22
+theme_override_font_sizes/bold_font_size = 22
+theme_override_font_sizes/bold_italics_font_size = 22
+theme_override_font_sizes/italics_font_size = 22
+theme_override_font_sizes/mono_font_size = 22
+text = "a"
+fit_content = true
+scroll_active = false
+horizontal_alignment = 1
+
+[node name="ProgressPanel" type="PanelContainer" parent="CanvasLayer/MainPanel/Margin/VBox/Content/CenterPanel"]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxTexture_card")
+
+[node name="BarraProgreso" type="ProgressBar" parent="CanvasLayer/MainPanel/Margin/VBox/Content/CenterPanel/ProgressPanel"]
+custom_minimum_size = Vector2(0, 32)
+layout_mode = 2
+theme_override_styles/background = SubResource("StyleBoxTexture_card")
+theme_override_styles/fill = SubResource("StyleBoxTexture_fill")
+max_value = 10.0
+step = 1.0
+show_percentage = false
+
+[node name="PlayField" type="PanelContainer" parent="CanvasLayer/MainPanel/Margin/VBox/Content/CenterPanel"]
+custom_minimum_size = Vector2(0, 660)
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_styles/panel = SubResource("StyleBoxTexture_playfield")
+
+[node name="GameArea" type="Control" parent="CanvasLayer/MainPanel/Margin/VBox/Content/CenterPanel/PlayField"]
+clip_contents = true
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="FondoModal" type="NinePatchRect" parent="CanvasLayer/MainPanel/Margin/VBox/Content/CenterPanel/PlayField/GameArea"]
+layout_mode = 0
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -350.0
+offset_top = -250.0
+offset_right = 350.0
+offset_bottom = 250.0
 grow_horizontal = 2
 grow_vertical = 2
 texture = ExtResource("3_dgihs")
 
-[node name="SpawnPoint" type="Node2D" parent="CanvasLayer/FondoModal"]
-position = Vector2(190, 55)
+[node name="SpawnPoint" type="Node2D" parent="CanvasLayer/MainPanel/Margin/VBox/Content/CenterPanel/PlayField/GameArea/FondoModal"]
+position = Vector2(350, 130)
 
-[node name="HitZone" parent="CanvasLayer/FondoModal" instance=ExtResource("1_4fips")]
-position = Vector2(41, 243)
+[node name="HitZone" parent="CanvasLayer/MainPanel/Margin/VBox/Content/CenterPanel/PlayField/GameArea/FondoModal" instance=ExtResource("1_4fips")]
+position = Vector2(151.68, 467.875)
+scale = Vector2(1.34, 1.34)
 
-[node name="FlashRojo" type="ColorRect" parent="CanvasLayer"]
+[node name="FlashRojo" type="ColorRect" parent="CanvasLayer/MainPanel/Margin/VBox/Content/CenterPanel/PlayField/GameArea"]
 modulate = Color(1, 1, 1, 0)
-offset_left = 134.0
-offset_top = 35.0
-offset_right = 508.0
-offset_bottom = 323.0
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 mouse_filter = 2
 color = Color(0.8912906, 4.1873755e-06, 8.663535e-07, 1)
+
+[node name="RightPanel" type="VBoxContainer" parent="CanvasLayer/MainPanel/Margin/VBox/Content"]
+custom_minimum_size = Vector2(140, 0)
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="StateTitle" type="PanelContainer" parent="CanvasLayer/MainPanel/Margin/VBox/Content/RightPanel"]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxTexture_title_box")
+
+[node name="StateTitleLabel" type="Label" parent="CanvasLayer/MainPanel/Margin/VBox/Content/RightPanel/StateTitle"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.687779, 0.643646, 0.632612, 1)
+theme_override_colors/font_outline_color = Color(0.189829, 0.0827736, 0.0013467, 1)
+theme_override_constants/outline_size = 7
+theme_override_fonts/font = ExtResource("10_ui_font")
+theme_override_font_sizes/font_size = 30
+text = "ESTADO"
+horizontal_alignment = 1
+
+[node name="StatePanel" type="PanelContainer" parent="CanvasLayer/MainPanel/Margin/VBox/Content/RightPanel"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_styles/panel = SubResource("StyleBoxTexture_card")
+
+[node name="StateVBox" type="VBoxContainer" parent="CanvasLayer/MainPanel/Margin/VBox/Content/RightPanel/StatePanel"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/separation = 10
+
+[node name="ScoreLabel" type="Label" parent="CanvasLayer/MainPanel/Margin/VBox/Content/RightPanel/StatePanel/StateVBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.687779, 0.643646, 0.632612, 1)
+theme_override_colors/font_outline_color = Color(0.189829, 0.0827736, 0.0013467, 1)
+theme_override_constants/outline_size = 6
+theme_override_fonts/font = ExtResource("10_ui_font")
+theme_override_font_sizes/font_size = 26
+text = "PUNTOS: 0/10"
+horizontal_alignment = 1
+
+[node name="ErrorsLabel" type="Label" parent="CanvasLayer/MainPanel/Margin/VBox/Content/RightPanel/StatePanel/StateVBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.687779, 0.643646, 0.632612, 1)
+theme_override_colors/font_outline_color = Color(0.189829, 0.0827736, 0.0013467, 1)
+theme_override_constants/outline_size = 6
+theme_override_fonts/font = ExtResource("10_ui_font")
+theme_override_font_sizes/font_size = 26
+text = "ERRORES: 0/10"
+horizontal_alignment = 1
+
+[node name="StressLabel" type="Label" parent="CanvasLayer/MainPanel/Margin/VBox/Content/RightPanel/StatePanel/StateVBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.687779, 0.643646, 0.632612, 1)
+theme_override_colors/font_outline_color = Color(0.189829, 0.0827736, 0.0013467, 1)
+theme_override_constants/outline_size = 6
+theme_override_fonts/font = ExtResource("10_ui_font")
+theme_override_font_sizes/font_size = 26
+text = "ESTRES: 50%"
+horizontal_alignment = 1
+
+[node name="SpeedLabel" type="Label" parent="CanvasLayer/MainPanel/Margin/VBox/Content/RightPanel/StatePanel/StateVBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.687779, 0.643646, 0.632612, 1)
+theme_override_colors/font_outline_color = Color(0.189829, 0.0827736, 0.0013467, 1)
+theme_override_constants/outline_size = 6
+theme_override_fonts/font = ExtResource("10_ui_font")
+theme_override_font_sizes/font_size = 26
+text = "SPAWN: 0.50s"
+horizontal_alignment = 1
 
 [node name="SfxOpen" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("5_j1frl")

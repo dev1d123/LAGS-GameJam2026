@@ -11,13 +11,17 @@ var estres_actual = 0.0
 var current_language = "es"
 var juego_activo = false
 
-@onready var sprite_cabeza = $CanvasLayer/FondoModal/HitZone/SpriteCabeza
+@onready var sprite_cabeza = $CanvasLayer/MainPanel/Margin/VBox/Content/CenterPanel/PlayField/GameArea/FondoModal/HitZone/SpriteCabeza
 
 @onready var spawn_timer = $SpawnTimer
-@onready var fondo_modal = $CanvasLayer/FondoModal
-@onready var label_pregunta = $CanvasLayer/LabelPregunta
-@onready var barra_progreso = $CanvasLayer/BarraProgreso
-@onready var flash_rojo = $CanvasLayer/FlashRojo
+@onready var fondo_modal = $CanvasLayer/MainPanel/Margin/VBox/Content/CenterPanel/PlayField/GameArea/FondoModal
+@onready var label_pregunta = $CanvasLayer/MainPanel/Margin/VBox/Content/CenterPanel/QuestionPanel/LabelPregunta
+@onready var barra_progreso = $CanvasLayer/MainPanel/Margin/VBox/Content/CenterPanel/ProgressPanel/BarraProgreso
+@onready var flash_rojo = $CanvasLayer/MainPanel/Margin/VBox/Content/CenterPanel/PlayField/GameArea/FlashRojo
+@onready var score_label = $CanvasLayer/MainPanel/Margin/VBox/Content/RightPanel/StatePanel/StateVBox/ScoreLabel
+@onready var errors_label = $CanvasLayer/MainPanel/Margin/VBox/Content/RightPanel/StatePanel/StateVBox/ErrorsLabel
+@onready var stress_label = $CanvasLayer/MainPanel/Margin/VBox/Content/RightPanel/StatePanel/StateVBox/StressLabel
+@onready var speed_label = $CanvasLayer/MainPanel/Margin/VBox/Content/RightPanel/StatePanel/StateVBox/SpeedLabel
 
 @onready var sfx_open = $SfxOpen
 @onready var sfx_close = $SfxClose
@@ -32,6 +36,7 @@ func _ready():
 	if barra_progreso:
 		barra_progreso.max_value = puntos_victoria
 		barra_progreso.value = 0
+	_update_status_panel()
 	
 	load_questions()
 	await iniciar_secuencia_entrada()
@@ -70,6 +75,7 @@ func _on_spawn_timer_timeout():
 	else: nuevo_wait = 0.4
 	
 	spawn_timer.wait_time = nuevo_wait
+	_update_status_panel()
 	crear_flecha()
 
 func crear_flecha():
@@ -130,7 +136,9 @@ func validar_hit(dir_presionada):
 			zona.flecha_actual.queue_free()
 			zona.flecha_actual = null
 			puntos += 1
+			estres_actual = clampf(estres_actual - 4.0, 0.0, 100.0)
 			actualizar_barra()
+			_update_status_panel()
 			verificar_victoria()
 		else:
 			registrar_error()
@@ -153,6 +161,8 @@ func registrar_error():
 	
 	if sfx_error: sfx_error.play()
 	errores += 1
+	estres_actual = clampf(estres_actual + 6.0, 0.0, 100.0)
+	_update_status_panel()
 	
 	if flash_rojo:
 		var tween = create_tween()
@@ -189,3 +199,10 @@ func finalizar_partida(ganado: bool):
 	
 	await sfx_close.finished
 	#queue_free() o volver a la tienda
+
+
+func _update_status_panel() -> void:
+	score_label.text = "PUNTOS: %d/%d" % [puntos, puntos_victoria]
+	errors_label.text = "ERRORES: %d/%d" % [errores, limite_errores]
+	stress_label.text = "ESTRES: %d%%" % int(round(estres_actual))
+	speed_label.text = "SPAWN: %.2fs" % spawn_timer.wait_time

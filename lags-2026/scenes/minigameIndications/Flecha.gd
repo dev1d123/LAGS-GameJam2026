@@ -29,7 +29,7 @@ func _ready():
 
 func _process(delta):
 	position.y += velocidad * delta
-	if position.y > 300:
+	if position.y > 560:
 		if !es_falsa:
 			se_paso.emit()
 		queue_free()
