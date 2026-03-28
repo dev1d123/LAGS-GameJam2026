@@ -1,47 +1,47 @@
 {
   "options_title": {
-    "es": "AJUSTES DEL JUEGO",
-    "en": "GAME SETTINGS",
-    "pt": "CONFIGURAÇÕES DO JOGO"
+	"es": "AJUSTES DEL JUEGO",
+	"en": "GAME SETTINGS",
+	"pt": "CONFIGURAÇÕES DO JOGO"
   },
   "options_language": {
-    "es": "IDIOMA",
-    "en": "LANGUAGE",
-    "pt": "IDIOMA"
+	"es": "IDIOMA",
+	"en": "LANGUAGE",
+	"pt": "IDIOMA"
   },
   "options_music": {
-    "es": "VOLUMEN DE MÚSICA",
-    "en": "MUSIC VOLUME",
-    "pt": "VOLUME DA MÚSICA"
+	"es": "VOLUMEN DE MÚSICA",
+	"en": "MUSIC VOLUME",
+	"pt": "VOLUME DA MÚSICA"
   },
   "options_sfx": {
-    "es": "VOLUMEN DE EFECTOS",
-    "en": "SFX VOLUME",
-    "pt": "VOLUME DOS EFEITOS"
+	"es": "VOLUMEN DE EFECTOS",
+	"en": "SFX VOLUME",
+	"pt": "VOLUME DOS EFEITOS"
   },
   "options_save": {
-    "es": "GUARDAR",
-    "en": "SAVE",
-    "pt": "SALVAR"
+	"es": "GUARDAR",
+	"en": "SAVE",
+	"pt": "SALVAR"
   },
   "options_cancel": {
-    "es": "CANCELAR",
-    "en": "CANCEL",
-    "pt": "CANCELAR"
+	"es": "CANCELAR",
+	"en": "CANCEL",
+	"pt": "CANCELAR"
   },
   "lang_es": {
-    "es": "ESPAÑOL",
-    "en": "SPANISH",
-    "pt": "ESPANHOL"
+	"es": "ESPAÑOL",
+	"en": "SPANISH",
+	"pt": "ESPANHOL"
   },
   "lang_en": {
-    "es": "INGLÉS",
-    "en": "ENGLISH",
-    "pt": "INGLÊS"
+	"es": "INGLÉS",
+	"en": "ENGLISH",
+	"pt": "INGLÊS"
   },
   "lang_pt": {
-    "es": "PORTUGUÉS",
-    "en": "PORTUGUESE",
-    "pt": "PORTUGUÊS"
+	"es": "PORTUGUÉS",
+	"en": "PORTUGUESE",
+	"pt": "PORTUGUÊS"
   }
 }

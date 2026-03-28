@@ -1,0 +1,70 @@
+[gd_resource type="SpriteFrames" load_steps=0 format=3 uid="uid://daie30b5peruo"]
+
+[ext_resource type="Texture2D" uid="uid://isb13ib4rh5n" path="res://assets/sprites/abuelo.png" id="1_ybd5f"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_6c2tc"]
+atlas = ExtResource("1_ybd5f")
+region = Rect2(64, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_kt2x3"]
+atlas = ExtResource("1_ybd5f")
+region = Rect2(0, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_vg17d"]
+atlas = ExtResource("1_ybd5f")
+region = Rect2(0, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_2hh7w"]
+atlas = ExtResource("1_ybd5f")
+region = Rect2(128, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_2jcnl"]
+atlas = ExtResource("1_ybd5f")
+region = Rect2(192, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_vfetv"]
+atlas = ExtResource("1_ybd5f")
+region = Rect2(256, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4nmmc"]
+atlas = ExtResource("1_ybd5f")
+region = Rect2(320, 0, 64, 64)
+
+[resource]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_6c2tc")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_kt2x3")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_vg17d")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_2hh7w")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_2jcnl")
+}],
+"loop": true,
+"name": &"walk_side",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_vfetv")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_4nmmc")
+}],
+"loop": true,
+"name": &"walk_up",
+"speed": 5.0
+}]

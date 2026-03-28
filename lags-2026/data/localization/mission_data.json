@@ -1,0 +1,220 @@
+{
+  "jobs": [
+	{
+	  "id": "bar_beer",
+	  "title": {
+		"es": "El último trago",
+		"en": "The Last Round",
+		"pt": "A Última Dose"
+	  },
+	  "objectives_label": {
+		"es": "Objetivos",
+		"en": "Objectives",
+		"pt": "Objetivos"
+	  },
+	  "description": {
+		"es": "Don Julio quiere su cerveza bien fría y sin espuma. Sírvela en el tiempo justo o se irá sin pagar.",
+		"en": "Don Julio wants his beer ice cold and without foam. Serve it in time or he'll leave without paying.",
+		"pt": "Seu Júlio quer sua cerveja bem gelada e sem espuma. Sirva no tempo certo ou ele vai embora sem pagar."
+	  },
+	  "rewards_label": {
+		"es": "Recompensas",
+		"en": "Rewards",
+		"pt": "Recompensas"
+	  },
+	  "money": {
+		"min": 50,
+		"max": 120
+	  }
+	},
+	{
+	  "id": "cafe_candy",
+	  "title": {
+		"es": "Dulce antojo",
+		"en": "Sweet Craving",
+		"pt": "Desejo Doce"
+	  },
+	  "objectives_label": {
+		"es": "Objetivos",
+		"en": "Objectives",
+		"pt": "Objetivos"
+	  },
+	  "description": {
+		"es": "Juanito quiere los dulces de siempre pero hoy no trae suficiente dinero. Decide si fiarle o no.",
+		"en": "Juanito wants his usual candy but doesn't have enough money today. Decide whether to give him credit or not.",
+		"pt": "Juanito quer os doces de sempre mas hoje não tem dinheiro suficiente. Decida se vai fiar ou não."
+	  },
+	  "rewards_label": {
+		"es": "Recompensas",
+		"en": "Rewards",
+		"pt": "Recompensas"
+	  },
+	  "money": {
+		"min": 20,
+		"max": 60
+	  }
+	},
+	{
+	  "id": "cafe_cyber",
+	  "title": {
+		"es": "Conexión fallida",
+		"en": "Failed Connection",
+		"pt": "Conexão Falha"
+	  },
+	  "objectives_label": {
+		"es": "Objetivos",
+		"en": "Objectives",
+		"pt": "Objetivos"
+	  },
+	  "description": {
+		"es": "Kevin necesita el internet más rápido del local para subir algo urgente. El router está al límite.",
+		"en": "Kevin needs the fastest internet in the place to upload something urgent. The router is at its limit.",
+		"pt": "Kevin precisa da internet mais rápida do local para enviar algo urgente. O roteador está no limite."
+	  },
+	  "rewards_label": {
+		"es": "Recompensas",
+		"en": "Rewards",
+		"pt": "Recompensas"
+	  },
+	  "money": {
+		"min": 80,
+		"max": 200
+	  }
+	},
+	{
+	  "id": "pay_services",
+	  "title": {
+		"es": "A pagar se ha dicho",
+		"en": "Time to Pay Up",
+		"pt": "Hora de Pagar"
+	  },
+	  "objectives_label": {
+		"es": "Objetivos",
+		"en": "Objectives",
+		"pt": "Objetivos"
+	  },
+	  "description": {
+		"es": "Un cliente necesita pagar sus servicios básicos antes de que se venza el plazo. Cada segundo cuenta.",
+		"en": "A customer needs to pay their utility bills before the deadline. Every second counts.",
+		"pt": "Um cliente precisa pagar suas contas de serviços antes do prazo. Cada segundo conta."
+	  },
+	  "rewards_label": {
+		"es": "Recompensas",
+		"en": "Rewards",
+		"pt": "Recompensas"
+	  },
+	  "money": {
+		"min": 100,
+		"max": 300
+	  }
+	},
+	{
+	  "id": "store_search",
+	  "title": {
+		"es": "¿Dónde está eso?",
+		"en": "Where Is That?",
+		"pt": "Onde Está Isso?"
+	  },
+	  "objectives_label": {
+		"es": "Objetivos",
+		"en": "Objectives",
+		"pt": "Objetivos"
+	  },
+	  "description": {
+		"es": "Doña Carmen busca un producto específico y jura que lo vio aquí la semana pasada. Encuéntralo antes de que pierda la paciencia.",
+		"en": "Mrs. Carmen is looking for a specific product and swears she saw it here last week. Find it before she loses patience.",
+		"pt": "Dona Carmen procura um produto específico e jura que o viu aqui semana passada. Encontre-o antes que ela perca a paciência."
+	  },
+	  "rewards_label": {
+		"es": "Recompensas",
+		"en": "Rewards",
+		"pt": "Recompensas"
+	  },
+	  "money": {
+		"min": 40,
+		"max": 90
+	  }
+	},
+	{
+	  "id": "store_warehouse",
+	  "title": {
+		"es": "El almacén no da más",
+		"en": "The Warehouse Is Overloaded",
+		"pt": "O Depósito Não Aguenta Mais"
+	  },
+	  "objectives_label": {
+		"es": "Objetivos",
+		"en": "Objectives",
+		"pt": "Objetivos"
+	  },
+	  "description": {
+		"es": "Hay un pedido grande esperando en bodega. Organiza el inventario antes de que llegue el próximo cliente.",
+		"en": "There's a large order waiting in the warehouse. Organize the inventory before the next customer arrives.",
+		"pt": "Há um pedido grande esperando no depósito. Organize o inventário antes que o próximo cliente chegue."
+	  },
+	  "rewards_label": {
+		"es": "Recompensas",
+		"en": "Rewards",
+		"pt": "Recompensas"
+	  },
+	  "money": {
+		"min": 60,
+		"max": 150
+	  }
+	},
+	{
+	  "id": "shop_service",
+	  "title": {
+		"es": "Atención al cliente",
+		"en": "Customer Service",
+		"pt": "Atendimento ao Cliente"
+	  },
+	  "objectives_label": {
+		"es": "Objetivos",
+		"en": "Objectives",
+		"pt": "Objetivos"
+	  },
+	  "description": {
+		"es": "Ana llegó con una lista larga y clara. Si la atiendes rápido y sin errores, se convierte en clienta fija.",
+		"en": "Ana arrived with a long, clear list. If you serve her quickly and without mistakes, she becomes a regular.",
+		"pt": "Ana chegou com uma lista longa e clara. Se atendê-la rápido e sem erros, ela vira cliente fixa."
+	  },
+	  "rewards_label": {
+		"es": "Recompensas",
+		"en": "Rewards",
+		"pt": "Recompensas"
+	  },
+	  "money": {
+		"min": 70,
+		"max": 180
+	  }
+	},
+	{
+	  "id": "indications",
+	  "title": {
+		"es": "¿Me puede indicar?",
+		"en": "Can You Point Me?",
+		"pt": "Pode Me Indicar?"
+	  },
+	  "objectives_label": {
+		"es": "Objetivos",
+		"en": "Objectives",
+		"pt": "Objetivos"
+	  },
+	  "description": {
+		"es": "Un visitante perdido pide indicaciones. Cada error en las instrucciones lo aleja más del destino.",
+		"en": "A lost visitor asks for directions. Each mistake in the instructions takes them further from their destination.",
+		"pt": "Um visitante perdido pede indicações. Cada erro nas instruções o afasta mais do destino."
+	  },
+	  "rewards_label": {
+		"es": "Recompensas",
+		"en": "Rewards",
+		"pt": "Recompensas"
+	  },
+	  "money": {
+		"min": 10,
+		"max": 40
+	  }
+	}
+  ]
+}
