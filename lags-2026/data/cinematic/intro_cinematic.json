@@ -1,0 +1,58 @@
+{
+  "scenes": [
+	{
+	  "background": "res://scenes/Intro/Escena1.png",
+	  "es": "Año 2008. El mundo se caía a pedazos, pero en 'El Rincón', Don Eusebio seguía en pie.",
+	  "en": "2008. The world was falling apart, but in 'The Corner', Don Eusebio stood tall.",
+	  "pt": "2008. O mundo estava desmoronando, mas em 'El Rincón', Dom Eusebio permanecia de pé.",
+	  "btn_es": "Siguiente",
+	  "btn_en": "Next",
+	  "btn_pt": "Próximo"
+	},
+	{
+	  "background": "res://scenes/Intro/Escena2.png",
+	  "es": "Aceptaba cada encargo, cada factura, cada favor. Su quiosco era el alma del barrio.",
+	  "en": "He accepted every errand, every bill, every favor. His kiosk was the neighborhood's soul.",
+	  "pt": "Ele aceitava cada tarefa, cada conta, cada favor. Seu quiosque era a alma do bairro.",
+	  "btn_es": "Siguiente",
+	  "btn_en": "Next",
+	  "btn_pt": "Próximo"
+	},
+	{
+	  "background": "res://scenes/Intro/Escena3.png",
+	  "es": "Pero el 31 de diciembre, la presión estalló. Sus manos no dejaron de temblar nunca más.",
+	  "en": "But on December 31st, the pressure snapped. His hands never stopped shaking again.",
+	  "pt": "Mas em 31 de dezembro, a pressão estourou. Suas mãos nunca mais pararam de tremer.",
+	  "btn_es": "Siguiente",
+	  "btn_en": "Next",
+	  "btn_pt": "Próximo"
+	},
+	{
+	  "background": "res://scenes/Intro/Escena4.png",
+	  "es": "Eusebio se fue en silencio, dejando un vacío que nadie se atrevía a llenar...",
+	  "en": "Eusebio passed away in silence, leaving a void that no one dared to fill...",
+	  "pt": "Eusebio partiu em silêncio, deixando um vazio que ninguém se atrevia a preencher...",
+	  "btn_es": "Siguiente",
+	  "btn_en": "Next",
+	  "btn_pt": "Próximo"
+	},
+	{
+	  "background": "res://scenes/Intro/Escena5.png",
+	  "es": "Hasta hoy. Un año después, las deudas me traen de vuelta al viejo mostrador.",
+	  "en": "Until today. One year later, debts bring me back to the old counter.",
+	  "pt": "Até hoje. Um ano depois, as dívidas me trazem de volta ao balcão.",
+	  "btn_es": "Siguiente",
+	  "btn_en": "Next",
+	  "btn_pt": "Próximo"
+	},
+	{
+	  "background": "res://scenes/Intro/Escena6.png",
+	  "es": "Es 28 de diciembre. Soy JC, y no dejaré que la historia se repita.",
+	  "en": "It's December 28th. I'm JC, and I won't let history repeat itself.",
+	  "pt": "É 28 de dezembro. Sou JC, e não deixarei que a história se repita.",
+	  "btn_es": "Siguiente",
+	  "btn_en": "Next",
+	  "btn_pt": "Próximo"
+	}
+  ]
+}
