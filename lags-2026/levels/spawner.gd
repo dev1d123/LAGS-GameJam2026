@@ -8,6 +8,8 @@ const NPC_SCENE = preload("res://game/player/NPC.tscn")
 
 var occupied_markers: Dictionary = {}
 var npc_data:         Dictionary = {}
+var active_types:     Dictionary = {}
+var active_names:     Dictionary = {}
 
 var sprite_paths: Dictionary = {
 	"abuela": [
@@ -58,6 +60,7 @@ const LUGARES_POR_TIPO = {
 @onready var name_label: Label            = $Node2D/name
 @onready var age_label:  Label            = $Node2D/age
 @onready var desc_label: Label            = $Node2D/desc
+@onready var hud: Node                    = $Hud
 
 var toast_origin: Vector2
 
@@ -65,6 +68,18 @@ var scenario_ref: Node = null
 
 func register_scenario(scenario: Node) -> void:
 	scenario_ref = scenario
+
+
+func add_money(cantidad: int) -> void:
+	if hud != null and hud.has_method("actualizar_dinero"):
+		hud.actualizar_dinero(cantidad)
+
+
+func add_lost(cantidad: int) -> void:
+	if hud != null and hud.has_method("actualizar_perdidos"):
+		hud.actualizar_perdidos(cantidad)
+
+
 func _ready() -> void:
 	_load_npc_data()
 	toast_origin  = toast.position
@@ -99,6 +114,28 @@ func _get_random_npc_entry(tipo_key: String) -> Dictionary:
 	return lista.pick_random()
 
 
+func _get_unique_entry_for_tipo(tipo_key: String, lang: String) -> Dictionary:
+	var lista: Array = npc_data.get(tipo_key, [])
+	if lista.is_empty():
+		return {}
+
+	var candidates: Array = []
+	for entry in lista:
+		if not (entry is Dictionary):
+			continue
+		var nombre_dict: Dictionary = entry.get("nombre", {})
+		var npc_name := str(nombre_dict.get(lang, nombre_dict.get("es", "")))
+		if npc_name == "":
+			continue
+		if not active_names.has(npc_name):
+			candidates.append(entry)
+
+	if candidates.is_empty():
+		return {}
+
+	return candidates.pick_random()
+
+
 func get_random_marker_by_tipo(tipo: int) -> Node2D:
 	var lugar_names: Array = LUGARES_POR_TIPO.get(tipo, [])
 	var markers: Array[Node2D] = []
@@ -117,32 +154,39 @@ func get_random_marker_by_tipo(tipo: int) -> Node2D:
 
 
 func _spawn_npc() -> void:
-	var tipos_keys = TIPO_MAP.keys()
+	var tipos_keys: Array = []
+	for key in TIPO_MAP.keys():
+		var tipo_id: int = TIPO_MAP[key]
+		if not active_types.has(tipo_id):
+			tipos_keys.append(key)
 	tipos_keys.shuffle()
+
+	if tipos_keys.is_empty():
+		return
+
+	var lang = LocaleManager.current_language
 
 	var tipo_key: String = ""
 	var marker:   Node2D = null
+	var entry:    Dictionary = {}
 
 	for key in tipos_keys:
 		var tipo_int  = TIPO_MAP[key]
+		var selected_entry: Dictionary = _get_unique_entry_for_tipo(key, lang)
+		if selected_entry.is_empty():
+			continue
 		var candidate = get_random_marker_by_tipo(tipo_int)
 		if candidate != null:
 			tipo_key = key
 			marker   = candidate
+			entry    = selected_entry
 			break
 
 	if tipo_key == "" or marker == null:
-		print("No hay markers disponibles para ningún tipo")
+		print("No hay combinaciones disponibles (tipo/marker/nombre único)")
 		return
 
 	var tipo_int = TIPO_MAP[tipo_key]
-
-	var entry: Dictionary = _get_random_npc_entry(tipo_key)
-	if entry.is_empty():
-		push_error("No hay entradas en el JSON para tipo: " + tipo_key)
-		return
-
-	var lang = LocaleManager.current_language
 
 	var sprites_tipo: Array  = sprite_paths.get(tipo_key, [])
 	var sprite_path:  String = ""
@@ -171,6 +215,8 @@ func _spawn_npc() -> void:
 	print("Spawning NPC [%s] %s (edad %d) -> %s" % [tipo_key, npc.npc_nombre, npc.npc_edad, npc.lugar])
 
 	occupied_markers[marker] = npc
+	active_types[tipo_int] = true
+	active_names[npc.npc_nombre] = true
 	add_child(npc)
 	npc.global_position = $Marker2DEnter.global_position
 
@@ -184,7 +230,11 @@ func _spawn_npc() -> void:
 	)
 
 	npc.tree_exited.connect(func():
+		if npc.estado == npc.Estado.SALIENDO and not npc.mission_completed:
+			add_lost(1)
 		occupied_markers.erase(marker)
+		active_types.erase(tipo_int)
+		active_names.erase(npc.npc_nombre)
 		scenario_ref.clear_aura_npc(npc)
 	)
 

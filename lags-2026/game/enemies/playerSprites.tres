@@ -1,4 +1,4 @@
-[gd_resource type="SpriteFrames" format=3 uid="uid://k81r5e6xyspr"]
+[gd_resource type="SpriteFrames" load_steps=0 format=3 uid="uid://k81r5e6xyspr"]
 
 [ext_resource type="Texture2D" uid="uid://c6e87paekno5e" path="res://assets/sprites/personajePrincipal.png" id="1_wiptw"]
 

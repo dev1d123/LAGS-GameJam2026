@@ -1,4 +1,4 @@
-[gd_resource type="SpriteFrames" format=3 uid="uid://bd2kx2m15h0x3"]
+[gd_resource type="SpriteFrames" load_steps=0 format=3 uid="uid://bd2kx2m15h0x3"]
 
 [ext_resource type="Texture2D" uid="uid://lo6ek5kkrkla" path="res://assets/sprites/niño.png" id="1_i0xn2"]
 

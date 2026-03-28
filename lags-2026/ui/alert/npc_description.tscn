@@ -1,4 +1,4 @@
-[gd_scene format=3 uid="uid://dy0tomrtf5150"]
+[gd_scene load_steps=12 format=3 uid="uid://dy0tomrtf5150"]
 
 [ext_resource type="Texture2D" uid="uid://dhge4q3dqx46w" path="res://assets/sprites/ui/missionWindowA1.png" id="1_8l6cy"]
 [ext_resource type="Texture2D" uid="uid://b73fley8hwjrn" path="res://assets/sprites/ui/DetailMissionWindowA2.png" id="2_buh7n"]
@@ -12,21 +12,27 @@
 [sub_resource type="LabelSettings" id="LabelSettings_8peq2"]
 line_spacing = -5.27
 font = ExtResource("7_o37pf")
-font_size = 15
+font_size = 13
 font_color = Color(0, 0, 0, 1)
 outline_size = 2
 
 [sub_resource type="LabelSettings" id="LabelSettings_2g8g5"]
 font = ExtResource("8_8peq2")
 font_size = 11
+font_color = Color(0, 0, 0, 1)
+outline_size = 1
+outline_color = Color(1, 1, 1, 0.45)
 
 [sub_resource type="LabelSettings" id="LabelSettings_6rodp"]
 font = ExtResource("8_8peq2")
 font_size = 9
+font_color = Color(0, 0, 0, 1)
+outline_size = 1
+outline_color = Color(1, 1, 1, 0.45)
 
-[node name="NpcDescription" type="Node2D" unique_id=791786126]
+[node name="NpcDescription" type="Node2D"]
 
-[node name="ColorRect" type="ColorRect" parent="." unique_id=372064187]
+[node name="ColorRect" type="ColorRect" parent="."]
 offset_left = -1173.0
 offset_top = -705.0
 offset_right = 1201.0
@@ -34,31 +40,37 @@ offset_bottom = 862.0
 mouse_filter = 2
 color = Color(0, 0, 0, 0.572)
 
-[node name="MissionWindowA1" type="Sprite2D" parent="." unique_id=221031333]
+[node name="MissionWindowA1" type="Sprite2D" parent="."]
 texture = ExtResource("1_8l6cy")
 
-[node name="DetailMissionWindowA2" type="Sprite2D" parent="." unique_id=942257779]
+[node name="DetailMissionWindowA2" type="Sprite2D" parent="."]
 scale = Vector2(7.953124, 9.444445)
 texture = ExtResource("2_buh7n")
 
-[node name="ExitButtonA" type="Sprite2D" parent="." unique_id=664308975]
-position = Vector2(-62, 106)
-texture = ExtResource("3_6h15k")
+[node name="CancelButton" type="Button" parent="."]
+offset_left = -80.0
+offset_top = 90.0
+offset_right = -40.0
+offset_bottom = 124.0
+icon = ExtResource("3_6h15k")
 
-[node name="MoneyButtonA" type="Sprite2D" parent="." unique_id=1991239371]
+[node name="MoneyButtonA" type="Sprite2D" parent="."]
 position = Vector2(-95, 57)
 texture = ExtResource("4_turhy")
 
-[node name="CheckButtonA" type="Sprite2D" parent="." unique_id=1888106762]
-position = Vector2(58, 106)
-texture = ExtResource("5_25m61")
+[node name="AcceptButton" type="Button" parent="."]
+offset_left = 40.0
+offset_top = 90.0
+offset_right = 80.0
+offset_bottom = 124.0
+icon = ExtResource("5_25m61")
 
-[node name="Button2" type="Sprite2D" parent="." unique_id=144549440]
+[node name="Button2" type="Sprite2D" parent="."]
 position = Vector2(0, -111)
 scale = Vector2(4.615, 4.615)
 texture = ExtResource("6_25m61")
 
-[node name="TitleLabel" type="Label" parent="." unique_id=643720240]
+[node name="TitleLabel" type="Label" parent="."]
 offset_left = -65.0
 offset_top = -132.0
 offset_right = 63.0
@@ -68,28 +80,29 @@ horizontal_alignment = 1
 vertical_alignment = 1
 autowrap_mode = 2
 
-[node name="ObjetivesLabel" type="Label" parent="." unique_id=312500366]
+[node name="ObjetivesLabel" type="Label" parent="."]
 offset_left = -117.0
 offset_top = -73.0
 offset_right = 108.0
 offset_bottom = -61.0
 label_settings = SubResource("LabelSettings_2g8g5")
 
-[node name="DescriptionLabel" type="Label" parent="." unique_id=40929878]
+[node name="DescriptionLabel" type="Label" parent="."]
 offset_left = -115.0
 offset_top = -59.0
 offset_right = 104.0
 offset_bottom = 26.0
 label_settings = SubResource("LabelSettings_6rodp")
+autowrap_mode = 2
 
-[node name="RewardsLabel" type="Label" parent="." unique_id=230129300]
+[node name="RewardsLabel" type="Label" parent="."]
 offset_left = -117.0
 offset_top = 31.0
 offset_right = 108.0
 offset_bottom = 43.0
 label_settings = SubResource("LabelSettings_2g8g5")
 
-[node name="MoneyLabel" type="Label" parent="." unique_id=1373921993]
+[node name="MoneyLabel" type="Label" parent="."]
 offset_left = -76.0
 offset_top = 52.0
 offset_right = 55.0

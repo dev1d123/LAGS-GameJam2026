@@ -20,6 +20,8 @@ var lugar: String
 var npc_nombre:      String = ""
 var npc_descripcion: String = ""
 var npc_edad:        int    = 0
+var current_mission_id: String = ""
+var mission_completed: bool = false
 
 enum Estado {
 	ENTRANDO,
@@ -120,30 +122,67 @@ func _ready() -> void:
 
 func asignar_mision() -> void:
 	var icon = ICON_ALERT
+	var mission_id := ""
+	mission_completed = false
 	match lugar:
 		"bar":
 			if tipo == TipoNPC.ABUELO:
 				icon = ICON_BEER
+				mission_id = "bar_beer"
+			else:
+				icon = ICON_BEER
+				mission_id = "bar_beer"
 		"cafe":
 			if tipo == TipoNPC.NINO:
 				icon = ICON_CANDY
+				mission_id = "cafe_candy"
 			elif tipo == TipoNPC.JOVEN:
 				icon = ICON_CYBER
+				mission_id = "cafe_cyber"
 		"restaurant":
 			icon = ICON_PAY
+			mission_id = "pay_services"
 		"store":
 			if tipo == TipoNPC.ABUELA or tipo == TipoNPC.ABUELO:
 				icon = ICON_SEARCH
+				mission_id = "store_search"
 			else:
 				icon = ICON_WAREHOUSE
+				mission_id = "store_warehouse"
 		"shop":
 			icon = ICON_SHOP
+			mission_id = "shop_service"
 
 	if randf() < 0.2:
 		icon = ICON_INDICATIONS
+		mission_id = "indications"
+
+	if mission_id == "":
+		push_error("NPC sin mission_id asignado. lugar=%s tipo=%s" % [lugar, TipoNPC.keys()[tipo]])
 
 	mission_box.texture = icon
 	mission_box.visible = true
+	current_mission_id = mission_id
+	print("[NPC] mission assigned. lugar=", lugar, " tipo=", TipoNPC.keys()[tipo], " id=", current_mission_id)
+
+
+func get_current_mission_id() -> String:
+	return current_mission_id
+
+
+func resolve_mission(accepted: bool) -> void:
+	mission_completed = accepted
+
+	if estado != Estado.ESPERANDO:
+		return
+
+	wait_timer.stop()
+	time_bar.visible = false
+	mission_box.visible = false
+	set_aura(false)
+	estado = Estado.SALIENDO
+	pos = posSalida
+	make_path()
 
 
 func _on_wait_timer_timeout() -> void:

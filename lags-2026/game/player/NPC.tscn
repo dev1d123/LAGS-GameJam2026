@@ -1,4 +1,4 @@
-[gd_scene format=3 uid="uid://2ifrvk7tfpyc"]
+[gd_scene load_steps=0 format=3 uid="uid://2ifrvk7tfpyc"]
 
 [ext_resource type="Script" uid="uid://fvbhjv6u20jn" path="res://game/player/npc.gd" id="1_5rsjf"]
 [ext_resource type="AudioStream" uid="uid://cnesiba6fvdwi" path="res://assets/audio/sfx/walk.wav" id="2_5rsjf"]
