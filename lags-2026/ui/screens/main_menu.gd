@@ -1,6 +1,6 @@
 extends Control
 
-const GAME_SCENE_PATH := "res://levels/TestLevel.tscn"
+const INTRO_SCENE_PATH := "res://scenes/Intro/IntroCinematic.tscn"
 
 @onready var options_overlay = $OptionsOverlay
 @onready var options_menu = $OptionsOverlay/Options_Menu
@@ -19,7 +19,7 @@ func _process(delta: float) -> void:
 
 
 func _on_btn_start_pressed() -> void:
-	get_tree().change_scene_to_file(GAME_SCENE_PATH)
+	get_tree().change_scene_to_file(INTRO_SCENE_PATH)
 	
 func _on_btn_options_pressed() -> void:
 	options_menu.load_current_settings()

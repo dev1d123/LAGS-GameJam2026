@@ -1,8 +1,12 @@
 extends Control
 
+const SCENARIO_SCENE_PATH := "res://levels/TestLevel.tscn"
+const INTRO_JSON_PATH := "res://data/cinematic/intro_cinematic.json"
+
 var dialog_data = []
 var current_scene_index = 0
-var current_language = "es" # Esto lo controlará el menú de idiomas [cite: 211]
+var current_language: String = "es"
+var is_transitioning: bool = false
 
 @onready var button_label = $CanvasLayer/DialogueBox/SkipButton/ButtonLabel
 @onready var anim_player = $AnimationPlayer
@@ -11,66 +15,93 @@ var current_language = "es" # Esto lo controlará el menú de idiomas [cite: 211
 @onready var timer = $CanvasLayer/TypewriterTimer
 @onready var blip = $CanvasLayer/BlipPlayer
 
-func _ready():
+func _ready() -> void:
+	_resolve_language()
 	load_dialog_data()
 	if dialog_data.size() > 0:
 		show_scene(0)
 
-func load_dialog_data():
-	# Cargamos la ruta que corregiste [cite: 211]
-	var file = FileAccess.open("res://data/cinematic/intro_cinematic.json", FileAccess.READ)
-	if file:
-		var content = file.get_as_text()
-		var json = JSON.parse_string(content)
-		dialog_data = json["scenes"]
+func _resolve_language() -> void:
+	var locale_manager := get_node_or_null("/root/LocaleManager")
+	if locale_manager != null:
+		if locale_manager.has_method("get_current_language"):
+			current_language = str(locale_manager.call("get_current_language"))
+		elif locale_manager.get("current_language") != null:
+			current_language = str(locale_manager.get("current_language"))
 
-func show_scene(index):
-	# Si terminamos las escenas, vamos al juego (Don JC entra al quiosco) [cite: 32, 67]
+	if current_language not in ["es", "en", "pt"]:
+		current_language = "es"
+
+
+func load_dialog_data() -> void:
+	if not FileAccess.file_exists(INTRO_JSON_PATH):
+		push_warning("No se encontro el archivo de cinematicas: %s" % INTRO_JSON_PATH)
+		return
+
+	var file := FileAccess.open(INTRO_JSON_PATH, FileAccess.READ)
+	if file == null:
+		push_warning("No se pudo abrir el archivo de cinematicas")
+		return
+
+	var content: String = file.get_as_text()
+	var parsed: Variant = JSON.parse_string(content)
+	if typeof(parsed) != TYPE_DICTIONARY:
+		push_warning("JSON de cinematica invalido")
+		return
+
+	var parsed_dict: Dictionary = parsed
+	var scenes_variant: Variant = parsed_dict.get("scenes", [])
+	if typeof(scenes_variant) == TYPE_ARRAY:
+		var scenes_array: Array = scenes_variant
+		dialog_data = scenes_array
+
+func show_scene(index: int) -> void:
 	if index >= dialog_data.size():
-		get_tree().change_scene_to_file("res://scenes/Game.tscn")
+		get_tree().change_scene_to_file(SCENARIO_SCENE_PATH)
 		return
 		
 	current_scene_index = index
-	var data = dialog_data[index]
+	var data: Dictionary = dialog_data[index]
 	
-	# Actualizamos imagen y textos [cite: 213]
-	background.texture = load(data["background"])
-	label.text = data[current_language]
+	if data.has("background"):
+		background.texture = load(str(data["background"]))
+
+	var line_text := str(data.get(current_language, data.get("es", "")))
+	label.text = line_text
 	label.visible_characters = 0
 	
-	# Actualizamos el botón con el idioma correcto (ES, EN, PT)
-	var btn_key = "btn_" + current_language
-	button_label.text = data[btn_key]
+	var btn_key: String = "btn_" + current_language
+	button_label.text = str(data.get(btn_key, "Siguiente"))
 
-	# Esperamos a que el fade termine de aclararse para empezar a escribir
 	await get_tree().create_timer(0.5).timeout
 	timer.start()
 
-	# Lógica del temblor (Escena 3: El colapso de Eusebio) [cite: 26-27, 209]
 	if index == 2: 
 		anim_player.play("shake")
 	else:
-		# Si no es la escena de estrés, nos aseguramos de que el fondo esté quieto
 		if anim_player.current_animation == "shake":
 			anim_player.stop()
 			background.position = Vector2.ZERO 
+ 
+	is_transitioning = false
 
-func _on_typewriter_timer_timeout():
+func _on_typewriter_timer_timeout() -> void:
 	if label.visible_characters < label.text.length():
 		label.visible_characters += 1
-		# Sonido de voz tipo Undertale con variación [cite: 210]
 		blip.pitch_scale = randf_range(0.9, 1.1) 
 		blip.play()
 	else:
 		timer.stop()
 
-func _on_skip_button_pressed():
-	# Si el texto se está escribiendo, lo mostramos todo
+func _on_skip_button_pressed() -> void:
+	if is_transitioning:
+		return
+
 	if label.visible_characters < label.text.length():
 		label.visible_characters = label.text.length()
 		timer.stop()
 	else:
-		# Si ya terminó, hacemos el fade y pasamos a la siguiente
+		is_transitioning = true
 		anim_player.play("fade_transition")
 		await get_tree().create_timer(0.5).timeout
 		show_scene(current_scene_index + 1)
