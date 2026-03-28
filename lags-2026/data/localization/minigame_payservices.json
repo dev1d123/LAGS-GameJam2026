@@ -1,0 +1,97 @@
+{
+  "title": {
+    "es": "PAGO DE SERVICIOS",
+    "en": "PAY SERVICES",
+    "pt": "PAGAR SERVICOS"
+  },
+  "instruction": {
+    "es": "Selecciona la boleta correcta antes de que caiga.",
+    "en": "Select the correct bill before it falls.",
+    "pt": "Selecione o boleto correto antes que ele caia."
+  },
+  "quick_guide": {
+    "es": "GUIA RAPIDA",
+    "en": "QUICK GUIDE",
+    "pt": "GUIA RAPIDO"
+  },
+  "guide_1": {
+    "es": "1) LEE LA BOLETA DEL CLIENTE",
+    "en": "1) READ THE CUSTOMER BILL",
+    "pt": "1) LEIA O BOLETO DO CLIENTE"
+  },
+  "guide_2": {
+    "es": "2) SELECCIONA LA BOLETA CORRECTA",
+    "en": "2) PICK THE CORRECT BILL",
+    "pt": "2) SELECIONE O BOLETO CORRETO"
+  },
+  "guide_3": {
+    "es": "3) EVITA QUE LAS BOLETAS CAIGAN",
+    "en": "3) AVOID LETTING BILLS FALL",
+    "pt": "3) EVITE QUE OS BOLETOS CAIAM"
+  },
+  "objectives": {
+    "es": "OBJETIVOS",
+    "en": "OBJECTIVES",
+    "pt": "OBJETIVOS"
+  },
+  "results": {
+    "es": "RESULTADOS",
+    "en": "RESULTS",
+    "pt": "RESULTADOS"
+  },
+  "rounds": {
+    "es": "Ronda %d/%d",
+    "en": "Round %d/%d",
+    "pt": "Rodada %d/%d"
+  },
+  "timer": {
+    "es": "Tiempo: %.1f",
+    "en": "Time: %.1f",
+    "pt": "Tempo: %.1f"
+  },
+  "client_request": {
+    "es": "Cliente: %s\nBoleta solicitada: %s",
+    "en": "Customer: %s\nRequested bill: %s",
+    "pt": "Cliente: %s\nBoleto solicitado: %s"
+  },
+  "ref": {
+    "es": "Ref",
+    "en": "Ref",
+    "pt": "Ref"
+  },
+  "amount": {
+    "es": "Monto",
+    "en": "Amount",
+    "pt": "Valor"
+  },
+  "due": {
+    "es": "Vence",
+    "en": "Due",
+    "pt": "Vence"
+  },
+  "correct": {
+    "es": "Correcto",
+    "en": "Correct",
+    "pt": "Correto"
+  },
+  "incorrect": {
+    "es": "Incorrecto",
+    "en": "Incorrect",
+    "pt": "Incorreto"
+  },
+  "final_success": {
+    "es": "Completado: %d/%d boletas correctas",
+    "en": "Completed: %d/%d correct bills",
+    "pt": "Concluido: %d/%d boletos corretos"
+  },
+  "final_fail": {
+    "es": "Fallaste: %d/%d boletas correctas",
+    "en": "Failed: %d/%d correct bills",
+    "pt": "Falhou: %d/%d boletos corretos"
+  },
+  "finish": {
+    "es": "Finalizar",
+    "en": "Finish",
+    "pt": "Finalizar"
+  }
+}

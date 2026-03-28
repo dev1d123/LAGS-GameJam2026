@@ -223,6 +223,20 @@ func consumir_energia_mision(coste_percent: float = 20.0) -> void:
 	energy_bar.value = clamp(float(energy_bar.value) + delta, 0.0, max_energy)
 	animar_ui(energy_bar)
 
+
+func get_energy_percent() -> float:
+	var max_energy: float = float(energy_bar.max_value)
+	if max_energy <= 0.0:
+		return 0.0
+	return clamp((float(energy_bar.value) / max_energy) * 100.0, 0.0, 100.0)
+
+
+func get_stress_percent() -> float:
+	var max_stress: float = float(stress_bar.max_value)
+	if max_stress <= 0.0:
+		return 0.0
+	return clamp((float(stress_bar.value) / max_stress) * 100.0, 0.0, 100.0)
+
 # =========================
 # REFRESH
 # =========================

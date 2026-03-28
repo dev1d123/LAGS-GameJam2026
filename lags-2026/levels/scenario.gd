@@ -27,10 +27,42 @@ const DAY_END_HOUR := 18
 const SECONDS_PER_INGAME_HOUR := 7
 const DAY_TRANSITION_FONT := preload("res://assets/fonts/LazyFox Pixel Font 2.ttf")
 
+const SHOP_MUSIC_ACTIVE_DB := -8.0
+const SHOP_MUSIC_MUTED_DB := -40.0
+const SHOP_MUSIC_CROSSFADE_SECONDS := 1.0
+const SHOP_MUSIC_CHECK_INTERVAL := 0.3
+
+const SHOP_MUSIC_NORMAL = preload("res://assets/audio/game/NormalShop.ogg")
+const SHOP_MUSIC_NORMAL_STRESS = preload("res://assets/audio/game/NormalStressShop.ogg")
+const SHOP_MUSIC_NORMAL_HIGH_STRESS = preload("res://assets/audio/game/NormalHighStressShop.ogg")
+const SHOP_MUSIC_LOW = preload("res://assets/audio/game/LowEnergyShop.ogg")
+const SHOP_MUSIC_LOW_STRESS = preload("res://assets/audio/game/LowEnergyStressShop.ogg")
+const SHOP_MUSIC_LOW_HIGH_STRESS = preload("res://assets/audio/game/LowEnergyHighStressShop.ogg")
+const SHOP_MUSIC_VERY_LOW = preload("res://assets/audio/game/VeryLowEnergyShop.ogg")
+const SHOP_MUSIC_VERY_LOW_STRESS = preload("res://assets/audio/game/VeryLowEnergyStressShop.ogg")
+const SHOP_MUSIC_VERY_LOW_HIGH_STRESS = preload("res://assets/audio/game/VeryLowEnergyHighStressShop.ogg")
+
+const SHOP_MUSIC_STREAMS := {
+	"normal_normal": SHOP_MUSIC_NORMAL,
+	"normal_stress": SHOP_MUSIC_NORMAL_STRESS,
+	"normal_high_stress": SHOP_MUSIC_NORMAL_HIGH_STRESS,
+	"low_normal": SHOP_MUSIC_LOW,
+	"low_stress": SHOP_MUSIC_LOW_STRESS,
+	"low_high_stress": SHOP_MUSIC_LOW_HIGH_STRESS,
+	"very_low_normal": SHOP_MUSIC_VERY_LOW,
+	"very_low_stress": SHOP_MUSIC_VERY_LOW_STRESS,
+	"very_low_high_stress": SHOP_MUSIC_VERY_LOW_HIGH_STRESS,
+}
+
 var day_transition_layer: CanvasLayer
 var day_transition_root: Control
 var day_transition_rect: ColorRect
 var day_transition_label: Label
+var shop_music_a: AudioStreamPlayer
+var shop_music_b: AudioStreamPlayer
+var shop_music_using_a: bool = true
+var current_shop_music_key: String = ""
+var shop_music_check_accum: float = 0.0
 
 
 func _ready() -> void:
@@ -45,6 +77,7 @@ func _ready() -> void:
 	else:
 		accept_button.pressed.connect(_on_accept_button_pressed)
 	spawner.register_scenario(self)
+	_setup_shop_music()
 	_setup_day_transition_ui()
 	_initialize_day_cycle()
 	call_deferred("_start_day_transition", current_day)
@@ -56,6 +89,11 @@ func _exit_tree() -> void:
 
 
 func _process(delta: float) -> void:
+	shop_music_check_accum += delta
+	if shop_music_check_accum >= SHOP_MUSIC_CHECK_INTERVAL:
+		shop_music_check_accum = 0.0
+		_update_shop_music_state()
+
 	if is_day_transition_playing or frozen:
 		return
 
@@ -314,3 +352,85 @@ func _get_day_transition_text(day_number: int) -> String:
 			return "Dia %d" % day_number
 		_:
 			return "Dia %d" % day_number
+
+
+func _setup_shop_music() -> void:
+	shop_music_a = AudioStreamPlayer.new()
+	shop_music_a.name = "ShopMusicA"
+	shop_music_a.volume_db = SHOP_MUSIC_MUTED_DB
+	shop_music_a.process_mode = Node.PROCESS_MODE_ALWAYS
+	add_child(shop_music_a)
+
+	shop_music_b = AudioStreamPlayer.new()
+	shop_music_b.name = "ShopMusicB"
+	shop_music_b.volume_db = SHOP_MUSIC_MUTED_DB
+	shop_music_b.process_mode = Node.PROCESS_MODE_ALWAYS
+	add_child(shop_music_b)
+
+	_update_shop_music_state(true)
+
+
+func _update_shop_music_state(force: bool = false) -> void:
+	if hud == null:
+		return
+
+	var target_key: String = _get_target_shop_music_key()
+	if target_key == "":
+		return
+
+	if not force and target_key == current_shop_music_key:
+		return
+
+	_crossfade_shop_music(target_key)
+
+
+func _get_target_shop_music_key() -> String:
+	var energy_percent: float = 100.0
+	var stress_percent: float = 0.0
+
+	if hud.has_method("get_energy_percent"):
+		energy_percent = float(hud.get_energy_percent())
+	if hud.has_method("get_stress_percent"):
+		stress_percent = float(hud.get_stress_percent())
+
+	var energy_band := "normal"
+	if energy_percent <= 33.0:
+		energy_band = "very_low"
+	elif energy_percent <= 66.0:
+		energy_band = "low"
+
+	var stress_band := "normal"
+	if stress_percent >= 66.0:
+		stress_band = "high_stress"
+	elif stress_percent >= 33.0:
+		stress_band = "stress"
+
+	return "%s_%s" % [energy_band, stress_band]
+
+
+func _crossfade_shop_music(target_key: String) -> void:
+	if not SHOP_MUSIC_STREAMS.has(target_key):
+		return
+
+	var from_player: AudioStreamPlayer = shop_music_a if shop_music_using_a else shop_music_b
+	var to_player: AudioStreamPlayer = shop_music_b if shop_music_using_a else shop_music_a
+	var target_stream: AudioStream = SHOP_MUSIC_STREAMS[target_key]
+
+	if to_player.stream != target_stream:
+		to_player.stream = target_stream
+
+	to_player.volume_db = SHOP_MUSIC_MUTED_DB
+	if not to_player.playing:
+		to_player.play()
+
+	var tween := create_tween()
+	tween.set_parallel(true)
+	tween.tween_property(to_player, "volume_db", SHOP_MUSIC_ACTIVE_DB, SHOP_MUSIC_CROSSFADE_SECONDS)
+	tween.tween_property(from_player, "volume_db", SHOP_MUSIC_MUTED_DB, SHOP_MUSIC_CROSSFADE_SECONDS)
+	tween.finished.connect(func():
+		if from_player.playing:
+			from_player.stop()
+	)
+
+	shop_music_using_a = not shop_music_using_a
+	current_shop_music_key = target_key

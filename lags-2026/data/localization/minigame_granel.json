@@ -1,137 +1,137 @@
 {
   "title_granel": {
-    "es": "PESAJE A GRANEL",
-    "en": "BULK WEIGHING",
-    "pt": "PESAGEM A GRANEL"
+	"es": "PESAJE A GRANEL",
+	"en": "BULK WEIGHING",
+	"pt": "PESAGEM A GRANEL"
   },
   "guia_rapida": {
-    "es": "GUÍA RÁPIDA",
-    "en": "QUICK GUIDE",
-    "pt": "GUIA RÁPIDO"
+	"es": "GUÍA RÁPIDA",
+	"en": "QUICK GUIDE",
+	"pt": "GUIA RÁPIDO"
   },
   "instruccion_espacio": {
-    "es": "INCLINAR\nY VERTER",
-    "en": "TILT\nAND POUR",
-    "pt": "INCLINAR\nE DESPEJAR"
+	"es": "INCLINAR\nY VERTER",
+	"en": "TILT\nAND POUR",
+	"pt": "INCLINAR\nE DESPEJAR"
   },
   "instruccion_c": {
-    "es": "TOQUES DE\nPRECISIÓN",
-    "en": "PRECISION\nTAPS",
-    "pt": "TOQUES DE\nPRECISÃO"
+	"es": "TOQUES DE\nPRECISIÓN",
+	"en": "PRECISION\nTAPS",
+	"pt": "TOQUES DE\nPRECISÃO"
   },
   "instruccion_r": {
-    "es": "DEVOLVER DE\nLA BALANZA",
-    "en": "RETURN FROM\nSCALE",
-    "pt": "DEVOLVER DA\nBALANÇA"
+	"es": "DEVOLVER DE\nLA BALANZA",
+	"en": "RETURN FROM\nSCALE",
+	"pt": "DEVOLVER DA\nBALANÇA"
   },
   "objetivos": {
-    "es": "OBJETIVOS",
-    "en": "OBJECTIVES",
-    "pt": "OBJETIVOS"
+	"es": "OBJETIVOS",
+	"en": "OBJECTIVES",
+	"pt": "OBJETIVOS"
   },
   "resultados": {
-    "es": "RESULTADOS",
-    "en": "RESULTS",
-    "pt": "RESULTADOS"
+	"es": "RESULTADOS",
+	"en": "RESULTS",
+	"pt": "RESULTADOS"
   },
   "entregar_producto": {
-    "es": "ENTREGAR PRODUCTO",
-    "en": "DELIVER PRODUCT",
-    "pt": "ENTREGAR PRODUTO"
+	"es": "ENTREGAR PRODUCTO",
+	"en": "DELIVER PRODUCT",
+	"pt": "ENTREGAR PRODUTO"
   },
   "continuar": {
-    "es": "CONTINUAR",
-    "en": "CONTINUE",
-    "pt": "CONTINUAR"
+	"es": "CONTINUAR",
+	"en": "CONTINUE",
+	"pt": "CONTINUAR"
   },
   "siguiente": {
-    "es": "SIGUIENTE",
-    "en": "NEXT",
-    "pt": "PRÓXIMO"
+	"es": "SIGUIENTE",
+	"en": "NEXT",
+	"pt": "PRÓXIMO"
   },
   "ver_resultados": {
-    "es": "VER RESULTADOS",
-    "en": "VIEW RESULTS",
-    "pt": "VER RESULTADOS"
+	"es": "VER RESULTADOS",
+	"en": "VIEW RESULTS",
+	"pt": "VER RESULTADOS"
   },
   "finalizar": {
-    "es": "FINALIZAR",
-    "en": "FINISH",
-    "pt": "FINALIZAR"
+	"es": "FINALIZAR",
+	"en": "FINISH",
+	"pt": "FINALIZAR"
   },
   "primer_pedido_espera": {
-    "es": "PRIMER PEDIDO",
-    "en": "FIRST ORDER",
-    "pt": "PRIMEIRO PEDIDO"
+	"es": "PRIMER PEDIDO",
+	"en": "FIRST ORDER",
+	"pt": "PRIMEIRO PEDIDO"
   },
   "segundo_pedido": {
-    "es": "SEGUNDO PEDIDO",
-    "en": "SECOND ORDER",
-    "pt": "SEGUNDO PEDIDO"
+	"es": "SEGUNDO PEDIDO",
+	"en": "SECOND ORDER",
+	"pt": "SEGUNDO PEDIDO"
   },
   "tercer_pedido": {
-    "es": "TERCER PEDIDO",
-    "en": "THIRD ORDER",
-    "pt": "TERCEIRO PEDIDO"
+	"es": "TERCER PEDIDO",
+	"en": "THIRD ORDER",
+	"pt": "TERCEIRO PEDIDO"
   },
   "peso_objetivo": {
-    "es": "PESO OBJETIVO: %.2f KG",
-    "en": "TARGET WEIGHT: %.2f KG",
-    "pt": "PESO ALVO: %.2f KG"
+	"es": "PESO OBJETIVO: %.2f KG",
+	"en": "TARGET WEIGHT: %.2f KG",
+	"pt": "PESO ALVO: %.2f KG"
   },
   "pedido_inicial": {
-    "es": "%d° PEDIDO: %.2f KG",
-    "en": "%d° ORDER: %.2f KG",
-    "pt": "%d° PEDIDO: %.2f KG"
+	"es": "%d° PEDIDO: %.2f KG",
+	"en": "%d° ORDER: %.2f KG",
+	"pt": "%d° PEDIDO: %.2f KG"
   },
   "pedido_formato": {
-    "es": "%d° PEDIDO: %.2f KG - %s",
-    "en": "%d° ORDER: %.2f KG - %s",
-    "pt": "%d° PEDIDO: %.2f KG - %s"
+	"es": "%d° PEDIDO: %.2f KG - %s",
+	"en": "%d° ORDER: %.2f KG - %s",
+	"pt": "%d° PEDIDO: %.2f KG - %s"
   },
   "tiempo_total": {
-    "es": "TIEMPO TOTAL: %s",
-    "en": "TOTAL TIME: %s",
-    "pt": "TEMPO TOTAL: %s"
+	"es": "TIEMPO TOTAL: %s",
+	"en": "TOTAL TIME: %s",
+	"pt": "TEMPO TOTAL: %s"
   },
   "oro": {
-    "es": "¡MAESTRO GRANELERO!",
-    "en": "MASTER WEIGHER!",
-    "pt": "MESTRE DOS GRÃOS!"
+	"es": "¡MAESTRO GRANELERO!",
+	"en": "MASTER WEIGHER!",
+	"pt": "MESTRE DOS GRÃOS!"
   },
   "plata": {
-    "es": "¡TRABAJO SÓLIDO!",
-    "en": "SOLID WORK!",
-    "pt": "TRABALHO SÓLIDO!"
+	"es": "¡TRABAJO SÓLIDO!",
+	"en": "SOLID WORK!",
+	"pt": "TRABALHO SÓLIDO!"
   },
   "cobre": {
-    "es": "PUEDES MEJORAR",
-    "en": "ROOM TO IMPROVE",
-    "pt": "PODE MELHORAR"
+	"es": "PUEDES MEJORAR",
+	"en": "ROOM TO IMPROVE",
+	"pt": "PODE MELHORAR"
   },
   "fallo": {
-    "es": "DESPIDO INMINENTE",
-    "en": "IMMINENT FIRING",
-    "pt": "DEMISSÃO IMINENTE"
+	"es": "DESPIDO INMINENTE",
+	"en": "IMMINENT FIRING",
+	"pt": "DEMISSÃO IMINENTE"
   },
   "r_excelente": {
-    "es": "¡EXCELENTE!",
-    "en": "EXCELLENT!",
-    "pt": "EXCELENTE!"
+	"es": "¡EXCELENTE!",
+	"en": "EXCELLENT!",
+	"pt": "EXCELENTE!"
   },
   "r_muy_bien": {
-    "es": "¡MUY BIEN!",
-    "en": "VERY GOOD!",
-    "pt": "MUITO BEM!"
+	"es": "¡MUY BIEN!",
+	"en": "VERY GOOD!",
+	"pt": "MUITO BEM!"
   },
   "r_nada_mal": {
-    "es": "NADA MAL",
-    "en": "NOT BAD",
-    "pt": "NADA MAL"
+	"es": "NADA MAL",
+	"en": "NOT BAD",
+	"pt": "NADA MAL"
   },
   "r_fallaste": {
-    "es": "¡FALLASTE!",
-    "en": "FAILED!",
-    "pt": "FALHOU!"
+	"es": "¡FALLASTE!",
+	"en": "FAILED!",
+	"pt": "FALHOU!"
   }
 }

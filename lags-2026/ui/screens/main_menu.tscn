@@ -1,4 +1,4 @@
-[gd_scene load_steps=20 format=3 uid="uid://cm1vkbm5j3tdp"]
+[gd_scene load_steps=21 format=3 uid="uid://cm1vkbm5j3tdp"]
 
 [ext_resource type="Texture2D" uid="uid://txovj4i2r1pc" path="res://assets/textures/menu-principal/background.png" id="1_0qgu1"]
 [ext_resource type="Script" uid="uid://rt10gby3gn34" path="res://ui/screens/main_menu.gd" id="1_xhre2"]
@@ -13,6 +13,7 @@
 [ext_resource type="Texture2D" uid="uid://dg5xqnm3nn224" path="res://assets/textures/menu-principal/cartel-principal.png" id="9_itwiy"]
 [ext_resource type="Texture2D" uid="uid://d2y136brggxqd" path="res://assets/textures/menu-principal/dia-hora.png" id="10_qcsbv"]
 [ext_resource type="PackedScene" uid="uid://tmlrfmnpb1pt" path="res://ui/components/options_menu.tscn" id="11_opts"]
+[ext_resource type="AudioStream" uid="uid://clp7f2j36orei" path="res://assets/audio/game/MenuTheme.ogg" id="12_mtheme"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_dpa1d"]
 shader = ExtResource("2_xhre2")
@@ -69,6 +70,11 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_xhre2")
+
+[node name="MenuMusic" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("12_mtheme")
+volume_db = -8.0
+autoplay = true
 
 [node name="Background" type="TextureRect" parent="."]
 layout_mode = 0

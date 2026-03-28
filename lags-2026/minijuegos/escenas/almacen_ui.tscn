@@ -1,0 +1,255 @@
+[gd_scene load_steps=10 format=3 uid="uid://dhryu8w5j2tqy"]
+
+[ext_resource type="PackedScene" uid="uid://hqmdfy0qhwxh" path="res://ui/components/Title_1.tscn" id="1_title"]
+[ext_resource type="Texture2D" uid="uid://cpaxrpnv1gl7y" path="res://assets/textures/opciones-fondo.png" id="2_bg"]
+[ext_resource type="Texture2D" uid="uid://d3mn8iy0m7bf" path="res://assets/textures/opciones-campo-fondo.png" id="3_panel"]
+[ext_resource type="Texture2D" uid="uid://cfy6rj4bb8kwr" path="res://assets/textures/button_2.png" id="4_btn"]
+[ext_resource type="FontFile" uid="uid://cu11g35n3hgqv" path="res://assets/fonts/PixelOperatorMonoHB.ttf" id="5_font"]
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_hud_bg"]
+texture = ExtResource("2_bg")
+texture_margin_left = 40.0
+texture_margin_top = 40.0
+texture_margin_right = 40.0
+texture_margin_bottom = 40.0
+axis_stretch_horizontal = 2
+axis_stretch_vertical = 2
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_card"]
+texture = ExtResource("3_panel")
+texture_margin_left = 30.0
+texture_margin_top = 20.0
+texture_margin_right = 30.0
+texture_margin_bottom = 20.0
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_btn_normal"]
+texture = ExtResource("4_btn")
+texture_margin_left = 30.0
+texture_margin_top = 20.0
+texture_margin_right = 30.0
+texture_margin_bottom = 25.0
+axis_stretch_horizontal = 2
+axis_stretch_vertical = 2
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_btn_hover"]
+texture = ExtResource("4_btn")
+texture_margin_left = 30.0
+texture_margin_top = 23.0
+texture_margin_right = 30.0
+texture_margin_bottom = 25.0
+axis_stretch_horizontal = 2
+axis_stretch_vertical = 2
+modulate_color = Color(0.76, 0.68, 0.74, 1)
+
+[node name="GameUI" type="CanvasLayer"]
+layer = 8
+
+[node name="UIRoot" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="HUDPanel" type="PanelContainer" parent="UIRoot"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -500.0
+offset_top = 18.0
+offset_right = 500.0
+offset_bottom = 162.0
+grow_horizontal = 2
+theme_override_styles/panel = SubResource("StyleBoxTexture_hud_bg")
+
+[node name="Margin" type="MarginContainer" parent="UIRoot/HUDPanel"]
+layout_mode = 2
+theme_override_constants/margin_left = 14
+theme_override_constants/margin_top = 12
+theme_override_constants/margin_right = 14
+theme_override_constants/margin_bottom = 12
+
+[node name="VBox" type="VBoxContainer" parent="UIRoot/HUDPanel/Margin"]
+layout_mode = 2
+theme_override_constants/separation = 6
+
+[node name="TitleSlot" type="Control" parent="UIRoot/HUDPanel/Margin/VBox"]
+custom_minimum_size = Vector2(0, 20)
+layout_mode = 2
+
+[node name="Title" parent="UIRoot/HUDPanel/Margin/VBox/TitleSlot" instance=ExtResource("1_title")]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -316.0
+offset_top = -100.0
+offset_right = 309.0
+offset_bottom = 29.0
+grow_horizontal = 2
+scale = Vector2(0.55, 0.55)
+text = "ALMACEN EN SOMBRAS"
+
+[node name="StatsRow" type="HBoxContainer" parent="UIRoot/HUDPanel/Margin/VBox"]
+layout_mode = 2
+theme_override_constants/separation = 6
+
+[node name="TimeCard" type="PanelContainer" parent="UIRoot/HUDPanel/Margin/VBox/StatsRow"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_styles/panel = SubResource("StyleBoxTexture_card")
+
+[node name="TimeLabel" type="Label" parent="UIRoot/HUDPanel/Margin/VBox/StatsRow/TimeCard"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.687779, 0.643646, 0.632612, 1)
+theme_override_colors/font_outline_color = Color(0.189829, 0.0827736, 0.0013467, 1)
+theme_override_constants/outline_size = 5
+theme_override_fonts/font = ExtResource("5_font")
+theme_override_font_sizes/font_size = 24
+text = "TIEMPO: 60"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="BoxesCard" type="PanelContainer" parent="UIRoot/HUDPanel/Margin/VBox/StatsRow"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_styles/panel = SubResource("StyleBoxTexture_card")
+
+[node name="BoxesLabel" type="Label" parent="UIRoot/HUDPanel/Margin/VBox/StatsRow/BoxesCard"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.687779, 0.643646, 0.632612, 1)
+theme_override_colors/font_outline_color = Color(0.189829, 0.0827736, 0.0013467, 1)
+theme_override_constants/outline_size = 5
+theme_override_fonts/font = ExtResource("5_font")
+theme_override_font_sizes/font_size = 24
+text = "CAJAS: 0/0"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="HitsCard" type="PanelContainer" parent="UIRoot/HUDPanel/Margin/VBox/StatsRow"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_styles/panel = SubResource("StyleBoxTexture_card")
+
+[node name="HitsLabel" type="Label" parent="UIRoot/HUDPanel/Margin/VBox/StatsRow/HitsCard"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.687779, 0.643646, 0.632612, 1)
+theme_override_colors/font_outline_color = Color(0.189829, 0.0827736, 0.0013467, 1)
+theme_override_constants/outline_size = 5
+theme_override_fonts/font = ExtResource("5_font")
+theme_override_font_sizes/font_size = 24
+text = "GOLPES: 0/3"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="LightCard" type="PanelContainer" parent="UIRoot/HUDPanel/Margin/VBox/StatsRow"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_styles/panel = SubResource("StyleBoxTexture_card")
+
+[node name="LightLabel" type="Label" parent="UIRoot/HUDPanel/Margin/VBox/StatsRow/LightCard"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.687779, 0.643646, 0.632612, 1)
+theme_override_colors/font_outline_color = Color(0.189829, 0.0827736, 0.0013467, 1)
+theme_override_constants/outline_size = 5
+theme_override_fonts/font = ExtResource("5_font")
+theme_override_font_sizes/font_size = 24
+text = "LUZ: ENCENDIDA"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="ObjectiveCard" type="PanelContainer" parent="UIRoot/HUDPanel/Margin/VBox"]
+visible = false
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxTexture_card")
+
+[node name="ObjectiveLabel" type="Label" parent="UIRoot/HUDPanel/Margin/VBox/ObjectiveCard"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.687779, 0.643646, 0.632612, 1)
+theme_override_colors/font_outline_color = Color(0.189829, 0.0827736, 0.0013467, 1)
+theme_override_constants/outline_size = 7
+theme_override_fonts/font = ExtResource("5_font")
+theme_override_font_sizes/font_size = 28
+text = "OBJETIVO: RECOGE TODAS LAS CAJAS ANTES DE QUE SE ACABE EL TIEMPO."
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 3
+
+[node name="ResultPanel" type="PanelContainer" parent="UIRoot"]
+visible = false
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -360.0
+offset_top = -180.0
+offset_right = 360.0
+offset_bottom = 180.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxTexture_hud_bg")
+
+[node name="ResultMargin" type="MarginContainer" parent="UIRoot/ResultPanel"]
+layout_mode = 2
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_right = 20
+theme_override_constants/margin_bottom = 20
+
+[node name="ResultVBox" type="VBoxContainer" parent="UIRoot/ResultPanel/ResultMargin"]
+layout_mode = 2
+theme_override_constants/separation = 14
+
+[node name="ResultLabel" type="Label" parent="UIRoot/ResultPanel/ResultMargin/ResultVBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.687779, 0.643646, 0.632612, 1)
+theme_override_colors/font_outline_color = Color(0.189829, 0.0827736, 0.0013467, 1)
+theme_override_constants/outline_size = 10
+theme_override_fonts/font = ExtResource("5_font")
+theme_override_font_sizes/font_size = 52
+text = "RESULTADO"
+horizontal_alignment = 1
+
+[node name="SummaryLabel" type="Label" parent="UIRoot/ResultPanel/ResultMargin/ResultVBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.687779, 0.643646, 0.632612, 1)
+theme_override_colors/font_outline_color = Color(0.189829, 0.0827736, 0.0013467, 1)
+theme_override_constants/outline_size = 7
+theme_override_fonts/font = ExtResource("5_font")
+theme_override_font_sizes/font_size = 28
+horizontal_alignment = 1
+autowrap_mode = 3
+
+[node name="ButtonsRow" type="HBoxContainer" parent="UIRoot/ResultPanel/ResultMargin/ResultVBox"]
+layout_mode = 2
+theme_override_constants/separation = 12
+alignment = 1
+
+[node name="RetryButton" type="Button" parent="UIRoot/ResultPanel/ResultMargin/ResultVBox/ButtonsRow"]
+custom_minimum_size = Vector2(240, 70)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.687779, 0.643646, 0.632612, 1)
+theme_override_colors/font_outline_color = Color(0.189829, 0.0827736, 0.0013467, 1)
+theme_override_constants/outline_size = 6
+theme_override_fonts/font = ExtResource("5_font")
+theme_override_font_sizes/font_size = 32
+theme_override_styles/normal = SubResource("StyleBoxTexture_btn_normal")
+theme_override_styles/hover = SubResource("StyleBoxTexture_btn_hover")
+text = "REINTENTAR"
+
+[node name="ContinueButton" type="Button" parent="UIRoot/ResultPanel/ResultMargin/ResultVBox/ButtonsRow"]
+custom_minimum_size = Vector2(240, 70)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.687779, 0.643646, 0.632612, 1)
+theme_override_colors/font_outline_color = Color(0.189829, 0.0827736, 0.0013467, 1)
+theme_override_constants/outline_size = 6
+theme_override_fonts/font = ExtResource("5_font")
+theme_override_font_sizes/font_size = 32
+theme_override_styles/normal = SubResource("StyleBoxTexture_btn_normal")
+theme_override_styles/hover = SubResource("StyleBoxTexture_btn_hover")
+text = "CONTINUAR"
