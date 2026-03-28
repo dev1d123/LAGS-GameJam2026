@@ -1,0 +1,39 @@
+{
+  "preguntas": [
+	{
+	  "es": "¡Caserito! ¿Sabe por dónde queda la posta médica?",
+	  "en": "Excuse me! Do you know where the health center is?",
+	  "pt": "Com licença! Você sabe onde fica o posto de saúde?"
+	},
+	{
+	  "es": "¿Vio para dónde se fue el gato de la Doña?",
+	  "en": "Did you see where the lady's cat went?",
+	  "pt": "Você viu para onde foi o gato da senhora?"
+	},
+	{
+	  "es": "Oiga, ¿me dice cómo llegar a la estatua del fundador?",
+	  "en": "Hey, can you tell me how to get to the founder's statue?",
+	  "pt": "Ei, você pode me dizer como chegar à estátua do fundador?"
+	},
+	{
+	  "es": "¡Caserito!, ¿sabe por dónde queda la plaza de armas?",
+	  "en": "Excuse me!, do you know where the main square is?",
+	  "pt": "Com licença!, você sabe onde fica a praça principal?"
+	},
+	{
+	  "es": "Oiga, ¿vio pasar el camión de la basura?",
+	  "en": "Hey, did you see the garbage truck pass by?",
+	  "pt": "Ei, você viu o caminhão de lixo passar?"
+	},
+	{
+	  "es": "Don JC, ¿hacia dónde queda el paradero de micros?",
+	  "en": "Don JC, which way is the bus stop?",
+	  "pt": "Don JC, para que lado fica o ponto de ônibus?"
+	},
+	{
+	  "es": "¡Joven! ¿Por dónde se llega a la canchita de fútbol?",
+	  "en": "Hey! How do I get to the soccer field?",
+	  "pt": "Ei! Como chego ao campo de futebol?"
+	}
+  ]
+}

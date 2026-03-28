@@ -1,0 +1,103 @@
+[gd_scene load_steps=11 format=3 uid="uid://04jdxy6fvs4e"]
+
+[ext_resource type="PackedScene" uid="uid://cxms5nyd7hgjy" path="res://scenes/minigameIndications/HitZone.tscn" id="1_4fips"]
+[ext_resource type="Script" uid="uid://bvt3smow1tkjr" path="res://scenes/minigameIndications/MiniJuego.gd" id="1_dgihs"]
+[ext_resource type="PackedScene" uid="uid://hnj774rlahl5" path="res://scenes/minigameIndications/Flecha.tscn" id="2_dun53"]
+[ext_resource type="Texture2D" uid="uid://cec3xx2mt020" path="res://scenes/minigameIndications/FondoModal.png" id="3_dgihs"]
+[ext_resource type="AudioStream" uid="uid://c8ye660caqpy5" path="res://scenes/minigameIndications/open.ogg" id="5_j1frl"]
+[ext_resource type="AudioStream" uid="uid://cwkiu8455jt36" path="res://scenes/minigameIndications/close.ogg" id="6_if2ku"]
+[ext_resource type="AudioStream" uid="uid://cfpekorgnj6rv" path="res://scenes/minigameIndications/success.ogg" id="7_hxscy"]
+[ext_resource type="AudioStream" uid="uid://ddhaq5etee87y" path="res://scenes/minigameIndications/error.ogg" id="8_sao3l"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_dgihs"]
+bg_color = Color(0.088388, 0.112066425, 0.0802327, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_dun53"]
+bg_color = Color(0.36922625, 0.6978329, 0, 1)
+
+[node name="MiniJuego" type="Node2D"]
+script = ExtResource("1_dgihs")
+flecha_scene = ExtResource("2_dun53")
+
+[node name="SpawnTimer" type="Timer" parent="."]
+wait_time = 0.432
+autostart = true
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="BarraProgreso" type="ProgressBar" parent="CanvasLayer"]
+z_index = 1
+offset_left = 151.0
+offset_top = 94.0
+offset_right = 487.0
+offset_bottom = 104.0
+theme_override_styles/background = SubResource("StyleBoxFlat_dgihs")
+theme_override_styles/fill = SubResource("StyleBoxFlat_dun53")
+max_value = 10.0
+step = 1.0
+show_percentage = false
+
+[node name="LabelPregunta" type="RichTextLabel" parent="CanvasLayer"]
+z_index = 1
+offset_left = 137.0
+offset_top = 57.0
+offset_right = 502.0
+offset_bottom = 99.0
+theme_override_font_sizes/normal_font_size = 12
+theme_override_font_sizes/bold_font_size = 12
+theme_override_font_sizes/bold_italics_font_size = 12
+theme_override_font_sizes/italics_font_size = 12
+theme_override_font_sizes/mono_font_size = 12
+text = "a"
+horizontal_alignment = 1
+
+[node name="ColorRect" type="ColorRect" parent="CanvasLayer/LabelPregunta"]
+z_index = -1
+layout_mode = 0
+offset_right = 365.0
+offset_bottom = 41.0
+color = Color(0, 0, 0, 0.75686276)
+
+[node name="FondoModal" type="NinePatchRect" parent="CanvasLayer"]
+self_modulate = Color(1, 1, 1, 0.6784314)
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -190.0
+offset_top = -130.0
+offset_right = 190.0
+offset_bottom = 130.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("3_dgihs")
+
+[node name="SpawnPoint" type="Node2D" parent="CanvasLayer/FondoModal"]
+position = Vector2(190, 55)
+
+[node name="HitZone" parent="CanvasLayer/FondoModal" instance=ExtResource("1_4fips")]
+position = Vector2(41, 243)
+
+[node name="FlashRojo" type="ColorRect" parent="CanvasLayer"]
+modulate = Color(1, 1, 1, 0)
+offset_left = 134.0
+offset_top = 35.0
+offset_right = 508.0
+offset_bottom = 323.0
+mouse_filter = 2
+color = Color(0.8912906, 4.1873755e-06, 8.663535e-07, 1)
+
+[node name="SfxOpen" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("5_j1frl")
+
+[node name="SfxClose" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("6_if2ku")
+
+[node name="SfxSuccess" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("7_hxscy")
+
+[node name="SfxError" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("8_sao3l")
+
+[connection signal="timeout" from="SpawnTimer" to="." method="_on_spawn_timer_timeout"]
