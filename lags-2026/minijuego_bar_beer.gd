@@ -7,6 +7,7 @@ const BEER_JAR_TEXTURE := preload("res://assets/sprites/beer_jar.png")
 const SFX_SUCCESS_STREAM := preload("res://scenes/minigameIndications/success.ogg")
 const SFX_ERROR_STREAM := preload("res://scenes/minigameIndications/error.ogg")
 const ALPHA_THRESHOLD := 0.02
+const STANDARD_UI_TEXT_COLOR := Color(0.687779, 0.643646, 0.632612, 1.0)
 
 @export var total_rounds: int = 5
 @export var hit_tolerance: float = 0.07
@@ -33,6 +34,12 @@ const ALPHA_THRESHOLD := 0.02
 var current_round: int = 0
 var score: int = 0
 var pending_next_round: float = -1.0
+var desempeno: float = 0.0
+var eficiencia: float = 0.0
+var recompensa_total: int = 0
+var estres: float = 0.0
+var mission_money_min: int = 0
+var mission_money_max: int = 0
 
 var target_fill: float = 0.5
 var fill_level: float = 0.0
@@ -94,6 +101,7 @@ func _update_static_texts() -> void:
 	round_result_label.text = ""
 	round_result_label.visible = false
 	finish_button.visible = false
+	_apply_standard_ui_colors()
 
 
 func _start_round() -> void:
@@ -182,6 +190,10 @@ func _finish_minigame() -> void:
 	handle_button.disabled = true
 
 	var success: bool = score >= int(ceil(float(total_rounds) * 0.6))
+	eficiencia = clamp((float(score) / max(1.0, float(total_rounds))) * 100.0, 0.0, 100.0)
+	desempeno = clamp(100.0 - eficiencia, 0.0, 100.0)
+	estres = lerpf(2.0, 22.0, desempeno / 100.0)
+	recompensa_total = _calc_recompensa_from_eficiencia()
 	if success:
 		round_result_label.text = _t("final_success") % [score, total_rounds]
 		round_result_label.modulate = Color(0.55, 1.0, 0.55, 1.0)
@@ -196,6 +208,20 @@ func _finish_minigame() -> void:
 
 func _on_finish_button_pressed() -> void:
 	queue_free()
+
+
+func _apply_standard_ui_colors() -> void:
+	for label in [guide_title_label, guide1_label, guide2_label, guide3_label, objectives_title_label, rounds_label, instruction_label, results_title_label, round_result_label]:
+		if label != null:
+			label.add_theme_color_override("font_color", STANDARD_UI_TEXT_COLOR)
+
+
+func _calc_recompensa_from_eficiencia() -> int:
+	var min_money: int = mission_money_min
+	var max_money: int = max(mission_money_min, mission_money_max)
+	return int(round(lerpf(float(min_money), float(max_money), clamp(eficiencia / 100.0, 0.0, 1.0))))
+
+
 
 
 func _setup_feedback_sfx() -> void:

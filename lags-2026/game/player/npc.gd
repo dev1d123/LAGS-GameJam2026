@@ -22,6 +22,8 @@ var npc_descripcion: String = ""
 var npc_edad:        int    = 0
 var current_mission_id: String = ""
 var mission_completed: bool = false
+var mission_in_progress: bool = false
+var lost_count_registered: bool = false
 
 enum Estado {
 	ENTRANDO,
@@ -124,6 +126,7 @@ func asignar_mision() -> void:
 	var icon = ICON_ALERT
 	var mission_id := ""
 	mission_completed = false
+	lost_count_registered = false
 	match lugar:
 		"bar":
 			if tipo == TipoNPC.ABUELO:
@@ -171,7 +174,37 @@ func get_current_mission_id() -> String:
 
 
 func resolve_mission(accepted: bool) -> void:
-	mission_completed = accepted
+	mission_in_progress = false
+	if not accepted and not lost_count_registered:
+		_register_lost_customer()
+	mission_completed = accepted or lost_count_registered
+
+	if estado != Estado.ESPERANDO:
+		return
+
+	wait_timer.stop()
+	time_bar.visible = false
+	mission_box.visible = false
+	set_aura(false)
+	estado = Estado.SALIENDO
+	pos = posSalida
+	make_path()
+
+
+func begin_mission() -> void:
+	if estado != Estado.ESPERANDO:
+		return
+	mission_in_progress = true
+	wait_timer.stop()
+	time_bar.visible = false
+	mission_box.visible = false
+	set_aura(false)
+
+
+func finish_mission(success: bool) -> void:
+	mission_in_progress = false
+	# Aceptada y finalizada (ganada o fallada) no cuenta como cliente perdido.
+	mission_completed = true
 
 	if estado != Estado.ESPERANDO:
 		return
@@ -186,12 +219,26 @@ func resolve_mission(accepted: bool) -> void:
 
 
 func _on_wait_timer_timeout() -> void:
+	if mission_in_progress:
+		return
+	if not lost_count_registered:
+		_register_lost_customer()
+	mission_completed = true
 	time_bar.visible    = false
 	mission_box.visible = false
 	set_aura(false)
 	estado = Estado.SALIENDO
 	pos    = posSalida
 	make_path()
+
+
+func _register_lost_customer() -> void:
+	if lost_count_registered:
+		return
+	var parent_node := get_parent()
+	if parent_node != null and parent_node.has_method("add_lost"):
+		parent_node.add_lost(1)
+	lost_count_registered = true
 
 
 func _process(delta: float) -> void:

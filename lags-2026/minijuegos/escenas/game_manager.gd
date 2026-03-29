@@ -33,6 +33,12 @@ var boxes_collected: int = 0
 var target_boxes: int = 0
 var hits_taken: int = 0
 var is_game_running: bool = false
+var desempeno: float = 0.0
+var eficiencia: float = 0.0
+var recompensa_total: int = 0
+var estres: float = 0.0
+var mission_money_min: int = 0
+var mission_money_max: int = 0
 
 var light_on: bool = true
 var time_since_last_toggle: float = 0.0
@@ -164,6 +170,10 @@ func _format_time_mm_ss(seconds: float) -> String:
 
 func _finish_game(success: bool, title: String) -> void:
 	is_game_running = false
+	eficiencia = clamp((float(boxes_collected) / max(1.0, float(target_boxes))) * 100.0, 0.0, 100.0)
+	desempeno = clamp((float(hits_taken) / max(1.0, float(max_hits))) * 100.0, 0.0, 100.0)
+	estres = lerpf(2.0, 22.0, desempeno / 100.0)
+	recompensa_total = _calc_recompensa_from_eficiencia()
 	player.process_mode = Node.PROCESS_MODE_DISABLED
 	result_panel.visible = true
 	if success:
@@ -193,6 +203,12 @@ func _on_continue_button_pressed() -> void:
 	var root := get_parent()
 	if root != null:
 		root.queue_free()
+
+
+func _calc_recompensa_from_eficiencia() -> int:
+	var min_money: int = mission_money_min
+	var max_money: int = max(mission_money_min, mission_money_max)
+	return int(round(lerpf(float(min_money), float(max_money), clamp(eficiencia / 100.0, 0.0, 1.0))))
 
 
 func _randomize_playfield_positions() -> void:

@@ -22,6 +22,14 @@ var juego_activo = false
 var is_finishing = false
 var results_overlay: ColorRect = null
 var results_won: bool = false
+var results_closing: bool = false
+var desempeno: float = 0.0
+var eficiencia: float = 0.0
+var recompensa_total: int = 0
+var estres: float = 0.0
+var mission_money_min: int = 0
+var mission_money_max: int = 0
+var results_summary_label: Label = null
 
 @onready var sprite_cabeza = $CanvasLayer/MainPanel/Margin/VBox/Content/CenterPanel/PlayField/GameArea/FondoModal/HitZone/SpriteCabeza
 
@@ -138,7 +146,7 @@ func configurar_posicion_flecha(f, d):
 
 func _input(event):
 	if results_overlay != null:
-		if event.is_action_pressed("ui_accept") or event.is_action_pressed("ui_cancel"):
+		if event.is_action_pressed("ui_accept") or event.is_action_pressed("ui_cancel") or event.is_action_pressed("ui_interact"):
 			_on_results_continue_pressed()
 			return
 
@@ -222,6 +230,10 @@ func finalizar_partida(ganado: bool):
 	if is_finishing:
 		return
 	is_finishing = true
+	eficiencia = clamp((float(puntos) / max(1.0, float(puntos_victoria))) * 100.0, 0.0, 100.0)
+	desempeno = clamp((float(errores) / max(1.0, float(limite_errores))) * 100.0, 0.0, 100.0)
+	estres = lerpf(2.0, 22.0, desempeno / 100.0)
+	recompensa_total = _calc_recompensa_from_eficiencia()
 
 	juego_activo = false 
 	spawn_timer.stop()
@@ -230,13 +242,15 @@ func finalizar_partida(ganado: bool):
 		if f.is_in_group("flechas"): 
 			f.queue_free()
 	
-	if sfx_close: sfx_close.play()
+	if sfx_close and sfx_close.stream != null:
+		sfx_close.play()
 	
 	if ganado: print("¡Victoria!")
 	else: print("Derrota...")
-	
-	await sfx_close.finished
-	_show_results_modal(ganado)
+
+	if sfx_close and sfx_close.playing:
+		await sfx_close.finished
+	_on_results_continue_pressed()
 
 
 func _show_results_modal(ganado: bool) -> void:
@@ -244,6 +258,7 @@ func _show_results_modal(ganado: bool) -> void:
 	overlay.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	overlay.color = Color(0, 0, 0, 0.72)
 	overlay.mouse_filter = Control.MOUSE_FILTER_STOP
+	overlay.gui_input.connect(_on_results_overlay_gui_input)
 	canvas_layer.add_child(overlay)
 	results_overlay = overlay
 	results_won = ganado
@@ -315,6 +330,7 @@ func _show_results_modal(ganado: bool) -> void:
 	summary.add_theme_constant_override("outline_size", 5)
 	summary.text = _results_body_text()
 	body_card.add_child(summary)
+	results_summary_label = summary
 
 	var continue_button := Button.new()
 	continue_button.text = _continue_text()
@@ -331,6 +347,15 @@ func _show_results_modal(ganado: bool) -> void:
 	continue_button.pressed.connect(_on_results_continue_pressed)
 	content.add_child(continue_button)
 	continue_button.grab_focus()
+
+
+func _on_results_overlay_gui_input(event: InputEvent) -> void:
+	if results_overlay == null:
+		return
+	if event is InputEventMouseButton:
+		var mb := event as InputEventMouseButton
+		if mb.pressed and mb.button_index == MOUSE_BUTTON_LEFT:
+			_on_results_continue_pressed()
 
 
 func _make_ui_box(texture: Texture2D, modulate_color: Color) -> StyleBoxTexture:
@@ -390,11 +415,22 @@ func _continue_text() -> String:
 
 
 func _on_results_continue_pressed() -> void:
+	if results_closing:
+		return
+	results_closing = true
+
 	if results_overlay != null and is_instance_valid(results_overlay):
 		results_overlay.queue_free()
 	results_overlay = null
+	results_summary_label = null
 	emit_signal("minigame_finished", results_won, puntos, puntos_victoria)
 	queue_free()
+
+
+func _calc_recompensa_from_eficiencia() -> int:
+	var min_money: int = mission_money_min
+	var max_money: int = max(mission_money_min, mission_money_max)
+	return int(round(lerpf(float(min_money), float(max_money), clamp(eficiencia / 100.0, 0.0, 1.0))))
 
 
 func _update_status_panel() -> void:

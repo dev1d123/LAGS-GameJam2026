@@ -30,8 +30,13 @@ var estado_final: bool = false
 var tiempo_total: float = 0.0
 var tiempo_ronda_actual: float = 0.0
 var acumulado_puntos: int = 0
+var desempeno: float = 0.0
+var eficiencia: float = 0.0
+var recompensa_total: int = 0
+var estres: float = 0.0
+var mission_money_min: int = 0
+var mission_money_max: int = 0
 
-var audio_bgm: AudioStreamPlayer
 var audio_medalla: AudioStreamPlayer
 var audio_siguiente: AudioStreamPlayer
 @export var label_resultado_texto: Label
@@ -41,22 +46,7 @@ var audio_siguiente: AudioStreamPlayer
 
 func _ready():
 	randomize()
-	# 1. Configurar Audio Musical, Medallas y Siguiente dinámicamente
-	audio_bgm = AudioStreamPlayer.new()
-	var bgm = load("res://assets/audio/minigame-granel/minijuego_granel_musica.mp3")
-	if bgm is AudioStreamMP3: bgm.loop = false
-	audio_bgm.stream = bgm
-	audio_bgm.bus = &"Music"
-	audio_bgm.volume_db = -8.0
-	add_child(audio_bgm)
-	
-	var timer_bgm = Timer.new()
-	timer_bgm.wait_time = 5.0
-	timer_bgm.one_shot = true
-	audio_bgm.finished.connect(func(): timer_bgm.start())
-	timer_bgm.timeout.connect(func(): audio_bgm.play())
-	add_child(timer_bgm)
-	audio_bgm.play()
+	# 1. Configurar audio de feedback (la musica de minijuegos la maneja scenario.gd)
 	
 	audio_medalla = AudioStreamPlayer.new()
 	audio_medalla.bus = &"SFX"
@@ -285,6 +275,11 @@ func _on_boton_continuar_presionado():
 func _mostrar_resultado_final():
 	estado_final = true
 	var prom = float(acumulado_puntos) / total_rondas
+	var max_points: float = max(1.0, float(total_rondas * 3))
+	eficiencia = clamp((float(acumulado_puntos) / max_points) * 100.0, 0.0, 100.0)
+	desempeno = clamp(100.0 - eficiencia, 0.0, 100.0)
+	estres = lerpf(2.0, 22.0, desempeno / 100.0)
+	recompensa_total = _calc_recompensa_from_eficiencia()
 	
 	var stream_ok = load("res://assets/audio/minigame-granel/ok_base.mp3")
 	var stream_error = load("res://assets/audio/minigame-granel/error.mp3")
@@ -323,6 +318,14 @@ func _mostrar_resultado_final():
 		boton_continuar.text = LocaleManager.get_text("minigame_granel", "finalizar")
 		
 	_animar_medalla()
+
+
+func _calc_recompensa_from_eficiencia() -> int:
+	var min_money: int = mission_money_min
+	var max_money: int = max(mission_money_min, mission_money_max)
+	return int(round(lerpf(float(min_money), float(max_money), clamp(eficiencia / 100.0, 0.0, 1.0))))
+
+
 
 func _animar_medalla():
 	sello_calificacion.visible = true

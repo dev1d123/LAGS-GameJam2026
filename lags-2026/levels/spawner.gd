@@ -60,7 +60,7 @@ const LUGARES_POR_TIPO = {
 @onready var name_label: Label            = $Node2DLayer/Node2D/name
 @onready var age_label:  Label            = $Node2DLayer/Node2D/age
 @onready var desc_label: Label            = $Node2DLayer/Node2D/desc
-@onready var hud: Node                    = $HUDLayer/Hud
+var hud: Node = null
 
 var toast_origin: Vector2
 
@@ -77,19 +77,26 @@ const SPAWN_INTERVAL_BY_DAY := {
 
 func register_scenario(scenario: Node) -> void:
 	scenario_ref = scenario
+	if hud == null:
+		hud = _resolve_hud()
 
 
 func add_money(cantidad: int) -> void:
+	if hud == null:
+		hud = _resolve_hud()
 	if hud != null and hud.has_method("actualizar_dinero"):
 		hud.actualizar_dinero(cantidad)
 
 
 func add_lost(cantidad: int) -> void:
+	if hud == null:
+		hud = _resolve_hud()
 	if hud != null and hud.has_method("actualizar_perdidos"):
 		hud.actualizar_perdidos(cantidad)
 
 
 func _ready() -> void:
+	hud = _resolve_hud()
 	_load_npc_data()
 	toast_origin  = toast.position
 	toast.visible = false
@@ -102,6 +109,15 @@ func _ready() -> void:
 	add_child(spawn_timer)
 	spawn_timer.timeout.connect(_spawn_npc)
 	apply_day_settings(1)
+
+
+func _resolve_hud() -> Node:
+	var hud_node: Node = get_node_or_null("HUDLayer/Hud")
+	if hud_node == null:
+		hud_node = get_node_or_null("Node/HUDLayer/Hud")
+	if hud_node == null and scenario_ref != null:
+		hud_node = scenario_ref.get("hud") as Node
+	return hud_node
 
 
 func _load_npc_data() -> void:

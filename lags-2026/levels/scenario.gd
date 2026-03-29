@@ -49,6 +49,7 @@ const MAKING_TASK_NORMAL = preload("res://assets/audio/game/MakingTask.ogg")
 const MAKING_TASK_STRESS = preload("res://assets/audio/game/MakingTaskStress.ogg")
 const MAKING_TASK_HIGH_STRESS = preload("res://assets/audio/game/MakingTaskHighStress.ogg")
 const OPTIONS_MENU_SCENE := preload("res://ui/components/options_menu.tscn")
+const MINIGAME_SUMMARY_FONT := preload("res://assets/fonts/PixelOperatorMonoHB.ttf")
 
 const MINIGAME_SCENES_BY_MISSION := {
 	"bar_beer": "res://minijuego_bar_beer.tscn",
@@ -86,12 +87,15 @@ var making_task_player: AudioStreamPlayer
 var minigame_layer: CanvasLayer
 var minigame_host: Control
 var active_minigame: Node
+var active_minigame_mission_id: String = ""
+var pending_mission_npc_ref: Node = null
 var is_minigame_playing: bool = false
 var pause_layer: CanvasLayer
 var pause_overlay: ColorRect
 var pause_menu_container: CenterContainer
 var pause_options_menu: PanelContainer
 var is_pause_menu_open: bool = false
+var is_resolving_minigame_finish: bool = false
 
 
 func _ready() -> void:
@@ -370,26 +374,23 @@ func _on_accept_button_pressed() -> void:
 
 func _resolve_selected_mission(accepted: bool) -> void:
 	var accepted_mission_id: String = ""
+	var npc_to_resolve: Node = selected_npc_ref
 
 	if accepted and selected_npc_ref != null and selected_npc_ref.has_method("get_current_mission_id"):
 		var mission_id: String = selected_npc_ref.get_current_mission_id()
 		accepted_mission_id = mission_id
-		if mission_data_by_id.has(mission_id):
-			var mission: Dictionary = mission_data_by_id[mission_id]
-			var money: Dictionary = mission.get("money", {})
-			var min_money: int = int(money.get("min", 0))
-			var max_money: int = int(money.get("max", min_money))
-			if max_money < min_money:
-				max_money = min_money
-			var reward_amount: int = randi_range(min_money, max_money)
-			#PONER LOGICA DE MINIGAMES AQUI
-			if spawner != null and spawner.has_method("add_money"):
-				spawner.add_money(reward_amount)
-			if hud != null and hud.has_method("consumir_energia_mision"):
-				hud.consumir_energia_mision(20.0)
+		if hud != null and hud.has_method("consumir_energia_mision"):
+			hud.consumir_energia_mision(20.0)
 
-	if selected_npc_ref != null and selected_npc_ref.has_method("resolve_mission"):
-		selected_npc_ref.resolve_mission(accepted)
+	if accepted_mission_id != "":
+		pending_mission_npc_ref = npc_to_resolve
+		if npc_to_resolve != null:
+			if npc_to_resolve.has_method("begin_mission"):
+				npc_to_resolve.begin_mission()
+			elif npc_to_resolve.has_method("resolve_mission"):
+				npc_to_resolve.resolve_mission(true)
+	elif npc_to_resolve != null and npc_to_resolve.has_method("resolve_mission"):
+		npc_to_resolve.resolve_mission(false)
 
 	if frozen:
 		_toggle_freeze()
@@ -650,6 +651,7 @@ func _start_minigame_for_mission(mission_id: String) -> void:
 	if is_minigame_playing:
 		return
 
+	active_minigame_mission_id = mission_id
 	is_minigame_playing = true
 	_set_world_paused(true)
 	_pause_shop_music_for_minigame()
@@ -666,6 +668,9 @@ func _start_minigame_for_mission(mission_id: String) -> void:
 	minigame_layer.add_child(minigame_host)
 
 	active_minigame = packed_scene.instantiate()
+	var money_range: Vector2i = _get_mission_money_range(mission_id)
+	_set_if_has_property(active_minigame, "mission_money_min", money_range.x)
+	_set_if_has_property(active_minigame, "mission_money_max", money_range.y)
 	minigame_host.add_child(active_minigame)
 
 	if active_minigame is Control:
@@ -676,20 +681,239 @@ func _start_minigame_for_mission(mission_id: String) -> void:
 		minigame_node2d.position = get_viewport_rect().size * 0.5
 
 	if active_minigame.has_signal("minigame_finished"):
-		active_minigame.minigame_finished.connect(_on_minigame_finished, CONNECT_ONE_SHOT)
+		active_minigame.minigame_finished.connect(_on_minigame_finished_standard.bind(active_minigame, mission_id), CONNECT_ONE_SHOT)
 
 	var warehouse_manager: Node = active_minigame.get_node_or_null("GameManager")
+	if warehouse_manager != null:
+		_set_if_has_property(warehouse_manager, "mission_money_min", money_range.x)
+		_set_if_has_property(warehouse_manager, "mission_money_max", money_range.y)
 	if warehouse_manager != null and warehouse_manager.has_signal("minigame_finished"):
-		warehouse_manager.minigame_finished.connect(_on_minigame_finished, CONNECT_ONE_SHOT)
+		warehouse_manager.minigame_finished.connect(_on_minigame_finished_warehouse.bind(warehouse_manager, mission_id), CONNECT_ONE_SHOT)
 
 	active_minigame.tree_exited.connect(_on_active_minigame_tree_exited, CONNECT_ONE_SHOT)
 
 
-func _on_minigame_finished(_a = null, _b = null, _c = null, _d = null) -> void:
+func _on_minigame_finished_standard(_a = null, _b = null, _c = null, source_node: Node = null, mission_id: String = "") -> void:
+	_handle_minigame_finished(_a, _b, _c, source_node, mission_id)
+
+
+func _on_minigame_finished_warehouse(_a = null, source_node: Node = null, mission_id: String = "") -> void:
+	_handle_minigame_finished(_a, null, null, source_node, mission_id)
+
+
+func _handle_minigame_finished(_a = null, _b = null, _c = null, source_node: Node = null, mission_id: String = "") -> void:
+	if is_resolving_minigame_finish:
+		return
+	is_resolving_minigame_finish = true
+	var minigame_success: bool = _a if _a is bool else false
+
+	var resolved_mission_id: String = mission_id if mission_id != "" else active_minigame_mission_id
+	if resolved_mission_id != "":
+		var metrics := _build_minigame_metrics(resolved_mission_id, _a, _b, _c, source_node)
+		_apply_minigame_outcome(resolved_mission_id, metrics, source_node)
+		await _show_minigame_summary_modal(metrics)
+
+	_resolve_pending_mission_after_minigame(minigame_success)
+
+	is_resolving_minigame_finish = false
 	_end_active_minigame()
 
 
+func _build_minigame_metrics(mission_id: String, result_a: Variant, result_b: Variant, result_c: Variant, source_node: Node) -> Dictionary:
+	var success: bool = result_a if result_a is bool else false
+	var eficiencia: float = 0.0
+	var desempeno: float = 100.0
+
+	if mission_id == "indications" and source_node != null:
+		var puntos: float = float(source_node.get("puntos"))
+		var puntos_victoria: float = max(1.0, float(source_node.get("puntos_victoria")))
+		var errores: float = float(source_node.get("errores"))
+		var limite_errores: float = max(1.0, float(source_node.get("limite_errores")))
+		eficiencia = clamp((puntos / puntos_victoria) * 100.0, 0.0, 100.0)
+		desempeno = clamp((errores / limite_errores) * 100.0, 0.0, 100.0)
+	elif mission_id == "store_warehouse" and source_node != null:
+		var boxes_collected: float = float(source_node.get("boxes_collected"))
+		var target_boxes: float = max(1.0, float(source_node.get("target_boxes")))
+		var hits_taken: float = float(source_node.get("hits_taken"))
+		var max_hits: float = max(1.0, float(source_node.get("max_hits")))
+		eficiencia = clamp((boxes_collected / target_boxes) * 100.0, 0.0, 100.0)
+		desempeno = clamp((hits_taken / max_hits) * 100.0, 0.0, 100.0)
+	else:
+		var score: float = float(result_b) if result_b is int or result_b is float else (1.0 if success else 0.0)
+		var total_rounds: float = float(result_c) if result_c is int or result_c is float else 1.0
+		total_rounds = max(1.0, total_rounds)
+		eficiencia = clamp((score / total_rounds) * 100.0, 0.0, 100.0)
+		desempeno = clamp(100.0 - eficiencia, 0.0, 100.0)
+
+	var estres: float = lerpf(1.0, 8.0, desempeno / 100.0)
+	var money_range: Vector2i = _get_mission_money_range(mission_id)
+	var recompensa_total: int = int(round(lerpf(float(money_range.x), float(money_range.y), eficiencia / 100.0)))
+
+	return {
+		"eficiencia": eficiencia,
+		"desempeno": desempeno,
+		"estres": estres,
+		"recompensa_total": recompensa_total,
+	}
+
+
+func _get_mission_money_range(mission_id: String) -> Vector2i:
+	if not mission_data_by_id.has(mission_id):
+		return Vector2i(0, 0)
+	var mission: Dictionary = mission_data_by_id[mission_id]
+	var money: Dictionary = mission.get("money", {})
+	var min_money: int = int(money.get("min", 0))
+	var max_money: int = int(money.get("max", min_money))
+	if max_money < min_money:
+		max_money = min_money
+	return Vector2i(min_money, max_money)
+
+
+func _apply_minigame_outcome(mission_id: String, metrics: Dictionary, source_node: Node) -> void:
+	var recompensa_total: int = max(0, int(metrics.get("recompensa_total", 0)))
+	var estres: float = float(metrics.get("estres", 0.0))
+
+	var money_applied: bool = false
+	if hud != null and hud.has_method("actualizar_dinero"):
+		hud.actualizar_dinero(recompensa_total)
+		money_applied = true
+	elif spawner != null and spawner.has_method("add_money"):
+		spawner.add_money(recompensa_total)
+		money_applied = true
+	if hud != null and hud.has_method("actualizar_stress"):
+		hud.actualizar_stress(estres)
+
+	if source_node != null:
+		_set_if_has_property(source_node, "eficiencia", float(metrics.get("eficiencia", 0.0)))
+		_set_if_has_property(source_node, "desempeno", float(metrics.get("desempeno", 0.0)))
+		_set_if_has_property(source_node, "recompensa_total", recompensa_total)
+		_set_if_has_property(source_node, "estres", estres)
+
+	if active_minigame != null and active_minigame != source_node:
+		_set_if_has_property(active_minigame, "eficiencia", float(metrics.get("eficiencia", 0.0)))
+		_set_if_has_property(active_minigame, "desempeno", float(metrics.get("desempeno", 0.0)))
+		_set_if_has_property(active_minigame, "recompensa_total", recompensa_total)
+		_set_if_has_property(active_minigame, "estres", estres)
+
+	print("[Scenario] minigame=", mission_id, " eficiencia=", int(round(float(metrics.get("eficiencia", 0.0)))), "% desempeno=", int(round(float(metrics.get("desempeno", 0.0)))), "% estres=", int(round(estres)), " recompensa=", recompensa_total, " money_applied=", money_applied)
+
+
+func _set_if_has_property(node: Object, prop_name: String, value: Variant) -> void:
+	for prop in node.get_property_list():
+		if String(prop.get("name", "")) == prop_name:
+			node.set(prop_name, value)
+			return
+
+
+func _show_minigame_summary_modal(metrics: Dictionary) -> void:
+	var layer := CanvasLayer.new()
+	layer.layer = 4200
+	layer.process_mode = Node.PROCESS_MODE_ALWAYS
+	add_child(layer)
+
+	var overlay := ColorRect.new()
+	overlay.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	overlay.color = Color(0, 0, 0, 0.72)
+	overlay.mouse_filter = Control.MOUSE_FILTER_STOP
+	layer.add_child(overlay)
+
+	var panel := PanelContainer.new()
+	panel.custom_minimum_size = Vector2(620, 340)
+	panel.set_anchors_preset(Control.PRESET_CENTER)
+	panel.offset_left = -310
+	panel.offset_top = -170
+	panel.offset_right = 310
+	panel.offset_bottom = 170
+	overlay.add_child(panel)
+
+	var content := VBoxContainer.new()
+	content.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	content.offset_left = 24
+	content.offset_top = 24
+	content.offset_right = -24
+	content.offset_bottom = -24
+	content.add_theme_constant_override("separation", 16)
+	panel.add_child(content)
+
+	var title := Label.new()
+	title.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	title.add_theme_font_override("font", MINIGAME_SUMMARY_FONT)
+	title.add_theme_font_size_override("font_size", 42)
+	title.add_theme_color_override("font_color", Color(0.687779, 0.643646, 0.632612, 1.0))
+	title.add_theme_color_override("font_outline_color", Color(0.189829, 0.0827736, 0.0013467, 1.0))
+	title.add_theme_constant_override("outline_size", 7)
+	title.text = _get_summary_title_text()
+	content.add_child(title)
+
+	var reward_value: int = int(metrics.get("recompensa_total", 0))
+	var stress_accum: int = 0
+	if hud != null and hud.has_method("get_stress_percent"):
+		stress_accum = int(round(float(hud.get_stress_percent())))
+
+	var body := Label.new()
+	body.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	body.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	body.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+	body.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	body.add_theme_font_override("font", MINIGAME_SUMMARY_FONT)
+	body.add_theme_font_size_override("font_size", 28)
+	body.add_theme_color_override("font_color", Color(0.687779, 0.643646, 0.632612, 1.0))
+	body.add_theme_color_override("font_outline_color", Color(0.189829, 0.0827736, 0.0013467, 1.0))
+	body.add_theme_constant_override("outline_size", 5)
+	body.text = _get_summary_body_text(reward_value, stress_accum)
+	content.add_child(body)
+
+	var continue_button := Button.new()
+	continue_button.custom_minimum_size = Vector2(0, 56)
+	continue_button.focus_mode = Control.FOCUS_ALL
+	continue_button.text = _get_summary_continue_text()
+	continue_button.add_theme_font_override("font", MINIGAME_SUMMARY_FONT)
+	continue_button.add_theme_font_size_override("font_size", 30)
+	continue_button.add_theme_color_override("font_color", Color(0.687779, 0.643646, 0.632612, 1.0))
+	continue_button.add_theme_color_override("font_outline_color", Color(0.189829, 0.0827736, 0.0013467, 1.0))
+	continue_button.add_theme_constant_override("outline_size", 4)
+	content.add_child(continue_button)
+	continue_button.grab_focus()
+
+	await continue_button.pressed
+	if is_instance_valid(layer):
+		layer.queue_free()
+
+
+func _get_summary_title_text() -> String:
+	match LocaleManager.current_language:
+		"en":
+			return "Task Summary"
+		"pt":
+			return "Resumo da Tarefa"
+		_:
+			return "Resumen del Minijuego"
+
+
+func _get_summary_body_text(reward_value: int, stress_accum: int) -> String:
+	match LocaleManager.current_language:
+		"en":
+			return "Total reward: $%d\nAccumulated stress: %d%%" % [reward_value, stress_accum]
+		"pt":
+			return "Recompensa total: $%d\nEstresse acumulado: %d%%" % [reward_value, stress_accum]
+		_:
+			return "Recompensa total: $%d\nEstres acumulado: %d%%" % [reward_value, stress_accum]
+
+
+func _get_summary_continue_text() -> String:
+	match LocaleManager.current_language:
+		"en":
+			return "Continue"
+		"pt":
+			return "Continuar"
+		_:
+			return "Continuar"
+
+
 func _on_active_minigame_tree_exited() -> void:
+	if is_resolving_minigame_finish:
+		return
+	_resolve_pending_mission_after_minigame(false)
 	_end_active_minigame()
 
 
@@ -706,6 +930,8 @@ func _end_active_minigame() -> void:
 		minigame_layer.queue_free()
 
 	active_minigame = null
+	active_minigame_mission_id = ""
+	pending_mission_npc_ref = null
 	minigame_host = null
 	minigame_layer = null
 
@@ -739,3 +965,12 @@ func _play_making_task_for_current_stress() -> void:
 
 	if not making_task_player.playing:
 		making_task_player.play()
+
+
+func _resolve_pending_mission_after_minigame(success: bool) -> void:
+	if pending_mission_npc_ref == null:
+		return
+	if pending_mission_npc_ref.has_method("finish_mission"):
+		pending_mission_npc_ref.finish_mission(success)
+	elif pending_mission_npc_ref.has_method("resolve_mission"):
+		pending_mission_npc_ref.resolve_mission(success)
