@@ -1,0 +1,193 @@
+[gd_scene format=3 uid="uid://qd10depajkne"]
+
+[ext_resource type="Script" uid="uid://dcn00imcmmsm5" path="res://scenes/Endings/ending_cinematic.gd" id="1_4amr2"]
+[ext_resource type="Texture2D" uid="uid://7anbdppmuh0u" path="res://icon.svg" id="2_8q4rl"]
+[ext_resource type="Texture2D" uid="uid://dq6g0fylwaty3" path="res://scenes/Intro/Panel-Texto.png" id="3_bxkdd"]
+[ext_resource type="FontFile" uid="uid://cu11g35n3hgqv" path="res://assets/fonts/PixelOperatorMonoHB.ttf" id="4_d5c1h"]
+[ext_resource type="Texture2D" uid="uid://dyhdbncw8s6l5" path="res://assets/textures/button_1.png" id="5_ngllm"]
+[ext_resource type="AudioStream" uid="uid://os8iqwj20qxh" path="res://scenes/Intro/350860__cabled_mess__blip_c_07.ogg" id="6_m1gbw"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_btn"]
+font = ExtResource("4_d5c1h")
+font_size = 20
+font_color = Color(0.687779, 0.643646, 0.632612, 1)
+outline_size = 5
+outline_color = Color(0.189829, 0.0827736, 0.0013467, 1)
+
+[sub_resource type="Animation" id="Animation_8q4rl"]
+length = 0.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Background:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_4amr2"]
+resource_name = "fade_transition"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("CanvasLayer/FadeOverlay:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5, 1),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Color(0, 0, 0, 0), Color(0, 0, 0, 1), Color(0, 0, 0, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_bxkdd"]
+resource_name = "shake"
+length = 0.4
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Background:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"update": 0,
+"values": [Vector2(0, 0), Vector2(5, -5), Vector2(-5, 5), Vector2(3, -3), Vector2(0, 0)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_4amr2"]
+_data = {
+&"RESET": SubResource("Animation_8q4rl"),
+&"fade_transition": SubResource("Animation_4amr2"),
+&"shake": SubResource("Animation_bxkdd")
+}
+
+[node name="EndingControl" type="Control" unique_id=284328980]
+texture_filter = 1
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_4amr2")
+
+[node name="Background" type="TextureRect" parent="." unique_id=184003485]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_bottom = -272.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("2_8q4rl")
+stretch_mode = 6
+
+[node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=1879052594]
+
+[node name="DialogueBox" type="NinePatchRect" parent="CanvasLayer" unique_id=375621081]
+z_index = 2
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -960.0
+offset_top = -1080.0
+offset_right = 960.0
+grow_horizontal = 2
+grow_vertical = 0
+texture = ExtResource("3_bxkdd")
+patch_margin_left = 28
+patch_margin_top = 28
+patch_margin_right = 28
+patch_margin_bottom = 28
+
+[node name="DialogueLabel" type="RichTextLabel" parent="CanvasLayer/DialogueBox" unique_id=790773787]
+layout_mode = 0
+offset_left = 56.0
+offset_top = 850.0
+offset_right = 1866.0
+offset_bottom = 1051.0
+theme_override_colors/default_color = Color(0.687779, 0.643646, 0.632612, 1)
+theme_override_colors/font_outline_color = Color(0.189829, 0.0827736, 0.0013467, 1)
+theme_override_constants/outline_size = 7
+theme_override_fonts/normal_font = ExtResource("4_d5c1h")
+theme_override_fonts/bold_font = ExtResource("4_d5c1h")
+theme_override_fonts/bold_italics_font = ExtResource("4_d5c1h")
+theme_override_fonts/italics_font = ExtResource("4_d5c1h")
+theme_override_fonts/mono_font = ExtResource("4_d5c1h")
+theme_override_font_sizes/normal_font_size = 24
+theme_override_font_sizes/bold_font_size = 24
+theme_override_font_sizes/bold_italics_font_size = 24
+theme_override_font_sizes/italics_font_size = 24
+theme_override_font_sizes/mono_font_size = 24
+bbcode_enabled = true
+fit_content = true
+scroll_active = false
+
+[node name="SkipButton" type="TextureButton" parent="CanvasLayer/DialogueBox" unique_id=1422753648]
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -196.0
+offset_top = -69.0
+offset_right = -43.0
+offset_bottom = -12.0
+grow_horizontal = 0
+grow_vertical = 0
+texture_normal = ExtResource("5_ngllm")
+ignore_texture_size = true
+stretch_mode = 4
+
+[node name="ButtonLabel" type="Label" parent="CanvasLayer/DialogueBox/SkipButton" unique_id=1109929836]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -58.0
+offset_top = -16.0
+offset_right = 58.0
+offset_bottom = 16.0
+grow_horizontal = 2
+grow_vertical = 2
+label_settings = SubResource("LabelSettings_btn")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="BlipPlayer" type="AudioStreamPlayer" parent="CanvasLayer" unique_id=392180788]
+stream = ExtResource("6_m1gbw")
+
+[node name="TypewriterTimer" type="Timer" parent="CanvasLayer" unique_id=658877776]
+wait_time = 0.05
+
+[node name="FadeOverlay" type="ColorRect" parent="CanvasLayer" unique_id=1183897997]
+modulate = Color(0, 0, 0, 1)
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -13.0
+offset_top = -1.0
+offset_right = 17.0
+offset_bottom = -1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(0, 0, 0, 1)
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=660038845]
+libraries/ = SubResource("AnimationLibrary_4amr2")
+
+[connection signal="pressed" from="CanvasLayer/DialogueBox/SkipButton" to="." method="_on_skip_button_pressed"]
+[connection signal="timeout" from="CanvasLayer/TypewriterTimer" to="." method="_on_typewriter_timer_timeout"]

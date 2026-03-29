@@ -55,12 +55,12 @@ const LUGARES_POR_TIPO = {
 	4: ["shop", "restaurant"]
 }
 
-@onready var toast:      Node2D           = $Node2D
-@onready var box_sprite: AnimatedSprite2D = $Node2D/box
-@onready var name_label: Label            = $Node2D/name
-@onready var age_label:  Label            = $Node2D/age
-@onready var desc_label: Label            = $Node2D/desc
-@onready var hud: Node                    = $Hud
+@onready var toast:      Node2D           = $Node2DLayer/Node2D
+@onready var box_sprite: AnimatedSprite2D = $Node2DLayer/Node2D/box
+@onready var name_label: Label            = $Node2DLayer/Node2D/name
+@onready var age_label:  Label            = $Node2DLayer/Node2D/age
+@onready var desc_label: Label            = $Node2DLayer/Node2D/desc
+@onready var hud: Node                    = $HUDLayer/Hud
 
 var toast_origin: Vector2
 

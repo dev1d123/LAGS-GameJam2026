@@ -1,15 +1,16 @@
 extends Node2D
 
 @onready var spawner:         Node2D = $Spawner
-@onready var hud: Node                = $Spawner/Hud
-@onready var npc_description: Node2D = $NpcDescription
-@onready var title_label: Label       = $NpcDescription/TitleLabel
-@onready var objectives_label: Label  = $NpcDescription/ObjetivesLabel
-@onready var description_label: Label = $NpcDescription/DescriptionLabel
-@onready var rewards_label: Label     = $NpcDescription/RewardsLabel
-@onready var money_label: Label       = $NpcDescription/MoneyLabel
-@onready var cancel_button: Button    = $NpcDescription/CancelButton
-@onready var accept_button: Button    = $NpcDescription/AcceptButton
+@onready var hud: Node                = $Spawner/Node/HUDLayer/Hud
+@onready var npc_description: Node2D = $NpcDescriptionLayer/NpcDescription
+@onready var title_label: Label       = $NpcDescriptionLayer/NpcDescription/TitleLabel
+@onready var objectives_label: Label  = $NpcDescriptionLayer/NpcDescription/ObjetivesLabel
+@onready var description_label: Label = $NpcDescriptionLayer/NpcDescription/DescriptionLabel
+@onready var rewards_label: Label     = $NpcDescriptionLayer/NpcDescription/RewardsLabel
+@onready var money_label: Label       = $NpcDescriptionLayer/NpcDescription/MoneyLabel
+@onready var cancel_button: Button    = $NpcDescriptionLayer/NpcDescription/CancelButton
+@onready var accept_button: Button    = $NpcDescriptionLayer/NpcDescription/AcceptButton
+@onready var screen_fx: ColorRect = $Spawner/Node/ShaderLayer/ColorRect
 
 #Son Labels Hijo de npc
 #$TitleLabel, $ObjetivesLabel, $DescriptionLabel, $RewardsLabel, $MoneyLabel
@@ -24,8 +25,10 @@ var is_day_transition_playing: bool = false
 
 const DAY_START_HOUR := 6
 const DAY_END_HOUR := 18
-const SECONDS_PER_INGAME_HOUR := 7
+const FINAL_DAY := 4
+const SECONDS_PER_INGAME_HOUR := 5
 const DAY_TRANSITION_FONT := preload("res://assets/fonts/LazyFox Pixel Font 2.ttf")
+const ENDING_SCENE_PATH := "res://scenes/Endings/EscenaFinales.tscn"
 
 const SHOP_MUSIC_ACTIVE_DB := -8.0
 const SHOP_MUSIC_MUTED_DB := -40.0
@@ -97,9 +100,9 @@ func _ready() -> void:
 	npc_description.visible = false
 	cancel_button.pressed.connect(_on_cancel_button_pressed)
 	if accept_button == null:
-		accept_button = $NpcDescription.get_node_or_null("CheckButtonA") as Button
+		accept_button = $NpcDescriptionLayer/NpcDescription.get_node_or_null("CheckButtonA") as Button
 	if accept_button == null:
-		push_error("No se encontro el boton de aceptar en NpcDescription")
+		push_error("No se encontro el boton de aceptar en NpcDescriptionLayer/NpcDescription")
 	else:
 		accept_button.pressed.connect(_on_accept_button_pressed)
 	spawner.register_scenario(self)
@@ -109,6 +112,7 @@ func _ready() -> void:
 	_setup_pause_menu_ui()
 	_initialize_day_cycle()
 	call_deferred("_start_day_transition", current_day)
+	
 
 
 func _exit_tree() -> void:
@@ -132,6 +136,62 @@ func _process(delta: float) -> void:
 	while day_time_accum >= SECONDS_PER_INGAME_HOUR:
 		day_time_accum -= SECONDS_PER_INGAME_HOUR
 		_advance_ingame_hour()
+	
+	_update_shader_effects()
+
+var smoothed_energy: float = 100.0
+var smoothed_stress: float = 0.0
+
+func _update_shader_effects() -> void:
+	var tree := get_tree()
+	if tree == null:
+		return
+
+	if hud == null or screen_fx == null or screen_fx.material == null:
+		return
+
+	
+	var delta: float = get_process_delta_time()
+	
+	var target_energy: float = hud.energy_bar.value
+	var target_stress: float = hud.stress_bar.value
+
+	smoothed_energy = lerp(smoothed_energy, target_energy, 1.5 * delta)
+	smoothed_stress = lerp(smoothed_stress, target_stress, 1.5 * delta)
+
+	var fatigue_factor: float = 1.0 - clamp(smoothed_energy / 70.0, 0.0, 1.0)
+	var stress_factor: float = clamp(smoothed_stress / 100.0, 0.0, 1.0)
+
+	var saturation: float = 1.0 - (pow(fatigue_factor, 1.5) * 0.9)
+	screen_fx.material.set_shader_parameter("saturation_amount", saturation)
+
+	var blur: float = 0.0
+	if fatigue_factor > 0.3:
+		blur = pow((fatigue_factor - 0.3) / 0.7, 2.0) * 7.0
+		blur = clamp(blur, 0.0, 3.0)
+
+	screen_fx.material.set_shader_parameter("blur_intensity", blur)
+
+	var stress_curve: float = pow(stress_factor, 3.0)
+	screen_fx.material.set_shader_parameter("stress_tunnel", stress_curve)
+	
+	var player = tree.get_first_node_in_group("Player")
+	
+	if is_instance_valid(player):
+		var player_canvas_pos = player.get_global_transform_with_canvas().origin
+		var viewport_size = get_viewport_rect().size
+		
+		if viewport_size.x > 0 and viewport_size.y > 0:
+			var player_uv = player_canvas_pos / viewport_size
+			screen_fx.material.set_shader_parameter("player_screen_uv", player_uv)
+			
+		var combined_malaise: float = clamp(pow(fatigue_factor, 2.0) + pow(stress_factor, 2.0), 0.0, 1.0)
+		
+		var player_sprite = player.get_node_or_null("AnimatedSprite2D")
+		
+		if player_sprite != null and player_sprite.material != null:
+			player_sprite.material.set_shader_parameter("malaise_amount", combined_malaise)
+	
 
 
 func _input(event: InputEvent) -> void:
@@ -355,6 +415,10 @@ func _advance_ingame_hour() -> void:
 		hud.set_hora(current_hour)
 
 	if current_hour >= DAY_END_HOUR:
+		if current_day >= FINAL_DAY:
+			_trigger_final_ending()
+			return
+
 		current_day += 1
 		current_hour = DAY_START_HOUR
 		if hud != null and hud.has_method("set_dia"):
@@ -362,6 +426,33 @@ func _advance_ingame_hour() -> void:
 		if hud != null and hud.has_method("set_hora"):
 			hud.set_hora(current_hour)
 		_start_day_transition(current_day)
+
+
+func _trigger_final_ending() -> void:
+	_set_world_paused(true)
+	is_day_transition_playing = true
+	if day_transition_layer != null:
+		day_transition_layer.visible = true
+	if day_transition_label != null:
+		day_transition_label.visible = false
+	if day_transition_rect != null:
+		day_transition_rect.color = Color(0, 0, 0, 0)
+		var fade_tween := create_tween()
+		fade_tween.tween_property(day_transition_rect, "color", Color(0, 0, 0, 1), 0.5)
+		await fade_tween.finished
+
+	var final_money: int = 0
+	var final_stress: float = 0.0
+
+	if hud != null:
+		final_money = int(hud.get("dinero"))
+		if hud.has_method("get_stress_percent"):
+			final_stress = float(hud.get_stress_percent())
+
+	if GameManager != null and GameManager.has_method("set_final_stats"):
+		GameManager.set_final_stats(final_stress, final_money, current_day)
+
+	get_tree().change_scene_to_file(ENDING_SCENE_PATH)
 
 
 func _setup_day_transition_ui() -> void:

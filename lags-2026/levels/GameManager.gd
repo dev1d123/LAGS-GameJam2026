@@ -3,6 +3,9 @@ extends Node
 var frozen:       bool = false
 var aura_npc_ref: Node = null
 var spawner_ref:  Node = null
+var final_stress_percent: float = 0.0
+var final_money: int = 0
+var final_day_reached: int = 0
 
 func _input(event: InputEvent) -> void:
 	if event.is_action_pressed("ui_interact"):
@@ -28,3 +31,15 @@ func clear_aura_npc(npc: Node) -> void:
 
 func register_spawner(spawner: Node) -> void:
 	spawner_ref = spawner
+
+
+func set_final_stats(stress_percent: float, money_amount: int, day_reached: int) -> void:
+	final_stress_percent = clamp(stress_percent, 0.0, 100.0)
+	final_money = max(money_amount, 0)
+	final_day_reached = day_reached
+
+
+func reset_final_stats() -> void:
+	final_stress_percent = 0.0
+	final_money = 0
+	final_day_reached = 0

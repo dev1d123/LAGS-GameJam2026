@@ -2,11 +2,13 @@ extends Control
 
 const SCENARIO_SCENE_PATH := "res://levels/TestLevel.tscn"
 const INTRO_JSON_PATH := "res://data/cinematic/intro_cinematic.json"
+const INTRO_BGM_STREAM := preload("res://assets/audio/game/introCinematic.ogg")
 
 var dialog_data = []
 var current_scene_index = 0
 var current_language: String = "es"
 var is_transitioning: bool = false
+var bgm_player: AudioStreamPlayer
 
 @onready var button_label = $CanvasLayer/DialogueBox/SkipButton/ButtonLabel
 @onready var anim_player = $AnimationPlayer
@@ -16,10 +18,21 @@ var is_transitioning: bool = false
 @onready var blip = $CanvasLayer/BlipPlayer
 
 func _ready() -> void:
+	_setup_intro_bgm()
 	_resolve_language()
 	load_dialog_data()
 	if dialog_data.size() > 0:
 		show_scene(0)
+
+
+func _setup_intro_bgm() -> void:
+	bgm_player = AudioStreamPlayer.new()
+	bgm_player.name = "IntroBgmPlayer"
+	bgm_player.stream = INTRO_BGM_STREAM
+	bgm_player.volume_db = -8.0
+	bgm_player.process_mode = Node.PROCESS_MODE_ALWAYS
+	add_child(bgm_player)
+	bgm_player.play()
 
 func _resolve_language() -> void:
 	var locale_manager := get_node_or_null("/root/LocaleManager")

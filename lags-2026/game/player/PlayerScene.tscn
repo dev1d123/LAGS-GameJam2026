@@ -2,7 +2,12 @@
 
 [ext_resource type="Script" uid="uid://bjc6nanmpt7nq" path="res://game/player/player_scene.gd" id="1_bybyv"]
 [ext_resource type="Texture2D" uid="uid://c6e87paekno5e" path="res://assets/sprites/personajePrincipal.png" id="1_ydcdd"]
+[ext_resource type="Shader" uid="uid://dvuvsgponmble" path="res://assets/shaders/shader_player.gdshader" id="2_dqpwl"]
 [ext_resource type="AudioStream" uid="uid://cnesiba6fvdwi" path="res://assets/audio/sfx/walk.wav" id="3_71f4a"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_ocm78"]
+shader = ExtResource("2_dqpwl")
+shader_parameter/malaise_amount = 0.0
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_bybyv"]
 atlas = ExtResource("1_ydcdd")
@@ -131,11 +136,12 @@ animations = [{
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_bybyv"]
 size = Vector2(23, 7)
 
-[node name="PlayerScene" type="CharacterBody2D" unique_id=1653825361]
+[node name="PlayerScene" type="CharacterBody2D" unique_id=1653825361 groups=["Player"]]
 collision_layer = 8
 script = ExtResource("1_bybyv")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=8316885]
+material = SubResource("ShaderMaterial_ocm78")
 sprite_frames = SubResource("SpriteFrames_ydbod")
 animation = &"walk_side"
 frame_progress = 0.53629744
