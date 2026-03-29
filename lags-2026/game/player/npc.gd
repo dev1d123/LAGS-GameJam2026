@@ -223,7 +223,7 @@ func _on_wait_timer_timeout() -> void:
 		return
 	if not lost_count_registered:
 		_register_lost_customer()
-	mission_completed = true
+	mission_completed = lost_count_registered
 	time_bar.visible    = false
 	mission_box.visible = false
 	set_aura(false)
@@ -235,10 +235,19 @@ func _on_wait_timer_timeout() -> void:
 func _register_lost_customer() -> void:
 	if lost_count_registered:
 		return
-	var parent_node := get_parent()
-	if parent_node != null and parent_node.has_method("add_lost"):
-		parent_node.add_lost(1)
-	lost_count_registered = true
+	var tracker := _find_lost_tracker_node()
+	if tracker != null:
+		tracker.add_lost(1)
+		lost_count_registered = true
+
+
+func _find_lost_tracker_node() -> Node:
+	var node: Node = self
+	while node != null:
+		if node.has_method("add_lost"):
+			return node
+		node = node.get_parent()
+	return null
 
 
 func _process(delta: float) -> void:

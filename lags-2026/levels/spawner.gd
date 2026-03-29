@@ -1,6 +1,7 @@
 extends Node2D
 
 const NPC_SCENE = preload("res://game/player/NPC.tscn")
+const LOST_CUSTOMER_SFX := preload("res://scenes/minigameIndications/error.ogg")
 
 @export var pos:          Node2D
 @export var posSalida:    Node2D
@@ -68,6 +69,7 @@ var toast_origin: Vector2
 var scenario_ref: Node = null
 var spawn_timer: Timer
 var player_natural_position: Vector2 = Vector2.ZERO
+var lost_sfx_player: AudioStreamPlayer
 
 const SPAWN_INTERVAL_BY_DAY := {
 	1: 5.0,
@@ -94,10 +96,18 @@ func add_lost(cantidad: int) -> void:
 		hud = _resolve_hud()
 	if hud != null and hud.has_method("actualizar_perdidos"):
 		hud.actualizar_perdidos(cantidad)
+	if lost_sfx_player != null:
+		lost_sfx_player.pitch_scale = randf_range(0.95, 1.05)
+		lost_sfx_player.play()
 
 
 func _ready() -> void:
 	hud = _resolve_hud()
+	lost_sfx_player = AudioStreamPlayer.new()
+	lost_sfx_player.stream = LOST_CUSTOMER_SFX
+	lost_sfx_player.bus = &"SFX"
+	lost_sfx_player.volume_db = -10.0
+	add_child(lost_sfx_player)
 	y_sort_layer = get_node_or_null("YSortLayer")
 	_load_npc_data()
 	toast_origin  = toast.position

@@ -50,9 +50,9 @@
     "pt": "Tempo: %.1f"
   },
   "client_request": {
-    "es": "Cliente: %s\nBoleta solicitada: %s",
-    "en": "Customer: %s\nRequested bill: %s",
-    "pt": "Cliente: %s\nBoleto solicitado: %s"
+    "es": "Boleta solicitada: %s",
+    "en": "Requested bill: %s",
+    "pt": "Boleto solicitado: %s"
   },
   "ref": {
     "es": "Ref",
