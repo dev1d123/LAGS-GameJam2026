@@ -5,9 +5,9 @@
 	"pt": "SERVINDO CERVEJA"
   },
   "instruction": {
-	"es": "El llenado inicia solo. Haz clic en DETENER al llegar a la línea.",
-	"en": "Filling starts automatically. Click STOP when it reaches the line.",
-	"pt": "Segure a alavanca e solte na linha alvo."
+	"es": "El vaso se llena automáticamente. Haz clic en DETENER cuando llegue a la línea objetivo.",
+	"en": "The glass fills automatically. Click STOP when it reaches the target line.",
+	"pt": "O copo enche automaticamente. Clique em PARAR quando chegar na linha-alvo."
   },
   "quick_guide": {
 	"es": "GUÍA RÁPIDA",
@@ -15,19 +15,19 @@
 	"pt": "GUIA RÁPIDO"
   },
   "guide_1": {
-	"es": "1) EL VASO SE LLENA AUTOMÁTICAMENTE",
-	"en": "1) THE GLASS FILLS AUTOMATICALLY",
-	"pt": "1) SEGURE O CLIQUE NA ALAVANCA"
+	"es": "1) EL VASO COMIENZA A LLENARSE SOLO",
+	"en": "1) THE GLASS STARTS FILLING ON ITS OWN",
+	"pt": "1) O COPO COMEÇA A ENCHER SOZINHO"
   },
   "guide_2": {
-	"es": "2) LLENA HASTA LA LÍNEA OBJETIVO",
-	"en": "2) FILL UP TO THE TARGET LINE",
-	"pt": "2) ENCHA ATÉ A LINHA-ALVO"
+	"es": "2) OBSERVA EL NIVEL Y APUNTA A LA LÍNEA OBJETIVO",
+	"en": "2) WATCH THE LEVEL AND AIM FOR THE TARGET LINE",
+	"pt": "2) OBSERVE O NÍVEL E MIRE NA LINHA-ALVO"
   },
   "guide_3": {
 	"es": "3) HAZ CLIC EN DETENER EN EL MOMENTO EXACTO",
-	"en": "3) RELEASE TO STOP POURING",
-	"pt": "3) SOLTE PARA PARAR DE ENCHER"
+	"en": "3) CLICK STOP AT THE EXACT MOMENT",
+	"pt": "3) CLIQUE EM PARAR NO MOMENTO EXATO"
   },
   "objectives": {
 	"es": "OBJETIVOS",
@@ -50,9 +50,9 @@
 	"pt": "Tempo: %.1f"
   },
   "client_request": {
-	"es": "Cliente pide: llena al %d%%",
-	"en": "Customer asks: fill to %d%%",
-	"pt": "Cliente pede: encha até %d%%"
+	"es": "Objetivo del cliente: llenar al %d%%",
+	"en": "Customer target: fill to %d%%",
+	"pt": "Objetivo do cliente: encher até %d%%"
   },
   "hold": {
 	"es": "MANTENER",

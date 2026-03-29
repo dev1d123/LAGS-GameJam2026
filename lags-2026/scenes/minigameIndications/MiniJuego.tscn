@@ -138,7 +138,7 @@ theme_override_colors/font_outline_color = Color(0.189829, 0.0827736, 0.0013467,
 theme_override_constants/outline_size = 6
 theme_override_fonts/font = ExtResource("10_ui_font")
 theme_override_font_sizes/font_size = 22
-text = "1) LEE LA PREGUNTA DEL CLIENTE"
+text = "1) ESPERA A QUE LA FLECHA ENTRE EN LA ZONA"
 horizontal_alignment = 1
 autowrap_mode = 3
 
@@ -153,7 +153,7 @@ theme_override_colors/font_outline_color = Color(0.189829, 0.0827736, 0.0013467,
 theme_override_constants/outline_size = 6
 theme_override_fonts/font = ExtResource("10_ui_font")
 theme_override_font_sizes/font_size = 22
-text = "2) USA FLECHAS ARRIBA/ABAJO/IZQ/DER"
+text = "2) PRESIONA LA DIRECCION CORRECTA"
 horizontal_alignment = 1
 autowrap_mode = 3
 
@@ -168,7 +168,7 @@ theme_override_colors/font_outline_color = Color(0.189829, 0.0827736, 0.0013467,
 theme_override_constants/outline_size = 6
 theme_override_fonts/font = ExtResource("10_ui_font")
 theme_override_font_sizes/font_size = 22
-text = "3) NO DEJES PASAR FLECHAS REALES"
+text = "3) IGNORA LAS FLECHAS ROJAS (SON FALSAS)"
 horizontal_alignment = 1
 autowrap_mode = 3
 

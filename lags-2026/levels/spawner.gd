@@ -319,8 +319,9 @@ func apply_day_settings(day_number: int) -> void:
 		return
 
 	spawn_timer.wait_time = _get_spawn_interval_for_day(day_number)
-	if spawn_timer.is_stopped():
-		spawn_timer.start()
+	# Restart from zero on each day change so spawn cadence is consistent.
+	spawn_timer.stop()
+	spawn_timer.start()
 
 
 func on_day_changed(day_number: int) -> void:
@@ -330,14 +331,22 @@ func on_day_changed(day_number: int) -> void:
 
 
 func clear_all_npcs() -> void:
-	for child in get_children():
-		if _is_spawned_npc(child):
-			child.set("mission_completed", true)
-			child.queue_free()
+	_clear_spawned_npcs_from_parent(self)
+	if y_sort_layer != null and y_sort_layer != self:
+		_clear_spawned_npcs_from_parent(y_sort_layer)
 
 	occupied_markers.clear()
 	active_types.clear()
 	active_names.clear()
+
+
+func _clear_spawned_npcs_from_parent(parent_node: Node) -> void:
+	if parent_node == null:
+		return
+	for child in parent_node.get_children():
+		if _is_spawned_npc(child):
+			child.set("mission_completed", true)
+			child.queue_free()
 
 
 func reset_player_to_natural_position() -> void:
