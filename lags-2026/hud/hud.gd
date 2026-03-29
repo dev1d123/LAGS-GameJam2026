@@ -34,8 +34,8 @@ const MONEY_GOOD_THRESHOLD: int = 5000
 const MONEY_COLOR_BAD := Color(0.62, 0.62, 0.62, 1.0)
 const MONEY_COLOR_NORMAL := Color(0.95, 0.84, 0.30, 1.0)
 const MONEY_COLOR_GOOD := Color(0.47, 0.88, 0.46, 1.0)
-const COLA_ENERGY_PERCENT: float = 30.0
-const LECHE_STRESS_REDUCE: float = 20.0
+const COLA_ENERGY_PERCENT: float = 40.0
+const LECHE_STRESS_REDUCE: float = 30.0
 const CARAMELO_SPEED_MULTIPLIER: float = 1.35
 const CARAMELO_DURATION_SECONDS: float = 10.0
 

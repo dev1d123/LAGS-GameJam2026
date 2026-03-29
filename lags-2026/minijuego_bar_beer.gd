@@ -126,7 +126,7 @@ func _start_round() -> void:
 	fill_level = 0.0
 	target_fill = randf_range(0.35, 0.9)
 
-	var expected_seconds: float = randf_range(3.0, 10.0)
+	var expected_seconds: float = randf_range(2.0, 7.0)
 	fill_speed = 1.0 / expected_seconds
 
 	request_label.text = _t("client_request") % [int(round(target_fill * 100.0))]

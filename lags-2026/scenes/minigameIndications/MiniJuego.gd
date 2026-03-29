@@ -60,6 +60,10 @@ var lista_preguntas = []
 func _ready():
 	estres_actual = 50
 	_setup_stress_shader()
+	current_language = LocaleManager.current_language
+	_apply_ui_font_overrides()
+	if speed_label != null:
+		speed_label.visible = false
 	
 	if barra_progreso:
 		barra_progreso.max_value = puntos_victoria
@@ -474,9 +478,26 @@ func _calc_recompensa_from_eficiencia() -> int:
 	return int(round(lerpf(float(min_money), float(max_money), clamp(eficiencia / 100.0, 0.0, 1.0))))
 
 
+func _apply_ui_font_overrides() -> void:
+	for label in [score_label, errors_label, stress_label, speed_label]:
+		if label != null:
+			label.add_theme_font_override("font", UI_FONT)
+			label.add_theme_font_size_override("font_size", 26)
+			label.add_theme_color_override("font_color", Color(0.687779, 0.643646, 0.632612, 1.0))
+			label.add_theme_color_override("font_outline_color", Color(0.189829, 0.0827736, 0.0013467, 1.0))
+			label.add_theme_constant_override("outline_size", 6)
+
+	if label_pregunta != null:
+		label_pregunta.add_theme_font_override("normal_font", UI_FONT)
+		label_pregunta.add_theme_font_override("bold_font", UI_FONT)
+		label_pregunta.add_theme_font_override("bold_italics_font", UI_FONT)
+		label_pregunta.add_theme_font_override("italics_font", UI_FONT)
+		label_pregunta.add_theme_font_override("mono_font", UI_FONT)
+
+
 func _update_status_panel() -> void:
 	score_label.text = "PUNTOS: %d/%d" % [puntos, puntos_victoria]
 	errors_label.text = "ERRORES: %d/%d" % [errores, limite_errores]
 	stress_label.text = "ESTRES: %d%%" % int(round(estres_actual))
-	var faltan: int = max(0, puntos_victoria - puntos)
-	speed_label.text = "META: %d | SPAWN: %.2fs" % [faltan, spawn_timer.wait_time]
+	if speed_label != null:
+		speed_label.text = ""

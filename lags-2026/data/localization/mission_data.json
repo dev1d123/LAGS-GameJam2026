@@ -13,9 +13,9 @@
 		"pt": "Objetivos"
 	  },
 	  "description": {
-		"es": "Mantén clic izquierdo sobre la manija del barril para llenar el vaso y detente justo en la línea objetivo. Cada pedido puede tomar entre 3 y 10 segundos según tu precisión.",
-		"en": "Hold left click on the keg handle to pour into the glass, then stop right at the target line. Each order can take between 3 and 10 seconds depending on your precision.",
-		"pt": "Segure o clique esquerdo na alavanca do barril para encher o copo e pare exatamente na linha alvo. Cada pedido pode levar entre 3 e 10 segundos dependendo da sua precisão."
+		"es": "El vaso se llena automáticamente. Haz clic en DETENER justo al llegar a la línea objetivo.",
+		"en": "The glass fills automatically. Click STOP right at the target line.",
+		"pt": "O copo enche automaticamente. Clique em PARAR exatamente na linha-alvo."
 	  },
 	  "rewards_label": {
 		"es": "Recompensas",

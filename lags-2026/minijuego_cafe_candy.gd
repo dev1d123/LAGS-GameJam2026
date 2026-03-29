@@ -3,6 +3,7 @@ extends Control
 signal minigame_finished(success: bool, score: int, total_rounds: int)
 
 const I18N_CATEGORY := "minigame_cafe_candy"
+const UI_FONT := preload("res://assets/fonts/PixelOperatorMonoHB.ttf")
 const SFX_CLICK_STREAM := preload("res://assets/audio/button_click_1.mp3")
 const SFX_SUCCESS_STREAM := preload("res://scenes/minigameIndications/success.ogg")
 const SFX_ERROR_STREAM := preload("res://scenes/minigameIndications/error.ogg")
@@ -12,7 +13,7 @@ const STRESS_SHADER := preload("res://assets/shaders/stress_cafe_candy.gdshader"
 const STANDARD_UI_TEXT_COLOR := Color(0.687779, 0.643646, 0.632612, 1.0)
 
 @export var total_rounds: int = 5
-@export var round_time_base: float = 18.0
+@export var round_time_base: float = 16.0
 
 @onready var title_label: Button = $MainPanel/Margin/VBox/TitleSlot/Title
 @onready var left_panel: VBoxContainer = $MainPanel/Margin/VBox/Content/LeftPanel
@@ -262,6 +263,11 @@ func _populate_guide_reference() -> void:
 		var flavor_label := Label.new()
 		flavor_label.text = _t("candy_" + candy_type)
 		flavor_label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+		flavor_label.add_theme_font_override("font", UI_FONT)
+		flavor_label.add_theme_font_size_override("font_size", 24)
+		flavor_label.add_theme_color_override("font_color", STANDARD_UI_TEXT_COLOR)
+		flavor_label.add_theme_color_override("font_outline_color", Color(0.189829, 0.0827736, 0.0013467, 1.0))
+		flavor_label.add_theme_constant_override("outline_size", 4)
 		row.add_child(flavor_label)
 
 

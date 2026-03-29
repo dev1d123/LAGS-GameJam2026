@@ -21,6 +21,7 @@ const STRESS_SHADER := preload("res://assets/shaders/stress_warehouse.gdshader")
 @onready var time_label: Label = get_parent().get_node("GameUI/UIRoot/HUDPanel/Margin/VBox/StatsRow/TimeCard/TimeLabel")
 @onready var boxes_label: Label = get_parent().get_node("GameUI/UIRoot/HUDPanel/Margin/VBox/StatsRow/BoxesCard/BoxesLabel")
 @onready var hits_label: Label = get_parent().get_node("GameUI/UIRoot/HUDPanel/Margin/VBox/StatsRow/HitsCard/HitsLabel")
+@onready var light_card: PanelContainer = get_parent().get_node("GameUI/UIRoot/HUDPanel/Margin/VBox/StatsRow/LightCard")
 @onready var light_label: Label = get_parent().get_node("GameUI/UIRoot/HUDPanel/Margin/VBox/StatsRow/LightCard/LightLabel")
 @onready var objective_label: Label = get_parent().get_node("GameUI/UIRoot/HUDPanel/Margin/VBox/ObjectiveCard/ObjectiveLabel")
 @onready var result_panel: PanelContainer = get_parent().get_node("GameUI/UIRoot/ResultPanel")
@@ -60,6 +61,8 @@ func _ready() -> void:
 	var day_offset := float(current_day - 1) * time_decrease_per_day
 	time_remaining = max(min_time, base_time - day_offset)
 	is_game_running = true
+	if light_card != null:
+		light_card.visible = false
 	result_panel.visible = false
 	if retry_button != null and is_instance_valid(retry_button):
 		retry_button.visible = false
@@ -166,7 +169,6 @@ func _update_hud() -> void:
 	time_label.text = "TIEMPO: %s" % _format_time_mm_ss(time_remaining)
 	boxes_label.text = "CAJAS: %d/%d" % [boxes_collected, target_boxes]
 	hits_label.text = "GOLPES: %d/%d" % [hits_taken, max_hits]
-	light_label.text = "LUZ: %s" % ("ENCENDIDA" if light_on else "APAGADA")
 	objective_label.text = "OBJETIVO: RECOGE %d CAJAS, EVITA LOS SPIKES Y SOBREVIVE A LOS APAGONES." % target_boxes
 
 
