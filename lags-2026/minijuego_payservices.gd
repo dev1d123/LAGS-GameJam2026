@@ -4,6 +4,9 @@ signal minigame_finished(success: bool, score: int, total_rounds: int)
 
 const I18N_CATEGORY := "minigame_payservices"
 const BILL_FONT := preload("res://assets/fonts/PixelOperatorMonoHB.ttf")
+const BILL_SPRITE := preload("res://assets/sprites/ui/service.png")
+const SFX_SUCCESS_STREAM := preload("res://scenes/minigameIndications/success.ogg")
+const SFX_ERROR_STREAM := preload("res://scenes/minigameIndications/error.ogg")
 
 @export var total_rounds: int = 5
 @export var options_per_round: int = 3
@@ -47,20 +50,40 @@ var score: int = 0
 var round_time_left: float = 0.0
 var round_locked: bool = false
 var pending_next_round: float = -1.0
+var game_started: bool = false
 
 var current_target_id: String = ""
 var current_target_text: String = ""
 var active_bill_buttons: Array[Button] = []
+var sfx_success_player: AudioStreamPlayer
+var sfx_error_player: AudioStreamPlayer
+var start_button: Button
 
 func _ready() -> void:
 	randomize()
+	_setup_feedback_sfx()
 	finish_button.visible = false
 	finish_button.pressed.connect(_on_finish_button_pressed)
 	_update_static_texts()
-	call_deferred("_start_round")
+	_setup_start_button()
+
+
+func _setup_feedback_sfx() -> void:
+	sfx_success_player = AudioStreamPlayer.new()
+	sfx_success_player.stream = SFX_SUCCESS_STREAM
+	sfx_success_player.bus = &"SFX"
+	add_child(sfx_success_player)
+
+	sfx_error_player = AudioStreamPlayer.new()
+	sfx_error_player.stream = SFX_ERROR_STREAM
+	sfx_error_player.bus = &"SFX"
+	add_child(sfx_error_player)
 
 
 func _process(delta: float) -> void:
+	if not game_started:
+		return
+
 	if current_round <= 0:
 		return
 
@@ -92,6 +115,49 @@ func _update_static_texts() -> void:
 	timer_label.text = _t("timer") % [round_time_limit]
 	result_label.text = ""
 	result_label.visible = false
+
+
+func _setup_start_button() -> void:
+	start_button = Button.new()
+	start_button.name = "StartButton"
+	start_button.custom_minimum_size = Vector2(320, 88)
+	start_button.text = _get_start_button_text()
+	start_button.add_theme_font_override("font", BILL_FONT)
+	start_button.add_theme_font_size_override("font_size", 36)
+	start_button.add_theme_constant_override("outline_size", 6)
+	start_button.add_theme_color_override("font_color", Color(0.687779, 0.643646, 0.632612, 1))
+	start_button.add_theme_color_override("font_outline_color", Color(0.189829, 0.0827736, 0.0013467, 1))
+	start_button.set_anchors_preset(Control.PRESET_TOP_LEFT)
+	start_button.pressed.connect(_on_start_button_pressed)
+	bills_area.add_child(start_button)
+	call_deferred("_reposition_start_button")
+	bills_area.resized.connect(_reposition_start_button)
+
+
+func _reposition_start_button() -> void:
+	if start_button == null or not is_instance_valid(start_button):
+		return
+	start_button.position = Vector2((bills_area.size.x - start_button.custom_minimum_size.x) * 0.5, (bills_area.size.y - start_button.custom_minimum_size.y) * 0.5)
+
+
+func _on_start_button_pressed() -> void:
+	if game_started:
+		return
+
+	game_started = true
+	if start_button != null and is_instance_valid(start_button):
+		start_button.queue_free()
+	_start_round()
+
+
+func _get_start_button_text() -> String:
+	match LocaleManager.current_language:
+		"en":
+			return "START"
+		"pt":
+			return "COMECAR"
+		_:
+			return "COMENZAR"
 
 
 func _start_round() -> void:
@@ -149,37 +215,78 @@ func _spawn_falling_bills(bills: Array[Dictionary]) -> void:
 		await get_tree().process_frame
 
 	var area_w: float = bills_area.size.x
+	var area_h: float = bills_area.size.y
 	if area_w < 10.0:
 		area_w = 960.0
+	if area_h < 10.0:
+		area_h = 460.0
 
 	var count: int = bills.size()
-	var side_padding: float = 16.0
-	var gap: float = 12.0
-	var available_w: float = max(0.0, area_w - side_padding * 2.0)
-	var computed_btn_w: float = (available_w - gap * float(max(0, count - 1))) / float(max(1, count))
-	var btn_w: float = clampf(computed_btn_w, 220.0, 320.0)
-	var slot_w: float = btn_w + gap
-	var total_w: float = slot_w * float(count) - gap
-	var start_x: float = max(0.0, (area_w - total_w) * 0.5)
+	var side_padding: float = 4.0
+	var gap_x: float = 8.0
+	var gap_y: float = 0.0
+	var columns: int = max(1, count)
+	var rows: int = 1
+	var available_w: float = maxf(0.0, area_w - side_padding * 2.0 - gap_x * float(max(0, columns - 1)))
+	var computed_btn_w: float = available_w / float(max(1, columns))
+	var max_h_per_row: float = maxf(120.0, (area_h - side_padding * 2.0 - gap_y * float(max(0, rows - 1))) / float(max(1, rows)))
+	var sprite_size: Vector2 = BILL_SPRITE.get_size()
+	var sprite_aspect: float = sprite_size.x / maxf(1.0, sprite_size.y)
+	var width_from_height_limit: float = max_h_per_row * sprite_aspect
+	var btn_w: float = minf(computed_btn_w, width_from_height_limit)
+	btn_w = maxf(btn_w, 150.0)
+	var btn_h: float = round(btn_w / maxf(0.01, sprite_aspect))
+	var total_w: float = btn_w * float(columns) + gap_x * float(max(0, columns - 1))
+	var start_x: float = maxf(0.0, (area_w - total_w) * 0.5)
 
 	for i in range(bills.size()):
 		var bill: Dictionary = bills[i]
 		var btn := Button.new()
-		btn.custom_minimum_size = Vector2(btn_w, 156)
-		btn.size = Vector2(btn_w, 156)
-		var x_pos := start_x + slot_w * float(i)
-		btn.position = Vector2(x_pos, -btn.size.y - randi_range(0, 90))
-		btn.text = _bill_button_text(bill)
-		btn.alignment = HORIZONTAL_ALIGNMENT_LEFT
-		btn.add_theme_font_override("font", BILL_FONT)
-		btn.add_theme_font_size_override("font_size", 23)
-		btn.add_theme_constant_override("h_separation", 12)
-		btn.add_theme_constant_override("outline_size", 6)
-		btn.add_theme_color_override("font_color", Color(0.687779, 0.643646, 0.632612, 1))
-		btn.add_theme_color_override("font_pressed_color", Color(0.687779, 0.643646, 0.632612, 1))
-		btn.add_theme_color_override("font_hover_color", Color(0.687779, 0.643646, 0.632612, 1))
-		btn.add_theme_color_override("font_outline_color", Color(0.189829, 0.0827736, 0.0013467, 1))
-		btn.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+		btn.clip_contents = true
+		btn.custom_minimum_size = Vector2(btn_w, btn_h)
+		btn.size = Vector2(btn_w, btn_h)
+		var col: int = i
+		var row: int = 0
+		var x_pos := start_x + float(col) * (btn_w + gap_x)
+		var y_pos := side_padding + randf_range(0.0, 2.0)
+		btn.position = Vector2(x_pos, y_pos)
+		btn.text = ""
+		btn.flat = true
+
+		var clear_style := StyleBoxFlat.new()
+		clear_style.bg_color = Color(0, 0, 0, 0)
+		btn.add_theme_stylebox_override("normal", clear_style)
+		btn.add_theme_stylebox_override("hover", clear_style)
+		btn.add_theme_stylebox_override("pressed", clear_style)
+		btn.add_theme_stylebox_override("focus", clear_style)
+
+		var bill_bg := TextureRect.new()
+		bill_bg.texture = BILL_SPRITE
+		bill_bg.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+		bill_bg.expand_mode = TextureRect.EXPAND_FIT_WIDTH_PROPORTIONAL
+		bill_bg.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+		bill_bg.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		btn.add_child(bill_bg)
+		btn.move_child(bill_bg, 0)
+
+		var info_label := Label.new()
+		info_label.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+		info_label.offset_left = 24.0
+		info_label.offset_top = 136.0
+		info_label.offset_right = -24.0
+		info_label.offset_bottom = -44.0
+		info_label.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		info_label.text = _bill_button_text(bill)
+		info_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+		info_label.vertical_alignment = VERTICAL_ALIGNMENT_TOP
+		info_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+		info_label.add_theme_font_override("font", BILL_FONT)
+		info_label.add_theme_font_size_override("font_size", 21)
+		info_label.add_theme_constant_override("outline_size", 0)
+		info_label.add_theme_constant_override("line_spacing", -3)
+		info_label.add_theme_color_override("font_color", Color(0, 0, 0, 1))
+		btn.add_child(info_label)
+
 		btn.set_meta("bill_id", bill["id"])
 		btn.pressed.connect(func(): _on_bill_selected(btn))
 		bills_area.add_child(btn)
@@ -239,6 +346,12 @@ func _resolve_round(is_correct: bool, selected_index: int) -> void:
 	round_locked = true
 	if is_correct:
 		score += 1
+		if sfx_success_player != null:
+			sfx_success_player.pitch_scale = randf_range(0.9, 1.1)
+			sfx_success_player.play()
+	else:
+		if sfx_error_player != null:
+			sfx_error_player.play()
 
 	for i in range(active_bill_buttons.size()):
 		var btn: Button = active_bill_buttons[i]

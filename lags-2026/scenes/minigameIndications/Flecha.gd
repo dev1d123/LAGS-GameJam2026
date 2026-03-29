@@ -23,6 +23,8 @@ func _ready():
 	
 	if es_falsa:
 		modulate = Color(1, 0.3, 0.3)
+
+	modulate.a = 1.0
 	
 	if tiene_parpadeo:
 		iniciar_parpadeo()
@@ -35,6 +37,5 @@ func _process(delta):
 		queue_free()
 
 func iniciar_parpadeo():
-	var tween = create_tween().set_loops()
-	tween.tween_property(self, "modulate:a", 0.1, 0.4).set_trans(Tween.TRANS_SINE)
-	tween.tween_property(self, "modulate:a", 1.0, 0.4).set_trans(Tween.TRANS_SINE)
+	# Se conserva el metodo por compatibilidad, pero sin variar alpha.
+	return

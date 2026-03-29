@@ -3,11 +3,17 @@ extends Control
 signal minigame_finished(success: bool, score: int, total_rounds: int)
 
 const I18N_CATEGORY := "minigame_cafe_candy"
+const SFX_CLICK_STREAM := preload("res://assets/audio/button_click_1.mp3")
+const SFX_SUCCESS_STREAM := preload("res://scenes/minigameIndications/success.ogg")
+const SFX_ERROR_STREAM := preload("res://scenes/minigameIndications/error.ogg")
+const SFX_FINAL_SUCCESS_STREAM := preload("res://assets/audio/game/WinMinigame.ogg")
+const SFX_FINAL_FAIL_STREAM := preload("res://assets/audio/game/LoseMinigame.ogg")
 
 @export var total_rounds: int = 5
 @export var round_time_base: float = 18.0
 
 @onready var title_label: Button = $MainPanel/Margin/VBox/TitleSlot/Title
+@onready var left_panel: VBoxContainer = $MainPanel/Margin/VBox/Content/LeftPanel
 @onready var guide_title_label: Label = $MainPanel/Margin/VBox/Content/LeftPanel/GuideTitle/GuideTitleLabel
 @onready var guide1_label: Label = $MainPanel/Margin/VBox/Content/LeftPanel/Guide1/Guide1Label
 @onready var guide2_label: Label = $MainPanel/Margin/VBox/Content/LeftPanel/Guide2/Guide2Label
@@ -25,6 +31,12 @@ const I18N_CATEGORY := "minigame_cafe_candy"
 @onready var finish_button: Button = $MainPanel/Margin/VBox/Content/RightPanel/ResultsBody/ResultsVBox/FinishButton
 
 var candy_types: Array[String] = ["strawberry", "mint", "cola", "lemon"]
+var candy_type_textures: Dictionary = {
+	"strawberry": preload("res://assets/sprites/ui/strawberry_caramel.png"),
+	"mint": preload("res://assets/sprites/ui/mint_caramel.png"),
+	"cola": preload("res://assets/sprites/ui/cola_caramel.png"),
+	"lemon": preload("res://assets/sprites/ui/lemon_caramel.png")
+}
 var candy_type_colors: Dictionary = {
 	"strawberry": Color(0.96, 0.39, 0.46, 1.0),
 	"mint": Color(0.39, 0.84, 0.56, 1.0),
@@ -42,14 +54,41 @@ var request_amount: int = 0
 var selected_count: int = 0
 
 var is_round_locked: bool = false
+var sfx_click_player: AudioStreamPlayer
+var sfx_success_player: AudioStreamPlayer
+var sfx_error_player: AudioStreamPlayer
+var sfx_final_player: AudioStreamPlayer
 
 
 func _ready() -> void:
 	randomize()
+	_setup_sfx()
 	submit_button.pressed.connect(_on_submit_button_pressed)
 	finish_button.pressed.connect(_on_finish_button_pressed)
 	_update_static_texts()
+	_populate_guide_reference()
 	call_deferred("_start_round")
+
+
+func _setup_sfx() -> void:
+	sfx_click_player = AudioStreamPlayer.new()
+	sfx_click_player.stream = SFX_CLICK_STREAM
+	sfx_click_player.bus = &"SFX"
+	add_child(sfx_click_player)
+
+	sfx_success_player = AudioStreamPlayer.new()
+	sfx_success_player.stream = SFX_SUCCESS_STREAM
+	sfx_success_player.bus = &"SFX"
+	add_child(sfx_success_player)
+
+	sfx_error_player = AudioStreamPlayer.new()
+	sfx_error_player.stream = SFX_ERROR_STREAM
+	sfx_error_player.bus = &"SFX"
+	add_child(sfx_error_player)
+
+	sfx_final_player = AudioStreamPlayer.new()
+	sfx_final_player.bus = &"SFX"
+	add_child(sfx_final_player)
 
 
 func _process(delta: float) -> void:
@@ -133,30 +172,31 @@ func _build_round_board(round_number: int) -> void:
 
 func _create_candy_button(candy_type: String) -> Button:
 	var button := Button.new()
-	button.custom_minimum_size = Vector2(110, 66)
+	button.custom_minimum_size = Vector2(110, 96)
 	button.toggle_mode = true
-	button.text = _t("candy_" + candy_type)
-	button.add_theme_font_size_override("font_size", 20)
+	button.text = ""
+	button.icon = _get_candy_texture(candy_type)
+	button.expand_icon = true
 
 	var normal := StyleBoxFlat.new()
-	normal.bg_color = _get_button_normal_color(candy_type)
+	normal.bg_color = Color(0, 0, 0, 0)
 	normal.border_width_left = 2
 	normal.border_width_top = 2
 	normal.border_width_right = 2
 	normal.border_width_bottom = 2
-	normal.border_color = Color(0.25, 0.14, 0.05, 1.0)
+	normal.border_color = Color(0, 0, 0, 0)
 	normal.corner_radius_top_left = 6
 	normal.corner_radius_top_right = 6
 	normal.corner_radius_bottom_right = 6
 	normal.corner_radius_bottom_left = 6
 
 	var pressed := StyleBoxFlat.new()
-	pressed.bg_color = _get_button_pressed_color(candy_type)
+	pressed.bg_color = Color(0, 0, 0, 0)
 	pressed.border_width_left = 2
 	pressed.border_width_top = 2
 	pressed.border_width_right = 2
 	pressed.border_width_bottom = 2
-	pressed.border_color = Color(0.25, 0.14, 0.05, 1.0)
+	pressed.border_color = Color(1.0, 0.95, 0.75, 0.9)
 	pressed.corner_radius_top_left = 6
 	pressed.corner_radius_top_right = 6
 	pressed.corner_radius_bottom_right = 6
@@ -169,6 +209,44 @@ func _create_candy_button(candy_type: String) -> Button:
 	button.set_meta("candy_type", candy_type)
 	button.toggled.connect(_on_candy_toggled.bind(button))
 	return button
+
+
+func _populate_guide_reference() -> void:
+	if left_panel == null:
+		return
+
+	var existing := left_panel.get_node_or_null("FlavorGuide")
+	if existing != null:
+		existing.queue_free()
+
+	var flavor_guide := PanelContainer.new()
+	flavor_guide.name = "FlavorGuide"
+	left_panel.add_child(flavor_guide)
+
+	var list := VBoxContainer.new()
+	list.add_theme_constant_override("separation", 6)
+	flavor_guide.add_child(list)
+
+	for candy_type in candy_types:
+		var row := HBoxContainer.new()
+		row.add_theme_constant_override("separation", 8)
+		list.add_child(row)
+
+		var icon_rect := TextureRect.new()
+		icon_rect.custom_minimum_size = Vector2(36, 36)
+		icon_rect.texture = _get_candy_texture(candy_type)
+		icon_rect.expand_mode = TextureRect.EXPAND_FIT_WIDTH_PROPORTIONAL
+		icon_rect.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+		row.add_child(icon_rect)
+
+		var flavor_label := Label.new()
+		flavor_label.text = _t("candy_" + candy_type)
+		flavor_label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+		row.add_child(flavor_label)
+
+
+func _get_candy_texture(candy_type: String) -> Texture2D:
+	return candy_type_textures.get(candy_type, null) as Texture2D
 
 
 func _get_button_normal_color(candy_type: String) -> Color:
@@ -191,12 +269,20 @@ func _on_candy_toggled(pressed: bool, button: Button) -> void:
 	else:
 		selected_count = max(0, selected_count - 1)
 
+	if sfx_click_player != null:
+		sfx_click_player.pitch_scale = randf_range(0.95, 1.08)
+		sfx_click_player.play()
+
 	selected_counter_label.text = _t("selected_counter") % [selected_count, request_amount]
 
 
 func _on_submit_button_pressed() -> void:
 	if is_round_locked:
 		return
+
+	if sfx_click_player != null:
+		sfx_click_player.pitch_scale = 1.0
+		sfx_click_player.play()
 
 	var right_selected: int = 0
 	var wrong_selected: int = 0
@@ -229,12 +315,18 @@ func _resolve_round(success: bool, reason: String) -> void:
 		score += 1
 		round_result_label.text = _t("correct")
 		round_result_label.modulate = Color(0.55, 1.0, 0.55, 1.0)
+		if sfx_success_player != null:
+			sfx_success_player.pitch_scale = randf_range(0.95, 1.1)
+			sfx_success_player.play()
 	else:
 		if reason == "timeout":
 			round_result_label.text = _t("timeout")
 		else:
 			round_result_label.text = _t("incorrect")
 		round_result_label.modulate = Color(1.0, 0.55, 0.55, 1.0)
+		if sfx_error_player != null:
+			sfx_error_player.pitch_scale = 0.95 if reason == "timeout" else 1.0
+			sfx_error_player.play()
 
 	round_result_label.visible = true
 	pending_next_round = 1.0
@@ -248,9 +340,15 @@ func _finish_minigame() -> void:
 	if success:
 		round_result_label.text = _t("final_success") % [score, total_rounds]
 		round_result_label.modulate = Color(0.55, 1.0, 0.55, 1.0)
+		if sfx_final_player != null:
+			sfx_final_player.stream = SFX_FINAL_SUCCESS_STREAM
+			sfx_final_player.play()
 	else:
 		round_result_label.text = _t("final_fail") % [score, total_rounds]
 		round_result_label.modulate = Color(1.0, 0.55, 0.55, 1.0)
+		if sfx_final_player != null:
+			sfx_final_player.stream = SFX_FINAL_FAIL_STREAM
+			sfx_final_player.play()
 
 	round_result_label.visible = true
 	finish_button.visible = true
@@ -258,6 +356,9 @@ func _finish_minigame() -> void:
 
 
 func _on_finish_button_pressed() -> void:
+	if sfx_click_player != null:
+		sfx_click_player.pitch_scale = 1.0
+		sfx_click_player.play()
 	queue_free()
 
 

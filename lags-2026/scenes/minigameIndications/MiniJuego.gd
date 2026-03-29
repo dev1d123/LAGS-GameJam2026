@@ -1,8 +1,17 @@
 extends Node2D
 
+signal minigame_finished(success: bool, score: int, total_rounds: int)
+
 @export var flecha_scene: PackedScene
 @export var puntos_victoria: int = 10
 @export var limite_errores: int = 10
+
+const UI_PANEL_TEXTURE := preload("res://assets/textures/opciones-campo-fondo.png")
+const UI_BG_TEXTURE := preload("res://assets/textures/opciones-fondo.png")
+const UI_BUTTON_TEXTURE := preload("res://assets/textures/button_2.png")
+const UI_FONT := preload("res://assets/fonts/PixelOperatorMonoHB.ttf")
+const ICON_SUCCESS := preload("res://scenes/minigameIndications/FlechaDerecha.png")
+const ICON_FAIL := preload("res://scenes/minigameIndications/FlechaBajo.png")
 
 var direcciones = ["arriba", "abajo", "izquierda", "derecha"]
 var puntos = 0
@@ -10,10 +19,14 @@ var errores = 0
 var estres_actual = 0.0
 var current_language = "es"
 var juego_activo = false
+var is_finishing = false
+var results_overlay: ColorRect = null
+var results_won: bool = false
 
 @onready var sprite_cabeza = $CanvasLayer/MainPanel/Margin/VBox/Content/CenterPanel/PlayField/GameArea/FondoModal/HitZone/SpriteCabeza
 
 @onready var spawn_timer = $SpawnTimer
+@onready var canvas_layer = $CanvasLayer
 @onready var fondo_modal = $CanvasLayer/MainPanel/Margin/VBox/Content/CenterPanel/PlayField/GameArea/FondoModal
 @onready var label_pregunta = $CanvasLayer/MainPanel/Margin/VBox/Content/CenterPanel/QuestionPanel/LabelPregunta
 @onready var barra_progreso = $CanvasLayer/MainPanel/Margin/VBox/Content/CenterPanel/ProgressPanel/BarraProgreso
@@ -43,7 +56,7 @@ func _ready():
 
 func iniciar_secuencia_entrada():
 	if sfx_open: sfx_open.play()
-	mostrar_pregunta_aleatoria()
+	mostrar_instruccion_principal()
 	await get_tree().create_timer(1.2).timeout
 	juego_activo = true
 	spawn_timer.start()
@@ -57,13 +70,20 @@ func load_questions():
 		if json and json.has("preguntas"):
 			lista_preguntas = json["preguntas"]
 
-func mostrar_pregunta_aleatoria():
-	if lista_preguntas.size() > 0:
-		var pregunta_data = lista_preguntas.pick_random()
-		label_pregunta.text = pregunta_data[current_language]
-		label_pregunta.visible_ratio = 0
-		var tween = create_tween()
-		tween.tween_property(label_pregunta, "visible_ratio", 1.0, 1.0)
+func mostrar_instruccion_principal() -> void:
+	var text := ""
+	match current_language:
+		"en":
+			text = "Press the matching arrow when it enters the zone. Red arrows are fake: ignore them."
+		"pt":
+			text = "Aperte a seta correspondente quando entrar na zona. Setas vermelhas sao falsas: ignore."
+		_:
+			text = "Presiona la flecha correcta cuando entre en la zona. Las flechas rojas son falsas: ignoralas."
+
+	label_pregunta.text = text
+	label_pregunta.visible_ratio = 0
+	var tween = create_tween()
+	tween.tween_property(label_pregunta, "visible_ratio", 1.0, 0.4)
 
 func _on_spawn_timer_timeout():
 	if !juego_activo: return 
@@ -84,15 +104,15 @@ func crear_flecha():
 	nueva_flecha.direccion = dir
 
 	var v_min = 300.0; var v_max = 300.0
-	var parpadeo = false; var prob_falsa = 0.15
+	var prob_falsa = 0.15
 
 	if estres_actual > 20 and estres_actual <= 40:
 		v_min = 250.0; v_max = 450.0; prob_falsa = 0.2
 	elif estres_actual > 40:
-		v_min = 200.0; v_max = 550.0; parpadeo = true; prob_falsa = 0.25
+		v_min = 200.0; v_max = 550.0; prob_falsa = 0.25
 
 	nueva_flecha.velocidad = randf_range(v_min, v_max)
-	nueva_flecha.tiene_parpadeo = parpadeo
+	nueva_flecha.tiene_parpadeo = false
 	if randf() < prob_falsa:
 		nueva_flecha.es_falsa = true
 
@@ -117,6 +137,11 @@ func configurar_posicion_flecha(f, d):
 		"derecha": f.position = Vector2(pos_inicial.x + (separacion * 1.5), pos_inicial.y)
 
 func _input(event):
+	if results_overlay != null:
+		if event.is_action_pressed("ui_accept") or event.is_action_pressed("ui_cancel"):
+			_on_results_continue_pressed()
+			return
+
 	for dir in direcciones:
 		if event.is_action_pressed(dir):
 			validar_hit(dir)
@@ -145,6 +170,15 @@ func validar_hit(dir_presionada):
 			animar_cabeza_error()
 			zona.flecha_actual.queue_free()
 			zona.flecha_actual = null
+	else:
+		_show_quick_feedback_no_arrow()
+
+
+func _show_quick_feedback_no_arrow() -> void:
+	var old_modulate: Color = label_pregunta.modulate
+	label_pregunta.modulate = Color(1.0, 0.85, 0.55, 1.0)
+	var tween := create_tween()
+	tween.tween_property(label_pregunta, "modulate", old_modulate, 0.2)
 
 func animar_cabeza_acierto():
 	var tween = create_tween()
@@ -185,6 +219,10 @@ func perder_juego():
 	finalizar_partida(false)
 
 func finalizar_partida(ganado: bool):
+	if is_finishing:
+		return
+	is_finishing = true
+
 	juego_activo = false 
 	spawn_timer.stop()
 
@@ -198,11 +236,170 @@ func finalizar_partida(ganado: bool):
 	else: print("Derrota...")
 	
 	await sfx_close.finished
-	#queue_free() o volver a la tienda
+	_show_results_modal(ganado)
+
+
+func _show_results_modal(ganado: bool) -> void:
+	var overlay := ColorRect.new()
+	overlay.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	overlay.color = Color(0, 0, 0, 0.72)
+	overlay.mouse_filter = Control.MOUSE_FILTER_STOP
+	canvas_layer.add_child(overlay)
+	results_overlay = overlay
+	results_won = ganado
+
+	var panel := PanelContainer.new()
+	panel.custom_minimum_size = Vector2(560, 320)
+	panel.set_anchors_preset(Control.PRESET_CENTER)
+	panel.offset_left = -280
+	panel.offset_top = -160
+	panel.offset_right = 280
+	panel.offset_bottom = 160
+	panel.add_theme_stylebox_override("panel", _make_ui_box(UI_BG_TEXTURE, Color(1, 1, 1, 1)))
+	overlay.add_child(panel)
+
+	var content := VBoxContainer.new()
+	content.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	content.offset_left = 24
+	content.offset_top = 20
+	content.offset_right = -24
+	content.offset_bottom = -20
+	content.add_theme_constant_override("separation", 12)
+	panel.add_child(content)
+
+	var title_card := PanelContainer.new()
+	title_card.add_theme_stylebox_override("panel", _make_ui_box(UI_PANEL_TEXTURE, Color(2.0, 1.8, 1.2, 1.0)))
+	content.add_child(title_card)
+
+	var title_row := HBoxContainer.new()
+	title_row.add_theme_constant_override("separation", 10)
+	title_card.add_child(title_row)
+
+	var icon := TextureRect.new()
+	icon.custom_minimum_size = Vector2(38, 38)
+	icon.texture = ICON_SUCCESS if ganado else ICON_FAIL
+	icon.expand_mode = TextureRect.EXPAND_FIT_WIDTH_PROPORTIONAL
+	icon.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+	title_row.add_child(icon)
+
+	var title := Label.new()
+	title.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	title.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	title.add_theme_font_size_override("font_size", 40)
+	title.add_theme_font_override("font", UI_FONT)
+	title.add_theme_color_override("font_color", Color(0.69, 0.64, 0.63, 1.0))
+	title.add_theme_color_override("font_outline_color", Color(0.19, 0.08, 0.0, 1.0))
+	title.add_theme_constant_override("outline_size", 7)
+	title.text = _results_title_text(ganado)
+	title_row.add_child(title)
+
+	var body_card := PanelContainer.new()
+	body_card.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	body_card.add_theme_stylebox_override("panel", _make_ui_box(UI_PANEL_TEXTURE, Color(1, 1, 1, 1)))
+	content.add_child(body_card)
+
+	var summary := Label.new()
+	summary.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	summary.offset_left = 14
+	summary.offset_top = 14
+	summary.offset_right = -14
+	summary.offset_bottom = -14
+	summary.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	summary.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+	summary.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	summary.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	summary.add_theme_font_size_override("font_size", 24)
+	summary.add_theme_font_override("font", UI_FONT)
+	summary.add_theme_color_override("font_color", Color(0.69, 0.64, 0.63, 1.0))
+	summary.add_theme_color_override("font_outline_color", Color(0.19, 0.08, 0.0, 1.0))
+	summary.add_theme_constant_override("outline_size", 5)
+	summary.text = _results_body_text()
+	body_card.add_child(summary)
+
+	var continue_button := Button.new()
+	continue_button.text = _continue_text()
+	continue_button.custom_minimum_size = Vector2(0, 56)
+	continue_button.focus_mode = Control.FOCUS_ALL
+	continue_button.add_theme_font_override("font", UI_FONT)
+	continue_button.add_theme_font_size_override("font_size", 30)
+	continue_button.add_theme_color_override("font_color", Color(0.69, 0.64, 0.63, 1.0))
+	continue_button.add_theme_color_override("font_hover_color", Color(0.69, 0.64, 0.63, 1.0))
+	continue_button.add_theme_color_override("font_pressed_color", Color(0.69, 0.64, 0.63, 1.0))
+	continue_button.add_theme_stylebox_override("normal", _make_button_box(Color(1, 1, 1, 1)))
+	continue_button.add_theme_stylebox_override("hover", _make_button_box(Color(0.8, 0.72, 0.78, 1)))
+	continue_button.add_theme_stylebox_override("pressed", _make_button_box(Color(0.6, 0.5, 0.56, 1)))
+	continue_button.pressed.connect(_on_results_continue_pressed)
+	content.add_child(continue_button)
+	continue_button.grab_focus()
+
+
+func _make_ui_box(texture: Texture2D, modulate_color: Color) -> StyleBoxTexture:
+	var box := StyleBoxTexture.new()
+	box.texture = texture
+	box.texture_margin_left = 30
+	box.texture_margin_top = 20
+	box.texture_margin_right = 30
+	box.texture_margin_bottom = 20
+	box.modulate_color = modulate_color
+	box.axis_stretch_horizontal = StyleBoxTexture.AXIS_STRETCH_MODE_TILE_FIT
+	box.axis_stretch_vertical = StyleBoxTexture.AXIS_STRETCH_MODE_TILE_FIT
+	return box
+
+
+func _make_button_box(modulate_color: Color) -> StyleBoxTexture:
+	var box := StyleBoxTexture.new()
+	box.texture = UI_BUTTON_TEXTURE
+	box.texture_margin_left = 30
+	box.texture_margin_top = 20
+	box.texture_margin_right = 30
+	box.texture_margin_bottom = 25
+	box.modulate_color = modulate_color
+	box.axis_stretch_horizontal = StyleBoxTexture.AXIS_STRETCH_MODE_TILE_FIT
+	box.axis_stretch_vertical = StyleBoxTexture.AXIS_STRETCH_MODE_TILE_FIT
+	return box
+
+
+func _results_title_text(ganado: bool) -> String:
+	match current_language:
+		"en":
+			return "Success" if ganado else "Failed"
+		"pt":
+			return "Sucesso" if ganado else "Falhou"
+		_:
+			return "Exito" if ganado else "Fallaste"
+
+
+func _results_body_text() -> String:
+	match current_language:
+		"en":
+			return "Score: %d/%d\nMistakes: %d/%d\nFinal stress: %d%%" % [puntos, puntos_victoria, errores, limite_errores, int(round(estres_actual))]
+		"pt":
+			return "Pontos: %d/%d\nErros: %d/%d\nEstresse final: %d%%" % [puntos, puntos_victoria, errores, limite_errores, int(round(estres_actual))]
+		_:
+			return "Puntos: %d/%d\nErrores: %d/%d\nEstres final: %d%%" % [puntos, puntos_victoria, errores, limite_errores, int(round(estres_actual))]
+
+
+func _continue_text() -> String:
+	match current_language:
+		"en":
+			return "Continue"
+		"pt":
+			return "Continuar"
+		_:
+			return "Continuar"
+
+
+func _on_results_continue_pressed() -> void:
+	if results_overlay != null and is_instance_valid(results_overlay):
+		results_overlay.queue_free()
+	results_overlay = null
+	emit_signal("minigame_finished", results_won, puntos, puntos_victoria)
+	queue_free()
 
 
 func _update_status_panel() -> void:
 	score_label.text = "PUNTOS: %d/%d" % [puntos, puntos_victoria]
 	errors_label.text = "ERRORES: %d/%d" % [errores, limite_errores]
 	stress_label.text = "ESTRES: %d%%" % int(round(estres_actual))
-	speed_label.text = "SPAWN: %.2fs" % spawn_timer.wait_time
+	var faltan: int = max(0, puntos_victoria - puntos)
+	speed_label.text = "META: %d | SPAWN: %.2fs" % [faltan, spawn_timer.wait_time]

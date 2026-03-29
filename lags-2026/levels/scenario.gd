@@ -45,6 +45,22 @@ const SHOP_MUSIC_VERY_LOW = preload("res://assets/audio/game/VeryLowEnergyShop.o
 const SHOP_MUSIC_VERY_LOW_STRESS = preload("res://assets/audio/game/VeryLowEnergyStressShop.ogg")
 const SHOP_MUSIC_VERY_LOW_HIGH_STRESS = preload("res://assets/audio/game/VeryLowEnergyHighStressShop.ogg")
 
+const MAKING_TASK_NORMAL = preload("res://assets/audio/game/MakingTask.ogg")
+const MAKING_TASK_STRESS = preload("res://assets/audio/game/MakingTaskStress.ogg")
+const MAKING_TASK_HIGH_STRESS = preload("res://assets/audio/game/MakingTaskHighStress.ogg")
+const OPTIONS_MENU_SCENE := preload("res://ui/components/options_menu.tscn")
+
+const MINIGAME_SCENES_BY_MISSION := {
+	"bar_beer": "res://minijuego_bar_beer.tscn",
+	"cafe_candy": "res://minijuego_cafe_candy.tscn",
+	"cafe_cyber": "res://minijuego_cafe_cyber.tscn",
+	"pay_services": "res://minijuego_payservices.tscn",
+	"store_search": "res://minijuego_store_search.tscn",
+	"store_warehouse": "res://minijuegos/escenas/almacen_nivel_01.tscn",
+	"shop_service": "res://minijuego_granel.tscn",
+	"indications": "res://scenes/minigameIndications/MiniJuego.tscn",
+}
+
 const SHOP_MUSIC_STREAMS := {
 	"normal_normal": SHOP_MUSIC_NORMAL,
 	"normal_stress": SHOP_MUSIC_NORMAL_STRESS,
@@ -66,6 +82,16 @@ var shop_music_b: AudioStreamPlayer
 var shop_music_using_a: bool = true
 var current_shop_music_key: String = ""
 var shop_music_check_accum: float = 0.0
+var making_task_player: AudioStreamPlayer
+var minigame_layer: CanvasLayer
+var minigame_host: Control
+var active_minigame: Node
+var is_minigame_playing: bool = false
+var pause_layer: CanvasLayer
+var pause_overlay: ColorRect
+var pause_menu_container: CenterContainer
+var pause_options_menu: PanelContainer
+var is_pause_menu_open: bool = false
 
 
 func _ready() -> void:
@@ -81,7 +107,9 @@ func _ready() -> void:
 		accept_button.pressed.connect(_on_accept_button_pressed)
 	spawner.register_scenario(self)
 	_setup_shop_music()
+	_setup_making_task_player()
 	_setup_day_transition_ui()
+	_setup_pause_menu_ui()
 	_initialize_day_cycle()
 	call_deferred("_start_day_transition", current_day)
 	
@@ -93,13 +121,16 @@ func _exit_tree() -> void:
 
 
 func _process(delta: float) -> void:
+	if is_minigame_playing:
+		return
+
+	if is_day_transition_playing or frozen:
+		return
+
 	shop_music_check_accum += delta
 	if shop_music_check_accum >= SHOP_MUSIC_CHECK_INTERVAL:
 		shop_music_check_accum = 0.0
 		_update_shop_music_state()
-
-	if is_day_transition_playing or frozen:
-		return
 
 	day_time_accum += delta
 	while day_time_accum >= SECONDS_PER_INGAME_HOUR:
@@ -164,7 +195,15 @@ func _update_shader_effects() -> void:
 
 
 func _input(event: InputEvent) -> void:
-	if is_day_transition_playing:
+	if event.is_action_pressed("ui_cancel"):
+		if is_pause_menu_open:
+			return
+		if is_day_transition_playing or is_minigame_playing:
+			return
+		_open_pause_menu()
+		return
+
+	if is_day_transition_playing or is_minigame_playing:
 		return
 
 	if event.is_action_pressed("ui_interact"):
@@ -172,6 +211,56 @@ func _input(event: InputEvent) -> void:
 			_toggle_freeze()
 		elif frozen:
 			_toggle_freeze()
+
+
+func _setup_pause_menu_ui() -> void:
+	pause_layer = CanvasLayer.new()
+	pause_layer.layer = 5000
+	pause_layer.process_mode = Node.PROCESS_MODE_WHEN_PAUSED
+	add_child(pause_layer)
+
+	pause_overlay = ColorRect.new()
+	pause_overlay.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	pause_overlay.color = Color(0, 0, 0, 0.7)
+	pause_overlay.visible = false
+	pause_overlay.process_mode = Node.PROCESS_MODE_WHEN_PAUSED
+	pause_layer.add_child(pause_overlay)
+
+	pause_menu_container = CenterContainer.new()
+	pause_menu_container.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	pause_menu_container.visible = false
+	pause_menu_container.process_mode = Node.PROCESS_MODE_WHEN_PAUSED
+	pause_layer.add_child(pause_menu_container)
+
+	pause_options_menu = OPTIONS_MENU_SCENE.instantiate() as PanelContainer
+	pause_options_menu.process_mode = Node.PROCESS_MODE_WHEN_PAUSED
+	pause_menu_container.add_child(pause_options_menu)
+
+	if pause_options_menu != null and pause_options_menu.has_signal("menu_closed"):
+		pause_options_menu.menu_closed.connect(_close_pause_menu)
+
+
+func _open_pause_menu() -> void:
+	if is_pause_menu_open:
+		return
+	is_pause_menu_open = true
+
+	if pause_options_menu != null and pause_options_menu.has_method("load_current_settings"):
+		pause_options_menu.load_current_settings()
+
+	pause_overlay.visible = true
+	pause_menu_container.visible = true
+	get_tree().paused = true
+
+
+func _close_pause_menu() -> void:
+	if not is_pause_menu_open:
+		return
+
+	is_pause_menu_open = false
+	pause_menu_container.visible = false
+	pause_overlay.visible = false
+	get_tree().paused = false
 
 
 func _toggle_freeze() -> void:
@@ -280,8 +369,11 @@ func _on_accept_button_pressed() -> void:
 
 
 func _resolve_selected_mission(accepted: bool) -> void:
+	var accepted_mission_id: String = ""
+
 	if accepted and selected_npc_ref != null and selected_npc_ref.has_method("get_current_mission_id"):
 		var mission_id: String = selected_npc_ref.get_current_mission_id()
+		accepted_mission_id = mission_id
 		if mission_data_by_id.has(mission_id):
 			var mission: Dictionary = mission_data_by_id[mission_id]
 			var money: Dictionary = mission.get("money", {})
@@ -302,6 +394,9 @@ func _resolve_selected_mission(accepted: bool) -> void:
 	if frozen:
 		_toggle_freeze()
 
+	if accepted_mission_id != "":
+		_start_minigame_for_mission(accepted_mission_id)
+
 
 func _initialize_day_cycle() -> void:
 	day_time_accum = 0.0
@@ -310,6 +405,8 @@ func _initialize_day_cycle() -> void:
 		hud.set_dia(current_day)
 	if hud != null and hud.has_method("set_hora"):
 		hud.set_hora(current_hour)
+	if spawner != null and spawner.has_method("apply_day_settings"):
+		spawner.apply_day_settings(current_day)
 
 
 func _advance_ingame_hour() -> void:
@@ -414,9 +511,12 @@ func _on_day_transition_finished() -> void:
 		return
 	day_transition_layer.visible = false
 	is_day_transition_playing = false
+	if spawner != null and spawner.has_method("on_day_changed"):
+		spawner.on_day_changed(current_day)
 	if hud != null and hud.has_method("iniciar_dia_stats"):
 		hud.iniciar_dia_stats()
 	_set_world_paused(false)
+	_update_shop_music_state(true)
 
 
 func _refresh_day_transition_layout() -> void:
@@ -448,17 +548,17 @@ func _get_day_transition_text(day_number: int) -> String:
 func _setup_shop_music() -> void:
 	shop_music_a = AudioStreamPlayer.new()
 	shop_music_a.name = "ShopMusicA"
+	shop_music_a.bus = &"Music"
 	shop_music_a.volume_db = SHOP_MUSIC_MUTED_DB
 	shop_music_a.process_mode = Node.PROCESS_MODE_ALWAYS
 	add_child(shop_music_a)
 
 	shop_music_b = AudioStreamPlayer.new()
 	shop_music_b.name = "ShopMusicB"
+	shop_music_b.bus = &"Music"
 	shop_music_b.volume_db = SHOP_MUSIC_MUTED_DB
 	shop_music_b.process_mode = Node.PROCESS_MODE_ALWAYS
 	add_child(shop_music_b)
-
-	_update_shop_music_state(true)
 
 
 func _update_shop_music_state(force: bool = false) -> void:
@@ -525,3 +625,117 @@ func _crossfade_shop_music(target_key: String) -> void:
 
 	shop_music_using_a = not shop_music_using_a
 	current_shop_music_key = target_key
+
+
+func _setup_making_task_player() -> void:
+	making_task_player = AudioStreamPlayer.new()
+	making_task_player.name = "MakingTaskPlayer"
+	making_task_player.bus = &"Music"
+	making_task_player.volume_db = SHOP_MUSIC_ACTIVE_DB
+	making_task_player.process_mode = Node.PROCESS_MODE_ALWAYS
+	add_child(making_task_player)
+
+
+func _start_minigame_for_mission(mission_id: String) -> void:
+	if not MINIGAME_SCENES_BY_MISSION.has(mission_id):
+		push_warning("No hay escena de minijuego para mission_id='%s'" % mission_id)
+		return
+
+	var scene_path: String = MINIGAME_SCENES_BY_MISSION[mission_id]
+	var packed_scene := load(scene_path) as PackedScene
+	if packed_scene == null:
+		push_error("No se pudo cargar minijuego en '%s'" % scene_path)
+		return
+
+	if is_minigame_playing:
+		return
+
+	is_minigame_playing = true
+	_set_world_paused(true)
+	_pause_shop_music_for_minigame()
+	_play_making_task_for_current_stress()
+
+	minigame_layer = CanvasLayer.new()
+	minigame_layer.layer = 3072
+	minigame_layer.process_mode = Node.PROCESS_MODE_ALWAYS
+	add_child(minigame_layer)
+
+	minigame_host = Control.new()
+	minigame_host.name = "MinigameHost"
+	minigame_host.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	minigame_layer.add_child(minigame_host)
+
+	active_minigame = packed_scene.instantiate()
+	minigame_host.add_child(active_minigame)
+
+	if active_minigame is Control:
+		var minigame_control := active_minigame as Control
+		minigame_control.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	elif active_minigame is Node2D:
+		var minigame_node2d := active_minigame as Node2D
+		minigame_node2d.position = get_viewport_rect().size * 0.5
+
+	if active_minigame.has_signal("minigame_finished"):
+		active_minigame.minigame_finished.connect(_on_minigame_finished, CONNECT_ONE_SHOT)
+
+	var warehouse_manager: Node = active_minigame.get_node_or_null("GameManager")
+	if warehouse_manager != null and warehouse_manager.has_signal("minigame_finished"):
+		warehouse_manager.minigame_finished.connect(_on_minigame_finished, CONNECT_ONE_SHOT)
+
+	active_minigame.tree_exited.connect(_on_active_minigame_tree_exited, CONNECT_ONE_SHOT)
+
+
+func _on_minigame_finished(_a = null, _b = null, _c = null, _d = null) -> void:
+	_end_active_minigame()
+
+
+func _on_active_minigame_tree_exited() -> void:
+	_end_active_minigame()
+
+
+func _end_active_minigame() -> void:
+	if not is_minigame_playing:
+		return
+
+	is_minigame_playing = false
+
+	if making_task_player != null and making_task_player.playing:
+		making_task_player.stop()
+
+	if minigame_layer != null and is_instance_valid(minigame_layer):
+		minigame_layer.queue_free()
+
+	active_minigame = null
+	minigame_host = null
+	minigame_layer = null
+
+	_set_world_paused(false)
+	_update_shop_music_state(true)
+
+
+func _pause_shop_music_for_minigame() -> void:
+	if shop_music_a != null and shop_music_a.playing:
+		shop_music_a.stop()
+	if shop_music_b != null and shop_music_b.playing:
+		shop_music_b.stop()
+
+
+func _play_making_task_for_current_stress() -> void:
+	if making_task_player == null:
+		return
+
+	var stress_percent: float = 0.0
+	if hud != null and hud.has_method("get_stress_percent"):
+		stress_percent = float(hud.get_stress_percent())
+
+	var stream: AudioStream = MAKING_TASK_NORMAL
+	if stress_percent >= 66.0:
+		stream = MAKING_TASK_HIGH_STRESS
+	elif stress_percent >= 33.0:
+		stream = MAKING_TASK_STRESS
+
+	if making_task_player.stream != stream:
+		making_task_player.stream = stream
+
+	if not making_task_player.playing:
+		making_task_player.play()

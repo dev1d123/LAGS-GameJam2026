@@ -39,6 +39,7 @@ func _ready() -> void:
 func _setup_ending_bgm() -> void:
 	bgm_player = AudioStreamPlayer.new()
 	bgm_player.name = "EndingBgmPlayer"
+	bgm_player.bus = &"Music"
 	bgm_player.volume_db = -8.0
 	bgm_player.process_mode = Node.PROCESS_MODE_ALWAYS
 

@@ -1,12 +1,12 @@
-[gd_scene load_steps=16 format=3]
+[gd_scene format=3 uid="uid://dyxg3rujkke8p"]
 
-[ext_resource type="Script" path="res://minijuego_store_search.gd" id="1_script"]
+[ext_resource type="Script" uid="uid://dnqk77ya4jtdc" path="res://minijuego_store_search.gd" id="1_script"]
 [ext_resource type="Texture2D" uid="uid://cpaxrpnv1gl7y" path="res://assets/textures/opciones-fondo.png" id="2_bg"]
 [ext_resource type="Texture2D" uid="uid://d3mn8iy0m7bf" path="res://assets/textures/opciones-campo-fondo.png" id="3_panel"]
 [ext_resource type="PackedScene" uid="uid://hqmdfy0qhwxh" path="res://ui/components/Title_1.tscn" id="4_title"]
 [ext_resource type="FontFile" uid="uid://cu11g35n3hgqv" path="res://assets/fonts/PixelOperatorMonoHB.ttf" id="5_font"]
 [ext_resource type="Texture2D" uid="uid://cfy6rj4bb8kwr" path="res://assets/textures/button_2.png" id="6_btn"]
-[ext_resource type="Texture2D" path="res://assets/sprites/ui/searchMinigame.png" id="7_search"]
+[ext_resource type="Texture2D" uid="uid://xyw6poypdyq0" path="res://assets/sprites/ui/searchMinigame.png" id="7_search"]
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_panel"]
 texture = ExtResource("2_bg")
@@ -46,13 +46,6 @@ font_color = Color(0.687779, 0.643646, 0.632612, 1)
 outline_size = 6
 outline_color = Color(0.189829, 0.0827736, 0.0013467, 1)
 
-[sub_resource type="LabelSettings" id="LabelSettings_result"]
-font = ExtResource("5_font")
-font_size = 34
-font_color = Color(0.779836, 0.603248, 0.597264, 1)
-outline_size = 8
-outline_color = Color(0.189829, 0.0827736, 0.0013467, 1)
-
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_btn_normal"]
 texture = ExtResource("6_btn")
 texture_margin_left = 30.0
@@ -82,7 +75,14 @@ axis_stretch_horizontal = 2
 axis_stretch_vertical = 2
 modulate_color = Color(0.76, 0.68, 0.74, 1)
 
-[node name="MinijuegoStoreSearch" type="Control"]
+[sub_resource type="LabelSettings" id="LabelSettings_result"]
+font = ExtResource("5_font")
+font_size = 34
+font_color = Color(0.779836, 0.603248, 0.597264, 1)
+outline_size = 8
+outline_color = Color(0.189829, 0.0827736, 0.0013467, 1)
+
+[node name="MinijuegoStoreSearch" type="Control" unique_id=582942266]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -91,7 +91,7 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_script")
 
-[node name="MainPanel" type="PanelContainer" parent="."]
+[node name="MainPanel" type="PanelContainer" parent="." unique_id=752339613]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -106,22 +106,22 @@ grow_horizontal = 2
 grow_vertical = 2
 theme_override_styles/panel = SubResource("StyleBoxTexture_panel")
 
-[node name="Margin" type="MarginContainer" parent="MainPanel"]
+[node name="Margin" type="MarginContainer" parent="MainPanel" unique_id=1543140978]
 layout_mode = 2
 theme_override_constants/margin_left = 20
 theme_override_constants/margin_top = 20
 theme_override_constants/margin_right = 20
 theme_override_constants/margin_bottom = 20
 
-[node name="VBox" type="VBoxContainer" parent="MainPanel/Margin"]
+[node name="VBox" type="VBoxContainer" parent="MainPanel/Margin" unique_id=459392932]
 layout_mode = 2
 theme_override_constants/separation = 8
 
-[node name="TitleSlot" type="Control" parent="MainPanel/Margin/VBox"]
+[node name="TitleSlot" type="Control" parent="MainPanel/Margin/VBox" unique_id=1525579500]
 custom_minimum_size = Vector2(0, 50)
 layout_mode = 2
 
-[node name="Title" parent="MainPanel/Margin/VBox/TitleSlot" instance=ExtResource("4_title")]
+[node name="Title" parent="MainPanel/Margin/VBox/TitleSlot" unique_id=119461818 instance=ExtResource("4_title")]
 layout_mode = 1
 anchors_preset = 5
 anchor_left = 0.5
@@ -133,64 +133,64 @@ offset_bottom = 51.0
 grow_horizontal = 2
 text = "BUSQUEDA EN TIENDA"
 
-[node name="Content" type="HBoxContainer" parent="MainPanel/Margin/VBox"]
+[node name="Content" type="HBoxContainer" parent="MainPanel/Margin/VBox" unique_id=901765777]
 layout_mode = 2
 theme_override_constants/separation = 8
 
-[node name="LeftPanel" type="VBoxContainer" parent="MainPanel/Margin/VBox/Content"]
+[node name="LeftPanel" type="VBoxContainer" parent="MainPanel/Margin/VBox/Content" unique_id=595610075]
 custom_minimum_size = Vector2(250, 0)
 layout_mode = 2
 
-[node name="GuideTitle" type="PanelContainer" parent="MainPanel/Margin/VBox/Content/LeftPanel"]
+[node name="GuideTitle" type="PanelContainer" parent="MainPanel/Margin/VBox/Content/LeftPanel" unique_id=849635630]
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxTexture_title_box")
 
-[node name="GuideTitleLabel" type="Label" parent="MainPanel/Margin/VBox/Content/LeftPanel/GuideTitle"]
+[node name="GuideTitleLabel" type="Label" parent="MainPanel/Margin/VBox/Content/LeftPanel/GuideTitle" unique_id=1791165500]
 layout_mode = 2
 text = "GUIA RAPIDA"
 label_settings = SubResource("LabelSettings_subtitle")
 horizontal_alignment = 1
 
-[node name="Guide1" type="PanelContainer" parent="MainPanel/Margin/VBox/Content/LeftPanel"]
+[node name="Guide1" type="PanelContainer" parent="MainPanel/Margin/VBox/Content/LeftPanel" unique_id=1371131125]
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxTexture_section_box")
 
-[node name="Guide1Label" type="Label" parent="MainPanel/Margin/VBox/Content/LeftPanel/Guide1"]
+[node name="Guide1Label" type="Label" parent="MainPanel/Margin/VBox/Content/LeftPanel/Guide1" unique_id=2132511041]
 layout_mode = 2
 text = "1) MEMORIZA EL OBJETO PEDIDO"
 label_settings = SubResource("LabelSettings_body")
 horizontal_alignment = 1
 autowrap_mode = 3
 
-[node name="Guide2" type="PanelContainer" parent="MainPanel/Margin/VBox/Content/LeftPanel"]
+[node name="Guide2" type="PanelContainer" parent="MainPanel/Margin/VBox/Content/LeftPanel" unique_id=1728082981]
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxTexture_section_box")
 
-[node name="Guide2Label" type="Label" parent="MainPanel/Margin/VBox/Content/LeftPanel/Guide2"]
+[node name="Guide2Label" type="Label" parent="MainPanel/Margin/VBox/Content/LeftPanel/Guide2" unique_id=1398263772]
 layout_mode = 2
 text = "2) ABRE CASILLAS HASTA ENCONTRARLO"
 label_settings = SubResource("LabelSettings_body")
 horizontal_alignment = 1
 autowrap_mode = 3
 
-[node name="Guide3" type="PanelContainer" parent="MainPanel/Margin/VBox/Content/LeftPanel"]
+[node name="Guide3" type="PanelContainer" parent="MainPanel/Margin/VBox/Content/LeftPanel" unique_id=927526842]
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxTexture_section_box")
 
-[node name="Guide3Label" type="Label" parent="MainPanel/Margin/VBox/Content/LeftPanel/Guide3"]
+[node name="Guide3Label" type="Label" parent="MainPanel/Margin/VBox/Content/LeftPanel/Guide3" unique_id=1676897401]
 layout_mode = 2
 text = "3) EVITA MUCHOS ERRORES Y EL TIEMPO"
 label_settings = SubResource("LabelSettings_body")
 horizontal_alignment = 1
 autowrap_mode = 3
 
-[node name="CenterPanel" type="VBoxContainer" parent="MainPanel/Margin/VBox/Content"]
+[node name="CenterPanel" type="VBoxContainer" parent="MainPanel/Margin/VBox/Content" unique_id=1636796636]
 custom_minimum_size = Vector2(720, 0)
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_constants/separation = 8
 
-[node name="Request" type="Label" parent="MainPanel/Margin/VBox/Content/CenterPanel"]
+[node name="Request" type="Label" parent="MainPanel/Margin/VBox/Content/CenterPanel" unique_id=872902674]
 custom_minimum_size = Vector2(0, 78)
 layout_mode = 2
 text = "Pedido"
@@ -199,64 +199,50 @@ horizontal_alignment = 1
 vertical_alignment = 1
 autowrap_mode = 3
 
-[node name="Timer" type="Label" parent="MainPanel/Margin/VBox/Content/CenterPanel"]
+[node name="Timer" type="Label" parent="MainPanel/Margin/VBox/Content/CenterPanel" unique_id=395013404]
 layout_mode = 2
 text = "Tiempo: 0.0"
 label_settings = SubResource("LabelSettings_subtitle")
 horizontal_alignment = 1
 
-[node name="SearchField" type="PanelContainer" parent="MainPanel/Margin/VBox/Content/CenterPanel"]
+[node name="SearchField" type="PanelContainer" parent="MainPanel/Margin/VBox/Content/CenterPanel" unique_id=2018965402]
 custom_minimum_size = Vector2(0, 420)
 layout_mode = 2
 size_flags_vertical = 3
 theme_override_styles/panel = SubResource("StyleBoxTexture_section_box")
 
-[node name="SearchArt" type="TextureRect" parent="MainPanel/Margin/VBox/Content/CenterPanel/SearchField"]
+[node name="SearchArt" type="TextureRect" parent="MainPanel/Margin/VBox/Content/CenterPanel/SearchField" unique_id=1593687640]
 modulate = Color(1, 1, 1, 0.24)
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
+layout_mode = 2
 texture = ExtResource("7_search")
 expand_mode = 1
 stretch_mode = 6
 
-[node name="BoardGrid" type="GridContainer" parent="MainPanel/Margin/VBox/Content/CenterPanel/SearchField"]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = 14.0
-offset_top = 14.0
-offset_right = -14.0
-offset_bottom = -14.0
-grow_horizontal = 2
-grow_vertical = 2
-columns = 5
+[node name="BoardGrid" type="GridContainer" parent="MainPanel/Margin/VBox/Content/CenterPanel/SearchField" unique_id=615727921]
+layout_mode = 2
 theme_override_constants/h_separation = 8
 theme_override_constants/v_separation = 8
+columns = 5
 
-[node name="ActionRow" type="HBoxContainer" parent="MainPanel/Margin/VBox/Content/CenterPanel"]
+[node name="ActionRow" type="HBoxContainer" parent="MainPanel/Margin/VBox/Content/CenterPanel" unique_id=1967551706]
 layout_mode = 2
 theme_override_constants/separation = 10
 
-[node name="Errors" type="Label" parent="MainPanel/Margin/VBox/Content/CenterPanel/ActionRow"]
+[node name="Errors" type="Label" parent="MainPanel/Margin/VBox/Content/CenterPanel/ActionRow" unique_id=1708863511]
 layout_mode = 2
 size_flags_horizontal = 3
 text = "Errores: 0/3"
 label_settings = SubResource("LabelSettings_body")
 horizontal_alignment = 1
 
-[node name="Found" type="Label" parent="MainPanel/Margin/VBox/Content/CenterPanel/ActionRow"]
+[node name="Found" type="Label" parent="MainPanel/Margin/VBox/Content/CenterPanel/ActionRow" unique_id=2004061372]
 layout_mode = 2
 size_flags_horizontal = 3
 text = "Encontrados: 0"
 label_settings = SubResource("LabelSettings_body")
 horizontal_alignment = 1
 
-[node name="SkipButton" type="Button" parent="MainPanel/Margin/VBox/Content/CenterPanel/ActionRow"]
+[node name="SkipButton" type="Button" parent="MainPanel/Margin/VBox/Content/CenterPanel/ActionRow" unique_id=412557321]
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_colors/font_color = Color(0.687779, 0.643646, 0.632612, 1)
@@ -269,63 +255,63 @@ theme_override_styles/pressed = SubResource("StyleBoxTexture_btn_pressed")
 theme_override_styles/hover = SubResource("StyleBoxTexture_btn_hover")
 text = "Saltar"
 
-[node name="RightPanel" type="VBoxContainer" parent="MainPanel/Margin/VBox/Content"]
+[node name="RightPanel" type="VBoxContainer" parent="MainPanel/Margin/VBox/Content" unique_id=1124626872]
 custom_minimum_size = Vector2(250, 0)
 layout_mode = 2
 theme_override_constants/separation = 8
 
-[node name="ObjectivesTitle" type="PanelContainer" parent="MainPanel/Margin/VBox/Content/RightPanel"]
+[node name="ObjectivesTitle" type="PanelContainer" parent="MainPanel/Margin/VBox/Content/RightPanel" unique_id=1840283957]
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxTexture_title_box")
 
-[node name="ObjectivesTitleLabel" type="Label" parent="MainPanel/Margin/VBox/Content/RightPanel/ObjectivesTitle"]
+[node name="ObjectivesTitleLabel" type="Label" parent="MainPanel/Margin/VBox/Content/RightPanel/ObjectivesTitle" unique_id=1746223565]
 layout_mode = 2
 text = "OBJETIVOS"
 label_settings = SubResource("LabelSettings_subtitle")
 horizontal_alignment = 1
 
-[node name="ObjectivesBody" type="PanelContainer" parent="MainPanel/Margin/VBox/Content/RightPanel"]
+[node name="ObjectivesBody" type="PanelContainer" parent="MainPanel/Margin/VBox/Content/RightPanel" unique_id=382598121]
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxTexture_section_box")
 
-[node name="ObjectivesVBox" type="VBoxContainer" parent="MainPanel/Margin/VBox/Content/RightPanel/ObjectivesBody"]
+[node name="ObjectivesVBox" type="VBoxContainer" parent="MainPanel/Margin/VBox/Content/RightPanel/ObjectivesBody" unique_id=1634340143]
 layout_mode = 2
 theme_override_constants/separation = 4
 
-[node name="Rounds" type="Label" parent="MainPanel/Margin/VBox/Content/RightPanel/ObjectivesBody/ObjectivesVBox"]
+[node name="Rounds" type="Label" parent="MainPanel/Margin/VBox/Content/RightPanel/ObjectivesBody/ObjectivesVBox" unique_id=2115571838]
 layout_mode = 2
 text = "Ronda 1/5"
 label_settings = SubResource("LabelSettings_body")
 horizontal_alignment = 1
 
-[node name="Instruction" type="Label" parent="MainPanel/Margin/VBox/Content/RightPanel/ObjectivesBody/ObjectivesVBox"]
+[node name="Instruction" type="Label" parent="MainPanel/Margin/VBox/Content/RightPanel/ObjectivesBody/ObjectivesVBox" unique_id=579981961]
 layout_mode = 2
 text = "Encuentra el objeto pedido"
 label_settings = SubResource("LabelSettings_body")
 horizontal_alignment = 1
 autowrap_mode = 3
 
-[node name="ResultsTitle" type="PanelContainer" parent="MainPanel/Margin/VBox/Content/RightPanel"]
+[node name="ResultsTitle" type="PanelContainer" parent="MainPanel/Margin/VBox/Content/RightPanel" unique_id=1569579792]
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxTexture_title_box")
 
-[node name="ResultsTitleLabel" type="Label" parent="MainPanel/Margin/VBox/Content/RightPanel/ResultsTitle"]
+[node name="ResultsTitleLabel" type="Label" parent="MainPanel/Margin/VBox/Content/RightPanel/ResultsTitle" unique_id=2146636816]
 layout_mode = 2
 text = "RESULTADOS"
 label_settings = SubResource("LabelSettings_subtitle")
 horizontal_alignment = 1
 
-[node name="ResultsBody" type="PanelContainer" parent="MainPanel/Margin/VBox/Content/RightPanel"]
+[node name="ResultsBody" type="PanelContainer" parent="MainPanel/Margin/VBox/Content/RightPanel" unique_id=1044139376]
 layout_mode = 2
 size_flags_vertical = 3
 theme_override_styles/panel = SubResource("StyleBoxTexture_section_box")
 
-[node name="ResultsVBox" type="VBoxContainer" parent="MainPanel/Margin/VBox/Content/RightPanel/ResultsBody"]
+[node name="ResultsVBox" type="VBoxContainer" parent="MainPanel/Margin/VBox/Content/RightPanel/ResultsBody" unique_id=1353896295]
 layout_mode = 2
 size_flags_vertical = 3
 theme_override_constants/separation = 8
 
-[node name="Result" type="Label" parent="MainPanel/Margin/VBox/Content/RightPanel/ResultsBody/ResultsVBox"]
+[node name="Result" type="Label" parent="MainPanel/Margin/VBox/Content/RightPanel/ResultsBody/ResultsVBox" unique_id=1026498267]
 visible = false
 layout_mode = 2
 size_flags_vertical = 3
@@ -334,7 +320,7 @@ horizontal_alignment = 1
 vertical_alignment = 1
 autowrap_mode = 3
 
-[node name="FinishButton" type="Button" parent="MainPanel/Margin/VBox/Content/RightPanel/ResultsBody/ResultsVBox"]
+[node name="FinishButton" type="Button" parent="MainPanel/Margin/VBox/Content/RightPanel/ResultsBody/ResultsVBox" unique_id=1064064541]
 visible = false
 layout_mode = 2
 size_flags_horizontal = 4

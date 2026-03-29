@@ -3,11 +3,14 @@ extends CharacterBody2D
 @export var max_speed: float = 600.0
 @export var acceleration: float = 1200.0
 @export var step_interval: float = 0.35
+@export var min_speed_factor_at_zero_energy: float = 0.45
+@export var energy_speed_curve_exp: float = 1.2
 
 @onready var sprite = $AnimatedSprite2D
 @onready var footstep = $AudioStreamPlayer2D
 
 var step_timer: float = 0.0
+var hud_ref: Node = null
 
 # Aura
 var aura_active: bool  = false
@@ -19,6 +22,7 @@ const AURA_COLOR_PLAYER        = Color(1.0, 0.85, 0.3, 1.0)  # dorado
 func _ready() -> void:
 	add_to_group("player")
 	sprite.self_modulate = Color.WHITE
+	hud_ref = get_node_or_null("../Hud")
 
 
 func set_aura(value: bool) -> void:
@@ -42,7 +46,7 @@ func _physics_process(delta: float) -> void:
 	input_vector.x = Input.get_action_strength("ui_right") - Input.get_action_strength("ui_left")
 	input_vector.y = Input.get_action_strength("ui_down") - Input.get_action_strength("ui_up")
 	input_vector = input_vector.normalized()
-	velocity = input_vector * max_speed
+	velocity = input_vector * max_speed * _get_energy_speed_factor()
 
 	move_and_slide()
 	update_animation()
@@ -74,3 +78,16 @@ func update_footsteps(delta: float) -> void:
 			step_timer = step_interval
 	else:
 		step_timer = 0.0
+
+
+func _get_energy_speed_factor() -> float:
+	if hud_ref == null:
+		return 1.0
+
+	if not hud_ref.has_method("get_energy_percent"):
+		return 1.0
+
+	var energy_percent: float = clampf(float(hud_ref.get_energy_percent()), 0.0, 100.0)
+	var t: float = energy_percent / 100.0
+	var curved_t: float = pow(t, energy_speed_curve_exp)
+	return lerpf(min_speed_factor_at_zero_energy, 1.0, curved_t)

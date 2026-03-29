@@ -1,12 +1,12 @@
-[gd_scene load_steps=17 format=3]
+[gd_scene format=3 uid="uid://hggkru4ptmmu"]
 
-[ext_resource type="Script" path="res://minijuego_bar_beer.gd" id="1_script"]
+[ext_resource type="Script" uid="uid://dy651ohmdnwme" path="res://minijuego_bar_beer.gd" id="1_script"]
 [ext_resource type="Texture2D" uid="uid://cpaxrpnv1gl7y" path="res://assets/textures/opciones-fondo.png" id="2_bg"]
 [ext_resource type="Texture2D" uid="uid://d3mn8iy0m7bf" path="res://assets/textures/opciones-campo-fondo.png" id="3_panel"]
 [ext_resource type="PackedScene" uid="uid://hqmdfy0qhwxh" path="res://ui/components/Title_1.tscn" id="4_title"]
 [ext_resource type="FontFile" uid="uid://cu11g35n3hgqv" path="res://assets/fonts/PixelOperatorMonoHB.ttf" id="5_font"]
 [ext_resource type="Texture2D" uid="uid://cfy6rj4bb8kwr" path="res://assets/textures/button_2.png" id="6_btn"]
-[ext_resource type="Texture2D" path="res://assets/sprites/ui/beerMInigame.png" id="7_beer"]
+[ext_resource type="Texture2D" uid="uid://bwetxjblsa12j" path="res://assets/sprites/ui/beerMInigame.png" id="7_beer"]
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_panel"]
 texture = ExtResource("2_bg")
@@ -54,12 +54,17 @@ texture_margin_right = 30.0
 texture_margin_bottom = 20.0
 modulate_color = Color(1.39357, 0.872134, 0.98352, 1)
 
-[sub_resource type="LabelSettings" id="LabelSettings_result"]
-font = ExtResource("5_font")
-font_size = 34
-font_color = Color(0.779836, 0.603248, 0.597264, 1)
-outline_size = 8
-outline_color = Color(0.189829, 0.0827736, 0.0013467, 1)
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_glass"]
+bg_color = Color(0.196, 0.168, 0.141, 0.95)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.94, 0.84, 0.68, 1)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_btn_normal"]
 texture = ExtResource("6_btn")
@@ -90,19 +95,14 @@ axis_stretch_horizontal = 2
 axis_stretch_vertical = 2
 modulate_color = Color(0.76, 0.68, 0.74, 1)
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_glass"]
-bg_color = Color(0.196, 0.168, 0.141, 0.95)
-border_width_left = 2
-border_width_top = 2
-border_width_right = 2
-border_width_bottom = 2
-border_color = Color(0.94, 0.84, 0.68, 1)
-corner_radius_top_left = 8
-corner_radius_top_right = 8
-corner_radius_bottom_right = 8
-corner_radius_bottom_left = 8
+[sub_resource type="LabelSettings" id="LabelSettings_result"]
+font = ExtResource("5_font")
+font_size = 34
+font_color = Color(0.779836, 0.603248, 0.597264, 1)
+outline_size = 8
+outline_color = Color(0.189829, 0.0827736, 0.0013467, 1)
 
-[node name="MinijuegoBarBeer" type="Control"]
+[node name="MinijuegoBarBeer" type="Control" unique_id=1043426528]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -111,7 +111,7 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_script")
 
-[node name="MainPanel" type="PanelContainer" parent="."]
+[node name="MainPanel" type="PanelContainer" parent="." unique_id=1935583870]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -126,22 +126,22 @@ grow_horizontal = 2
 grow_vertical = 2
 theme_override_styles/panel = SubResource("StyleBoxTexture_panel")
 
-[node name="Margin" type="MarginContainer" parent="MainPanel"]
+[node name="Margin" type="MarginContainer" parent="MainPanel" unique_id=1318627179]
 layout_mode = 2
 theme_override_constants/margin_left = 20
 theme_override_constants/margin_top = 20
 theme_override_constants/margin_right = 20
 theme_override_constants/margin_bottom = 20
 
-[node name="VBox" type="VBoxContainer" parent="MainPanel/Margin"]
+[node name="VBox" type="VBoxContainer" parent="MainPanel/Margin" unique_id=2088423990]
 layout_mode = 2
 theme_override_constants/separation = 8
 
-[node name="TitleSlot" type="Control" parent="MainPanel/Margin/VBox"]
+[node name="TitleSlot" type="Control" parent="MainPanel/Margin/VBox" unique_id=1894919154]
 custom_minimum_size = Vector2(0, 50)
 layout_mode = 2
 
-[node name="Title" parent="MainPanel/Margin/VBox/TitleSlot" instance=ExtResource("4_title")]
+[node name="Title" parent="MainPanel/Margin/VBox/TitleSlot" unique_id=603821983 instance=ExtResource("4_title")]
 layout_mode = 1
 anchors_preset = 5
 anchor_left = 0.5
@@ -153,64 +153,64 @@ offset_bottom = 51.0
 grow_horizontal = 2
 text = "SIRVIENDO CERVEZA"
 
-[node name="Content" type="HBoxContainer" parent="MainPanel/Margin/VBox"]
+[node name="Content" type="HBoxContainer" parent="MainPanel/Margin/VBox" unique_id=409013806]
 layout_mode = 2
 theme_override_constants/separation = 8
 
-[node name="LeftPanel" type="VBoxContainer" parent="MainPanel/Margin/VBox/Content"]
+[node name="LeftPanel" type="VBoxContainer" parent="MainPanel/Margin/VBox/Content" unique_id=1277201003]
 custom_minimum_size = Vector2(250, 0)
 layout_mode = 2
 
-[node name="GuideTitle" type="PanelContainer" parent="MainPanel/Margin/VBox/Content/LeftPanel"]
+[node name="GuideTitle" type="PanelContainer" parent="MainPanel/Margin/VBox/Content/LeftPanel" unique_id=2116442106]
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxTexture_title_box")
 
-[node name="GuideTitleLabel" type="Label" parent="MainPanel/Margin/VBox/Content/LeftPanel/GuideTitle"]
+[node name="GuideTitleLabel" type="Label" parent="MainPanel/Margin/VBox/Content/LeftPanel/GuideTitle" unique_id=907213109]
 layout_mode = 2
 text = "GUIA RAPIDA"
 label_settings = SubResource("LabelSettings_subtitle")
 horizontal_alignment = 1
 
-[node name="Guide1" type="PanelContainer" parent="MainPanel/Margin/VBox/Content/LeftPanel"]
+[node name="Guide1" type="PanelContainer" parent="MainPanel/Margin/VBox/Content/LeftPanel" unique_id=1237089183]
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxTexture_section_box")
 
-[node name="Guide1Label" type="Label" parent="MainPanel/Margin/VBox/Content/LeftPanel/Guide1"]
+[node name="Guide1Label" type="Label" parent="MainPanel/Margin/VBox/Content/LeftPanel/Guide1" unique_id=87033421]
 layout_mode = 2
 text = "1) MANTEN CLIC SOBRE LA MANIJA"
 label_settings = SubResource("LabelSettings_body")
 horizontal_alignment = 1
 autowrap_mode = 3
 
-[node name="Guide2" type="PanelContainer" parent="MainPanel/Margin/VBox/Content/LeftPanel"]
+[node name="Guide2" type="PanelContainer" parent="MainPanel/Margin/VBox/Content/LeftPanel" unique_id=721088797]
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxTexture_section_box")
 
-[node name="Guide2Label" type="Label" parent="MainPanel/Margin/VBox/Content/LeftPanel/Guide2"]
+[node name="Guide2Label" type="Label" parent="MainPanel/Margin/VBox/Content/LeftPanel/Guide2" unique_id=379047398]
 layout_mode = 2
 text = "2) LLENA HASTA LA LINEA OBJETIVO"
 label_settings = SubResource("LabelSettings_body")
 horizontal_alignment = 1
 autowrap_mode = 3
 
-[node name="Guide3" type="PanelContainer" parent="MainPanel/Margin/VBox/Content/LeftPanel"]
+[node name="Guide3" type="PanelContainer" parent="MainPanel/Margin/VBox/Content/LeftPanel" unique_id=145578062]
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxTexture_section_box")
 
-[node name="Guide3Label" type="Label" parent="MainPanel/Margin/VBox/Content/LeftPanel/Guide3"]
+[node name="Guide3Label" type="Label" parent="MainPanel/Margin/VBox/Content/LeftPanel/Guide3" unique_id=72301843]
 layout_mode = 2
 text = "3) SUELTA PARA DETENER EL LLENADO"
 label_settings = SubResource("LabelSettings_body")
 horizontal_alignment = 1
 autowrap_mode = 3
 
-[node name="CenterPanel" type="VBoxContainer" parent="MainPanel/Margin/VBox/Content"]
+[node name="CenterPanel" type="VBoxContainer" parent="MainPanel/Margin/VBox/Content" unique_id=834092492]
 custom_minimum_size = Vector2(700, 0)
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_constants/separation = 8
 
-[node name="ClientRequest" type="Label" parent="MainPanel/Margin/VBox/Content/CenterPanel"]
+[node name="ClientRequest" type="Label" parent="MainPanel/Margin/VBox/Content/CenterPanel" unique_id=1356946630]
 custom_minimum_size = Vector2(0, 78)
 layout_mode = 2
 text = "Objetivo"
@@ -219,22 +219,22 @@ horizontal_alignment = 1
 vertical_alignment = 1
 autowrap_mode = 3
 
-[node name="Timer" type="Label" parent="MainPanel/Margin/VBox/Content/CenterPanel"]
+[node name="Timer" type="Label" parent="MainPanel/Margin/VBox/Content/CenterPanel" unique_id=1853723673]
 layout_mode = 2
 text = "Tiempo: 0.0"
 label_settings = SubResource("LabelSettings_subtitle")
 horizontal_alignment = 1
 
-[node name="BeerContainer" type="PanelContainer" parent="MainPanel/Margin/VBox/Content/CenterPanel"]
+[node name="BeerContainer" type="PanelContainer" parent="MainPanel/Margin/VBox/Content/CenterPanel" unique_id=601698576]
 custom_minimum_size = Vector2(0, 460)
 layout_mode = 2
 size_flags_vertical = 3
 theme_override_styles/panel = SubResource("StyleBoxTexture_playfield")
 
-[node name="PlayArea" type="Control" parent="MainPanel/Margin/VBox/Content/CenterPanel/BeerContainer"]
+[node name="PlayArea" type="Control" parent="MainPanel/Margin/VBox/Content/CenterPanel/BeerContainer" unique_id=694922479]
 layout_mode = 2
 
-[node name="BeerArt" type="TextureRect" parent="MainPanel/Margin/VBox/Content/CenterPanel/BeerContainer/PlayArea"]
+[node name="BeerArt" type="TextureRect" parent="MainPanel/Margin/VBox/Content/CenterPanel/BeerContainer/PlayArea" unique_id=1657925962]
 modulate = Color(1, 1, 1, 0.35)
 layout_mode = 1
 anchors_preset = 15
@@ -246,60 +246,44 @@ texture = ExtResource("7_beer")
 expand_mode = 1
 stretch_mode = 6
 
-[node name="Glass" type="Control" parent="MainPanel/Margin/VBox/Content/CenterPanel/BeerContainer/PlayArea"]
+[node name="Glass" type="Control" parent="MainPanel/Margin/VBox/Content/CenterPanel/BeerContainer/PlayArea" unique_id=1375211763]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -100.0
-offset_top = -160.0
-offset_right = 100.0
-offset_bottom = 190.0
+offset_left = -160.0
+offset_top = -245.0
+offset_right = 160.0
+offset_bottom = 290.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="GlassBody" type="PanelContainer" parent="MainPanel/Margin/VBox/Content/CenterPanel/BeerContainer/PlayArea/Glass"]
+[node name="GlassBody" type="Panel" parent="MainPanel/Margin/VBox/Content/CenterPanel/BeerContainer/PlayArea/Glass" unique_id=1442460146]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -70.0
-offset_top = -130.0
-offset_right = 70.0
-offset_bottom = 130.0
+offset_left = -127.0
+offset_top = -179.0
+offset_right = 113.0
+offset_bottom = 53.0
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_glass")
 
-[node name="FillRect" type="ColorRect" parent="MainPanel/Margin/VBox/Content/CenterPanel/BeerContainer/PlayArea/Glass/GlassBody"]
-layout_mode = 1
-anchors_preset = 12
-anchor_top = 1.0
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = 8.0
-offset_top = 250.0
-offset_right = -8.0
-offset_bottom = -8.0
-grow_vertical = 0
+[node name="FillRect" type="ColorRect" parent="MainPanel/Margin/VBox/Content/CenterPanel/BeerContainer/PlayArea/Glass/GlassBody" unique_id=1477854827]
+layout_mode = 0
 color = Color(0.996078, 0.745098, 0.176471, 0.95)
 
-[node name="TargetLine" type="ColorRect" parent="MainPanel/Margin/VBox/Content/CenterPanel/BeerContainer/PlayArea/Glass/GlassBody"]
-layout_mode = 1
-anchors_preset = 10
-anchor_right = 1.0
-offset_left = 6.0
-offset_top = 120.0
-offset_right = -6.0
-offset_bottom = 124.0
-grow_horizontal = 2
-color = Color(0.98, 0.26, 0.26, 1)
+[node name="TargetLine" type="ColorRect" parent="MainPanel/Margin/VBox/Content/CenterPanel/BeerContainer/PlayArea/Glass/GlassBody" unique_id=316923795]
+layout_mode = 0
+color = Color(0.95, 0.95, 0.92, 0.95)
 
-[node name="HandleButton" type="Button" parent="MainPanel/Margin/VBox/Content/CenterPanel/BeerContainer/PlayArea/Glass"]
+[node name="HandleButton" type="Button" parent="MainPanel/Margin/VBox/Content/CenterPanel/BeerContainer/PlayArea/Glass" unique_id=1789024868]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -322,63 +306,63 @@ theme_override_styles/pressed = SubResource("StyleBoxTexture_btn_pressed")
 theme_override_styles/hover = SubResource("StyleBoxTexture_btn_hover")
 text = "MANTENER"
 
-[node name="RightPanel" type="VBoxContainer" parent="MainPanel/Margin/VBox/Content"]
+[node name="RightPanel" type="VBoxContainer" parent="MainPanel/Margin/VBox/Content" unique_id=111102167]
 custom_minimum_size = Vector2(250, 0)
 layout_mode = 2
 theme_override_constants/separation = 8
 
-[node name="ObjectivesTitle" type="PanelContainer" parent="MainPanel/Margin/VBox/Content/RightPanel"]
+[node name="ObjectivesTitle" type="PanelContainer" parent="MainPanel/Margin/VBox/Content/RightPanel" unique_id=559768276]
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxTexture_title_box")
 
-[node name="ObjectivesTitleLabel" type="Label" parent="MainPanel/Margin/VBox/Content/RightPanel/ObjectivesTitle"]
+[node name="ObjectivesTitleLabel" type="Label" parent="MainPanel/Margin/VBox/Content/RightPanel/ObjectivesTitle" unique_id=903132208]
 layout_mode = 2
 text = "OBJETIVOS"
 label_settings = SubResource("LabelSettings_subtitle")
 horizontal_alignment = 1
 
-[node name="ObjectivesBody" type="PanelContainer" parent="MainPanel/Margin/VBox/Content/RightPanel"]
+[node name="ObjectivesBody" type="PanelContainer" parent="MainPanel/Margin/VBox/Content/RightPanel" unique_id=1715962599]
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxTexture_section_box")
 
-[node name="ObjectivesVBox" type="VBoxContainer" parent="MainPanel/Margin/VBox/Content/RightPanel/ObjectivesBody"]
+[node name="ObjectivesVBox" type="VBoxContainer" parent="MainPanel/Margin/VBox/Content/RightPanel/ObjectivesBody" unique_id=1061430548]
 layout_mode = 2
 theme_override_constants/separation = 4
 
-[node name="Rounds" type="Label" parent="MainPanel/Margin/VBox/Content/RightPanel/ObjectivesBody/ObjectivesVBox"]
+[node name="Rounds" type="Label" parent="MainPanel/Margin/VBox/Content/RightPanel/ObjectivesBody/ObjectivesVBox" unique_id=1842445464]
 layout_mode = 2
 text = "Ronda 1/5"
 label_settings = SubResource("LabelSettings_body")
 horizontal_alignment = 1
 
-[node name="Instruction" type="Label" parent="MainPanel/Margin/VBox/Content/RightPanel/ObjectivesBody/ObjectivesVBox"]
+[node name="Instruction" type="Label" parent="MainPanel/Margin/VBox/Content/RightPanel/ObjectivesBody/ObjectivesVBox" unique_id=448263102]
 layout_mode = 2
 text = "Llena hasta la linea"
 label_settings = SubResource("LabelSettings_body")
 horizontal_alignment = 1
 autowrap_mode = 3
 
-[node name="ResultsTitle" type="PanelContainer" parent="MainPanel/Margin/VBox/Content/RightPanel"]
+[node name="ResultsTitle" type="PanelContainer" parent="MainPanel/Margin/VBox/Content/RightPanel" unique_id=226388573]
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxTexture_title_box")
 
-[node name="ResultsTitleLabel" type="Label" parent="MainPanel/Margin/VBox/Content/RightPanel/ResultsTitle"]
+[node name="ResultsTitleLabel" type="Label" parent="MainPanel/Margin/VBox/Content/RightPanel/ResultsTitle" unique_id=128998160]
 layout_mode = 2
 text = "RESULTADOS"
 label_settings = SubResource("LabelSettings_subtitle")
 horizontal_alignment = 1
 
-[node name="ResultsBody" type="PanelContainer" parent="MainPanel/Margin/VBox/Content/RightPanel"]
+[node name="ResultsBody" type="PanelContainer" parent="MainPanel/Margin/VBox/Content/RightPanel" unique_id=1814276760]
 layout_mode = 2
 size_flags_vertical = 3
 theme_override_styles/panel = SubResource("StyleBoxTexture_section_box")
 
-[node name="ResultsVBox" type="VBoxContainer" parent="MainPanel/Margin/VBox/Content/RightPanel/ResultsBody"]
+[node name="ResultsVBox" type="VBoxContainer" parent="MainPanel/Margin/VBox/Content/RightPanel/ResultsBody" unique_id=613816471]
 layout_mode = 2
 size_flags_vertical = 3
 theme_override_constants/separation = 8
 
-[node name="Result" type="Label" parent="MainPanel/Margin/VBox/Content/RightPanel/ResultsBody/ResultsVBox"]
+[node name="Result" type="Label" parent="MainPanel/Margin/VBox/Content/RightPanel/ResultsBody/ResultsVBox" unique_id=609008890]
 visible = false
 layout_mode = 2
 size_flags_vertical = 3
@@ -387,7 +371,7 @@ horizontal_alignment = 1
 vertical_alignment = 1
 autowrap_mode = 3
 
-[node name="FinishButton" type="Button" parent="MainPanel/Margin/VBox/Content/RightPanel/ResultsBody/ResultsVBox"]
+[node name="FinishButton" type="Button" parent="MainPanel/Margin/VBox/Content/RightPanel/ResultsBody/ResultsVBox" unique_id=711816695]
 visible = false
 layout_mode = 2
 size_flags_horizontal = 4
