@@ -2,11 +2,15 @@ extends Control
 
 const ENDINGS_JSON_PATH := "res://data/cinematic/endings_cinematic.json"
 const MAIN_MENU_PATH := "res://scenes/MainMenu.tscn"
+const ENDING_BGM_GOOD := preload("res://assets/audio/game/goodEnding.ogg")
+const ENDING_BGM_NORMAL := preload("res://assets/audio/game/normalEnding.ogg")
+const ENDING_BGM_BAD := preload("res://assets/audio/game/badEnding.ogg")
 
 var dialog_data = []
 var current_scene_index = 0
 var current_language: String = "es"
 var is_transitioning: bool = false
+var bgm_player: AudioStreamPlayer
 
 var estres_final := 10.0
 var dinero_final := 150.0
@@ -25,10 +29,29 @@ func _ready() -> void:
 	
 	_resolve_language()
 	_determinar_tipo_final()
+	_setup_ending_bgm()
 	load_dialog_data()
 	
 	if dialog_data.size() > 0:
 		show_scene(0)
+
+
+func _setup_ending_bgm() -> void:
+	bgm_player = AudioStreamPlayer.new()
+	bgm_player.name = "EndingBgmPlayer"
+	bgm_player.volume_db = -8.0
+	bgm_player.process_mode = Node.PROCESS_MODE_ALWAYS
+
+	match tipo_final:
+		"good":
+			bgm_player.stream = ENDING_BGM_GOOD
+		"bad":
+			bgm_player.stream = ENDING_BGM_BAD
+		_:
+			bgm_player.stream = ENDING_BGM_NORMAL
+
+	add_child(bgm_player)
+	bgm_player.play()
 
 
 func _load_final_stats() -> void:
