@@ -1,7 +1,9 @@
 extends CanvasLayer
 
 func _ready():
-	visible = false
+	var so = OS.get_name()
 	
-	if DisplayServer.is_touchscreen_available():
+	if so == "Android" or so == "iOS":
 		visible = true
+	else:
+		visible = false
