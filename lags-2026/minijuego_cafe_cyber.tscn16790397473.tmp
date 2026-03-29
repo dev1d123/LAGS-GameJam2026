@@ -115,8 +115,8 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_script")
-cable_offset_a = Vector2(50, 35)
-cable_offset_b = Vector2(50, 35)
+total_rounds = null
+round_time_base = null
 
 [node name="MainPanel" type="PanelContainer" parent="."]
 layout_mode = 1
