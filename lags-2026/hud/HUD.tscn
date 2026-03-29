@@ -154,10 +154,10 @@ label_settings = SubResource("LabelSettings_lmyhm")
 [node name="InventoryPanel" type="Panel" parent="." unique_id=1011059553]
 custom_minimum_size = Vector2(112, 44)
 layout_mode = 0
-offset_left = 12.666668
-offset_top = 290.06845
-offset_right = 124.66667
-offset_bottom = 334.06845
+offset_left = 514.3334
+offset_top = 30.82191
+offset_right = 626.3334
+offset_bottom = 74.821915
 theme_override_styles/panel = SubResource("StyleBoxFlat_inv_panel")
 
 [node name="InventoryTitle" type="Label" parent="InventoryPanel" unique_id=540689858]
