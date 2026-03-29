@@ -57,11 +57,13 @@ func _ready():
 	
 	audio_medalla = AudioStreamPlayer.new()
 	audio_medalla.bus = &"SFX"
+	audio_medalla.volume_db = -8.0
 	add_child(audio_medalla)
 	
 	audio_siguiente = AudioStreamPlayer.new()
 	audio_siguiente.stream = load("res://assets/audio/minigame-granel/siguiente.mp3")
 	audio_siguiente.bus = &"SFX"
+	audio_siguiente.volume_db = -8.0
 	add_child(audio_siguiente)
 
 	# 2. Conectar las señales

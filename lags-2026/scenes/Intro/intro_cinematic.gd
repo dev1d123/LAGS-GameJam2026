@@ -29,6 +29,7 @@ func _setup_intro_bgm() -> void:
 	bgm_player = AudioStreamPlayer.new()
 	bgm_player.name = "IntroBgmPlayer"
 	bgm_player.stream = INTRO_BGM_STREAM
+	bgm_player.bus = &"Music"
 	bgm_player.volume_db = -8.0
 	bgm_player.process_mode = Node.PROCESS_MODE_ALWAYS
 	add_child(bgm_player)

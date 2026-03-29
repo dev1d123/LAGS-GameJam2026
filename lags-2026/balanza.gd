@@ -16,7 +16,7 @@ func _ready():
 	audio_tick = AudioStreamPlayer.new()
 	audio_tick.stream = load("res://assets/audio/minigame-granel/actualizacion_balanza.mp3")
 	audio_tick.bus = &"SFX"
-	audio_tick.volume_db = -15.0
+	audio_tick.volume_db = -11.0
 	add_child(audio_tick)
 	
 	timer_retraso.wait_time = 0.5
