@@ -287,6 +287,20 @@ func _on_npc_unhovered() -> void:
 	)
 
 
+func show_npc_toast(npc: Node) -> void:
+	if npc == null:
+		return
+	name_label.text = str(npc.get("npc_nombre"))
+	age_label.text = str(npc.get("npc_edad"))
+	desc_label.text = str(npc.get("npc_descripcion"))
+	toast.visible = true
+	toast.position = toast_origin
+
+
+func hide_npc_toast() -> void:
+	toast.visible = false
+
+
 func apply_day_settings(day_number: int) -> void:
 	if spawn_timer == null:
 		return

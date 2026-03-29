@@ -27,6 +27,9 @@ const DAY_START_HOUR := 6
 const DAY_END_HOUR := 18
 const FINAL_DAY := 4
 const SECONDS_PER_INGAME_HOUR := 5
+const START_DAY := 28
+const START_MONTH := 12
+const START_YEAR := 2008
 const DAY_TRANSITION_FONT := preload("res://assets/fonts/LazyFox Pixel Font 2.ttf")
 const ENDING_SCENE_PATH := "res://scenes/Endings/EscenaFinales.tscn"
 
@@ -272,8 +275,12 @@ func _toggle_freeze() -> void:
 	print("[Scenario] toggle freeze -> ", frozen)
 	if frozen:
 		selected_npc_ref = aura_npc_ref
+		if spawner != null and spawner.has_method("show_npc_toast"):
+			spawner.show_npc_toast(selected_npc_ref)
 		_populate_npc_description(selected_npc_ref)
 	else:
+		if spawner != null and spawner.has_method("hide_npc_toast"):
+			spawner.hide_npc_toast()
 		selected_npc_ref = null
 
 	var mode = Node.PROCESS_MODE_DISABLED if frozen else Node.PROCESS_MODE_INHERIT
@@ -537,13 +544,56 @@ func _set_world_paused(value: bool) -> void:
 
 
 func _get_day_transition_text(day_number: int) -> String:
+	var date_text := _get_day_transition_date_text(day_number)
 	match LocaleManager.current_language:
 		"en":
-			return "Day %d" % day_number
+			return "Day %d - %s" % [day_number, date_text]
 		"pt":
-			return "Dia %d" % day_number
+			return "Dia %d - %s" % [day_number, date_text]
 		_:
-			return "Dia %d" % day_number
+			return "Dia %d - %s" % [day_number, date_text]
+
+
+func _get_day_transition_date_text(day_number: int) -> String:
+	var offset_days: int = max(0, day_number - 1)
+	var y: int = START_YEAR
+	var m: int = START_MONTH
+	var d: int = START_DAY
+
+	while offset_days > 0:
+		d += 1
+		var days_in_month: int = _days_in_month(m, y)
+		if d > days_in_month:
+			d = 1
+			m += 1
+			if m > 12:
+				m = 1
+				y += 1
+		offset_days -= 1
+
+	return "%02d/%02d/%04d" % [d, m, y]
+
+
+func _days_in_month(month: int, year: int) -> int:
+	match month:
+		1, 3, 5, 7, 8, 10, 12:
+			return 31
+		4, 6, 9, 11:
+			return 30
+		2:
+			if _is_leap_year(year):
+				return 29
+			return 28
+		_:
+			return 30
+
+
+func _is_leap_year(year: int) -> bool:
+	if year % 400 == 0:
+		return true
+	if year % 100 == 0:
+		return false
+	return year % 4 == 0
 
 
 func _setup_shop_music() -> void:
