@@ -3,6 +3,11 @@ extends Control
 signal minigame_finished(success: bool, score: int, total_rounds: int)
 
 const I18N_CATEGORY := "minigame_cafe_candy"
+const SFX_CLICK_STREAM := preload("res://assets/audio/button_click_1.mp3")
+const SFX_SUCCESS_STREAM := preload("res://scenes/minigameIndications/success.ogg")
+const SFX_ERROR_STREAM := preload("res://scenes/minigameIndications/error.ogg")
+const SFX_FINAL_SUCCESS_STREAM := preload("res://assets/audio/game/WinMinigame.ogg")
+const SFX_FINAL_FAIL_STREAM := preload("res://assets/audio/game/LoseMinigame.ogg")
 
 @export var total_rounds: int = 5
 @export var round_time_base: float = 18.0
@@ -49,15 +54,41 @@ var request_amount: int = 0
 var selected_count: int = 0
 
 var is_round_locked: bool = false
+var sfx_click_player: AudioStreamPlayer
+var sfx_success_player: AudioStreamPlayer
+var sfx_error_player: AudioStreamPlayer
+var sfx_final_player: AudioStreamPlayer
 
 
 func _ready() -> void:
 	randomize()
+	_setup_sfx()
 	submit_button.pressed.connect(_on_submit_button_pressed)
 	finish_button.pressed.connect(_on_finish_button_pressed)
 	_update_static_texts()
 	_populate_guide_reference()
 	call_deferred("_start_round")
+
+
+func _setup_sfx() -> void:
+	sfx_click_player = AudioStreamPlayer.new()
+	sfx_click_player.stream = SFX_CLICK_STREAM
+	sfx_click_player.bus = &"SFX"
+	add_child(sfx_click_player)
+
+	sfx_success_player = AudioStreamPlayer.new()
+	sfx_success_player.stream = SFX_SUCCESS_STREAM
+	sfx_success_player.bus = &"SFX"
+	add_child(sfx_success_player)
+
+	sfx_error_player = AudioStreamPlayer.new()
+	sfx_error_player.stream = SFX_ERROR_STREAM
+	sfx_error_player.bus = &"SFX"
+	add_child(sfx_error_player)
+
+	sfx_final_player = AudioStreamPlayer.new()
+	sfx_final_player.bus = &"SFX"
+	add_child(sfx_final_player)
 
 
 func _process(delta: float) -> void:
@@ -238,12 +269,20 @@ func _on_candy_toggled(pressed: bool, button: Button) -> void:
 	else:
 		selected_count = max(0, selected_count - 1)
 
+	if sfx_click_player != null:
+		sfx_click_player.pitch_scale = randf_range(0.95, 1.08)
+		sfx_click_player.play()
+
 	selected_counter_label.text = _t("selected_counter") % [selected_count, request_amount]
 
 
 func _on_submit_button_pressed() -> void:
 	if is_round_locked:
 		return
+
+	if sfx_click_player != null:
+		sfx_click_player.pitch_scale = 1.0
+		sfx_click_player.play()
 
 	var right_selected: int = 0
 	var wrong_selected: int = 0
@@ -276,12 +315,18 @@ func _resolve_round(success: bool, reason: String) -> void:
 		score += 1
 		round_result_label.text = _t("correct")
 		round_result_label.modulate = Color(0.55, 1.0, 0.55, 1.0)
+		if sfx_success_player != null:
+			sfx_success_player.pitch_scale = randf_range(0.95, 1.1)
+			sfx_success_player.play()
 	else:
 		if reason == "timeout":
 			round_result_label.text = _t("timeout")
 		else:
 			round_result_label.text = _t("incorrect")
 		round_result_label.modulate = Color(1.0, 0.55, 0.55, 1.0)
+		if sfx_error_player != null:
+			sfx_error_player.pitch_scale = 0.95 if reason == "timeout" else 1.0
+			sfx_error_player.play()
 
 	round_result_label.visible = true
 	pending_next_round = 1.0
@@ -295,9 +340,15 @@ func _finish_minigame() -> void:
 	if success:
 		round_result_label.text = _t("final_success") % [score, total_rounds]
 		round_result_label.modulate = Color(0.55, 1.0, 0.55, 1.0)
+		if sfx_final_player != null:
+			sfx_final_player.stream = SFX_FINAL_SUCCESS_STREAM
+			sfx_final_player.play()
 	else:
 		round_result_label.text = _t("final_fail") % [score, total_rounds]
 		round_result_label.modulate = Color(1.0, 0.55, 0.55, 1.0)
+		if sfx_final_player != null:
+			sfx_final_player.stream = SFX_FINAL_FAIL_STREAM
+			sfx_final_player.play()
 
 	round_result_label.visible = true
 	finish_button.visible = true
@@ -305,6 +356,9 @@ func _finish_minigame() -> void:
 
 
 func _on_finish_button_pressed() -> void:
+	if sfx_click_player != null:
+		sfx_click_player.pitch_scale = 1.0
+		sfx_click_player.play()
 	queue_free()
 
 
