@@ -8,6 +8,7 @@ const I18N_CATEGORY := "minigame_cafe_candy"
 @export var round_time_base: float = 18.0
 
 @onready var title_label: Button = $MainPanel/Margin/VBox/TitleSlot/Title
+@onready var left_panel: VBoxContainer = $MainPanel/Margin/VBox/Content/LeftPanel
 @onready var guide_title_label: Label = $MainPanel/Margin/VBox/Content/LeftPanel/GuideTitle/GuideTitleLabel
 @onready var guide1_label: Label = $MainPanel/Margin/VBox/Content/LeftPanel/Guide1/Guide1Label
 @onready var guide2_label: Label = $MainPanel/Margin/VBox/Content/LeftPanel/Guide2/Guide2Label
@@ -25,6 +26,12 @@ const I18N_CATEGORY := "minigame_cafe_candy"
 @onready var finish_button: Button = $MainPanel/Margin/VBox/Content/RightPanel/ResultsBody/ResultsVBox/FinishButton
 
 var candy_types: Array[String] = ["strawberry", "mint", "cola", "lemon"]
+var candy_type_textures: Dictionary = {
+	"strawberry": preload("res://assets/sprites/ui/strawberry_caramel.png"),
+	"mint": preload("res://assets/sprites/ui/mint_caramel.png"),
+	"cola": preload("res://assets/sprites/ui/cola_caramel.png"),
+	"lemon": preload("res://assets/sprites/ui/lemon_caramel.png")
+}
 var candy_type_colors: Dictionary = {
 	"strawberry": Color(0.96, 0.39, 0.46, 1.0),
 	"mint": Color(0.39, 0.84, 0.56, 1.0),
@@ -49,6 +56,7 @@ func _ready() -> void:
 	submit_button.pressed.connect(_on_submit_button_pressed)
 	finish_button.pressed.connect(_on_finish_button_pressed)
 	_update_static_texts()
+	_populate_guide_reference()
 	call_deferred("_start_round")
 
 
@@ -133,30 +141,31 @@ func _build_round_board(round_number: int) -> void:
 
 func _create_candy_button(candy_type: String) -> Button:
 	var button := Button.new()
-	button.custom_minimum_size = Vector2(110, 66)
+	button.custom_minimum_size = Vector2(110, 96)
 	button.toggle_mode = true
-	button.text = _t("candy_" + candy_type)
-	button.add_theme_font_size_override("font_size", 20)
+	button.text = ""
+	button.icon = _get_candy_texture(candy_type)
+	button.expand_icon = true
 
 	var normal := StyleBoxFlat.new()
-	normal.bg_color = _get_button_normal_color(candy_type)
+	normal.bg_color = Color(0, 0, 0, 0)
 	normal.border_width_left = 2
 	normal.border_width_top = 2
 	normal.border_width_right = 2
 	normal.border_width_bottom = 2
-	normal.border_color = Color(0.25, 0.14, 0.05, 1.0)
+	normal.border_color = Color(0, 0, 0, 0)
 	normal.corner_radius_top_left = 6
 	normal.corner_radius_top_right = 6
 	normal.corner_radius_bottom_right = 6
 	normal.corner_radius_bottom_left = 6
 
 	var pressed := StyleBoxFlat.new()
-	pressed.bg_color = _get_button_pressed_color(candy_type)
+	pressed.bg_color = Color(0, 0, 0, 0)
 	pressed.border_width_left = 2
 	pressed.border_width_top = 2
 	pressed.border_width_right = 2
 	pressed.border_width_bottom = 2
-	pressed.border_color = Color(0.25, 0.14, 0.05, 1.0)
+	pressed.border_color = Color(1.0, 0.95, 0.75, 0.9)
 	pressed.corner_radius_top_left = 6
 	pressed.corner_radius_top_right = 6
 	pressed.corner_radius_bottom_right = 6
@@ -169,6 +178,44 @@ func _create_candy_button(candy_type: String) -> Button:
 	button.set_meta("candy_type", candy_type)
 	button.toggled.connect(_on_candy_toggled.bind(button))
 	return button
+
+
+func _populate_guide_reference() -> void:
+	if left_panel == null:
+		return
+
+	var existing := left_panel.get_node_or_null("FlavorGuide")
+	if existing != null:
+		existing.queue_free()
+
+	var flavor_guide := PanelContainer.new()
+	flavor_guide.name = "FlavorGuide"
+	left_panel.add_child(flavor_guide)
+
+	var list := VBoxContainer.new()
+	list.add_theme_constant_override("separation", 6)
+	flavor_guide.add_child(list)
+
+	for candy_type in candy_types:
+		var row := HBoxContainer.new()
+		row.add_theme_constant_override("separation", 8)
+		list.add_child(row)
+
+		var icon_rect := TextureRect.new()
+		icon_rect.custom_minimum_size = Vector2(36, 36)
+		icon_rect.texture = _get_candy_texture(candy_type)
+		icon_rect.expand_mode = TextureRect.EXPAND_FIT_WIDTH_PROPORTIONAL
+		icon_rect.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+		row.add_child(icon_rect)
+
+		var flavor_label := Label.new()
+		flavor_label.text = _t("candy_" + candy_type)
+		flavor_label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+		row.add_child(flavor_label)
+
+
+func _get_candy_texture(candy_type: String) -> Texture2D:
+	return candy_type_textures.get(candy_type, null) as Texture2D
 
 
 func _get_button_normal_color(candy_type: String) -> Color:
