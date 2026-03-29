@@ -8,9 +8,8 @@ var current_scene_index = 0
 var current_language: String = "es"
 var is_transitioning: bool = false
 
-#VALORES PARA PRUEBAS
-var estres_final := 10  # Menos de 30 + Dinero alto = GOOD
-var dinero_final := 150.0 
+var estres_final := 10.0
+var dinero_final := 150.0
 var tipo_final := "normal"
 
 @onready var button_label = $CanvasLayer/DialogueBox/SkipButton/ButtonLabel
@@ -19,11 +18,10 @@ var tipo_final := "normal"
 @onready var background = $Background
 @onready var timer = $CanvasLayer/TypewriterTimer
 @onready var blip = $CanvasLayer/BlipPlayer
+@onready var fade_overlay = $CanvasLayer/FadeOverlay
 
 func _ready() -> void:
-	#datos del Singleton
-	#estres_final = Global.estres_actual
-	#dinero_final = Global.dinero_actual
+	_load_final_stats()
 	
 	_resolve_language()
 	_determinar_tipo_final()
@@ -31,6 +29,18 @@ func _ready() -> void:
 	
 	if dialog_data.size() > 0:
 		show_scene(0)
+
+
+func _load_final_stats() -> void:
+	var game_manager := get_node_or_null("/root/GameManager")
+	if game_manager == null:
+		return
+
+	if game_manager.get("final_stress_percent") != null:
+		estres_final = float(game_manager.get("final_stress_percent"))
+
+	if game_manager.get("final_money") != null:
+		dinero_final = float(game_manager.get("final_money"))
 
 func _determinar_tipo_final() -> void:
 	if estres_final < 30 and dinero_final >= 100:
@@ -81,8 +91,10 @@ func show_scene(index: int) -> void:
 	var btn_key := "btn_" + current_language
 	button_label.text = str(data.get(btn_key, "Siguiente"))
 
-	if anim_player.has_animation("fade_transition"):
-		anim_player.play_backwards("fade_transition")
+	if index == 0 and fade_overlay != null:
+		fade_overlay.modulate = Color(0, 0, 0, 1)
+		var intro_fade := create_tween()
+		intro_fade.tween_property(fade_overlay, "modulate", Color(0, 0, 0, 0), 0.5)
 
 	await get_tree().create_timer(0.5).timeout
 	timer.start()

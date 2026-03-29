@@ -25,8 +25,10 @@ var is_day_transition_playing: bool = false
 
 const DAY_START_HOUR := 6
 const DAY_END_HOUR := 18
-const SECONDS_PER_INGAME_HOUR := 7
+const FINAL_DAY := 4
+const SECONDS_PER_INGAME_HOUR := 5
 const DAY_TRANSITION_FONT := preload("res://assets/fonts/LazyFox Pixel Font 2.ttf")
+const ENDING_SCENE_PATH := "res://scenes/Endings/EscenaFinales.tscn"
 
 const SHOP_MUSIC_ACTIVE_DB := -8.0
 const SHOP_MUSIC_MUTED_DB := -40.0
@@ -110,6 +112,12 @@ var smoothed_energy: float = 100.0
 var smoothed_stress: float = 0.0
 
 func _update_shader_effects() -> void:
+	var tree := get_tree()
+	if tree == null:
+		return
+
+	if hud == null or screen_fx == null or screen_fx.material == null:
+		return
 
 	
 	var delta: float = get_process_delta_time()
@@ -136,7 +144,7 @@ func _update_shader_effects() -> void:
 	var stress_curve: float = pow(stress_factor, 3.0)
 	screen_fx.material.set_shader_parameter("stress_tunnel", stress_curve)
 	
-	var player = get_tree().get_first_node_in_group("Player")
+	var player = tree.get_first_node_in_group("Player")
 	
 	if is_instance_valid(player):
 		var player_canvas_pos = player.get_global_transform_with_canvas().origin
@@ -310,6 +318,10 @@ func _advance_ingame_hour() -> void:
 		hud.set_hora(current_hour)
 
 	if current_hour >= DAY_END_HOUR:
+		if current_day >= FINAL_DAY:
+			_trigger_final_ending()
+			return
+
 		current_day += 1
 		current_hour = DAY_START_HOUR
 		if hud != null and hud.has_method("set_dia"):
@@ -317,6 +329,33 @@ func _advance_ingame_hour() -> void:
 		if hud != null and hud.has_method("set_hora"):
 			hud.set_hora(current_hour)
 		_start_day_transition(current_day)
+
+
+func _trigger_final_ending() -> void:
+	_set_world_paused(true)
+	is_day_transition_playing = true
+	if day_transition_layer != null:
+		day_transition_layer.visible = true
+	if day_transition_label != null:
+		day_transition_label.visible = false
+	if day_transition_rect != null:
+		day_transition_rect.color = Color(0, 0, 0, 0)
+		var fade_tween := create_tween()
+		fade_tween.tween_property(day_transition_rect, "color", Color(0, 0, 0, 1), 0.5)
+		await fade_tween.finished
+
+	var final_money: int = 0
+	var final_stress: float = 0.0
+
+	if hud != null:
+		final_money = int(hud.get("dinero"))
+		if hud.has_method("get_stress_percent"):
+			final_stress = float(hud.get_stress_percent())
+
+	if GameManager != null and GameManager.has_method("set_final_stats"):
+		GameManager.set_final_stats(final_stress, final_money, current_day)
+
+	get_tree().change_scene_to_file(ENDING_SCENE_PATH)
 
 
 func _setup_day_transition_ui() -> void:

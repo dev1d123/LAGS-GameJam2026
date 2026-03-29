@@ -23,7 +23,7 @@ config/icon="res://icon.svg"
 
 LocaleManager="*res://core/autoload/locale_manager.gd"
 ConfigManager="*res://core/autoload/config_manager.gd"
-GameManager="uid://cihl66f3etlgy"
+GameManager="*uid://cihl66f3etlgy"
 
 [display]
 
