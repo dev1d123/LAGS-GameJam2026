@@ -61,6 +61,7 @@ const LUGARES_POR_TIPO = {
 @onready var age_label:  Label            = $Node2DLayer/Node2D/age
 @onready var desc_label: Label            = $Node2DLayer/Node2D/desc
 var hud: Node = null
+var y_sort_layer: Node2D = null  # YSortLayer for depth sorting
 
 var toast_origin: Vector2
 
@@ -97,6 +98,7 @@ func add_lost(cantidad: int) -> void:
 
 func _ready() -> void:
 	hud = _resolve_hud()
+	y_sort_layer = get_node_or_null("YSortLayer")
 	_load_npc_data()
 	toast_origin  = toast.position
 	toast.visible = false
@@ -241,10 +243,11 @@ func _spawn_npc() -> void:
 
 	print("Spawning NPC [%s] %s (edad %d) -> %s" % [tipo_key, npc.npc_nombre, npc.npc_edad, npc.lugar])
 
+	var spawn_parent: Node = y_sort_layer if y_sort_layer != null else self
 	occupied_markers[marker] = npc
 	active_types[tipo_int] = true
 	active_names[npc.npc_nombre] = true
-	add_child(npc)
+	spawn_parent.add_child(npc)
 	npc.global_position = $Marker2DEnter.global_position
 
 	npc.detection_area.body_entered.connect(func(body: Node2D):

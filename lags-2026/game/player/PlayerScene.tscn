@@ -1,8 +1,8 @@
-[gd_scene format=3 uid="uid://ccouoo3ylpe13"]
+[gd_scene load_steps=21 format=3 uid="uid://ccouoo3ylpe13"]
 
 [ext_resource type="Script" uid="uid://bjc6nanmpt7nq" path="res://game/player/player_scene.gd" id="1_bybyv"]
 [ext_resource type="Texture2D" uid="uid://c6e87paekno5e" path="res://assets/sprites/personajePrincipal.png" id="1_ydcdd"]
-[ext_resource type="Shader" uid="uid://dvuvsgponmble" path="res://assets/shaders/shader_player.gdshader" id="2_dqpwl"]
+[ext_resource type="Shader" path="res://assets/shaders/shader_player.gdshader" id="2_dqpwl"]
 [ext_resource type="AudioStream" uid="uid://cnesiba6fvdwi" path="res://assets/audio/sfx/walk.wav" id="3_71f4a"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_ocm78"]
@@ -133,24 +133,25 @@ animations = [{
 "speed": 7.0
 }]
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_bybyv"]
-radius = 4.5
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_bybyv"]
+size = Vector2(19, 7)
 
-[node name="PlayerScene" type="CharacterBody2D" unique_id=1653825361 groups=["Player"]]
+[node name="PlayerScene" type="CharacterBody2D" groups=["Player"]]
 collision_layer = 8
 script = ExtResource("1_bybyv")
 
-[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=8316885]
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 material = SubResource("ShaderMaterial_ocm78")
+position = Vector2(0, 50)
 sprite_frames = SubResource("SpriteFrames_ydbod")
 animation = &"walk_side"
 frame_progress = 0.53629744
+offset = Vector2(0, -60)
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=2060164961]
-position = Vector2(-0.5, 26.5)
-shape = SubResource("CircleShape2D_bybyv")
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0.5, 16.5)
+shape = SubResource("RectangleShape2D_bybyv")
 
-[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="." unique_id=1393853771]
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
+position = Vector2(0, -1)
 stream = ExtResource("3_71f4a")
-volume_db = -12.0
-bus = &"SFX"
