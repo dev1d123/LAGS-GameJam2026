@@ -1,4 +1,4 @@
-[gd_scene format=3 uid="uid://dqsc1h2lomue"]
+[gd_scene format=3 uid="uid://hggkru4ptmmu"]
 
 [ext_resource type="Script" uid="uid://dy651ohmdnwme" path="res://minijuego_bar_beer.gd" id="1_script"]
 [ext_resource type="Texture2D" uid="uid://cpaxrpnv1gl7y" path="res://assets/textures/opciones-fondo.png" id="2_bg"]

@@ -45,6 +45,7 @@ const SHOP_MUSIC_VERY_LOW_HIGH_STRESS = preload("res://assets/audio/game/VeryLow
 const MAKING_TASK_NORMAL = preload("res://assets/audio/game/MakingTask.ogg")
 const MAKING_TASK_STRESS = preload("res://assets/audio/game/MakingTaskStress.ogg")
 const MAKING_TASK_HIGH_STRESS = preload("res://assets/audio/game/MakingTaskHighStress.ogg")
+const OPTIONS_MENU_SCENE := preload("res://ui/components/options_menu.tscn")
 
 const MINIGAME_SCENES_BY_MISSION := {
 	"bar_beer": "res://minijuego_bar_beer.tscn",
@@ -83,6 +84,11 @@ var minigame_layer: CanvasLayer
 var minigame_host: Control
 var active_minigame: Node
 var is_minigame_playing: bool = false
+var pause_layer: CanvasLayer
+var pause_overlay: ColorRect
+var pause_menu_container: CenterContainer
+var pause_options_menu: PanelContainer
+var is_pause_menu_open: bool = false
 
 
 func _ready() -> void:
@@ -100,6 +106,7 @@ func _ready() -> void:
 	_setup_shop_music()
 	_setup_making_task_player()
 	_setup_day_transition_ui()
+	_setup_pause_menu_ui()
 	_initialize_day_cycle()
 	call_deferred("_start_day_transition", current_day)
 
@@ -113,13 +120,13 @@ func _process(delta: float) -> void:
 	if is_minigame_playing:
 		return
 
+	if is_day_transition_playing or frozen:
+		return
+
 	shop_music_check_accum += delta
 	if shop_music_check_accum >= SHOP_MUSIC_CHECK_INTERVAL:
 		shop_music_check_accum = 0.0
 		_update_shop_music_state()
-
-	if is_day_transition_playing or frozen:
-		return
 
 	day_time_accum += delta
 	while day_time_accum >= SECONDS_PER_INGAME_HOUR:
@@ -128,6 +135,14 @@ func _process(delta: float) -> void:
 
 
 func _input(event: InputEvent) -> void:
+	if event.is_action_pressed("ui_cancel"):
+		if is_pause_menu_open:
+			return
+		if is_day_transition_playing or is_minigame_playing:
+			return
+		_open_pause_menu()
+		return
+
 	if is_day_transition_playing or is_minigame_playing:
 		return
 
@@ -136,6 +151,56 @@ func _input(event: InputEvent) -> void:
 			_toggle_freeze()
 		elif frozen:
 			_toggle_freeze()
+
+
+func _setup_pause_menu_ui() -> void:
+	pause_layer = CanvasLayer.new()
+	pause_layer.layer = 5000
+	pause_layer.process_mode = Node.PROCESS_MODE_WHEN_PAUSED
+	add_child(pause_layer)
+
+	pause_overlay = ColorRect.new()
+	pause_overlay.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	pause_overlay.color = Color(0, 0, 0, 0.7)
+	pause_overlay.visible = false
+	pause_overlay.process_mode = Node.PROCESS_MODE_WHEN_PAUSED
+	pause_layer.add_child(pause_overlay)
+
+	pause_menu_container = CenterContainer.new()
+	pause_menu_container.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	pause_menu_container.visible = false
+	pause_menu_container.process_mode = Node.PROCESS_MODE_WHEN_PAUSED
+	pause_layer.add_child(pause_menu_container)
+
+	pause_options_menu = OPTIONS_MENU_SCENE.instantiate() as PanelContainer
+	pause_options_menu.process_mode = Node.PROCESS_MODE_WHEN_PAUSED
+	pause_menu_container.add_child(pause_options_menu)
+
+	if pause_options_menu != null and pause_options_menu.has_signal("menu_closed"):
+		pause_options_menu.menu_closed.connect(_close_pause_menu)
+
+
+func _open_pause_menu() -> void:
+	if is_pause_menu_open:
+		return
+	is_pause_menu_open = true
+
+	if pause_options_menu != null and pause_options_menu.has_method("load_current_settings"):
+		pause_options_menu.load_current_settings()
+
+	pause_overlay.visible = true
+	pause_menu_container.visible = true
+	get_tree().paused = true
+
+
+func _close_pause_menu() -> void:
+	if not is_pause_menu_open:
+		return
+
+	is_pause_menu_open = false
+	pause_menu_container.visible = false
+	pause_overlay.visible = false
+	get_tree().paused = false
 
 
 func _toggle_freeze() -> void:
@@ -280,6 +345,8 @@ func _initialize_day_cycle() -> void:
 		hud.set_dia(current_day)
 	if hud != null and hud.has_method("set_hora"):
 		hud.set_hora(current_hour)
+	if spawner != null and spawner.has_method("apply_day_settings"):
+		spawner.apply_day_settings(current_day)
 
 
 func _advance_ingame_hour() -> void:
@@ -353,9 +420,12 @@ func _on_day_transition_finished() -> void:
 		return
 	day_transition_layer.visible = false
 	is_day_transition_playing = false
+	if spawner != null and spawner.has_method("on_day_changed"):
+		spawner.on_day_changed(current_day)
 	if hud != null and hud.has_method("iniciar_dia_stats"):
 		hud.iniciar_dia_stats()
 	_set_world_paused(false)
+	_update_shop_music_state(true)
 
 
 func _refresh_day_transition_layout() -> void:
@@ -387,17 +457,17 @@ func _get_day_transition_text(day_number: int) -> String:
 func _setup_shop_music() -> void:
 	shop_music_a = AudioStreamPlayer.new()
 	shop_music_a.name = "ShopMusicA"
+	shop_music_a.bus = &"Music"
 	shop_music_a.volume_db = SHOP_MUSIC_MUTED_DB
 	shop_music_a.process_mode = Node.PROCESS_MODE_ALWAYS
 	add_child(shop_music_a)
 
 	shop_music_b = AudioStreamPlayer.new()
 	shop_music_b.name = "ShopMusicB"
+	shop_music_b.bus = &"Music"
 	shop_music_b.volume_db = SHOP_MUSIC_MUTED_DB
 	shop_music_b.process_mode = Node.PROCESS_MODE_ALWAYS
 	add_child(shop_music_b)
-
-	_update_shop_music_state(true)
 
 
 func _update_shop_music_state(force: bool = false) -> void:

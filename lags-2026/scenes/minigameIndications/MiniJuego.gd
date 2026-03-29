@@ -20,6 +20,8 @@ var estres_actual = 0.0
 var current_language = "es"
 var juego_activo = false
 var is_finishing = false
+var results_overlay: ColorRect = null
+var results_won: bool = false
 
 @onready var sprite_cabeza = $CanvasLayer/MainPanel/Margin/VBox/Content/CenterPanel/PlayField/GameArea/FondoModal/HitZone/SpriteCabeza
 
@@ -135,6 +137,11 @@ func configurar_posicion_flecha(f, d):
 		"derecha": f.position = Vector2(pos_inicial.x + (separacion * 1.5), pos_inicial.y)
 
 func _input(event):
+	if results_overlay != null:
+		if event.is_action_pressed("ui_accept") or event.is_action_pressed("ui_cancel"):
+			_on_results_continue_pressed()
+			return
+
 	for dir in direcciones:
 		if event.is_action_pressed(dir):
 			validar_hit(dir)
@@ -238,6 +245,8 @@ func _show_results_modal(ganado: bool) -> void:
 	overlay.color = Color(0, 0, 0, 0.72)
 	overlay.mouse_filter = Control.MOUSE_FILTER_STOP
 	canvas_layer.add_child(overlay)
+	results_overlay = overlay
+	results_won = ganado
 
 	var panel := PanelContainer.new()
 	panel.custom_minimum_size = Vector2(560, 320)
@@ -310,6 +319,7 @@ func _show_results_modal(ganado: bool) -> void:
 	var continue_button := Button.new()
 	continue_button.text = _continue_text()
 	continue_button.custom_minimum_size = Vector2(0, 56)
+	continue_button.focus_mode = Control.FOCUS_ALL
 	continue_button.add_theme_font_override("font", UI_FONT)
 	continue_button.add_theme_font_size_override("font_size", 30)
 	continue_button.add_theme_color_override("font_color", Color(0.69, 0.64, 0.63, 1.0))
@@ -318,8 +328,9 @@ func _show_results_modal(ganado: bool) -> void:
 	continue_button.add_theme_stylebox_override("normal", _make_button_box(Color(1, 1, 1, 1)))
 	continue_button.add_theme_stylebox_override("hover", _make_button_box(Color(0.8, 0.72, 0.78, 1)))
 	continue_button.add_theme_stylebox_override("pressed", _make_button_box(Color(0.6, 0.5, 0.56, 1)))
-	continue_button.pressed.connect(_on_results_continue_pressed.bind(overlay, ganado))
+	continue_button.pressed.connect(_on_results_continue_pressed)
 	content.add_child(continue_button)
+	continue_button.grab_focus()
 
 
 func _make_ui_box(texture: Texture2D, modulate_color: Color) -> StyleBoxTexture:
@@ -378,10 +389,11 @@ func _continue_text() -> String:
 			return "Continuar"
 
 
-func _on_results_continue_pressed(overlay: ColorRect, ganado: bool) -> void:
-	if overlay != null and is_instance_valid(overlay):
-		overlay.queue_free()
-	emit_signal("minigame_finished", ganado, puntos, puntos_victoria)
+func _on_results_continue_pressed() -> void:
+	if results_overlay != null and is_instance_valid(results_overlay):
+		results_overlay.queue_free()
+	results_overlay = null
+	emit_signal("minigame_finished", results_won, puntos, puntos_victoria)
 	queue_free()
 
 

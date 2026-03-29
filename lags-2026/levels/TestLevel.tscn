@@ -674,7 +674,7 @@ position = Vector2(1313, 301)
 position = Vector2(1219, 302)
 
 [node name="PlayerScene" parent="Spawner" unique_id=156322280 groups=["player"] instance=ExtResource("1_hsexo")]
-position = Vector2(356.97668, 152.90698)
+position = Vector2(585.46515, 487.2093)
 scale = Vector2(1.7200003, 1.7200003)
 
 [node name="Node2D" type="Node2D" parent="Spawner" unique_id=632474942]

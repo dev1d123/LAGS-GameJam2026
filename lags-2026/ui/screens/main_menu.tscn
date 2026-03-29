@@ -73,6 +73,7 @@ script = ExtResource("1_xhre2")
 
 [node name="MenuMusic" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("12_mtheme")
+bus = &"Music"
 volume_db = -8.0
 autoplay = true
 

@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=3 uid="uid://c8wyk6g3wt020"]
+[gd_scene format=3 uid="uid://c8wyk6g3wt020"]
 
 [ext_resource type="Script" uid="uid://dfoneh7k74cs8" path="res://scenes/Intro/intro_cinematic.gd" id="1_apmde"]
 [ext_resource type="Texture2D" uid="uid://7anbdppmuh0u" path="res://icon.svg" id="2_40qgj"]
@@ -80,7 +80,7 @@ _data = {
 &"shake": SubResource("Animation_evj52")
 }
 
-[node name="IntroControl" type="Control"]
+[node name="IntroControl" type="Control" unique_id=1452262654]
 texture_filter = 1
 layout_mode = 3
 anchors_preset = 15
@@ -90,7 +90,7 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_apmde")
 
-[node name="Background" type="TextureRect" parent="."]
+[node name="Background" type="TextureRect" parent="." unique_id=30878920]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -101,9 +101,9 @@ grow_vertical = 2
 texture = ExtResource("2_40qgj")
 stretch_mode = 6
 
-[node name="CanvasLayer" type="CanvasLayer" parent="."]
+[node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=770285925]
 
-[node name="DialogueBox" type="NinePatchRect" parent="CanvasLayer"]
+[node name="DialogueBox" type="NinePatchRect" parent="CanvasLayer" unique_id=332552416]
 z_index = 2
 anchors_preset = 7
 anchor_left = 0.5
@@ -121,7 +121,7 @@ patch_margin_top = 28
 patch_margin_right = 28
 patch_margin_bottom = 28
 
-[node name="DialogueLabel" type="RichTextLabel" parent="CanvasLayer/DialogueBox"]
+[node name="DialogueLabel" type="RichTextLabel" parent="CanvasLayer/DialogueBox" unique_id=1257664725]
 layout_mode = 0
 offset_left = 56.0
 offset_top = 850.0
@@ -144,7 +144,7 @@ bbcode_enabled = true
 fit_content = true
 scroll_active = false
 
-[node name="SkipButton" type="TextureButton" parent="CanvasLayer/DialogueBox"]
+[node name="SkipButton" type="TextureButton" parent="CanvasLayer/DialogueBox" unique_id=1823623424]
 layout_mode = 1
 anchors_preset = 3
 anchor_left = 1.0
@@ -161,7 +161,7 @@ texture_normal = ExtResource("3_40qgj")
 ignore_texture_size = true
 stretch_mode = 4
 
-[node name="ButtonLabel" type="Label" parent="CanvasLayer/DialogueBox/SkipButton"]
+[node name="ButtonLabel" type="Label" parent="CanvasLayer/DialogueBox/SkipButton" unique_id=1969591505]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -170,7 +170,7 @@ anchor_right = 0.5
 anchor_bottom = 0.5
 offset_left = -58.0
 offset_top = -16.0
-offset_right = 58.0
+offset_right = 28.5
 offset_bottom = 16.0
 grow_horizontal = 2
 grow_vertical = 2
@@ -178,13 +178,13 @@ label_settings = SubResource("LabelSettings_btn")
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="BlipPlayer" type="AudioStreamPlayer" parent="CanvasLayer"]
+[node name="BlipPlayer" type="AudioStreamPlayer" parent="CanvasLayer" unique_id=303746849]
 stream = ExtResource("4_jr651")
 
-[node name="TypewriterTimer" type="Timer" parent="CanvasLayer"]
+[node name="TypewriterTimer" type="Timer" parent="CanvasLayer" unique_id=152965479]
 wait_time = 0.05
 
-[node name="FadeOverlay" type="ColorRect" parent="CanvasLayer"]
+[node name="FadeOverlay" type="ColorRect" parent="CanvasLayer" unique_id=1335986419]
 modulate = Color(0, 0, 0, 0)
 anchors_preset = 15
 anchor_right = 1.0
@@ -198,10 +198,8 @@ grow_vertical = 2
 mouse_filter = 2
 color = Color(0, 0, 0, 1)
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
-libraries = {
-&"": SubResource("AnimationLibrary_evj52")
-}
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=1504724602]
+libraries/ = SubResource("AnimationLibrary_evj52")
 
 [connection signal="pressed" from="CanvasLayer/DialogueBox/SkipButton" to="." method="_on_skip_button_pressed"]
 [connection signal="timeout" from="CanvasLayer/TypewriterTimer" to="." method="_on_typewriter_timer_timeout"]

@@ -65,6 +65,15 @@ const LUGARES_POR_TIPO = {
 var toast_origin: Vector2
 
 var scenario_ref: Node = null
+var spawn_timer: Timer
+var player_natural_position: Vector2 = Vector2.ZERO
+
+const SPAWN_INTERVAL_BY_DAY := {
+	1: 5.0,
+	2: 4.0,
+	3: 3.0,
+	4: 1.0,
+}
 
 func register_scenario(scenario: Node) -> void:
 	scenario_ref = scenario
@@ -84,13 +93,15 @@ func _ready() -> void:
 	_load_npc_data()
 	toast_origin  = toast.position
 	toast.visible = false
+	if player_scene != null:
+		player_natural_position = player_scene.global_position
 
-	var timer = Timer.new()
-	add_child(timer)
-	timer.wait_time = 1
-	timer.timeout.connect(_spawn_npc)
-	timer.start()
-	_spawn_npc()
+	spawn_timer = Timer.new()
+	spawn_timer.name = "NpcSpawnTimer"
+	spawn_timer.one_shot = false
+	add_child(spawn_timer)
+	spawn_timer.timeout.connect(_spawn_npc)
+	apply_day_settings(1)
 
 
 func _load_npc_data() -> void:
@@ -258,3 +269,50 @@ func _on_npc_unhovered() -> void:
 	tween.tween_callback(func():
 		toast.visible = false
 	)
+
+
+func apply_day_settings(day_number: int) -> void:
+	if spawn_timer == null:
+		return
+
+	spawn_timer.wait_time = _get_spawn_interval_for_day(day_number)
+	if spawn_timer.is_stopped():
+		spawn_timer.start()
+
+
+func on_day_changed(day_number: int) -> void:
+	clear_all_npcs()
+	reset_player_to_natural_position()
+	apply_day_settings(day_number)
+
+
+func clear_all_npcs() -> void:
+	for child in get_children():
+		if _is_spawned_npc(child):
+			child.set("mission_completed", true)
+			child.queue_free()
+
+	occupied_markers.clear()
+	active_types.clear()
+	active_names.clear()
+
+
+func reset_player_to_natural_position() -> void:
+	if player_scene == null:
+		return
+
+	player_scene.global_position = player_natural_position
+	if player_scene.get("velocity") != null:
+		player_scene.set("velocity", Vector2.ZERO)
+	if player_scene.has_method("set_aura"):
+		player_scene.set_aura(false)
+
+
+func _get_spawn_interval_for_day(day_number: int) -> float:
+	if SPAWN_INTERVAL_BY_DAY.has(day_number):
+		return float(SPAWN_INTERVAL_BY_DAY[day_number])
+	return 1.0
+
+
+func _is_spawned_npc(node: Node) -> bool:
+	return node != null and node.has_method("get_current_mission_id") and node.has_method("resolve_mission")
