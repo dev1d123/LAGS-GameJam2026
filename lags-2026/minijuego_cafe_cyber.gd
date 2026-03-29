@@ -58,9 +58,17 @@ var ninepatch_shader: Shader = Shader.new()
 @onready var submit_button: Button = $MainPanel/Margin/VBox/Content/CenterPanel/ActionRow/SubmitButton
 @onready var round_result_label: Label = $MainPanel/Margin/VBox/Content/RightPanel/ResultsBody/ResultsVBox/Result
 @onready var finish_button: Button = $MainPanel/Margin/VBox/Content/RightPanel/ResultsBody/ResultsVBox/FinishButton
+
+@onready var sfx_enchufado: AudioStreamPlayer = $Audio/SFX_Enchufado
+@onready var sfx_fallo: AudioStreamPlayer = $Audio/SFX_Fallo
+@onready var sfx_ok_base: AudioStreamPlayer = $Audio/SFX_OkBase
+@onready var sfx_error: AudioStreamPlayer = $Audio/SFX_Error
+@onready var sfx_reloj: AudioStreamPlayer = $Audio/SFX_Reloj
+var playing_reloj: bool = false
 var cable_types: Array[String] = ["amarillo", "verde", "negro", "morado", "azul", "rojo", "blanco", "naranja"]
 
 @onready var lines_container: Control = $MainPanel/Margin/VBox/Content/CenterPanel/CableArea/LinesContainer
+@onready var cable_area: PanelContainer = $MainPanel/Margin/VBox/Content/CenterPanel/CableArea
 @onready var cable_template: PanelContainer = lines_container.get_node_or_null("CableTemplate")
 
 var all_source_ports: Dictionary = {}
@@ -81,6 +89,14 @@ var source_buttons_by_type: Dictionary = {}
 var target_buttons_by_type: Dictionary = {}
 
 var is_round_locked: bool = false
+var preview_time_left: float = -1.0  # Locked preview before round starts
+
+# Live drag cable
+var drag_line: Line2D = null
+var drag_plug_a: TextureRect = null
+var drag_plug_b_cursor: Control = null  # cable-b sprite following mouse
+var drag_source_btn: TextureButton = null
+var drag_source_type: String = ""
 
 
 func _ready() -> void:
@@ -112,16 +128,86 @@ func _ready() -> void:
 	call_deferred("_start_round")
 
 
+func _input(event: InputEvent) -> void:
+	if drag_line != null and event is InputEventMouseButton:
+		var mb := event as InputEventMouseButton
+		if mb.pressed and mb.button_index == MOUSE_BUTTON_RIGHT:
+			_cancel_drag()
+
+
+func _cancel_drag() -> void:
+	if drag_line != null:
+		drag_line.queue_free()
+		drag_line = null
+	if drag_plug_a != null:
+		drag_plug_a.queue_free()
+		drag_plug_a = null
+	if drag_plug_b_cursor != null:
+		drag_plug_b_cursor.queue_free()
+		drag_plug_b_cursor = null
+	if drag_source_btn != null:
+		drag_source_btn.set_pressed_no_signal(false)
+		drag_source_btn.self_modulate = Color(1, 1, 1, 1)
+		drag_source_btn = null
+	drag_source_type = ""
+	selected_source_type = ""
+	selected_source_label.text = _t("selected_source_none")
+
+
 func _process(delta: float) -> void:
 	if current_round <= 0:
+		return
+
+	# Preview phase countdown
+	if preview_time_left > 0.0:
+		preview_time_left -= delta
+		timer_label.text = "Observa: %.1fs" % preview_time_left
+		if preview_time_left <= 0.0:
+			preview_time_left = -1.0
+			is_round_locked = false
+			submit_button.disabled = false
+			cable_area.self_modulate = Color(1, 1, 1, 1)
+			timer_label.text = _t("timer") % [snappedf(round_time_left, 0.1)]
 		return
 
 	if not is_round_locked:
 		round_time_left = max(0.0, round_time_left - delta)
 		timer_label.text = _t("timer") % [snappedf(round_time_left, 0.1)]
+		
+		if round_time_left > 0.0 and round_time_left <= 7.0:
+			if not playing_reloj:
+				playing_reloj = true
+				sfx_reloj.play()
+		else:
+			if playing_reloj:
+				playing_reloj = false
+				sfx_reloj.stop()
+				
 		if round_time_left <= 0.0:
 			_resolve_round(false, "timeout")
 			return
+
+	# Update drag preview line to follow mouse
+	if drag_line != null and drag_source_btn != null and is_instance_valid(drag_source_btn):
+		var l_inv = lines_container.get_global_transform().inverse()
+		var p1 = l_inv * (drag_source_btn.global_position + cable_offset_a)
+		var p2 = l_inv * get_global_mouse_position()
+		
+		var curve = Curve2D.new()
+		var dist_x = abs(p2.x - p1.x)
+		var sag = 60.0
+		curve.add_point(p1, Vector2.ZERO, Vector2(dist_x * 0.45, sag))
+		curve.add_point(p2, Vector2(-dist_x * 0.45, sag), Vector2.ZERO)
+		
+		drag_line.clear_points()
+		for point in curve.get_baked_points():
+			drag_line.add_point(point)
+		if drag_line.material:
+			drag_line.material.set_shader_parameter("line_length", curve.get_baked_length())
+	
+	# Move plug-b cursor icon to mouse position
+	if drag_plug_b_cursor != null:
+		drag_plug_b_cursor.global_position = get_global_mouse_position() - drag_plug_b_cursor.size / 2.0
 
 	if pending_next_round >= 0.0:
 		pending_next_round -= delta
@@ -180,16 +266,22 @@ func _start_round() -> void:
 		return
 
 	current_round += 1
-	is_round_locked = false
+	is_round_locked = true  # Locked during preview
 	round_result_label.visible = false
-	submit_button.disabled = false
+	submit_button.disabled = true
 	selected_source_type = ""
 
 	_build_round_board(current_round)
 
 	rounds_label.text = _t("rounds") % [current_round, total_rounds]
-	round_time_left = max(9.0, round_time_base - float(current_round - 1) * 1.7)
-	timer_label.text = _t("timer") % [snappedf(round_time_left, 0.1)]
+	# Time = cables × secs_per_cable + buffer
+	# secs_per_cable: ~2.5s in round 1 (find + 2 clicks), drops 0.2s per round
+	# buffer: 3s flat (mistakes / hesitation)
+	var secs_per_cable: float = max(1.5, 2.5 - float(current_round - 1) * 0.2)
+	round_time_left = max(8.0, float(expected_matches) * secs_per_cable + 3.0)
+	timer_label.text = "Observa: 2.0s"
+	preview_time_left = 2.0
+	cable_area.self_modulate = Color(0.45, 0.45, 0.5, 1.0)
 	selected_source_label.text = _t("selected_source_none")
 	progress_label.text = _t("progress") % [matched_count, expected_matches]
 
@@ -272,8 +364,13 @@ func _on_source_toggled(pressed: bool, button: TextureButton) -> void:
 
 	var this_type: String = String(button.get_meta("cable_type", ""))
 	if pressed:
+		# Cancel any existing drag first
+		_cancel_drag()
+		
 		selected_source_type = this_type
-		button.self_modulate = Color(1.4, 1.4, 1.4, 1.0) # Highlight visually
+		drag_source_btn = button
+		button.set_pressed_no_signal(true)
+		button.self_modulate = Color(1.4, 1.4, 1.4, 1.0)
 		
 		for cable_type in source_buttons_by_type.keys():
 			var src: TextureButton = source_buttons_by_type[cable_type]
@@ -282,81 +379,236 @@ func _on_source_toggled(pressed: bool, button: TextureButton) -> void:
 				src.self_modulate = Color(1.0, 1.0, 1.0, 1.0)
 				
 		selected_source_label.text = _t("selected_source") % [_t("cable_" + selected_source_type)]
+		
+		# Show plug-a overlay on the source button
+		var path_base := "res://assets/textures/minigame-cafe-cyber/"
+		drag_plug_a = TextureRect.new()
+		drag_plug_a.texture = load(path_base + "cable-a-" + this_type + ".png")
+		drag_plug_a.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+		drag_plug_a.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+		drag_plug_a.set_anchors_preset(PRESET_FULL_RECT)
+		drag_plug_a.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		button.add_child(drag_plug_a)
+		
+		# Create ghost drag line
+		var line = Line2D.new()
+		line.texture = load(path_base + "cable-" + this_type + ".png")
+		line.texture_mode = Line2D.LINE_TEXTURE_STRETCH
+		line.texture_repeat = CanvasItem.TEXTURE_REPEAT_ENABLED
+		line.joint_mode = Line2D.LINE_JOINT_ROUND
+		line.modulate.a = 0.7
+		if line.texture: line.width = float(line.texture.get_height())
+		else: line.width = 15.0
+		
+		var mat = ShaderMaterial.new()
+		mat.shader = ninepatch_shader
+		mat.set_shader_parameter("margin", 10.0)
+		if line.texture:
+			mat.set_shader_parameter("tex_width", float(line.texture.get_width()))
+		line.material = mat
+		
+		lines_container.add_child(line)
+		drag_line = line
+		drag_source_type = this_type
+		
+		# Create cursor plug-b icon
+		var plug_b_cursor = TextureRect.new()
+		plug_b_cursor.texture = load(path_base + "cable-b-" + this_type + ".png")
+		plug_b_cursor.custom_minimum_size = Vector2(96, 96)
+		plug_b_cursor.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+		plug_b_cursor.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+		plug_b_cursor.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		add_child(plug_b_cursor)
+		drag_plug_b_cursor = plug_b_cursor
 	else:
 		if selected_source_type == this_type:
-			selected_source_type = ""
-			button.self_modulate = Color(1.0, 1.0, 1.0, 1.0)
-			selected_source_label.text = _t("selected_source_none")
+			_cancel_drag()
 
 
 func _on_target_pressed(button: TextureButton) -> void:
 	if is_round_locked:
 		return
-	if selected_source_type == "":
-		return
-
+	
 	var target_type: String = String(button.get_meta("cable_type", ""))
-	if target_type == selected_source_type:
-		var src_btn: TextureButton = source_buttons_by_type.get(selected_source_type)
-		var tgt_btn: TextureButton = target_buttons_by_type.get(target_type)
+	
+	# --- UNPLUG existing cable from this target (reroute) ---
+	var existing_idx := -1
+	for i in connected_cables.size():
+		if connected_cables[i]["tgt_btn"] == button:
+			existing_idx = i
+			break
+	
+	if existing_idx >= 0:
+		var old = connected_cables[existing_idx]
+		var old_line: Line2D = old["line"]
+		var old_src: TextureButton = old["src_btn"]
+		var was_correct: bool = old.get("correct", false)
 		
-		var path_base := "res://assets/textures/minigame-cafe-cyber/"
-		if src_btn != null:
-			src_btn.disabled = true
-			src_btn.set_pressed_no_signal(false)
-			src_btn.self_modulate = Color(1.0, 1.0, 1.0, 1.0)
-			
-			var plug_a = TextureRect.new()
-			plug_a.texture = load(path_base + "cable-a-" + selected_source_type + ".png")
-			plug_a.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
-			plug_a.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
-			plug_a.set_anchors_preset(PRESET_FULL_RECT)
-			src_btn.add_child(plug_a)
-			
-		if tgt_btn != null:
-			tgt_btn.disabled = true
-			
-			var plug_b = TextureRect.new()
-			plug_b.texture = load(path_base + "cable-b-" + selected_source_type + ".png")
-			plug_b.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
-			plug_b.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
-			plug_b.set_anchors_preset(PRESET_FULL_RECT)
-			tgt_btn.add_child(plug_b)
-
-		if src_btn and tgt_btn:
-			var line = Line2D.new()
-			line.texture = load(path_base + "cable-" + selected_source_type + ".png")
-			line.texture_mode = Line2D.LINE_TEXTURE_STRETCH
-			line.texture_repeat = CanvasItem.TEXTURE_REPEAT_ENABLED
-			line.joint_mode = Line2D.LINE_JOINT_ROUND
-			
-			if line.texture: line.width = float(line.texture.get_height())
-			else: line.width = 15.0
-			
-			var mat = ShaderMaterial.new()
-			mat.shader = ninepatch_shader
-			mat.set_shader_parameter("margin", 10.0)
-			if line.texture:
-				mat.set_shader_parameter("tex_width", float(line.texture.get_width()))
-			line.material = mat
-			
-			lines_container.add_child(line)
-			
-			connected_cables.append({
-				"line": line,
-				"src_btn": src_btn,
-				"tgt_btn": tgt_btn
-			})
-
+		if is_instance_valid(old_line): old_line.queue_free()
+		
+		# Remove plug overlays, re-enable ports
+		if is_instance_valid(old_src):
+			for ch in old_src.get_children():
+				if ch is TextureRect: ch.queue_free()
+			old_src.disabled = false
+			old_src.self_modulate = Color(1, 1, 1, 1)
+		for ch in button.get_children():
+			if ch is TextureRect: ch.queue_free()
+		button.self_modulate = Color(1, 1, 1, 1)
+		
+		if was_correct:
+			matched_count -= 1
+			progress_label.text = _t("progress") % [matched_count, expected_matches]
+		
+		connected_cables.remove_at(existing_idx)
+		
+		# Re-activate the old cable as the current selection in drag mode
+		var rescued_type := old_src.get_meta("cable_type", "") as String
+		# Cancel any existing drag first
+		if drag_line != null:
+			drag_line.queue_free()
+			drag_line = null
+		if drag_plug_a != null:
+			drag_plug_a.queue_free()
+			drag_plug_a = null
+		if drag_plug_b_cursor != null:
+			drag_plug_b_cursor.queue_free()
+			drag_plug_b_cursor = null
+		
+		# Set up new drag from the unplugged source
+		selected_source_type = rescued_type
+		drag_source_type = rescued_type
+		drag_source_btn = old_src
+		old_src.disabled = false
+		old_src.self_modulate = Color(1.4, 1.4, 1.4, 1.0)
+		old_src.set_pressed_no_signal(true)
+		selected_source_label.text = _t("selected_source") % [_t("cable_" + rescued_type)]
+		
+		var path_base_r := "res://assets/textures/minigame-cafe-cyber/"
+		# Add plug-a overlay back
+		var plug_a_r = TextureRect.new()
+		plug_a_r.texture = load(path_base_r + "cable-a-" + rescued_type + ".png")
+		plug_a_r.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+		plug_a_r.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+		plug_a_r.set_anchors_preset(PRESET_FULL_RECT)
+		plug_a_r.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		old_src.add_child(plug_a_r)
+		drag_plug_a = plug_a_r
+		
+		# Rebuild ghost drag line
+		var new_line = Line2D.new()
+		new_line.texture = load(path_base_r + "cable-" + rescued_type + ".png")
+		new_line.texture_mode = Line2D.LINE_TEXTURE_STRETCH
+		new_line.texture_repeat = CanvasItem.TEXTURE_REPEAT_ENABLED
+		new_line.joint_mode = Line2D.LINE_JOINT_ROUND
+		new_line.modulate.a = 0.7
+		if new_line.texture: new_line.width = float(new_line.texture.get_height())
+		else: new_line.width = 15.0
+		var mat_r = ShaderMaterial.new()
+		mat_r.shader = ninepatch_shader
+		mat_r.set_shader_parameter("margin", 10.0)
+		if new_line.texture:
+			mat_r.set_shader_parameter("tex_width", float(new_line.texture.get_width()))
+		new_line.material = mat_r
+		lines_container.add_child(new_line)
+		drag_line = new_line
+		
+		# Create new cursor plug-b icon
+		var plug_b_cur = TextureRect.new()
+		plug_b_cur.texture = load(path_base_r + "cable-b-" + rescued_type + ".png")
+		plug_b_cur.custom_minimum_size = Vector2(96, 96)
+		plug_b_cur.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+		plug_b_cur.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+		plug_b_cur.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		add_child(plug_b_cur)
+		drag_plug_b_cursor = plug_b_cur
+		return  # Done — don't place a new cable yet
+	else:
+		# No cable here - require source selected to place one
+		if selected_source_type == "":
+			return
+	
+	# --- PLACE new cable from selected source to this target ---
+	var src_btn: TextureButton = source_buttons_by_type.get(selected_source_type)
+	if src_btn == null:
+		return
+	
+	var is_correct: bool = (target_type == selected_source_type)
+	var path_base := "res://assets/textures/minigame-cafe-cyber/"
+	
+	# Lock source port visually
+	src_btn.disabled = true
+	src_btn.set_pressed_no_signal(false)
+	src_btn.self_modulate = Color(1.0, 1.0, 1.0, 1.0)
+	# Remove any drag-preview plug overlay
+	if drag_plug_a != null:
+		drag_plug_a.queue_free()
+		drag_plug_a = null
+	var plug_a = TextureRect.new()
+	plug_a.texture = load(path_base + "cable-a-" + selected_source_type + ".png")
+	plug_a.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	plug_a.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+	plug_a.set_anchors_preset(PRESET_FULL_RECT)
+	plug_a.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	src_btn.add_child(plug_a)
+	
+	# Place plug-b with source cable color (not target color)
+	button.self_modulate = Color(1.0, 1.0, 1.0, 1.0) if is_correct else Color(1.3, 0.6, 0.6, 1.0)
+	var plug_b = TextureRect.new()
+	plug_b.texture = load(path_base + "cable-b-" + selected_source_type + ".png")
+	plug_b.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	plug_b.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+	plug_b.set_anchors_preset(PRESET_FULL_RECT)
+	plug_b.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	button.add_child(plug_b)
+	
+	# Build permanent cable line
+	var line = Line2D.new()
+	line.texture = load(path_base + "cable-" + selected_source_type + ".png")
+	line.texture_mode = Line2D.LINE_TEXTURE_STRETCH
+	line.texture_repeat = CanvasItem.TEXTURE_REPEAT_ENABLED
+	line.joint_mode = Line2D.LINE_JOINT_ROUND
+	if not is_correct: line.modulate = Color(1.2, 0.6, 0.6, 1.0)
+	if line.texture: line.width = float(line.texture.get_height())
+	else: line.width = 15.0
+	
+	var mat = ShaderMaterial.new()
+	mat.shader = ninepatch_shader
+	mat.set_shader_parameter("margin", 10.0)
+	if line.texture:
+		mat.set_shader_parameter("tex_width", float(line.texture.get_width()))
+	line.material = mat
+	lines_container.add_child(line)
+	
+	connected_cables.append({
+		"line": line,
+		"src_btn": src_btn,
+		"tgt_btn": button,
+		"correct": is_correct
+	})
+	sfx_enchufado.play()
+	
+	if is_correct:
 		matched_count += 1
-		selected_source_type = ""
-		selected_source_label.text = _t("selected_source_none")
-		progress_label.text = _t("progress") % [matched_count, expected_matches]
-
-		if matched_count >= expected_matches:
-			_resolve_round(true, "all_matched")
 	else:
 		round_time_left = max(0.0, round_time_left - 1.5)
+		sfx_fallo.play()
+	
+	# Clear drag preview state
+	if drag_line != null:
+		drag_line.queue_free()
+		drag_line = null
+	if drag_plug_b_cursor != null:
+		drag_plug_b_cursor.queue_free()
+		drag_plug_b_cursor = null
+	drag_source_btn = null
+	drag_source_type = ""
+	selected_source_type = ""
+	selected_source_label.text = _t("selected_source_none")
+	progress_label.text = _t("progress") % [matched_count, expected_matches]
+	
+	if matched_count >= expected_matches:
+		_resolve_round(true, "all_matched")
 
 
 func _on_submit_button_pressed() -> void:
@@ -373,6 +625,10 @@ func _resolve_round(success: bool, reason: String) -> void:
 	is_round_locked = true
 	submit_button.disabled = true
 
+	if playing_reloj:
+		playing_reloj = false
+		sfx_reloj.stop()
+
 	for child in source_grid.get_children():
 		if child is TextureButton:
 			child.disabled = true
@@ -382,9 +638,11 @@ func _resolve_round(success: bool, reason: String) -> void:
 
 	if success:
 		score += 1
+		sfx_ok_base.play()
 		round_result_label.text = _t("correct")
 		round_result_label.modulate = Color(0.55, 1.0, 0.55, 1.0)
 	else:
+		sfx_error.play()
 		if reason == "timeout":
 			round_result_label.text = _t("timeout")
 		else:
@@ -392,12 +650,17 @@ func _resolve_round(success: bool, reason: String) -> void:
 		round_result_label.modulate = Color(1.0, 0.55, 0.55, 1.0)
 
 	round_result_label.visible = true
-	pending_next_round = 1.0
+	_cancel_drag()
+	pending_next_round = 2.0
 
 
 func _finish_minigame() -> void:
 	is_round_locked = true
 	submit_button.disabled = true
+
+	if playing_reloj:
+		playing_reloj = false
+		sfx_reloj.stop()
 
 	var success: bool = score >= int(ceil(float(total_rounds) * 0.6))
 	if success:
