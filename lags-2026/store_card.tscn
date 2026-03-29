@@ -1,0 +1,67 @@
+[gd_scene load_steps=4 format=3 uid="uid://co8syiqkb6e0g"]
+
+[ext_resource type="Texture2D" uid="uid://ckq8t1y4rfciq" path="res://assets/textures/minijuego-store-search/tarjeta_front.png" id="1_tex"]
+[ext_resource type="Texture2D" uid="uid://dryvyi45kc43y" path="res://assets/textures/minijuego-store-search/leche.png" id="2_tex"]
+[ext_resource type="FontFile" uid="uid://cu11g35n3hgqv" path="res://assets/fonts/PixelOperatorMonoHB.ttf" id="3_qaa0c"]
+
+[node name="StoreCard" type="Control"]
+custom_minimum_size = Vector2(125, 115)
+layout_mode = 3
+anchors_preset = 0
+offset_right = 125.0
+offset_bottom = 115.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+mouse_filter = 2
+
+[node name="Button" type="TextureButton" parent="."]
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 1.0
+anchor_bottom = 0.6846154
+grow_horizontal = 2
+ignore_texture_size = true
+stretch_mode = 5
+
+[node name="Background" type="TextureRect" parent="Button"]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_bottom = 95.3125
+grow_horizontal = 2
+texture = ExtResource("1_tex")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Icon" type="TextureRect" parent="Button"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 25.302448
+offset_top = 14.0
+offset_right = -28.12413
+offset_bottom = 2.2692337
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("2_tex")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Label" type="Label" parent="."]
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -26.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_colors/font_color = Color(0.93224394, 0.7936557, 0.6694851, 1)
+theme_override_colors/font_outline_color = Color(0.13616323, 0, 0.0016148138, 1)
+theme_override_constants/outline_size = 8
+theme_override_fonts/font = ExtResource("3_qaa0c")
+theme_override_font_sizes/font_size = 20
+text = "LECHE"
+horizontal_alignment = 1
+vertical_alignment = 1

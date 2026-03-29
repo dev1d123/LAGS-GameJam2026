@@ -5,9 +5,9 @@
     "pt": "BUSCA NA LOJA"
   },
   "instruction": {
-    "es": "Encuentra el objeto pedido en el menor numero de intentos antes de que se acabe el tiempo.",
-    "en": "Find the requested item with as few attempts as possible before time runs out.",
-    "pt": "Encontre o objeto pedido com o menor numero de tentativas antes do tempo acabar."
+    "es": "",
+    "en": "",
+    "pt": ""
   },
   "quick_guide": {
     "es": "GUIA RAPIDA",
