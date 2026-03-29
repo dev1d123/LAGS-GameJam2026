@@ -1,0 +1,71 @@
+{
+  "good": [
+	{
+	  "background": "res://scenes/Endings/good_1.png",
+	  "es": "¡Don Eusebio! Espero que escuche esto... ¡Estamos finos! Lo logré.",
+	  "en": "Don Eusebio! I hope you hear this... We're doing great! I made it.",
+	  "pt": "Dom Eusebio! Espero que ouça isso... Estamos ótimos! Eu consegui.",
+	  "btn_es": "Siguiente", "btn_en": "Next", "btn_pt": "Próximo"
+	},
+	{
+	  "background": "res://scenes/Endings/good_2.png",
+	  "es": "El barrio confía en mí. Esta tienda por fin tiene alma propia.",
+	  "en": "The neighborhood trusts me. This shop finally has a soul of its own.",
+	  "pt": "O bairro confia em mim. Esta loja finalmente tem alma própria.",
+	  "btn_es": "Siguiente", "btn_en": "Next", "btn_pt": "Próximo"
+	},
+	{
+	  "background": "res://scenes/Endings/good_3.png",
+	  "es": "Usted descanse, yo me encargo de que esta tienda se mantenga.",
+	  "en": "You rest, I'll make sure this shop stays up.",
+	  "pt": "O senhor descanse, eu garanto que esta loja se mantenha.",
+	  "btn_es": "Finalizar", "btn_en": "Finish", "btn_pt": "Finalizar"
+	}
+  ],
+  "normal": [
+	{
+	  "background": "res://scenes/Endings/normal_1.png",
+	  "es": "Fue un mes agotador... Eusebio no mentía sobre el peso de este lugar.",
+	  "en": "It was an exhausting month... Eusebio wasn't lying about the weight of this place.",
+	  "pt": "Foi um mês exaustivo... Eusebio não mentia sobre o peso deste lugar.",
+	  "btn_es": "Siguiente", "btn_en": "Next", "btn_pt": "Próximo"
+	},
+	{
+	  "background": "res://scenes/Endings/normal_2.png",
+	  "es": "No somos ricos, pero al menos la tienda sigue en pie un día más.",
+	  "en": "We aren't rich, but at least the shop is still standing one more day.",
+	  "pt": "Não somos ricos, mas pelo menos a loja continua de pé por mais um dia.",
+	  "btn_es": "Siguiente", "btn_en": "Next", "btn_pt": "Próximo"
+	},
+	{
+	  "background": "res://scenes/Endings/normal_3.png",
+	  "es": "Mañana será otro día. Hay que cerrar por hoy.",
+	  "en": "Tomorrow will be another day. Time to close for today.",
+	  "pt": "Amanhã será outro dia. É hora de fechar por hoje.",
+	  "btn_es": "Finalizar", "btn_en": "Finish", "btn_pt": "Finalizar"
+	}
+  ],
+  "bad": [
+	{
+	  "background": "res://scenes/Endings/bad_1.png",
+	  "es": "Eusebio... lo siento. Las deudas me alcanzaron.",
+	  "en": "Eusebio... I'm sorry. The debts caught up with me.",
+	  "pt": "Eusebio... sinto muito. As dívidas me alcançaram.",
+	  "btn_es": "Siguiente", "btn_en": "Next", "btn_pt": "Próximo"
+	},
+	{
+	  "background": "res://scenes/Endings/bad_2.png",
+	  "es": "Tenía razón. Este negocio, este barrio es demasiado para mí.",
+	  "en": "He was right. This business, this neighborhood is too much for me.",
+	  "pt": "Ele tinha razão. Este negócio, este bairro é demais para mim.",
+	  "btn_es": "Siguiente", "btn_en": "Next", "btn_pt": "Próximo"
+	},
+	{
+	  "background": "res://scenes/Endings/bad_3.png",
+	  "es": "Cerraré hoy... y quizás para siempre. Es hora de irse.",
+	  "en": "I'll close today... and maybe forever. It's time to leave.",
+	  "pt": "Vou fechar hoje... e talvez para sempre. É hora de ir embora.",
+	  "btn_es": "Finalizar", "btn_en": "Finish", "btn_pt": "Finalizar"
+	}
+  ]
+}
