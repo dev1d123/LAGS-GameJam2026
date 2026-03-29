@@ -32,7 +32,7 @@ void fragment() {
     color.rgb = mix(vec3(luminance), color.rgb, saturation_amount);
 
     // Stress tunel
-    if (stress_tunnel > 0.0) {
+    if (stress_tunnel >= 0.0) {
         vec2 aspect = vec2(SCREEN_PIXEL_SIZE.y / SCREEN_PIXEL_SIZE.x, 1.0);
         float dist = distance(uv * aspect, player_screen_uv * aspect);
         
