@@ -1,4 +1,4 @@
-[gd_scene load_steps=26 format=3 uid="uid://beca5niy0yu7c"]
+[gd_scene format=3 uid="uid://beca5niy0yu7c"]
 
 [ext_resource type="Script" uid="uid://dnqk77ya4jtdc" path="res://minijuego_store_search.gd" id="1_script"]
 [ext_resource type="Texture2D" uid="uid://cpaxrpnv1gl7y" path="res://assets/textures/opciones-fondo.png" id="2_bg"]
@@ -107,7 +107,7 @@ font_color = Color(0.779836, 0.603248, 0.597264, 1)
 outline_size = 8
 outline_color = Color(0.189829, 0.0827736, 0.0013467, 1)
 
-[node name="MinijuegoStoreSearch" type="Control"]
+[node name="MinijuegoStoreSearch" type="Control" unique_id=2087499094]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -116,7 +116,7 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_script")
 
-[node name="MainPanel" type="PanelContainer" parent="."]
+[node name="MainPanel" type="PanelContainer" parent="." unique_id=1337554440]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -131,22 +131,22 @@ grow_horizontal = 2
 grow_vertical = 2
 theme_override_styles/panel = SubResource("StyleBoxTexture_panel")
 
-[node name="Margin" type="MarginContainer" parent="MainPanel"]
+[node name="Margin" type="MarginContainer" parent="MainPanel" unique_id=1601450058]
 layout_mode = 2
 theme_override_constants/margin_left = 20
 theme_override_constants/margin_top = 20
 theme_override_constants/margin_right = 20
 theme_override_constants/margin_bottom = 20
 
-[node name="VBox" type="VBoxContainer" parent="MainPanel/Margin"]
+[node name="VBox" type="VBoxContainer" parent="MainPanel/Margin" unique_id=1702312042]
 layout_mode = 2
 theme_override_constants/separation = 8
 
-[node name="TitleSlot" type="Control" parent="MainPanel/Margin/VBox"]
+[node name="TitleSlot" type="Control" parent="MainPanel/Margin/VBox" unique_id=161946370]
 custom_minimum_size = Vector2(0, 50)
 layout_mode = 2
 
-[node name="Title" parent="MainPanel/Margin/VBox/TitleSlot" instance=ExtResource("4_title")]
+[node name="Title" parent="MainPanel/Margin/VBox/TitleSlot" unique_id=342957479 instance=ExtResource("4_title")]
 layout_mode = 1
 anchors_preset = 5
 anchor_left = 0.5
@@ -158,64 +158,64 @@ offset_bottom = 51.0
 grow_horizontal = 2
 text = "BUSQUEDA EN TIENDA"
 
-[node name="Content" type="HBoxContainer" parent="MainPanel/Margin/VBox"]
+[node name="Content" type="HBoxContainer" parent="MainPanel/Margin/VBox" unique_id=1396045187]
 layout_mode = 2
 theme_override_constants/separation = 8
 
-[node name="LeftPanel" type="VBoxContainer" parent="MainPanel/Margin/VBox/Content"]
+[node name="LeftPanel" type="VBoxContainer" parent="MainPanel/Margin/VBox/Content" unique_id=650884864]
 custom_minimum_size = Vector2(250, 0)
 layout_mode = 2
 
-[node name="GuideTitle" type="PanelContainer" parent="MainPanel/Margin/VBox/Content/LeftPanel"]
+[node name="GuideTitle" type="PanelContainer" parent="MainPanel/Margin/VBox/Content/LeftPanel" unique_id=255255759]
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxTexture_title_box")
 
-[node name="GuideTitleLabel" type="Label" parent="MainPanel/Margin/VBox/Content/LeftPanel/GuideTitle"]
+[node name="GuideTitleLabel" type="Label" parent="MainPanel/Margin/VBox/Content/LeftPanel/GuideTitle" unique_id=1591627286]
 layout_mode = 2
 text = "GUIA RAPIDA"
 label_settings = SubResource("LabelSettings_subtitle")
 horizontal_alignment = 1
 
-[node name="Guide1" type="PanelContainer" parent="MainPanel/Margin/VBox/Content/LeftPanel"]
+[node name="Guide1" type="PanelContainer" parent="MainPanel/Margin/VBox/Content/LeftPanel" unique_id=27256125]
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxTexture_section_box")
 
-[node name="Guide1Label" type="Label" parent="MainPanel/Margin/VBox/Content/LeftPanel/Guide1"]
+[node name="Guide1Label" type="Label" parent="MainPanel/Margin/VBox/Content/LeftPanel/Guide1" unique_id=1152726574]
 layout_mode = 2
 text = "1) MEMORIZA EL OBJETO PEDIDO"
 label_settings = SubResource("LabelSettings_body")
 horizontal_alignment = 1
 autowrap_mode = 3
 
-[node name="Guide2" type="PanelContainer" parent="MainPanel/Margin/VBox/Content/LeftPanel"]
+[node name="Guide2" type="PanelContainer" parent="MainPanel/Margin/VBox/Content/LeftPanel" unique_id=558676829]
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxTexture_section_box")
 
-[node name="Guide2Label" type="Label" parent="MainPanel/Margin/VBox/Content/LeftPanel/Guide2"]
+[node name="Guide2Label" type="Label" parent="MainPanel/Margin/VBox/Content/LeftPanel/Guide2" unique_id=1491351614]
 layout_mode = 2
 text = "2) VOLTEA LAS CARTAS HASTA ENCONTRARLO"
 label_settings = SubResource("LabelSettings_body")
 horizontal_alignment = 1
 autowrap_mode = 3
 
-[node name="Guide3" type="PanelContainer" parent="MainPanel/Margin/VBox/Content/LeftPanel"]
+[node name="Guide3" type="PanelContainer" parent="MainPanel/Margin/VBox/Content/LeftPanel" unique_id=1638161478]
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxTexture_section_box")
 
-[node name="Guide3Label" type="Label" parent="MainPanel/Margin/VBox/Content/LeftPanel/Guide3"]
+[node name="Guide3Label" type="Label" parent="MainPanel/Margin/VBox/Content/LeftPanel/Guide3" unique_id=412459688]
 layout_mode = 2
 text = "3) EVITA MUCHOS ERRORES Y CUIDADO CON EL TIEMPO"
 label_settings = SubResource("LabelSettings_body")
 horizontal_alignment = 1
 autowrap_mode = 3
 
-[node name="CenterPanel" type="VBoxContainer" parent="MainPanel/Margin/VBox/Content"]
+[node name="CenterPanel" type="VBoxContainer" parent="MainPanel/Margin/VBox/Content" unique_id=1253395792]
 custom_minimum_size = Vector2(720, 0)
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_constants/separation = 8
 
-[node name="Request" type="Label" parent="MainPanel/Margin/VBox/Content/CenterPanel"]
+[node name="Request" type="Label" parent="MainPanel/Margin/VBox/Content/CenterPanel" unique_id=2005002842]
 layout_mode = 2
 text = "Pedido"
 label_settings = SubResource("LabelSettings_body")
@@ -223,125 +223,125 @@ horizontal_alignment = 1
 vertical_alignment = 1
 autowrap_mode = 3
 
-[node name="Timer" type="Label" parent="MainPanel/Margin/VBox/Content/CenterPanel"]
+[node name="Timer" type="Label" parent="MainPanel/Margin/VBox/Content/CenterPanel" unique_id=310305371]
 layout_mode = 2
 text = "Tiempo: 0.0"
 label_settings = SubResource("LabelSettings_subtitle")
 horizontal_alignment = 1
 
-[node name="SearchField" type="PanelContainer" parent="MainPanel/Margin/VBox/Content/CenterPanel"]
+[node name="SearchField" type="PanelContainer" parent="MainPanel/Margin/VBox/Content/CenterPanel" unique_id=1096748444]
 custom_minimum_size = Vector2(0, 420)
 layout_mode = 2
 size_flags_vertical = 3
 theme_override_styles/panel = SubResource("StyleBoxTexture_section_box")
 
-[node name="SearchArt" type="TextureRect" parent="MainPanel/Margin/VBox/Content/CenterPanel/SearchField"]
+[node name="SearchArt" type="TextureRect" parent="MainPanel/Margin/VBox/Content/CenterPanel/SearchField" unique_id=2050750190]
 modulate = Color(1, 1, 1, 0.24)
 layout_mode = 2
 texture = ExtResource("7_search")
 expand_mode = 1
 stretch_mode = 6
 
-[node name="BoardGrid" type="GridContainer" parent="MainPanel/Margin/VBox/Content/CenterPanel/SearchField"]
+[node name="BoardGrid" type="GridContainer" parent="MainPanel/Margin/VBox/Content/CenterPanel/SearchField" unique_id=706656285]
 layout_mode = 2
 theme_override_constants/h_separation = 8
 theme_override_constants/v_separation = 8
 columns = 5
 
-[node name="Center" type="CenterContainer" parent="MainPanel/Margin/VBox/Content/CenterPanel/SearchField"]
+[node name="Center" type="CenterContainer" parent="MainPanel/Margin/VBox/Content/CenterPanel/SearchField" unique_id=94287468]
 layout_mode = 2
 
-[node name="BoardGridCenter" type="GridContainer" parent="MainPanel/Margin/VBox/Content/CenterPanel/SearchField/Center"]
+[node name="BoardGridCenter" type="GridContainer" parent="MainPanel/Margin/VBox/Content/CenterPanel/SearchField/Center" unique_id=595548831]
 layout_mode = 2
 theme_override_constants/h_separation = 15
 theme_override_constants/v_separation = 15
 columns = 4
 
-[node name="CardTemplate" parent="MainPanel/Margin/VBox/Content/CenterPanel/SearchField/Center/BoardGridCenter" instance=ExtResource("999_card")]
+[node name="CardTemplate" parent="MainPanel/Margin/VBox/Content/CenterPanel/SearchField/Center/BoardGridCenter" unique_id=948475374 instance=ExtResource("999_card")]
 custom_minimum_size = Vector2(0, 0)
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
 
-[node name="Mockup_1" parent="MainPanel/Margin/VBox/Content/CenterPanel/SearchField/Center/BoardGridCenter" instance=ExtResource("999_card")]
+[node name="Mockup_1" parent="MainPanel/Margin/VBox/Content/CenterPanel/SearchField/Center/BoardGridCenter" unique_id=1148537961 instance=ExtResource("999_card")]
 custom_minimum_size = Vector2(0, 0)
 layout_mode = 2
 
-[node name="Mockup_2" parent="MainPanel/Margin/VBox/Content/CenterPanel/SearchField/Center/BoardGridCenter" instance=ExtResource("999_card")]
+[node name="Mockup_2" parent="MainPanel/Margin/VBox/Content/CenterPanel/SearchField/Center/BoardGridCenter" unique_id=163425845 instance=ExtResource("999_card")]
 custom_minimum_size = Vector2(0, 0)
 layout_mode = 2
 
-[node name="Mockup_3" parent="MainPanel/Margin/VBox/Content/CenterPanel/SearchField/Center/BoardGridCenter" instance=ExtResource("999_card")]
+[node name="Mockup_3" parent="MainPanel/Margin/VBox/Content/CenterPanel/SearchField/Center/BoardGridCenter" unique_id=1296980866 instance=ExtResource("999_card")]
 custom_minimum_size = Vector2(0, 0)
 layout_mode = 2
 
-[node name="Mockup_4" parent="MainPanel/Margin/VBox/Content/CenterPanel/SearchField/Center/BoardGridCenter" instance=ExtResource("999_card")]
+[node name="Mockup_4" parent="MainPanel/Margin/VBox/Content/CenterPanel/SearchField/Center/BoardGridCenter" unique_id=1755186691 instance=ExtResource("999_card")]
 custom_minimum_size = Vector2(0, 0)
 layout_mode = 2
 
-[node name="Mockup_5" parent="MainPanel/Margin/VBox/Content/CenterPanel/SearchField/Center/BoardGridCenter" instance=ExtResource("999_card")]
+[node name="Mockup_5" parent="MainPanel/Margin/VBox/Content/CenterPanel/SearchField/Center/BoardGridCenter" unique_id=1471444894 instance=ExtResource("999_card")]
 custom_minimum_size = Vector2(0, 0)
 layout_mode = 2
 
-[node name="Mockup_6" parent="MainPanel/Margin/VBox/Content/CenterPanel/SearchField/Center/BoardGridCenter" instance=ExtResource("999_card")]
+[node name="Mockup_6" parent="MainPanel/Margin/VBox/Content/CenterPanel/SearchField/Center/BoardGridCenter" unique_id=1675238391 instance=ExtResource("999_card")]
 custom_minimum_size = Vector2(0, 0)
 layout_mode = 2
 
-[node name="Mockup_7" parent="MainPanel/Margin/VBox/Content/CenterPanel/SearchField/Center/BoardGridCenter" instance=ExtResource("999_card")]
+[node name="Mockup_7" parent="MainPanel/Margin/VBox/Content/CenterPanel/SearchField/Center/BoardGridCenter" unique_id=489356935 instance=ExtResource("999_card")]
 custom_minimum_size = Vector2(0, 0)
 layout_mode = 2
 
-[node name="Mockup_8" parent="MainPanel/Margin/VBox/Content/CenterPanel/SearchField/Center/BoardGridCenter" instance=ExtResource("999_card")]
+[node name="Mockup_8" parent="MainPanel/Margin/VBox/Content/CenterPanel/SearchField/Center/BoardGridCenter" unique_id=548375461 instance=ExtResource("999_card")]
 custom_minimum_size = Vector2(0, 0)
 layout_mode = 2
 
-[node name="Mockup_9" parent="MainPanel/Margin/VBox/Content/CenterPanel/SearchField/Center/BoardGridCenter" instance=ExtResource("999_card")]
+[node name="Mockup_9" parent="MainPanel/Margin/VBox/Content/CenterPanel/SearchField/Center/BoardGridCenter" unique_id=673366371 instance=ExtResource("999_card")]
 custom_minimum_size = Vector2(0, 0)
 layout_mode = 2
 
-[node name="Mockup_10" parent="MainPanel/Margin/VBox/Content/CenterPanel/SearchField/Center/BoardGridCenter" instance=ExtResource("999_card")]
+[node name="Mockup_10" parent="MainPanel/Margin/VBox/Content/CenterPanel/SearchField/Center/BoardGridCenter" unique_id=441543664 instance=ExtResource("999_card")]
 custom_minimum_size = Vector2(0, 0)
 layout_mode = 2
 
-[node name="Mockup_11" parent="MainPanel/Margin/VBox/Content/CenterPanel/SearchField/Center/BoardGridCenter" instance=ExtResource("999_card")]
+[node name="Mockup_11" parent="MainPanel/Margin/VBox/Content/CenterPanel/SearchField/Center/BoardGridCenter" unique_id=1371925005 instance=ExtResource("999_card")]
 custom_minimum_size = Vector2(0, 0)
 layout_mode = 2
 
-[node name="Mockup_12" parent="MainPanel/Margin/VBox/Content/CenterPanel/SearchField/Center/BoardGridCenter" instance=ExtResource("999_card")]
+[node name="Mockup_12" parent="MainPanel/Margin/VBox/Content/CenterPanel/SearchField/Center/BoardGridCenter" unique_id=741234513 instance=ExtResource("999_card")]
 custom_minimum_size = Vector2(0, 0)
 layout_mode = 2
 
-[node name="Mockup_13" parent="MainPanel/Margin/VBox/Content/CenterPanel/SearchField/Center/BoardGridCenter" instance=ExtResource("999_card")]
+[node name="Mockup_13" parent="MainPanel/Margin/VBox/Content/CenterPanel/SearchField/Center/BoardGridCenter" unique_id=1161741979 instance=ExtResource("999_card")]
 custom_minimum_size = Vector2(0, 0)
 layout_mode = 2
 
-[node name="Mockup_14" parent="MainPanel/Margin/VBox/Content/CenterPanel/SearchField/Center/BoardGridCenter" instance=ExtResource("999_card")]
+[node name="Mockup_14" parent="MainPanel/Margin/VBox/Content/CenterPanel/SearchField/Center/BoardGridCenter" unique_id=426911422 instance=ExtResource("999_card")]
 custom_minimum_size = Vector2(0, 0)
 layout_mode = 2
 
-[node name="Mockup_15" parent="MainPanel/Margin/VBox/Content/CenterPanel/SearchField/Center/BoardGridCenter" instance=ExtResource("999_card")]
+[node name="Mockup_15" parent="MainPanel/Margin/VBox/Content/CenterPanel/SearchField/Center/BoardGridCenter" unique_id=794575796 instance=ExtResource("999_card")]
 custom_minimum_size = Vector2(0, 0)
 layout_mode = 2
 
-[node name="ActionRow" type="HBoxContainer" parent="MainPanel/Margin/VBox/Content/CenterPanel"]
+[node name="ActionRow" type="HBoxContainer" parent="MainPanel/Margin/VBox/Content/CenterPanel" unique_id=1049343145]
 layout_mode = 2
 theme_override_constants/separation = 10
 
-[node name="Errors" type="Label" parent="MainPanel/Margin/VBox/Content/CenterPanel/ActionRow"]
+[node name="Errors" type="Label" parent="MainPanel/Margin/VBox/Content/CenterPanel/ActionRow" unique_id=1120446081]
 layout_mode = 2
 size_flags_horizontal = 3
 text = "Errores: 0/3"
 label_settings = SubResource("LabelSettings_body")
 horizontal_alignment = 1
 
-[node name="Found" type="Label" parent="MainPanel/Margin/VBox/Content/CenterPanel/ActionRow"]
+[node name="Found" type="Label" parent="MainPanel/Margin/VBox/Content/CenterPanel/ActionRow" unique_id=883891682]
 layout_mode = 2
 size_flags_horizontal = 3
 text = "Encontrados: 0"
 label_settings = SubResource("LabelSettings_body")
 horizontal_alignment = 1
 
-[node name="SkipButton" type="Button" parent="MainPanel/Margin/VBox/Content/CenterPanel/ActionRow"]
+[node name="SkipButton" type="Button" parent="MainPanel/Margin/VBox/Content/CenterPanel/ActionRow" unique_id=684271431]
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_colors/font_color = Color(0.687779, 0.643646, 0.632612, 1)
@@ -357,64 +357,64 @@ theme_override_styles/hover = SubResource("StyleBoxTexture_btn_hover")
 theme_override_styles/disabled = SubResource("StyleBoxTexture_5o78u")
 text = "Saltar"
 
-[node name="RightPanel" type="VBoxContainer" parent="MainPanel/Margin/VBox/Content"]
+[node name="RightPanel" type="VBoxContainer" parent="MainPanel/Margin/VBox/Content" unique_id=1446933435]
 custom_minimum_size = Vector2(250, 0)
 layout_mode = 2
 theme_override_constants/separation = 8
 
-[node name="ObjectivesTitle" type="PanelContainer" parent="MainPanel/Margin/VBox/Content/RightPanel"]
+[node name="ObjectivesTitle" type="PanelContainer" parent="MainPanel/Margin/VBox/Content/RightPanel" unique_id=128197377]
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxTexture_title_box")
 
-[node name="ObjectivesTitleLabel" type="Label" parent="MainPanel/Margin/VBox/Content/RightPanel/ObjectivesTitle"]
+[node name="ObjectivesTitleLabel" type="Label" parent="MainPanel/Margin/VBox/Content/RightPanel/ObjectivesTitle" unique_id=1876570676]
 layout_mode = 2
 text = "OBJETIVOS"
 label_settings = SubResource("LabelSettings_subtitle")
 horizontal_alignment = 1
 
-[node name="ObjectivesBody" type="PanelContainer" parent="MainPanel/Margin/VBox/Content/RightPanel"]
+[node name="ObjectivesBody" type="PanelContainer" parent="MainPanel/Margin/VBox/Content/RightPanel" unique_id=1357633564]
 custom_minimum_size = Vector2(0, 125)
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxTexture_vyygm")
 
-[node name="ObjectivesVBox" type="VBoxContainer" parent="MainPanel/Margin/VBox/Content/RightPanel/ObjectivesBody"]
+[node name="ObjectivesVBox" type="VBoxContainer" parent="MainPanel/Margin/VBox/Content/RightPanel/ObjectivesBody" unique_id=1894268657]
 layout_mode = 2
 theme_override_constants/separation = 4
 
-[node name="Rounds" type="Label" parent="MainPanel/Margin/VBox/Content/RightPanel/ObjectivesBody/ObjectivesVBox"]
+[node name="Rounds" type="Label" parent="MainPanel/Margin/VBox/Content/RightPanel/ObjectivesBody/ObjectivesVBox" unique_id=1887455823]
 layout_mode = 2
 text = "Ronda 1/5"
 label_settings = SubResource("LabelSettings_body")
 horizontal_alignment = 1
 
-[node name="Instruction" type="Label" parent="MainPanel/Margin/VBox/Content/RightPanel/ObjectivesBody/ObjectivesVBox"]
+[node name="Instruction" type="Label" parent="MainPanel/Margin/VBox/Content/RightPanel/ObjectivesBody/ObjectivesVBox" unique_id=1859584771]
 layout_mode = 2
 text = "Encuentra el objeto pedido"
 label_settings = SubResource("LabelSettings_body")
 horizontal_alignment = 1
 autowrap_mode = 3
 
-[node name="ResultsTitle" type="PanelContainer" parent="MainPanel/Margin/VBox/Content/RightPanel"]
+[node name="ResultsTitle" type="PanelContainer" parent="MainPanel/Margin/VBox/Content/RightPanel" unique_id=272593954]
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxTexture_title_box")
 
-[node name="ResultsTitleLabel" type="Label" parent="MainPanel/Margin/VBox/Content/RightPanel/ResultsTitle"]
+[node name="ResultsTitleLabel" type="Label" parent="MainPanel/Margin/VBox/Content/RightPanel/ResultsTitle" unique_id=1130896603]
 layout_mode = 2
 text = "RESULTADOS"
 label_settings = SubResource("LabelSettings_subtitle")
 horizontal_alignment = 1
 
-[node name="ResultsBody" type="PanelContainer" parent="MainPanel/Margin/VBox/Content/RightPanel"]
+[node name="ResultsBody" type="PanelContainer" parent="MainPanel/Margin/VBox/Content/RightPanel" unique_id=2013717003]
 layout_mode = 2
 size_flags_vertical = 3
 theme_override_styles/panel = SubResource("StyleBoxTexture_section_box")
 
-[node name="ResultsVBox" type="VBoxContainer" parent="MainPanel/Margin/VBox/Content/RightPanel/ResultsBody"]
+[node name="ResultsVBox" type="VBoxContainer" parent="MainPanel/Margin/VBox/Content/RightPanel/ResultsBody" unique_id=1070726798]
 layout_mode = 2
 size_flags_vertical = 3
 theme_override_constants/separation = 8
 
-[node name="Result" type="Label" parent="MainPanel/Margin/VBox/Content/RightPanel/ResultsBody/ResultsVBox"]
+[node name="Result" type="Label" parent="MainPanel/Margin/VBox/Content/RightPanel/ResultsBody/ResultsVBox" unique_id=871565492]
 visible = false
 layout_mode = 2
 size_flags_vertical = 3
@@ -423,7 +423,7 @@ horizontal_alignment = 1
 vertical_alignment = 1
 autowrap_mode = 3
 
-[node name="FinishButton" type="Button" parent="MainPanel/Margin/VBox/Content/RightPanel/ResultsBody/ResultsVBox"]
+[node name="FinishButton" type="Button" parent="MainPanel/Margin/VBox/Content/RightPanel/ResultsBody/ResultsVBox" unique_id=1271204593]
 visible = false
 layout_mode = 2
 size_flags_horizontal = 4
@@ -437,34 +437,34 @@ theme_override_styles/pressed = SubResource("StyleBoxTexture_btn_pressed")
 theme_override_styles/hover = SubResource("StyleBoxTexture_btn_hover")
 text = "Finalizar"
 
-[node name="Audio" type="Node" parent="."]
+[node name="Audio" type="Node" parent="." unique_id=633815717]
 
-[node name="SFX_Voltear" type="AudioStreamPlayer" parent="Audio"]
+[node name="SFX_Voltear" type="AudioStreamPlayer" parent="Audio" unique_id=156216630]
 stream = ExtResource("voltear_aud")
-bus = &"SFX"
 volume_db = -8.0
+bus = &"SFX"
 
-[node name="SFX_Fallo" type="AudioStreamPlayer" parent="Audio"]
+[node name="SFX_Fallo" type="AudioStreamPlayer" parent="Audio" unique_id=1022435475]
 stream = ExtResource("fallo_aud")
-bus = &"SFX"
 volume_db = -8.0
+bus = &"SFX"
 
-[node name="SFX_Correcto" type="AudioStreamPlayer" parent="Audio"]
+[node name="SFX_Correcto" type="AudioStreamPlayer" parent="Audio" unique_id=514817157]
 stream = ExtResource("correcto_aud")
-bus = &"SFX"
 volume_db = -8.0
+bus = &"SFX"
 
-[node name="SFX_OkBase" type="AudioStreamPlayer" parent="Audio"]
+[node name="SFX_OkBase" type="AudioStreamPlayer" parent="Audio" unique_id=1388941710]
 stream = ExtResource("ok_base_aud")
-bus = &"SFX"
 volume_db = -8.0
+bus = &"SFX"
 
-[node name="SFX_Error" type="AudioStreamPlayer" parent="Audio"]
+[node name="SFX_Error" type="AudioStreamPlayer" parent="Audio" unique_id=944542487]
 stream = ExtResource("error_aud")
-bus = &"SFX"
 volume_db = -8.0
+bus = &"SFX"
 
-[node name="SFX_Reloj" type="AudioStreamPlayer" parent="Audio"]
+[node name="SFX_Reloj" type="AudioStreamPlayer" parent="Audio" unique_id=1846552552]
 stream = ExtResource("reloj_aud")
 volume_db = -10.0
 bus = &"SFX"

@@ -8,9 +8,9 @@
 		  "en": "Mrs. Carmen"
 		},
 		"descripcion": {
-		  "es": "Revisa precios y pesos; detecta errores y retrasa la fila.",
-		  "pt": "Verifica preços e pesos; detecta erros e atrasa a fila.",
-		  "en": "Checks prices and weights; catches mistakes and slows the line."
+		  "es": "Meticulosa y desconfiada; cuenta cada moneda y revisa el peso de todo dos veces.",
+		  "pt": "Meticulosa e desconfiada; conta cada moeda e confere o peso de tudo duas vezes.",
+		  "en": "Meticulous and suspicious; counts every coin and double-checks the weight of everything."
 		},
 		"edad": 72,
 		"variacion": 1
@@ -22,9 +22,9 @@
 		  "en": "Mrs. Rosa"
 		},
 		"descripcion": {
-		  "es": "Habla mucho; distrae y alarga la atención.",
-		  "pt": "Fala muito; distrai e prolonga o atendimento.",
-		  "en": "Talks a lot; distracts and delays service."
+		  "es": "La chismosa del barrio; te contará toda su vida mientras la fila se hace eterna.",
+		  "pt": "A fofoqueira do bairro; vai te contar a vida toda enquanto a fila fica eterna.",
+		  "en": "The neighborhood gossip; she'll tell you her whole life story while the line grows forever."
 		},
 		"edad": 68,
 		"variacion": 2
@@ -36,9 +36,9 @@
 		  "en": "Mrs. Elvira"
 		},
 		"descripcion": {
-		  "es": "Exige precisión; se molesta por errores.",
-		  "pt": "Exige precisão; se irrita com erros.",
-		  "en": "Demands precision; gets upset at mistakes."
+		  "es": "Exigente y de pocas pulgas; un solo error en el pedido y te ganarás un buen regaño.",
+		  "pt": "Exigente e sem paciência; um único erro no pedido e você levará uma bronca.",
+		  "en": "Demanding and short-tempered; one mistake in the order and you'll get a scolding."
 		},
 		"edad": 75,
 		"variacion": 3
@@ -50,9 +50,9 @@
 		  "en": "Mrs. Marta"
 		},
 		"descripcion": {
-		  "es": "Cambia pedidos; genera confusión.",
-		  "pt": "Muda pedidos; gera confusão.",
-		  "en": "Changes orders; creates confusion."
+		  "es": "Confundida y olvidadiza; cambia de opinión a mitad del pedido y genera un caos en la cuenta.",
+		  "pt": "Confusa e esquecida; muda de ideia no meio do pedido e gera um caos na conta.",
+		  "en": "Confused and forgetful; changes her mind mid-order and creates chaos with the bill."
 		},
 		"edad": 70,
 		"variacion": 1
@@ -66,9 +66,9 @@
 		  "en": "Mr. Julio"
 		},
 		"descripcion": {
-		  "es": "Paga exacto; toma más tiempo.",
-		  "pt": "Paga exato; leva mais tempo.",
-		  "en": "Pays exact; takes more time."
+		  "es": "Caballero de la vieja escuela; busca el cambio exacto en su monedero de cuero.",
+		  "pt": "Cavalheiro da velha guarda; procura o troco exato em sua carteira de couro.",
+		  "en": "Old school gentleman; looks for the exact change in his leather coin purse."
 		},
 		"edad": 74,
 		"variacion": 1
@@ -80,9 +80,9 @@
 		  "en": "Mr. Pedro"
 		},
 		"descripcion": {
-		  "es": "Indeciso; retrasa la cola.",
-		  "pt": "Indeciso; atrasa a fila.",
-		  "en": "Indecisive; slows the line."
+		  "es": "Eterno indeciso; se queda mirando el menú como si fuera la primera vez que viene.",
+		  "pt": "Eterno indeciso; fica olhando o menu como se fosse a primeira vez que veio.",
+		  "en": "Forever indecisive; stares at the menu as if it were his first time here."
 		},
 		"edad": 77,
 		"variacion": 2
@@ -94,9 +94,9 @@
 		  "en": "Mr. Ernesto"
 		},
 		"descripcion": {
-		  "es": "Bromea; distrae al jugador.",
-		  "pt": "Brinca; distrai o jogador.",
-		  "en": "Jokes; distracts the player."
+		  "es": "El bromista del lugar; sus chistes largos te distraerán de tus tareas.",
+		  "pt": "O piadista do lugar; suas piadas longas vão te distrair das suas tarefas.",
+		  "en": "The local joker; his long jokes will distract you from your tasks."
 		},
 		"edad": 69,
 		"variacion": 3
@@ -108,9 +108,9 @@
 		  "en": "Mr. Luis"
 		},
 		"descripcion": {
-		  "es": "Impaciente; se va si espera.",
-		  "pt": "Impaciente; vai embora se espera.",
-		  "en": "Impatient; leaves if waiting."
+		  "es": "Hombre impaciente; si siente que no le prestas atención, se marchará indignado.",
+		  "pt": "Homem impaciente; se sentir que você não está prestando atenção, sairá indignado.",
+		  "en": "Impatient man; if he feels you're not paying attention, he'll leave in a huff."
 		},
 		"edad": 73,
 		"variacion": 2
@@ -124,9 +124,9 @@
 		  "en": "Kevin"
 		},
 		"descripcion": {
-		  "es": "Apurado; mete presión.",
-		  "pt": "Apressado; pressiona.",
-		  "en": "Rushed; adds pressure."
+		  "es": "Vive con el tiempo justo; no despega los ojos del reloj y te hará sentir la presión.",
+		  "pt": "Vive com o tempo contado; não tira os olhos do relógio e vai te pressionar.",
+		  "en": "Lives on a tight schedule; won't take his eyes off the clock and will make you feel the pressure."
 		},
 		"edad": 19,
 		"variacion": 1
@@ -138,9 +138,9 @@
 		  "en": "Brian"
 		},
 		"descripcion": {
-		  "es": "Cambia pedidos; complica.",
-		  "pt": "Muda pedidos; complica.",
-		  "en": "Changes orders; complicates."
+		  "es": "Distraído con el celular; te pide cosas, se arrepiente y vuelve a empezar el pedido.",
+		  "pt": "Distraído com o celular; pede coisas, se arrepende e começa o pedido de novo.",
+		  "en": "Distracted by his phone; asks for things, changes his mind, and starts the order all over again."
 		},
 		"edad": 21,
 		"variacion": 2
@@ -152,9 +152,9 @@
 		  "en": "Luis"
 		},
 		"descripcion": {
-		  "es": "Relajado; no apura.",
-		  "pt": "Relaxado; não pressiona.",
-		  "en": "Relaxed; no rush."
+		  "es": "El cliente más relajado; no tiene prisa y te permite trabajar a tu propio ritmo.",
+		  "pt": "O cliente mais relaxado; não tem pressa e permite que você trabalhe no seu próprio ritmo.",
+		  "en": "The most relaxed customer; he's in no rush and lets you work at your own pace."
 		},
 		"edad": 23,
 		"variacion": 3
@@ -166,9 +166,9 @@
 		  "en": "Diego"
 		},
 		"descripcion": {
-		  "es": "Se irrita rápido; sube estrés.",
-		  "pt": "Irrita-se rápido; aumenta o estresse.",
-		  "en": "Gets upset fast; raises stress."
+		  "es": "De mecha corta; si te tardas mucho, empezará a quejarse en voz alta.",
+		  "pt": "Pavio curto; se você demorar muito, ele começará a reclamar em voz alta.",
+		  "en": "Short-fused; if you take too long, he'll start complaining out loud."
 		},
 		"edad": 20,
 		"variacion": 1
@@ -182,9 +182,9 @@
 		  "en": "Ana"
 		},
 		"descripcion": {
-		  "es": "Rápida y clara; mejora el flujo.",
-		  "pt": "Rápida e clara; melhora o fluxo.",
-		  "en": "Fast and clear; improves flow."
+		  "es": "Cliente ideal; sabe lo que quiere y te facilita el trabajo con su amabilidad.",
+		  "pt": "Cliente ideal; sabe o que quer e facilita seu trabalho com sua gentileza.",
+		  "en": "Ideal customer; knows what she wants and makes your job easier with her kindness."
 		},
 		"edad": 35,
 		"variacion": 1
@@ -196,9 +196,9 @@
 		  "en": "Lucia"
 		},
 		"descripcion": {
-		  "es": "Exigente; revisa todo.",
-		  "pt": "Exigente; verifica tudo.",
-		  "en": "Demanding; checks everything."
+		  "es": "Perfeccionista al extremo; revisará que cada producto esté en perfecto estado.",
+		  "pt": "Perfeccionista ao extremo; verificará se cada produto está em perfeito estado.",
+		  "en": "Perfectionist to the extreme; will check that every product is in perfect condition."
 		},
 		"edad": 40,
 		"variacion": 2
@@ -210,9 +210,9 @@
 		  "en": "Carla"
 		},
 		"descripcion": {
-		  "es": "Duda; retrasa pedidos.",
-		  "pt": "Hesita; atrasa pedidos.",
-		  "en": "Hesitates; delays orders."
+		  "es": "Siempre con dudas; pregunta precios de todo antes de decidirse por una sola cosa.",
+		  "pt": "Sempre com dúvidas; pergunta os preços de tudo antes de se decidir por uma única coisa.",
+		  "en": "Always has doubts; asks for prices on everything before deciding on a single item."
 		},
 		"edad": 32,
 		"variacion": 3
@@ -224,9 +224,9 @@
 		  "en": "Maria"
 		},
 		"descripcion": {
-		  "es": "Apurada; se va si demora.",
-		  "pt": "Apressada; vai embora se demora.",
-		  "en": "In a hurry; leaves if delayed."
+		  "es": "Siempre en una carrera; si ve que la fila no avanza, simplemente se irá.",
+		  "pt": "Sempre correndo; se vir que a fila não anda, simplesmente irá embora.",
+		  "en": "Always in a race; if she sees the line isn't moving, she'll just walk away."
 		},
 		"edad": 38,
 		"variacion": 2
@@ -240,9 +240,9 @@
 		  "en": "Johnny"
 		},
 		"descripcion": {
-		  "es": "Curioso; distrae fácilmente.",
-		  "pt": "Curioso; distrai facilmente.",
-		  "en": "Curious; easily distracts."
+		  "es": "Pequeño explorador; se distrae con cualquier cosa brillante del mostrador.",
+		  "pt": "Pequeno explorador; se distrai com qualquer coisa brilhante no balcão.",
+		  "en": "Little explorer; gets distracted by anything shiny on the counter."
 		},
 		"edad": 8,
 		"variacion": 1
@@ -254,9 +254,9 @@
 		  "en": "Carl"
 		},
 		"descripcion": {
-		  "es": "Inquieto; pierde paciencia.",
-		  "pt": "Inquieto; perde a paciência.",
-		  "en": "Restless; loses patience."
+			"es": "Es un torbellino; no deja de moverse y su impaciencia hará que te desconcentres.",
+			"pt": "É um furacão; não para de se mexer e sua impaciência fará você se desconcentrar.",
+			"en": "He's a whirlwind; he won't stop moving and his impatience will make you lose focus."
 		},
 		"edad": 7,
 		"variacion": 2
@@ -268,9 +268,9 @@
 		  "en": "Peter"
 		},
 		"descripcion": {
-		  "es": "Tímido; tarda en pedir.",
-		  "pt": "Tímido; demora para pedir.",
-		  "en": "Shy; slow to order."
+		  "es": "Extremadamente tímido; habla tan bajito que tendrás que esforzarte por entenderle.",
+		  "pt": "Extremamente tímido; fala tão baixinho que você terá que se esforçar para entendê-lo.",
+		  "en": "Extremely shy; speaks so softly you'll have to struggle to understand him."
 		},
 		"edad": 9,
 		"variacion": 3
@@ -282,9 +282,9 @@
 		  "en": "Little Luis"
 		},
 		"descripcion": {
-		  "es": "Compra dulces; satura la zona.",
-		  "pt": "Compra doces; satura a área.",
-		  "en": "Buys candy; clogs the area."
+		  "es": "Fanático de los dulces; se queda pegado al mostrador bloqueando el paso a otros.",
+		  "pt": "Fanático por doces; fica grudado no balcão bloqueando a passagem de outros.",
+		  "en": "Candy fanatic; stays glued to the counter blocking the way for others."
 		},
 		"edad": 6,
 		"variacion": 1

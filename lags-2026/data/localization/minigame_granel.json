@@ -12,7 +12,7 @@
   "instruccion_espacio": {
 	"es": "INCLINAR\nY VERTER",
 	"en": "TILT\nAND POUR",
-	"pt": "INCLINAR\nE DESPEJAR"
+	"pt": "INCLINAR\nE DERRAMAR"
   },
   "instruccion_c": {
 	"es": "TOQUES DE\nPRECISIÓN",
@@ -21,7 +21,7 @@
   },
   "instruccion_r": {
 	"es": "DEVOLVER DE\nLA BALANZA",
-	"en": "RETURN FROM\nSCALE",
+	"en": "REMOVE FROM\nSCALE",
 	"pt": "DEVOLVER DA\nBALANÇA"
   },
   "objetivos": {

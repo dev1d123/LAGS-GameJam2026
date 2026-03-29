@@ -8,6 +8,11 @@ extends Control
 @onready var label_dia = $"PanelDía"/LabelDia
 @onready var label_hora = $PanelHora/LabelHora
 @onready var label_perdidos = $PanelPerdidos/LabelPerdidos
+@onready var inventory_title = $InventoryPanel/InventoryTitle
+@onready var slot_cola: Button = $InventoryPanel/SlotsRow/SlotCola
+@onready var slot_leche: Button = $InventoryPanel/SlotsRow/SlotLeche
+@onready var slot_caramelo: Button = $InventoryPanel/SlotsRow/SlotCaramelo
+@onready var sfx_inventory_click: AudioStreamPlayer = $InventorySfxClick
 
 # Variables de estado
 var dinero: int = 0
@@ -29,6 +34,16 @@ const MONEY_GOOD_THRESHOLD: int = 5000
 const MONEY_COLOR_BAD := Color(0.62, 0.62, 0.62, 1.0)
 const MONEY_COLOR_NORMAL := Color(0.95, 0.84, 0.30, 1.0)
 const MONEY_COLOR_GOOD := Color(0.47, 0.88, 0.46, 1.0)
+const COLA_ENERGY_PERCENT: float = 30.0
+const LECHE_STRESS_REDUCE: float = 20.0
+const CARAMELO_SPEED_MULTIPLIER: float = 1.35
+const CARAMELO_DURATION_SECONDS: float = 10.0
+
+var cola_available: bool = true
+var leche_available: bool = true
+var caramelo_available: bool = true
+var speed_boost_active: bool = false
+var speed_boost_time_left: float = 0.0
 
 # Idioma
 var lang := "es"
@@ -42,14 +57,22 @@ func _ready() -> void:
 	add_to_group("translatable")
 	lang = LocaleManager.current_language
 	_prepare_money_label_style()
+	_connect_inventory_ui()
+	_reset_inventory_for_new_day()
 	actualizar_todo()
 
 
 func update_translation() -> void:
 	lang = LocaleManager.current_language
 	_refrescar_labels_sin_animacion()
+	_update_inventory_labels()
 
 func _process(delta: float) -> void:
+	if speed_boost_active:
+		speed_boost_time_left = maxf(0.0, speed_boost_time_left - delta)
+		if speed_boost_time_left <= 0.0:
+			speed_boost_active = false
+
 	timer -= delta
 
 	if timer <= 0:
@@ -155,6 +178,7 @@ func set_dia(valor: int) -> void:
 
 	if dia != previous_day:
 		perdidos = 0
+		_reset_inventory_for_new_day()
 
 	match lang:
 		"es":
@@ -367,6 +391,123 @@ func _prepare_money_label_style() -> void:
 		return
 	if label_dinero.label_settings != null:
 		label_dinero.label_settings = label_dinero.label_settings.duplicate(true)
+
+
+func _connect_inventory_ui() -> void:
+	if slot_cola != null and not slot_cola.pressed.is_connected(_on_slot_cola_pressed):
+		slot_cola.pressed.connect(_on_slot_cola_pressed)
+	if slot_leche != null and not slot_leche.pressed.is_connected(_on_slot_leche_pressed):
+		slot_leche.pressed.connect(_on_slot_leche_pressed)
+	if slot_caramelo != null and not slot_caramelo.pressed.is_connected(_on_slot_caramelo_pressed):
+		slot_caramelo.pressed.connect(_on_slot_caramelo_pressed)
+
+
+func _reset_inventory_for_new_day() -> void:
+	cola_available = true
+	leche_available = true
+	caramelo_available = true
+	speed_boost_active = false
+	speed_boost_time_left = 0.0
+	_refresh_inventory_slots()
+
+
+func _update_inventory_labels() -> void:
+	if inventory_title != null:
+		match lang:
+			"en":
+				inventory_title.text = "ITEMS"
+			"pt":
+				inventory_title.text = "ITENS"
+			_:
+				inventory_title.text = "OBJ"
+
+	if slot_cola != null:
+		slot_cola.text = ""
+		match lang:
+			"en":
+				slot_cola.tooltip_text = "Cola: restore energy"
+			"pt":
+				slot_cola.tooltip_text = "Refrigerante: aumenta energia"
+			_:
+				slot_cola.tooltip_text = "Refrigerante: aumenta energía"
+	if slot_leche != null:
+		slot_leche.text = ""
+		match lang:
+			"en":
+				slot_leche.tooltip_text = "Milk: reduce stress"
+			"pt":
+				slot_leche.tooltip_text = "Leite: reduz estresse"
+			_:
+				slot_leche.tooltip_text = "Leche: reduce estrés"
+	if slot_caramelo != null:
+		slot_caramelo.text = ""
+		match lang:
+			"en":
+				slot_caramelo.tooltip_text = "Candy: speed boost"
+			"pt":
+				slot_caramelo.tooltip_text = "Caramelo: aumenta velocidade"
+			_:
+				slot_caramelo.tooltip_text = "Caramelo: aumenta velocidad"
+
+
+func _refresh_inventory_slots() -> void:
+	_update_inventory_labels()
+	_apply_slot_state(slot_cola, cola_available)
+	_apply_slot_state(slot_leche, leche_available)
+	_apply_slot_state(slot_caramelo, caramelo_available)
+
+
+func _apply_slot_state(slot: Button, is_available: bool) -> void:
+	if slot == null:
+		return
+	slot.disabled = not is_available
+	slot.self_modulate = Color(1, 1, 1, 1) if is_available else Color(0.35, 0.35, 0.35, 1)
+
+
+func _play_inventory_sfx(pitch: float = 1.0) -> void:
+	if sfx_inventory_click == null:
+		return
+	sfx_inventory_click.pitch_scale = pitch
+	sfx_inventory_click.play()
+
+
+func _on_slot_cola_pressed() -> void:
+	if not cola_available:
+		_play_inventory_sfx(0.85)
+		return
+	cola_available = false
+	_play_inventory_sfx(1.0)
+	var gain := float(energy_bar.max_value) * (COLA_ENERGY_PERCENT / 100.0)
+	actualizar_energy(gain)
+	animar_ui(slot_cola)
+	_refresh_inventory_slots()
+
+
+func _on_slot_leche_pressed() -> void:
+	if not leche_available:
+		_play_inventory_sfx(0.85)
+		return
+	leche_available = false
+	_play_inventory_sfx(1.0)
+	actualizar_stress(-LECHE_STRESS_REDUCE)
+	animar_ui(slot_leche)
+	_refresh_inventory_slots()
+
+
+func _on_slot_caramelo_pressed() -> void:
+	if not caramelo_available:
+		_play_inventory_sfx(0.85)
+		return
+	caramelo_available = false
+	speed_boost_active = true
+	speed_boost_time_left = CARAMELO_DURATION_SECONDS
+	_play_inventory_sfx(1.1)
+	animar_ui(slot_caramelo)
+	_refresh_inventory_slots()
+
+
+func get_speed_multiplier() -> float:
+	return CARAMELO_SPEED_MULTIPLIER if speed_boost_active else 1.0
 
 # =========================
 # TEST
