@@ -443,10 +443,10 @@ mouse_filter = 2
 
 [node name="Control" type="CanvasLayer" parent="Spawner/Node" unique_id=1311090967]
 layer = 3
+script = ExtResource("7_s7xaj")
 
 [node name="MobileControls" type="CanvasLayer" parent="Spawner/Node/Control" unique_id=818542029]
 layer = 3
-script = ExtResource("7_s7xaj")
 
 [node name="up" type="TouchScreenButton" parent="Spawner/Node/Control/MobileControls" unique_id=1743714439]
 modulate = Color(1, 1, 1, 0.5882353)
