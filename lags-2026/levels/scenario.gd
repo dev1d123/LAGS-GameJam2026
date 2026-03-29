@@ -50,10 +50,6 @@ func _ready() -> void:
 	_initialize_day_cycle()
 	call_deferred("_start_day_transition", current_day)
 	
-	if hud != null:
-		smoothed_energy = hud.energy_bar.value
-		smoothed_stress = hud.stress_bar.value
-	_update_shader_effects()
 
 
 func _exit_tree() -> void:
@@ -93,8 +89,10 @@ func _update_shader_effects() -> void:
 	screen_fx.material.set_shader_parameter("saturation_amount", saturation)
 
 	var blur: float = 0.0
-	if fatigue_factor > 0.7:
-		blur = pow((fatigue_factor - 0.7) / 0.3, 2.0) * 3.0
+	if fatigue_factor > 0.3:
+		blur = pow((fatigue_factor - 0.3) / 0.7, 2.0) * 7.0
+		blur = clamp(blur, 0.0, 3.0)
+
 	screen_fx.material.set_shader_parameter("blur_intensity", blur)
 
 	var stress_curve: float = pow(stress_factor, 3.0)

@@ -7,15 +7,14 @@ uniform float saturation_amount : hint_range(0.0, 1.0) = 1.0;
 uniform float blur_intensity : hint_range(0.0, 5.0) = 0.0;
 uniform float stress_tunnel : hint_range(0.0, 1.0) = 0.0;
 
-// NUEVO: Coordenadas del jugador en la pantalla (0.0 a 1.0)
 uniform vec2 player_screen_uv = vec2(0.5, 0.5); 
 
 void fragment() {
     vec2 uv = SCREEN_UV;
     vec4 color = texture(screen_texture, uv);
 
-    // --- EFECTO DE ENERGÍA: DESENFOQUE CRÍTICO ---
-    if (blur_intensity > 0.1) {
+    // EFECTO ENERGIA BLUR
+    if (blur_intensity > 0.3) {
         float samples = 8.0;
         vec4 blur_color = color;
         float pulse = sin(TIME * 2.0) * 0.5 + 0.5;
@@ -29,18 +28,14 @@ void fragment() {
         color = blur_color / (samples + 1.0);
     }
 
-    // --- EFECTO DE ENERGÍA: DESATURACIÓN ---
     float luminance = dot(color.rgb, vec3(0.2126, 0.7152, 0.0722));
     color.rgb = mix(vec3(luminance), color.rgb, saturation_amount);
 
-    // --- EFECTO DE ESTRÉS: VISIÓN DE TÚNEL (Sigue al jugador) ---
+    // Stress tunel
     if (stress_tunnel > 0.0) {
         vec2 aspect = vec2(SCREEN_PIXEL_SIZE.y / SCREEN_PIXEL_SIZE.x, 1.0);
         float dist = distance(uv * aspect, player_screen_uv * aspect);
         
-        // --- LA CORRECCIÓN ---
-        // Al usar 1.2 como base, el borde del túnel empieza fuera de la pantalla.
-        // Conforme stress_tunnel sube, el radio se encoge hacia el centro.
         float outer_edge = 1.2 - (stress_tunnel * 0.8);
         float inner_edge = 0.5 - (stress_tunnel * 0.4);
         
