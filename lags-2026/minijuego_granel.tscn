@@ -1,11 +1,11 @@
-[gd_scene load_steps=28 format=3 uid="uid://nkdstvtfc60k"]
+[gd_scene format=3 uid="uid://nkdstvtfc60k"]
 
-[ext_resource type="Script" path="res://minijuego_granel.gd" id="1_1qtbl"]
+[ext_resource type="Script" uid="uid://35m8dpef3ci8" path="res://minijuego_granel.gd" id="1_1qtbl"]
 [ext_resource type="Texture2D" uid="uid://cpaxrpnv1gl7y" path="res://assets/textures/opciones-fondo.png" id="1_6wkra"]
 [ext_resource type="Texture2D" uid="uid://d3mn8iy0m7bf" path="res://assets/textures/opciones-campo-fondo.png" id="2_mc1d4"]
-[ext_resource type="PackedScene" path="res://saco_arroz.tscn" id="2_qxgr3"]
+[ext_resource type="PackedScene" uid="uid://cmcxrcsqm31xd" path="res://saco_arroz.tscn" id="2_qxgr3"]
 [ext_resource type="Texture2D" uid="uid://bkkrt23fwky0a" path="res://assets/textures/minigame-granel/tecla_espacio.png" id="3_all76"]
-[ext_resource type="PackedScene" path="res://balanza.tscn" id="3_qp0ic"]
+[ext_resource type="PackedScene" uid="uid://dt8mxkr2r38bl" path="res://balanza.tscn" id="3_qp0ic"]
 [ext_resource type="PackedScene" uid="uid://hqmdfy0qhwxh" path="res://ui/components/Title_1.tscn" id="3_td63n"]
 [ext_resource type="PackedScene" uid="uid://bd4c8541c4k74" path="res://ui/components/Button_1.tscn" id="4_ffk5m"]
 [ext_resource type="FontFile" uid="uid://cu11g35n3hgqv" path="res://assets/fonts/PixelOperatorMonoHB.ttf" id="4_qp0ic"]
@@ -122,7 +122,7 @@ axis_stretch_horizontal = 2
 axis_stretch_vertical = 2
 modulate_color = Color(0.76, 0.68, 0.74, 1)
 
-[node name="MinijuegoGranel" type="PanelContainer" node_paths=PackedStringArray("saco", "balanza", "boton_aceptar", "sello_calificacion", "label_objetivo", "contenedores_pedidos", "label_resultado_texto", "boton_continuar", "label_tiempo_total")]
+[node name="MinijuegoGranel" type="PanelContainer" unique_id=885642571 node_paths=PackedStringArray("saco", "balanza", "boton_aceptar", "sello_calificacion", "label_objetivo", "contenedores_pedidos", "label_resultado_texto", "boton_continuar", "label_tiempo_total")]
 offset_right = 40.0
 offset_bottom = 40.0
 theme_override_styles/panel = SubResource("StyleBoxTexture_rav2f")
@@ -139,14 +139,14 @@ label_resultado_texto = NodePath("HBoxContainer/VBoxContainer/HBoxContainer/Pane
 boton_continuar = NodePath("HBoxContainer/Control3/Continuar")
 label_tiempo_total = NodePath("HBoxContainer/VBoxContainer/HBoxContainer/Panel Derecho/Resultados/VBoxContainer/Tiempo Total")
 
-[node name="HBoxContainer" type="VBoxContainer" parent="."]
+[node name="HBoxContainer" type="VBoxContainer" parent="." unique_id=1339070403]
 layout_mode = 2
 
-[node name="Control" type="Control" parent="HBoxContainer"]
+[node name="Control" type="Control" parent="HBoxContainer" unique_id=399585804]
 custom_minimum_size = Vector2(0, 50)
 layout_mode = 2
 
-[node name="Title_1" parent="HBoxContainer/Control" instance=ExtResource("3_td63n")]
+[node name="Title_1" parent="HBoxContainer/Control" unique_id=210088008 instance=ExtResource("3_td63n")]
 layout_mode = 1
 anchors_preset = 5
 anchor_left = 0.5
@@ -162,29 +162,29 @@ script = ExtResource("100_loctext")
 translation_category = "minigame_granel"
 translation_key = "title_granel"
 
-[node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer" unique_id=127137764]
 layout_mode = 2
 
-[node name="HBoxContainer" type="HBoxContainer" parent="HBoxContainer/VBoxContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="HBoxContainer/VBoxContainer" unique_id=1176080628]
 layout_mode = 2
 
-[node name="Panel Izquierdo" type="VBoxContainer" parent="HBoxContainer/VBoxContainer/HBoxContainer"]
+[node name="Panel Izquierdo" type="VBoxContainer" parent="HBoxContainer/VBoxContainer/HBoxContainer" unique_id=1963902122]
 layout_mode = 2
 
-[node name="Guia Rapida" type="VBoxContainer" parent="HBoxContainer/VBoxContainer/HBoxContainer/Panel Izquierdo"]
+[node name="Guia Rapida" type="VBoxContainer" parent="HBoxContainer/VBoxContainer/HBoxContainer/Panel Izquierdo" unique_id=1810339702]
 layout_mode = 2
 size_flags_vertical = 0
 theme_override_constants/separation = -20
 
-[node name="Titulo" type="PanelContainer" parent="HBoxContainer/VBoxContainer/HBoxContainer/Panel Izquierdo/Guia Rapida"]
+[node name="Titulo" type="PanelContainer" parent="HBoxContainer/VBoxContainer/HBoxContainer/Panel Izquierdo/Guia Rapida" unique_id=1347074228]
 custom_minimum_size = Vector2(400, 0)
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxTexture_5p0ss")
 
-[node name="MarginContainer" type="MarginContainer" parent="HBoxContainer/VBoxContainer/HBoxContainer/Panel Izquierdo/Guia Rapida/Titulo"]
+[node name="MarginContainer" type="MarginContainer" parent="HBoxContainer/VBoxContainer/HBoxContainer/Panel Izquierdo/Guia Rapida/Titulo" unique_id=2041221944]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="HBoxContainer/VBoxContainer/HBoxContainer/Panel Izquierdo/Guia Rapida/Titulo/MarginContainer"]
+[node name="Label" type="Label" parent="HBoxContainer/VBoxContainer/HBoxContainer/Panel Izquierdo/Guia Rapida/Titulo/MarginContainer" unique_id=1444057737]
 custom_minimum_size = Vector2(170, 0)
 layout_mode = 2
 size_flags_horizontal = 3
@@ -200,25 +200,25 @@ script = ExtResource("100_loctext")
 translation_category = "minigame_granel"
 translation_key = "guia_rapida"
 
-[node name="Instruccion_Espacio" type="PanelContainer" parent="HBoxContainer/VBoxContainer/HBoxContainer/Panel Izquierdo/Guia Rapida"]
+[node name="Instruccion_Espacio" type="PanelContainer" parent="HBoxContainer/VBoxContainer/HBoxContainer/Panel Izquierdo/Guia Rapida" unique_id=1042248881]
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxTexture_nb1h7")
 
-[node name="MarginContainer" type="MarginContainer" parent="HBoxContainer/VBoxContainer/HBoxContainer/Panel Izquierdo/Guia Rapida/Instruccion_Espacio"]
+[node name="MarginContainer" type="MarginContainer" parent="HBoxContainer/VBoxContainer/HBoxContainer/Panel Izquierdo/Guia Rapida/Instruccion_Espacio" unique_id=264879578]
 layout_mode = 2
 
-[node name="HBoxContainer" type="HBoxContainer" parent="HBoxContainer/VBoxContainer/HBoxContainer/Panel Izquierdo/Guia Rapida/Instruccion_Espacio/MarginContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="HBoxContainer/VBoxContainer/HBoxContainer/Panel Izquierdo/Guia Rapida/Instruccion_Espacio/MarginContainer" unique_id=1119072362]
 layout_mode = 2
 theme_override_constants/separation = 10
 
-[node name="TextureRect" type="TextureRect" parent="HBoxContainer/VBoxContainer/HBoxContainer/Panel Izquierdo/Guia Rapida/Instruccion_Espacio/MarginContainer/HBoxContainer"]
+[node name="TextureRect" type="TextureRect" parent="HBoxContainer/VBoxContainer/HBoxContainer/Panel Izquierdo/Guia Rapida/Instruccion_Espacio/MarginContainer/HBoxContainer" unique_id=1444378636]
 custom_minimum_size = Vector2(0, 50)
 layout_mode = 2
 size_flags_horizontal = 6
 texture = ExtResource("3_all76")
 expand_mode = 3
 
-[node name="Label" type="Label" parent="HBoxContainer/VBoxContainer/HBoxContainer/Panel Izquierdo/Guia Rapida/Instruccion_Espacio/MarginContainer/HBoxContainer"]
+[node name="Label" type="Label" parent="HBoxContainer/VBoxContainer/HBoxContainer/Panel Izquierdo/Guia Rapida/Instruccion_Espacio/MarginContainer/HBoxContainer" unique_id=687661679]
 custom_minimum_size = Vector2(170, 0)
 layout_mode = 2
 size_flags_horizontal = 10
@@ -233,25 +233,25 @@ script = ExtResource("100_loctext")
 translation_category = "minigame_granel"
 translation_key = "instruccion_espacio"
 
-[node name="Instruccion_C" type="PanelContainer" parent="HBoxContainer/VBoxContainer/HBoxContainer/Panel Izquierdo/Guia Rapida"]
+[node name="Instruccion_C" type="PanelContainer" parent="HBoxContainer/VBoxContainer/HBoxContainer/Panel Izquierdo/Guia Rapida" unique_id=752637783]
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxTexture_nb1h7")
 
-[node name="MarginContainer" type="MarginContainer" parent="HBoxContainer/VBoxContainer/HBoxContainer/Panel Izquierdo/Guia Rapida/Instruccion_C"]
+[node name="MarginContainer" type="MarginContainer" parent="HBoxContainer/VBoxContainer/HBoxContainer/Panel Izquierdo/Guia Rapida/Instruccion_C" unique_id=765594570]
 layout_mode = 2
 
-[node name="HBoxContainer" type="HBoxContainer" parent="HBoxContainer/VBoxContainer/HBoxContainer/Panel Izquierdo/Guia Rapida/Instruccion_C/MarginContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="HBoxContainer/VBoxContainer/HBoxContainer/Panel Izquierdo/Guia Rapida/Instruccion_C/MarginContainer" unique_id=9364335]
 layout_mode = 2
 theme_override_constants/separation = 10
 
-[node name="TextureRect" type="TextureRect" parent="HBoxContainer/VBoxContainer/HBoxContainer/Panel Izquierdo/Guia Rapida/Instruccion_C/MarginContainer/HBoxContainer"]
+[node name="TextureRect" type="TextureRect" parent="HBoxContainer/VBoxContainer/HBoxContainer/Panel Izquierdo/Guia Rapida/Instruccion_C/MarginContainer/HBoxContainer" unique_id=30977236]
 custom_minimum_size = Vector2(0, 50)
 layout_mode = 2
 size_flags_horizontal = 6
 texture = ExtResource("5_6wkra")
 expand_mode = 3
 
-[node name="Label" type="Label" parent="HBoxContainer/VBoxContainer/HBoxContainer/Panel Izquierdo/Guia Rapida/Instruccion_C/MarginContainer/HBoxContainer"]
+[node name="Label" type="Label" parent="HBoxContainer/VBoxContainer/HBoxContainer/Panel Izquierdo/Guia Rapida/Instruccion_C/MarginContainer/HBoxContainer" unique_id=1116897166]
 custom_minimum_size = Vector2(170, 0)
 layout_mode = 2
 size_flags_horizontal = 10
@@ -266,25 +266,25 @@ script = ExtResource("100_loctext")
 translation_category = "minigame_granel"
 translation_key = "instruccion_c"
 
-[node name="Instruccion_R" type="PanelContainer" parent="HBoxContainer/VBoxContainer/HBoxContainer/Panel Izquierdo/Guia Rapida"]
+[node name="Instruccion_R" type="PanelContainer" parent="HBoxContainer/VBoxContainer/HBoxContainer/Panel Izquierdo/Guia Rapida" unique_id=671826410]
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxTexture_nb1h7")
 
-[node name="MarginContainer" type="MarginContainer" parent="HBoxContainer/VBoxContainer/HBoxContainer/Panel Izquierdo/Guia Rapida/Instruccion_R"]
+[node name="MarginContainer" type="MarginContainer" parent="HBoxContainer/VBoxContainer/HBoxContainer/Panel Izquierdo/Guia Rapida/Instruccion_R" unique_id=699868065]
 layout_mode = 2
 
-[node name="HBoxContainer" type="HBoxContainer" parent="HBoxContainer/VBoxContainer/HBoxContainer/Panel Izquierdo/Guia Rapida/Instruccion_R/MarginContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="HBoxContainer/VBoxContainer/HBoxContainer/Panel Izquierdo/Guia Rapida/Instruccion_R/MarginContainer" unique_id=1736665869]
 layout_mode = 2
 theme_override_constants/separation = 10
 
-[node name="TextureRect" type="TextureRect" parent="HBoxContainer/VBoxContainer/HBoxContainer/Panel Izquierdo/Guia Rapida/Instruccion_R/MarginContainer/HBoxContainer"]
+[node name="TextureRect" type="TextureRect" parent="HBoxContainer/VBoxContainer/HBoxContainer/Panel Izquierdo/Guia Rapida/Instruccion_R/MarginContainer/HBoxContainer" unique_id=280149774]
 custom_minimum_size = Vector2(0, 50)
 layout_mode = 2
 size_flags_horizontal = 6
 texture = ExtResource("6_td63n")
 expand_mode = 3
 
-[node name="Label" type="Label" parent="HBoxContainer/VBoxContainer/HBoxContainer/Panel Izquierdo/Guia Rapida/Instruccion_R/MarginContainer/HBoxContainer"]
+[node name="Label" type="Label" parent="HBoxContainer/VBoxContainer/HBoxContainer/Panel Izquierdo/Guia Rapida/Instruccion_R/MarginContainer/HBoxContainer" unique_id=908604350]
 custom_minimum_size = Vector2(170, 0)
 layout_mode = 2
 size_flags_horizontal = 10
@@ -299,37 +299,37 @@ script = ExtResource("100_loctext")
 translation_category = "minigame_granel"
 translation_key = "instruccion_c"
 
-[node name="HBoxContainer" type="HBoxContainer" parent="HBoxContainer/VBoxContainer/HBoxContainer/Panel Izquierdo/Guia Rapida"]
+[node name="HBoxContainer" type="HBoxContainer" parent="HBoxContainer/VBoxContainer/HBoxContainer/Panel Izquierdo/Guia Rapida" unique_id=2116705265]
 layout_mode = 2
 
-[node name="Balanza-Saco" type="PanelContainer" parent="HBoxContainer/VBoxContainer/HBoxContainer"]
+[node name="Balanza-Saco" type="PanelContainer" parent="HBoxContainer/VBoxContainer/HBoxContainer" unique_id=1909845480]
 custom_minimum_size = Vector2(550, 725)
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxTexture_wxopf")
 
-[node name="Balanza" parent="HBoxContainer/VBoxContainer/HBoxContainer/Balanza-Saco" instance=ExtResource("3_qp0ic")]
+[node name="Balanza" parent="HBoxContainer/VBoxContainer/HBoxContainer/Balanza-Saco" unique_id=131656501 instance=ExtResource("3_qp0ic")]
 position = Vector2(278, 613)
 
-[node name="Saco_Arroz" parent="HBoxContainer/VBoxContainer/HBoxContainer/Balanza-Saco" instance=ExtResource("2_qxgr3")]
+[node name="Saco_Arroz" parent="HBoxContainer/VBoxContainer/HBoxContainer/Balanza-Saco" unique_id=306166098 instance=ExtResource("2_qxgr3")]
 position = Vector2(167, 181)
 
-[node name="Panel Derecho" type="VBoxContainer" parent="HBoxContainer/VBoxContainer/HBoxContainer"]
+[node name="Panel Derecho" type="VBoxContainer" parent="HBoxContainer/VBoxContainer/HBoxContainer" unique_id=247340262]
 layout_mode = 2
 
-[node name="Objetivos" type="VBoxContainer" parent="HBoxContainer/VBoxContainer/HBoxContainer/Panel Derecho"]
+[node name="Objetivos" type="VBoxContainer" parent="HBoxContainer/VBoxContainer/HBoxContainer/Panel Derecho" unique_id=2080833833]
 layout_mode = 2
 size_flags_vertical = 2
 theme_override_constants/separation = -20
 
-[node name="Titulo" type="PanelContainer" parent="HBoxContainer/VBoxContainer/HBoxContainer/Panel Derecho/Objetivos"]
+[node name="Titulo" type="PanelContainer" parent="HBoxContainer/VBoxContainer/HBoxContainer/Panel Derecho/Objetivos" unique_id=518093598]
 custom_minimum_size = Vector2(550, 0)
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxTexture_5p0ss")
 
-[node name="MarginContainer" type="MarginContainer" parent="HBoxContainer/VBoxContainer/HBoxContainer/Panel Derecho/Objetivos/Titulo"]
+[node name="MarginContainer" type="MarginContainer" parent="HBoxContainer/VBoxContainer/HBoxContainer/Panel Derecho/Objetivos/Titulo" unique_id=642959811]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="HBoxContainer/VBoxContainer/HBoxContainer/Panel Derecho/Objetivos/Titulo/MarginContainer"]
+[node name="Label" type="Label" parent="HBoxContainer/VBoxContainer/HBoxContainer/Panel Derecho/Objetivos/Titulo/MarginContainer" unique_id=1984257467]
 custom_minimum_size = Vector2(170, 0)
 layout_mode = 2
 size_flags_horizontal = 3
@@ -345,18 +345,18 @@ script = ExtResource("100_loctext")
 translation_category = "minigame_granel"
 translation_key = "objetivos"
 
-[node name="Peso Objetivo" type="PanelContainer" parent="HBoxContainer/VBoxContainer/HBoxContainer/Panel Derecho/Objetivos"]
+[node name="Peso Objetivo" type="PanelContainer" parent="HBoxContainer/VBoxContainer/HBoxContainer/Panel Derecho/Objetivos" unique_id=1175145592]
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxTexture_mdw7k")
 
-[node name="MarginContainer" type="MarginContainer" parent="HBoxContainer/VBoxContainer/HBoxContainer/Panel Derecho/Objetivos/Peso Objetivo"]
+[node name="MarginContainer" type="MarginContainer" parent="HBoxContainer/VBoxContainer/HBoxContainer/Panel Derecho/Objetivos/Peso Objetivo" unique_id=705912490]
 layout_mode = 2
 
-[node name="HBoxContainer" type="HBoxContainer" parent="HBoxContainer/VBoxContainer/HBoxContainer/Panel Derecho/Objetivos/Peso Objetivo/MarginContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="HBoxContainer/VBoxContainer/HBoxContainer/Panel Derecho/Objetivos/Peso Objetivo/MarginContainer" unique_id=1713410906]
 layout_mode = 2
 theme_override_constants/separation = 10
 
-[node name="LabelObjetivo" type="Label" parent="HBoxContainer/VBoxContainer/HBoxContainer/Panel Derecho/Objetivos/Peso Objetivo/MarginContainer/HBoxContainer"]
+[node name="LabelObjetivo" type="Label" parent="HBoxContainer/VBoxContainer/HBoxContainer/Panel Derecho/Objetivos/Peso Objetivo/MarginContainer/HBoxContainer" unique_id=1815893847]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(170, 0)
 layout_mode = 2
@@ -368,18 +368,18 @@ text = "PESO OBJETIVO: 32.34 KG"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Primer Pedido" type="PanelContainer" parent="HBoxContainer/VBoxContainer/HBoxContainer/Panel Derecho/Objetivos"]
+[node name="Primer Pedido" type="PanelContainer" parent="HBoxContainer/VBoxContainer/HBoxContainer/Panel Derecho/Objetivos" unique_id=1729331327]
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxTexture_nb1h7")
 
-[node name="MarginContainer" type="MarginContainer" parent="HBoxContainer/VBoxContainer/HBoxContainer/Panel Derecho/Objetivos/Primer Pedido"]
+[node name="MarginContainer" type="MarginContainer" parent="HBoxContainer/VBoxContainer/HBoxContainer/Panel Derecho/Objetivos/Primer Pedido" unique_id=801473039]
 layout_mode = 2
 
-[node name="HBoxContainer" type="HBoxContainer" parent="HBoxContainer/VBoxContainer/HBoxContainer/Panel Derecho/Objetivos/Primer Pedido/MarginContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="HBoxContainer/VBoxContainer/HBoxContainer/Panel Derecho/Objetivos/Primer Pedido/MarginContainer" unique_id=52584115]
 layout_mode = 2
 theme_override_constants/separation = 0
 
-[node name="Label" type="Label" parent="HBoxContainer/VBoxContainer/HBoxContainer/Panel Derecho/Objetivos/Primer Pedido/MarginContainer/HBoxContainer"]
+[node name="Label" type="Label" parent="HBoxContainer/VBoxContainer/HBoxContainer/Panel Derecho/Objetivos/Primer Pedido/MarginContainer/HBoxContainer" unique_id=1966309282]
 custom_minimum_size = Vector2(170, 0)
 layout_mode = 2
 size_flags_horizontal = 3
@@ -392,7 +392,7 @@ script = ExtResource("100_loctext")
 translation_category = "minigame_granel"
 translation_key = "primer_pedido_espera"
 
-[node name="Icono_Medalla" type="TextureRect" parent="HBoxContainer/VBoxContainer/HBoxContainer/Panel Derecho/Objetivos/Primer Pedido/MarginContainer/HBoxContainer"]
+[node name="Icono_Medalla" type="TextureRect" parent="HBoxContainer/VBoxContainer/HBoxContainer/Panel Derecho/Objetivos/Primer Pedido/MarginContainer/HBoxContainer" unique_id=289114878]
 custom_minimum_size = Vector2(50, 50)
 layout_mode = 2
 size_flags_horizontal = 10
@@ -401,18 +401,18 @@ texture = ExtResource("11_td63n")
 expand_mode = 4
 stretch_mode = 5
 
-[node name="Segundo Pedido" type="PanelContainer" parent="HBoxContainer/VBoxContainer/HBoxContainer/Panel Derecho/Objetivos"]
+[node name="Segundo Pedido" type="PanelContainer" parent="HBoxContainer/VBoxContainer/HBoxContainer/Panel Derecho/Objetivos" unique_id=197727863]
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxTexture_nb1h7")
 
-[node name="MarginContainer" type="MarginContainer" parent="HBoxContainer/VBoxContainer/HBoxContainer/Panel Derecho/Objetivos/Segundo Pedido"]
+[node name="MarginContainer" type="MarginContainer" parent="HBoxContainer/VBoxContainer/HBoxContainer/Panel Derecho/Objetivos/Segundo Pedido" unique_id=593559700]
 layout_mode = 2
 
-[node name="HBoxContainer" type="HBoxContainer" parent="HBoxContainer/VBoxContainer/HBoxContainer/Panel Derecho/Objetivos/Segundo Pedido/MarginContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="HBoxContainer/VBoxContainer/HBoxContainer/Panel Derecho/Objetivos/Segundo Pedido/MarginContainer" unique_id=2093797560]
 layout_mode = 2
 theme_override_constants/separation = 0
 
-[node name="Label" type="Label" parent="HBoxContainer/VBoxContainer/HBoxContainer/Panel Derecho/Objetivos/Segundo Pedido/MarginContainer/HBoxContainer"]
+[node name="Label" type="Label" parent="HBoxContainer/VBoxContainer/HBoxContainer/Panel Derecho/Objetivos/Segundo Pedido/MarginContainer/HBoxContainer" unique_id=328404218]
 custom_minimum_size = Vector2(170, 0)
 layout_mode = 2
 size_flags_horizontal = 3
@@ -425,7 +425,7 @@ script = ExtResource("100_loctext")
 translation_category = "minigame_granel"
 translation_key = "segundo_pedido"
 
-[node name="Icono_Medalla" type="TextureRect" parent="HBoxContainer/VBoxContainer/HBoxContainer/Panel Derecho/Objetivos/Segundo Pedido/MarginContainer/HBoxContainer"]
+[node name="Icono_Medalla" type="TextureRect" parent="HBoxContainer/VBoxContainer/HBoxContainer/Panel Derecho/Objetivos/Segundo Pedido/MarginContainer/HBoxContainer" unique_id=1955263195]
 custom_minimum_size = Vector2(50, 50)
 layout_mode = 2
 size_flags_horizontal = 10
@@ -433,18 +433,18 @@ texture = ExtResource("11_td63n")
 expand_mode = 4
 stretch_mode = 5
 
-[node name="Tercer Pedido" type="PanelContainer" parent="HBoxContainer/VBoxContainer/HBoxContainer/Panel Derecho/Objetivos"]
+[node name="Tercer Pedido" type="PanelContainer" parent="HBoxContainer/VBoxContainer/HBoxContainer/Panel Derecho/Objetivos" unique_id=755059731]
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxTexture_nb1h7")
 
-[node name="MarginContainer" type="MarginContainer" parent="HBoxContainer/VBoxContainer/HBoxContainer/Panel Derecho/Objetivos/Tercer Pedido"]
+[node name="MarginContainer" type="MarginContainer" parent="HBoxContainer/VBoxContainer/HBoxContainer/Panel Derecho/Objetivos/Tercer Pedido" unique_id=1338699693]
 layout_mode = 2
 
-[node name="HBoxContainer" type="HBoxContainer" parent="HBoxContainer/VBoxContainer/HBoxContainer/Panel Derecho/Objetivos/Tercer Pedido/MarginContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="HBoxContainer/VBoxContainer/HBoxContainer/Panel Derecho/Objetivos/Tercer Pedido/MarginContainer" unique_id=52422249]
 layout_mode = 2
 theme_override_constants/separation = 0
 
-[node name="Label" type="Label" parent="HBoxContainer/VBoxContainer/HBoxContainer/Panel Derecho/Objetivos/Tercer Pedido/MarginContainer/HBoxContainer"]
+[node name="Label" type="Label" parent="HBoxContainer/VBoxContainer/HBoxContainer/Panel Derecho/Objetivos/Tercer Pedido/MarginContainer/HBoxContainer" unique_id=1177065934]
 custom_minimum_size = Vector2(170, 0)
 layout_mode = 2
 size_flags_horizontal = 3
@@ -457,7 +457,7 @@ script = ExtResource("100_loctext")
 translation_category = "minigame_granel"
 translation_key = "tercer_pedido"
 
-[node name="Icono_Medalla" type="TextureRect" parent="HBoxContainer/VBoxContainer/HBoxContainer/Panel Derecho/Objetivos/Tercer Pedido/MarginContainer/HBoxContainer"]
+[node name="Icono_Medalla" type="TextureRect" parent="HBoxContainer/VBoxContainer/HBoxContainer/Panel Derecho/Objetivos/Tercer Pedido/MarginContainer/HBoxContainer" unique_id=2081977214]
 custom_minimum_size = Vector2(50, 50)
 layout_mode = 2
 size_flags_horizontal = 10
@@ -465,23 +465,23 @@ texture = ExtResource("11_td63n")
 expand_mode = 4
 stretch_mode = 5
 
-[node name="Resultados" type="PanelContainer" parent="HBoxContainer/VBoxContainer/HBoxContainer/Panel Derecho"]
+[node name="Resultados" type="PanelContainer" parent="HBoxContainer/VBoxContainer/HBoxContainer/Panel Derecho" unique_id=286783666]
 custom_minimum_size = Vector2(0, 420)
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxTexture_r18hf")
 
-[node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer/VBoxContainer/HBoxContainer/Panel Derecho/Resultados"]
+[node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer/VBoxContainer/HBoxContainer/Panel Derecho/Resultados" unique_id=1193402139]
 layout_mode = 2
 
-[node name="Option_Container4" type="PanelContainer" parent="HBoxContainer/VBoxContainer/HBoxContainer/Panel Derecho/Resultados/VBoxContainer"]
+[node name="Option_Container4" type="PanelContainer" parent="HBoxContainer/VBoxContainer/HBoxContainer/Panel Derecho/Resultados/VBoxContainer" unique_id=1409701196]
 custom_minimum_size = Vector2(375, 0)
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxTexture_5p0ss")
 
-[node name="MarginContainer" type="MarginContainer" parent="HBoxContainer/VBoxContainer/HBoxContainer/Panel Derecho/Resultados/VBoxContainer/Option_Container4"]
+[node name="MarginContainer" type="MarginContainer" parent="HBoxContainer/VBoxContainer/HBoxContainer/Panel Derecho/Resultados/VBoxContainer/Option_Container4" unique_id=1020185348]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="HBoxContainer/VBoxContainer/HBoxContainer/Panel Derecho/Resultados/VBoxContainer/Option_Container4/MarginContainer"]
+[node name="Label" type="Label" parent="HBoxContainer/VBoxContainer/HBoxContainer/Panel Derecho/Resultados/VBoxContainer/Option_Container4/MarginContainer" unique_id=1109696245]
 custom_minimum_size = Vector2(170, 0)
 layout_mode = 2
 size_flags_horizontal = 3
@@ -497,7 +497,7 @@ script = ExtResource("100_loctext")
 translation_category = "minigame_granel"
 translation_key = "resultados"
 
-[node name="Tiempo Total" type="Label" parent="HBoxContainer/VBoxContainer/HBoxContainer/Panel Derecho/Resultados/VBoxContainer"]
+[node name="Tiempo Total" type="Label" parent="HBoxContainer/VBoxContainer/HBoxContainer/Panel Derecho/Resultados/VBoxContainer" unique_id=715947601]
 layout_mode = 2
 size_flags_vertical = 2
 theme_override_colors/font_color = Color(0.900055, 0.86405474, 0.8629792, 1)
@@ -508,7 +508,7 @@ text = "Tiempo Total: 2:32"
 horizontal_alignment = 1
 vertical_alignment = 2
 
-[node name="Medallas" type="TextureRect" parent="HBoxContainer/VBoxContainer/HBoxContainer/Panel Derecho/Resultados/VBoxContainer"]
+[node name="Medallas" type="TextureRect" parent="HBoxContainer/VBoxContainer/HBoxContainer/Panel Derecho/Resultados/VBoxContainer" unique_id=1960105254]
 custom_minimum_size = Vector2(0, 175)
 layout_mode = 2
 size_flags_horizontal = 4
@@ -516,7 +516,7 @@ size_flags_vertical = 2
 texture = ExtResource("6_qxgr3")
 expand_mode = 3
 
-[node name="Resultado Label" type="Label" parent="HBoxContainer/VBoxContainer/HBoxContainer/Panel Derecho/Resultados/VBoxContainer"]
+[node name="Resultado Label" type="Label" parent="HBoxContainer/VBoxContainer/HBoxContainer/Panel Derecho/Resultados/VBoxContainer" unique_id=412017451]
 layout_mode = 2
 size_flags_vertical = 2
 theme_override_colors/font_color = Color(0.900055, 0.86405474, 0.8629792, 1)
@@ -530,11 +530,11 @@ script = ExtResource("100_loctext")
 translation_category = "minigame_granel"
 translation_key = "r_excelente"
 
-[node name="Control2" type="Control" parent="HBoxContainer"]
+[node name="Control2" type="Control" parent="HBoxContainer" unique_id=1003055953]
 custom_minimum_size = Vector2(0, 50)
 layout_mode = 2
 
-[node name="Button" parent="HBoxContainer/Control2" instance=ExtResource("4_ffk5m")]
+[node name="Button" parent="HBoxContainer/Control2" unique_id=713589523 instance=ExtResource("4_ffk5m")]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -558,11 +558,11 @@ text = "ENTREGAR PRODUCTO"
 translation_category = "minigame_granel"
 translation_key = "entregar_producto"
 
-[node name="Control3" type="Control" parent="HBoxContainer"]
+[node name="Control3" type="Control" parent="HBoxContainer" unique_id=1478698926]
 layout_mode = 2
 size_flags_horizontal = 8
 
-[node name="Continuar" parent="HBoxContainer/Control3" instance=ExtResource("4_ffk5m")]
+[node name="Continuar" parent="HBoxContainer/Control3" unique_id=1710351751 instance=ExtResource("4_ffk5m")]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5

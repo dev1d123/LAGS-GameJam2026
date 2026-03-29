@@ -5,7 +5,7 @@
     "pt": "SERVINDO CERVEJA"
   },
   "instruction": {
-    "es": "Mantén presionada la manija y suelta en la línea objetivo.",
+    "es": "El llenado inicia solo. Haz clic en DETENER al llegar a la línea.",
     "en": "Hold the handle and release on the target line.",
     "pt": "Segure a alavanca e solte na linha alvo."
   },
@@ -15,7 +15,7 @@
     "pt": "GUIA RAPIDO"
   },
   "guide_1": {
-    "es": "1) MANTEN CLIC SOBRE LA MANIJA",
+    "es": "1) EL VASO SE LLENA AUTOMATICAMENTE",
     "en": "1) HOLD CLICK ON THE HANDLE",
     "pt": "1) SEGURE O CLIQUE NA ALAVANCA"
   },
@@ -25,7 +25,7 @@
     "pt": "2) ENCHA ATE A LINHA ALVO"
   },
   "guide_3": {
-    "es": "3) SUELTA PARA DETENER EL LLENADO",
+    "es": "3) HAZ CLIC EN DETENER EN EL MOMENTO EXACTO",
     "en": "3) RELEASE TO STOP POURING",
     "pt": "3) SOLTE PARA PARAR DE ENCHER"
   },
@@ -65,7 +65,7 @@
     "pt": "Perfeito! Nivel correto"
   },
   "incorrect": {
-    "es": "Te pasaste o falto cerveza",
+    "es": "O falto o se paso",
     "en": "You over/underfilled the glass",
     "pt": "Voce passou ou faltou cerveja"
   },

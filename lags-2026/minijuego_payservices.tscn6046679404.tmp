@@ -55,7 +55,7 @@ modulate_color = Color(1.39357, 0.872134, 0.98352, 1)
 
 [sub_resource type="LabelSettings" id="LabelSettings_result"]
 font = ExtResource("5_bodyfont")
-font_size = 32
+font_size = 36
 font_color = Color(0.779836, 0.603248, 0.597264, 1)
 outline_size = 8
 outline_color = Color(0.189829, 0.0827736, 0.0013467, 1)
@@ -105,10 +105,10 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -760.0
-offset_top = -380.0
-offset_right = 760.0
-offset_bottom = 380.0
+offset_left = -640.0
+offset_top = -330.0
+offset_right = 640.0
+offset_bottom = 330.0
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_styles/panel = SubResource("StyleBoxTexture_panel")
@@ -146,7 +146,7 @@ layout_mode = 2
 theme_override_constants/separation = 8
 
 [node name="LeftPanel" type="VBoxContainer" parent="MainPanel/Margin/VBox/Content" unique_id=1248630610]
-custom_minimum_size = Vector2(230, 0)
+custom_minimum_size = Vector2(250, 0)
 layout_mode = 2
 
 [node name="GuideTitle" type="PanelContainer" parent="MainPanel/Margin/VBox/Content/LeftPanel" unique_id=322600023]
@@ -190,7 +190,7 @@ label_settings = SubResource("LabelSettings_body")
 horizontal_alignment = 1
 
 [node name="CenterPanel" type="VBoxContainer" parent="MainPanel/Margin/VBox/Content" unique_id=2089388934]
-custom_minimum_size = Vector2(980, 0)
+custom_minimum_size = Vector2(700, 0)
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_constants/separation = 8
@@ -211,7 +211,7 @@ label_settings = SubResource("LabelSettings_subtitle")
 horizontal_alignment = 1
 
 [node name="BillsContainer" type="PanelContainer" parent="MainPanel/Margin/VBox/Content/CenterPanel" unique_id=1777765687]
-custom_minimum_size = Vector2(0, 560)
+custom_minimum_size = Vector2(0, 460)
 layout_mode = 2
 size_flags_vertical = 3
 theme_override_styles/panel = SubResource("StyleBoxTexture_bills")
@@ -221,7 +221,7 @@ clip_contents = true
 layout_mode = 2
 
 [node name="RightPanel" type="VBoxContainer" parent="MainPanel/Margin/VBox/Content" unique_id=373222567]
-custom_minimum_size = Vector2(230, 0)
+custom_minimum_size = Vector2(250, 0)
 layout_mode = 2
 theme_override_constants/separation = 8
 

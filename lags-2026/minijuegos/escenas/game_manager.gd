@@ -2,6 +2,9 @@ extends Node
 
 signal minigame_finished(success: bool)
 
+const SFX_SUCCESS_STREAM := preload("res://scenes/minigameIndications/success.ogg")
+const SFX_ERROR_STREAM := preload("res://scenes/minigameIndications/error.ogg")
+
 @export var current_day: int = 1
 @export var base_time: float = 60.0
 @export var min_time: float = 20.0
@@ -34,18 +37,36 @@ var is_game_running: bool = false
 var light_on: bool = true
 var time_since_last_toggle: float = 0.0
 var light_off_timer: float = 0.0
+var sfx_success_player: AudioStreamPlayer
+var sfx_error_player: AudioStreamPlayer
 
 func _ready() -> void:
 	randomize()
+	_setup_feedback_sfx()
 	_randomize_playfield_positions()
 	target_boxes = boxes_root.get_child_count()
 	var day_offset := float(current_day - 1) * time_decrease_per_day
 	time_remaining = max(min_time, base_time - day_offset)
 	is_game_running = true
 	result_panel.visible = false
-	retry_button.pressed.connect(_on_retry_button_pressed)
+	if retry_button != null and is_instance_valid(retry_button):
+		retry_button.visible = false
+		retry_button.disabled = true
+		retry_button.queue_free()
 	continue_button.pressed.connect(_on_continue_button_pressed)
 	_update_hud()
+
+
+func _setup_feedback_sfx() -> void:
+	sfx_success_player = AudioStreamPlayer.new()
+	sfx_success_player.stream = SFX_SUCCESS_STREAM
+	sfx_success_player.bus = &"SFX"
+	add_child(sfx_success_player)
+
+	sfx_error_player = AudioStreamPlayer.new()
+	sfx_error_player.stream = SFX_ERROR_STREAM
+	sfx_error_player.bus = &"SFX"
+	add_child(sfx_error_player)
 
 
 func _process(delta: float) -> void:
@@ -77,6 +98,9 @@ func collect_box() -> void:
 	if not is_game_running:
 		return
 	boxes_collected += 1
+	if sfx_success_player != null:
+		sfx_success_player.pitch_scale = randf_range(0.9, 1.1)
+		sfx_success_player.play()
 	if boxes_collected >= target_boxes:
 		_finish_game(true, "ALMACEN ORDENADO")
 		return
@@ -86,6 +110,8 @@ func collect_box() -> void:
 func hit_spike(penalty: float = spike_time_penalty) -> void:
 	if not is_game_running:
 		return
+	if sfx_error_player != null:
+		sfx_error_player.play()
 
 	hits_taken += 1
 	time_remaining = max(0.0, time_remaining - penalty)
@@ -122,24 +148,38 @@ func is_light_on() -> bool:
 
 
 func _update_hud() -> void:
-	time_label.text = "TIEMPO: %d" % int(ceil(time_remaining))
+	time_label.text = "TIEMPO: %s" % _format_time_mm_ss(time_remaining)
 	boxes_label.text = "CAJAS: %d/%d" % [boxes_collected, target_boxes]
 	hits_label.text = "GOLPES: %d/%d" % [hits_taken, max_hits]
 	light_label.text = "LUZ: %s" % ("ENCENDIDA" if light_on else "APAGADA")
 	objective_label.text = "OBJETIVO: RECOGE %d CAJAS, EVITA LOS SPIKES Y SOBREVIVE A LOS APAGONES." % target_boxes
 
 
+func _format_time_mm_ss(seconds: float) -> String:
+	var total_seconds: int = int(ceil(maxf(0.0, seconds)))
+	var minutes: int = total_seconds / 60
+	var secs: int = total_seconds % 60
+	return "%02d:%02d" % [minutes, secs]
+
+
 func _finish_game(success: bool, title: String) -> void:
 	is_game_running = false
 	player.process_mode = Node.PROCESS_MODE_DISABLED
 	result_panel.visible = true
+	if success:
+		if sfx_success_player != null:
+			sfx_success_player.pitch_scale = 1.0
+			sfx_success_player.play()
+	else:
+		if sfx_error_player != null:
+			sfx_error_player.play()
 	result_label.text = title
-	summary_label.text = "CAJAS: %d/%d   |   GOLPES: %d/%d   |   TIEMPO: %d" % [
+	summary_label.text = "CAJAS: %d/%d   |   GOLPES: %d/%d   |   TIEMPO: %s" % [
 		boxes_collected,
 		target_boxes,
 		hits_taken,
 		max_hits,
-		int(ceil(time_remaining))
+		_format_time_mm_ss(time_remaining)
 	]
 	emit_signal("minigame_finished", success)
 

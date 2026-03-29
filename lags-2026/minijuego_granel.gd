@@ -1,5 +1,7 @@
 extends Control
 
+signal minigame_finished(success: bool, score: int, total_rounds: int)
+
 # Referencias a tus módulos
 @export var saco: Node2D
 @export var balanza: Node2D
@@ -269,6 +271,7 @@ func _on_boton_aceptar_presionado():
 
 func _on_boton_continuar_presionado():
 	if estado_final:
+		emit_signal("minigame_finished", acumulado_puntos > 0, acumulado_puntos, total_rondas)
 		self.queue_free()
 		return
 		

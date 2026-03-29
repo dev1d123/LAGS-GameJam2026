@@ -87,7 +87,7 @@ func _ready() -> void:
 
 	var timer = Timer.new()
 	add_child(timer)
-	timer.wait_time = 5.0
+	timer.wait_time = 1
 	timer.timeout.connect(_spawn_npc)
 	timer.start()
 	_spawn_npc()

@@ -1,5 +1,7 @@
 extends Node2D
 
+signal minigame_finished(success: bool, score: int, total_rounds: int)
+
 @export var flecha_scene: PackedScene
 @export var puntos_victoria: int = 10
 @export var limite_errores: int = 10
@@ -198,7 +200,8 @@ func finalizar_partida(ganado: bool):
 	else: print("Derrota...")
 	
 	await sfx_close.finished
-	#queue_free() o volver a la tienda
+	emit_signal("minigame_finished", ganado, puntos, puntos_victoria)
+	queue_free()
 
 
 func _update_status_panel() -> void:

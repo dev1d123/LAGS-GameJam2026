@@ -5,6 +5,6 @@ func _process(delta: float) -> void:
 	if gm == null:
 		return
 
-	var target_alpha: float = 0.0 if gm.is_light_on() else 0.78
+	var target_alpha: float = 0.0 if gm.is_light_on() else 0.9
 	color.a = lerpf(color.a, target_alpha, min(1.0, delta * 7.0))
 	visible = color.a > 0.01
