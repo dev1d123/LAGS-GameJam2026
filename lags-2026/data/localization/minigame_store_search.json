@@ -1,18 +1,18 @@
 {
   "title": {
-    "es": "BUSQUEDA EN TIENDA",
+  "es": "BÚSQUEDA EN TIENDA",
     "en": "STORE SEARCH",
     "pt": "BUSCA NA LOJA"
   },
   "instruction": {
-    "es": "",
-    "en": "",
-    "pt": ""
+  "es": "Memoriza el producto solicitado y encuéntralo antes de que termine el tiempo.",
+  "en": "Memorize the requested item and find it before time runs out.",
+  "pt": "Memorize o item pedido e encontre-o antes que o tempo acabe."
   },
   "quick_guide": {
-    "es": "GUIA RAPIDA",
+  "es": "GUÍA RÁPIDA",
     "en": "QUICK GUIDE",
-    "pt": "GUIA RAPIDO"
+  "pt": "GUIA RÁPIDO"
   },
   "guide_1": {
     "es": "1) MEMORIZA EL OBJETO PEDIDO",
@@ -22,7 +22,7 @@
   "guide_2": {
     "es": "2) ABRE CASILLAS HASTA ENCONTRARLO",
     "en": "2) OPEN TILES UNTIL YOU FIND IT",
-    "pt": "2) ABRA AS CELULAS ATE ENCONTRAR"
+  "pt": "2) ABRA AS CÉLULAS ATÉ ENCONTRAR"
   },
   "guide_3": {
     "es": "3) EVITA MUCHOS ERRORES Y EL TIEMPO",
@@ -77,7 +77,7 @@
   "incorrect": {
     "es": "No encontrado",
     "en": "Not found",
-    "pt": "Nao encontrado"
+  "pt": "Não encontrado"
   },
   "too_many_errors": {
     "es": "Demasiados errores",
@@ -92,7 +92,7 @@
   "final_success": {
     "es": "Completado: %d/%d rondas exitosas",
     "en": "Completed: %d/%d successful rounds",
-    "pt": "Concluido: %d/%d rodadas bem sucedidas"
+  "pt": "Concluído: %d/%d rodadas bem-sucedidas"
   },
   "final_fail": {
     "es": "Fallaste: %d/%d rondas exitosas",
@@ -112,17 +112,17 @@
   "item_bread": {
     "es": "Pan",
     "en": "Bread",
-    "pt": "Pao"
+  "pt": "Pão"
   },
   "item_soap": {
-    "es": "Jabon",
+  "es": "Jabón",
     "en": "Soap",
     "pt": "Sabonete"
   },
   "item_battery": {
     "es": "Pilas",
-    "en": "Battery",
-    "pt": "Pilha"
+  "en": "Batteries",
+  "pt": "Pilhas"
   },
   "item_soda": {
     "es": "Gaseosa",

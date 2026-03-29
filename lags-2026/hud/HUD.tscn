@@ -10,11 +10,33 @@
 [ext_resource type="Texture2D" uid="uid://cuqpbjfrwvrs2" path="res://assets/textures/hud/Panel-Día.png" id="4_st07x"]
 [ext_resource type="Texture2D" uid="uid://g1ca88ts8gr4" path="res://assets/textures/hud/Panel-Hora.png" id="5_8yvdu"]
 [ext_resource type="Texture2D" uid="uid://p72x422ool4t" path="res://assets/textures/hud/Panel-Pedidos.png" id="6_lmyhm"]
+[ext_resource type="AudioStream" uid="uid://b4tivf7i3xd37" path="res://assets/audio/button_click_1.mp3" id="7_inv"]
+[ext_resource type="Texture2D" uid="uid://dssvsjsuj0qq5" path="res://assets/textures/minijuego-store-search/soda.png" id="8_cola"]
+[ext_resource type="Texture2D" uid="uid://dryvyi45kc43y" path="res://assets/textures/minijuego-store-search/leche.png" id="9_leche"]
+[ext_resource type="Texture2D" uid="uid://0dnv68gfovn5" path="res://assets/sprites/ui/candyMinigame.png" id="10_candy"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_lmyhm"]
 font = ExtResource("4_8yvdu")
 font_size = 12
 shadow_color = Color(0, 0, 0, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_inv_panel"]
+bg_color = Color(0.09803922, 0.12156863, 0.15686275, 0.9019608)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.9529412, 0.7607843, 0.23921569, 1)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+expand_margin_left = 1.0
+expand_margin_top = 1.0
+expand_margin_right = 1.0
+expand_margin_bottom = 1.0
+shadow_color = Color(0, 0, 0, 0.45)
+shadow_size = 2
 
 [sub_resource type="LabelSettings" id="LabelSettings_k8hvg"]
 font = ExtResource("4_8yvdu")
@@ -23,6 +45,70 @@ outline_size = 2
 outline_color = Color(0, 0, 0, 1)
 shadow_size = 2
 shadow_color = Color(0.38039216, 0.050980393, 0, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_slot_normal"]
+content_margin_left = 1.0
+content_margin_top = 1.0
+content_margin_right = 1.0
+content_margin_bottom = 1.0
+bg_color = Color(0.14901961, 0.16470589, 0.21176471, 0.98039216)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.2784314, 0.32156864, 0.3882353, 1)
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_slot_pressed"]
+content_margin_left = 1.0
+content_margin_top = 1.0
+content_margin_right = 1.0
+content_margin_bottom = 1.0
+bg_color = Color(0.1254902, 0.14509805, 0.1882353, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.99215686, 0.654902, 0.21568628, 1)
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_slot_hover"]
+content_margin_left = 1.0
+content_margin_top = 1.0
+content_margin_right = 1.0
+content_margin_bottom = 1.0
+bg_color = Color(0.19215687, 0.21960784, 0.28627452, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(1, 0.8509804, 0.3764706, 1)
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_slot_disabled"]
+content_margin_left = 1.0
+content_margin_top = 1.0
+content_margin_right = 1.0
+content_margin_bottom = 1.0
+bg_color = Color(0.078431375, 0.08627451, 0.11372549, 0.98039216)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.2, 0.2, 0.2, 1)
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
 
 [node name="Hud" type="Control" unique_id=977867959]
 layout_mode = 3
@@ -64,6 +150,115 @@ offset_top = -9.0
 offset_right = 54.0
 offset_bottom = 14.0
 label_settings = SubResource("LabelSettings_lmyhm")
+
+[node name="InventoryPanel" type="Panel" parent="." unique_id=1011059553]
+custom_minimum_size = Vector2(112, 44)
+layout_mode = 0
+offset_left = 12.666668
+offset_top = 290.06845
+offset_right = 124.66667
+offset_bottom = 334.06845
+theme_override_styles/panel = SubResource("StyleBoxFlat_inv_panel")
+
+[node name="InventoryTitle" type="Label" parent="InventoryPanel" unique_id=540689858]
+layout_mode = 0
+offset_left = 3.0
+offset_top = 2.0
+offset_right = 24.0
+offset_bottom = 11.0
+text = "INV"
+label_settings = SubResource("LabelSettings_k8hvg")
+
+[node name="SlotsRow" type="HBoxContainer" parent="InventoryPanel" unique_id=1904448083]
+layout_mode = 0
+offset_left = 3.0
+offset_top = 13.0
+offset_right = 109.0
+offset_bottom = 41.0
+theme_override_constants/separation = 2
+
+[node name="SlotCola" type="Button" parent="InventoryPanel/SlotsRow" unique_id=1059370845]
+custom_minimum_size = Vector2(34, 28)
+layout_mode = 2
+focus_mode = 0
+theme_override_styles/normal = SubResource("StyleBoxFlat_slot_normal")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_slot_pressed")
+theme_override_styles/hover = SubResource("StyleBoxFlat_slot_hover")
+theme_override_styles/disabled = SubResource("StyleBoxFlat_slot_disabled")
+theme_override_styles/focus = SubResource("StyleBoxFlat_slot_normal")
+
+[node name="Icon" type="TextureRect" parent="InventoryPanel/SlotsRow/SlotCola" unique_id=280491512]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 3.0
+offset_top = 2.0
+offset_right = -3.0
+offset_bottom = -2.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+texture = ExtResource("8_cola")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="SlotLeche" type="Button" parent="InventoryPanel/SlotsRow" unique_id=1162879350]
+custom_minimum_size = Vector2(34, 28)
+layout_mode = 2
+focus_mode = 0
+theme_override_styles/normal = SubResource("StyleBoxFlat_slot_normal")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_slot_pressed")
+theme_override_styles/hover = SubResource("StyleBoxFlat_slot_hover")
+theme_override_styles/disabled = SubResource("StyleBoxFlat_slot_disabled")
+theme_override_styles/focus = SubResource("StyleBoxFlat_slot_normal")
+
+[node name="Icon" type="TextureRect" parent="InventoryPanel/SlotsRow/SlotLeche" unique_id=256625255]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 3.0
+offset_top = 2.0
+offset_right = -3.0
+offset_bottom = -2.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+texture = ExtResource("9_leche")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="SlotCaramelo" type="Button" parent="InventoryPanel/SlotsRow" unique_id=99448329]
+custom_minimum_size = Vector2(34, 28)
+layout_mode = 2
+focus_mode = 0
+theme_override_styles/normal = SubResource("StyleBoxFlat_slot_normal")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_slot_pressed")
+theme_override_styles/hover = SubResource("StyleBoxFlat_slot_hover")
+theme_override_styles/disabled = SubResource("StyleBoxFlat_slot_disabled")
+theme_override_styles/focus = SubResource("StyleBoxFlat_slot_normal")
+
+[node name="Icon" type="TextureRect" parent="InventoryPanel/SlotsRow/SlotCaramelo" unique_id=449196383]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 3.0
+offset_top = 2.0
+offset_right = -3.0
+offset_bottom = -2.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+texture = ExtResource("10_candy")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="InventorySfxClick" type="AudioStreamPlayer" parent="." unique_id=272161089]
+stream = ExtResource("7_inv")
+volume_db = -10.0
+bus = &"SFX"
 
 [node name="PanelDía" type="Sprite2D" parent="." unique_id=1828234535]
 position = Vector2(40, 16)

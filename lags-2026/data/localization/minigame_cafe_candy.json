@@ -1,8 +1,8 @@
 {
   "title": {
-    "es": "SELECCION DE CARAMELOS",
+  "es": "SELECCIÓN DE CARAMELOS",
     "en": "CANDY SELECTION",
-    "pt": "SELECAO DE DOCES"
+  "pt": "SELEÇÃO DE DOCES"
   },
   "instruction": {
     "es": "Selecciona solo el tipo pedido y la cantidad exacta antes de que termine el tiempo.",
@@ -10,9 +10,9 @@
     "pt": "Selecione apenas o tipo pedido e a quantidade exata antes do tempo acabar."
   },
   "quick_guide": {
-    "es": "GUIA RAPIDA",
+  "es": "GUÍA RÁPIDA",
     "en": "QUICK GUIDE",
-    "pt": "GUIA RAPIDO"
+  "pt": "GUIA RÁPIDO"
   },
   "guide_1": {
     "es": "1) LEE EL PEDIDO DEL CLIENTE",
@@ -82,7 +82,7 @@
   "final_success": {
     "es": "Completado: %d/%d pedidos correctos",
     "en": "Completed: %d/%d correct orders",
-    "pt": "Concluido: %d/%d pedidos corretos"
+  "pt": "Concluído: %d/%d pedidos corretos"
   },
   "final_fail": {
     "es": "Fallaste: %d/%d pedidos correctos",
@@ -110,8 +110,8 @@
     "pt": "Cola"
   },
   "candy_lemon": {
-    "es": "Limon",
+  "es": "Limón",
     "en": "Lemon",
-    "pt": "Limao"
+  "pt": "Limão"
   }
 }

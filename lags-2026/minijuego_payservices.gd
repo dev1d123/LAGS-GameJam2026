@@ -75,6 +75,7 @@ func _ready() -> void:
 	randomize()
 	_setup_feedback_sfx()
 	_setup_stress_shader()
+	client_request_label.visible = false
 	finish_button.visible = false
 	finish_button.pressed.connect(_on_finish_button_pressed)
 	_update_static_texts()
@@ -205,8 +206,7 @@ func _start_round() -> void:
 	all_bills.shuffle()
 	_spawn_falling_bills(all_bills)
 
-	var client_name: String = clients[randi_range(0, clients.size() - 1)]
-	client_request_label.text = _t("client_request") % [client_name, current_target_text]
+	# This minigame should not show the client request line; HUD handles that context.
 
 
 func _make_bill_data() -> Dictionary:

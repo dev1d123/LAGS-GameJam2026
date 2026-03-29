@@ -44,7 +44,7 @@ func _process(delta: float) -> void:
 
 func _physics_process(delta: float) -> void:
 	var input_vector := _get_movement_input_vector()
-	velocity = input_vector * max_speed * _get_energy_speed_factor()
+	velocity = input_vector * max_speed * _get_energy_speed_factor() * _get_inventory_speed_factor()
 	move_and_slide()
 	_apply_corner_nudge(input_vector)
 	update_animation()
@@ -113,6 +113,12 @@ func _resolve_hud_ref() -> void:
 	var current_scene := tree.current_scene
 	if current_scene != null:
 		hud_ref = current_scene.find_child("Hud", true, false)
+
+
+func _get_inventory_speed_factor() -> float:
+	if hud_ref == null or not hud_ref.has_method("get_speed_multiplier"):
+		return 1.0
+	return float(hud_ref.get_speed_multiplier())
 
 
 func _apply_corner_nudge(input_vector: Vector2) -> void:

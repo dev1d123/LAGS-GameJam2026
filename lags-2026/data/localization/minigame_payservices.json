@@ -2,7 +2,7 @@
   "title": {
     "es": "PAGO DE SERVICIOS",
     "en": "PAY SERVICES",
-    "pt": "PAGAR SERVICOS"
+  "pt": "PAGAMENTO DE SERVIÇOS"
   },
   "instruction": {
     "es": "Selecciona la boleta correcta antes de que caiga.",
@@ -10,9 +10,9 @@
     "pt": "Selecione o boleto correto antes que ele caia."
   },
   "quick_guide": {
-    "es": "GUIA RAPIDA",
+  "es": "GUÍA RÁPIDA",
     "en": "QUICK GUIDE",
-    "pt": "GUIA RAPIDO"
+  "pt": "GUIA RÁPIDO"
   },
   "guide_1": {
     "es": "1) LEE LA BOLETA DEL CLIENTE",
@@ -82,7 +82,7 @@
   "final_success": {
     "es": "Completado: %d/%d boletas correctas",
     "en": "Completed: %d/%d correct bills",
-    "pt": "Concluido: %d/%d boletos corretos"
+  "pt": "Concluído: %d/%d boletos corretos"
   },
   "final_fail": {
     "es": "Fallaste: %d/%d boletas correctas",

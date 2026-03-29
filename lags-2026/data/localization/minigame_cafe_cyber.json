@@ -1,18 +1,18 @@
 {
   "title": {
-    "es": "CONEXION DE CABLES",
+  "es": "CONEXIÓN DE CABLES",
     "en": "CABLE CONNECTION",
-    "pt": "CONEXAO DE CABOS"
+  "pt": "CONEXÃO DE CABOS"
   },
   "instruction": {
-    "es": "Selecciona un cable y conectalo con su puerto correcto antes de que termine el tiempo.",
+  "es": "Selecciona un cable y conéctalo con su puerto correcto antes de que termine el tiempo.",
     "en": "Select a cable and connect it to the correct port before time runs out.",
     "pt": "Selecione um cabo e conecte-o na porta correta antes do tempo acabar."
   },
   "quick_guide": {
-    "es": "GUIA RAPIDA",
+  "es": "GUÍA RÁPIDA",
     "en": "QUICK GUIDE",
-    "pt": "GUIA RAPIDO"
+  "pt": "GUIA RÁPIDO"
   },
   "guide_1": {
     "es": "1) ELIGE UN CABLE DE LA IZQUIERDA",
@@ -20,9 +20,9 @@
     "pt": "1) ESCOLHA UM CABO DA ESQUERDA"
   },
   "guide_2": {
-    "es": "2) CONECTALO CON SU PUERTO CORRECTO",
+  "es": "2) CONÉCTALO CON SU PUERTO CORRECTO",
     "en": "2) CONNECT IT TO THE MATCHING PORT",
-    "pt": "2) CONECTE-O A PORTA CORRETA"
+  "pt": "2) CONECTE-O À PORTA CORRETA"
   },
   "guide_3": {
     "es": "3) COMPLETA TODOS ANTES DEL TIEMPO",
@@ -67,7 +67,7 @@
   "progress": {
     "es": "Conexiones: %d/%d",
     "en": "Connections: %d/%d",
-    "pt": "Conexoes: %d/%d"
+  "pt": "Conexões: %d/%d"
   },
   "submit": {
     "es": "Confirmar",
@@ -75,14 +75,14 @@
     "pt": "Confirmar"
   },
   "correct": {
-    "es": "Conexion correcta",
+  "es": "Conexión correcta",
     "en": "Correct connection",
-    "pt": "Conexao correta"
+  "pt": "Conexão correta"
   },
   "incorrect": {
     "es": "Faltan conexiones",
     "en": "Missing connections",
-    "pt": "Faltam conexoes"
+  "pt": "Faltam conexões"
   },
   "timeout": {
     "es": "Tiempo agotado",
@@ -92,7 +92,7 @@
   "final_success": {
     "es": "Completado: %d/%d rondas correctas",
     "en": "Completed: %d/%d successful rounds",
-    "pt": "Concluido: %d/%d rodadas corretas"
+  "pt": "Concluído: %d/%d rodadas corretas"
   },
   "final_fail": {
     "es": "Fallaste: %d/%d rondas correctas",

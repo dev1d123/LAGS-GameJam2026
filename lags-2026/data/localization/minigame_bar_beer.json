@@ -6,23 +6,23 @@
   },
   "instruction": {
 	"es": "El llenado inicia solo. Haz clic en DETENER al llegar a la línea.",
-	"en": "Hold the handle and release on the target line.",
+	"en": "Filling starts automatically. Click STOP when it reaches the line.",
 	"pt": "Segure a alavanca e solte na linha alvo."
   },
   "quick_guide": {
-	"es": "GUIA RAPIDA",
+	"es": "GUÍA RÁPIDA",
 	"en": "QUICK GUIDE",
-	"pt": "GUIA RAPIDO"
+	"pt": "GUIA RÁPIDO"
   },
   "guide_1": {
-	"es": "1) EL VASO SE LLENA AUTOMATICAMENTE",
-	"en": "1) HOLD CLICK ON THE HANDLE",
+	"es": "1) EL VASO SE LLENA AUTOMÁTICAMENTE",
+	"en": "1) THE GLASS FILLS AUTOMATICALLY",
 	"pt": "1) SEGURE O CLIQUE NA ALAVANCA"
   },
   "guide_2": {
-	"es": "2) LLENA HASTA LA LINEA OBJETIVO",
+	"es": "2) LLENA HASTA LA LÍNEA OBJETIVO",
 	"en": "2) FILL UP TO THE TARGET LINE",
-	"pt": "2) ENCHA ATE A LINHA ALVO"
+	"pt": "2) ENCHA ATÉ A LINHA-ALVO"
   },
   "guide_3": {
 	"es": "3) HAZ CLIC EN DETENER EN EL MOMENTO EXACTO",
@@ -52,7 +52,7 @@
   "client_request": {
 	"es": "Cliente pide: llena al %d%%",
 	"en": "Customer asks: fill to %d%%",
-	"pt": "Cliente pede: encha ate %d%%"
+	"pt": "Cliente pede: encha até %d%%"
   },
   "hold": {
 	"es": "MANTENER",
@@ -62,12 +62,12 @@
   "correct": {
 	"es": "¡Perfecto! Nivel correcto",
 	"en": "Perfect! Correct level",
-	"pt": "Perfeito! Nivel correto"
+	"pt": "Perfeito! Nível correto"
   },
   "incorrect": {
-	"es": "O falto o se paso",
+	"es": "Te faltó o te pasaste",
 	"en": "You over/underfilled the glass",
-	"pt": "Voce passou ou faltou cerveja"
+	"pt": "Você passou do ponto ou faltou cerveja"
   },
   "timeout": {
 	"es": "Tiempo agotado",
@@ -75,14 +75,14 @@
 	"pt": "Tempo esgotado"
   },
   "overfill": {
-	"es": "Se rebalso la cerveza",
+	"es": "Se rebalsó la cerveza",
 	"en": "Beer overflowed",
 	"pt": "A cerveja transbordou"
   },
   "final_success": {
 	"es": "Completado: %d/%d vasos bien servidos",
 	"en": "Completed: %d/%d correctly poured glasses",
-	"pt": "Concluido: %d/%d copos bem servidos"
+	"pt": "Concluído: %d/%d copos bem servidos"
   },
   "final_fail": {
 	"es": "Fallaste: %d/%d vasos bien servidos",
