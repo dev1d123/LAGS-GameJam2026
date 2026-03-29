@@ -59,3 +59,4 @@ base_color = Color(0.46618086, 0.4661808, 0.4661808, 1)
 [node name="ClickSound" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("4_audio")
 bus = &"SFX"
+volume_db = -10.0

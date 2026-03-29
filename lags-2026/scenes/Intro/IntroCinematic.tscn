@@ -180,6 +180,8 @@ vertical_alignment = 1
 
 [node name="BlipPlayer" type="AudioStreamPlayer" parent="CanvasLayer" unique_id=303746849]
 stream = ExtResource("4_jr651")
+bus = &"SFX"
+volume_db = -10.0
 
 [node name="TypewriterTimer" type="Timer" parent="CanvasLayer" unique_id=152965479]
 wait_time = 0.05

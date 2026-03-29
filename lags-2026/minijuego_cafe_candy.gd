@@ -88,20 +88,24 @@ func _setup_sfx() -> void:
 	sfx_click_player = AudioStreamPlayer.new()
 	sfx_click_player.stream = SFX_CLICK_STREAM
 	sfx_click_player.bus = &"SFX"
+	sfx_click_player.volume_db = -9.0
 	add_child(sfx_click_player)
 
 	sfx_success_player = AudioStreamPlayer.new()
 	sfx_success_player.stream = SFX_SUCCESS_STREAM
 	sfx_success_player.bus = &"SFX"
+	sfx_success_player.volume_db = -8.0
 	add_child(sfx_success_player)
 
 	sfx_error_player = AudioStreamPlayer.new()
 	sfx_error_player.stream = SFX_ERROR_STREAM
 	sfx_error_player.bus = &"SFX"
+	sfx_error_player.volume_db = -8.0
 	add_child(sfx_error_player)
 
 	sfx_final_player = AudioStreamPlayer.new()
 	sfx_final_player.bus = &"SFX"
+	sfx_final_player.volume_db = -8.0
 	add_child(sfx_final_player)
 
 

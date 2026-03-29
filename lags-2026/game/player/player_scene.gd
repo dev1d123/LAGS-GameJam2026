@@ -5,6 +5,7 @@ extends CharacterBody2D
 @export var step_interval: float = 0.35
 @export var min_speed_factor_at_zero_energy: float = 0.45
 @export var energy_speed_curve_exp: float = 1.2
+@export var corner_nudge_pixels: float = 20
 
 @onready var sprite = $AnimatedSprite2D
 @onready var footstep = $AudioStreamPlayer2D
@@ -22,7 +23,7 @@ const AURA_COLOR_PLAYER        = Color(1.0, 0.85, 0.3, 1.0)  # dorado
 func _ready() -> void:
 	add_to_group("player")
 	sprite.self_modulate = Color.WHITE
-	hud_ref = get_node_or_null("../Hud")
+	_resolve_hud_ref()
 
 
 func set_aura(value: bool) -> void:
@@ -42,15 +43,21 @@ func _process(delta: float) -> void:
 
 
 func _physics_process(delta: float) -> void:
-	var input_vector = Vector2.ZERO
-	input_vector.x = Input.get_action_strength("ui_right") - Input.get_action_strength("ui_left")
-	input_vector.y = Input.get_action_strength("ui_down") - Input.get_action_strength("ui_up")
-	input_vector = input_vector.normalized()
+	var input_vector := _get_movement_input_vector()
 	velocity = input_vector * max_speed * _get_energy_speed_factor()
-
 	move_and_slide()
+	_apply_corner_nudge(input_vector)
 	update_animation()
 	update_footsteps(delta)
+
+
+func _get_movement_input_vector() -> Vector2:
+	# Accept both project-defined WASD actions and default ui_* actions.
+	var right := maxf(Input.get_action_strength("ui_right"), Input.get_action_strength("derecha"))
+	var left := maxf(Input.get_action_strength("ui_left"), Input.get_action_strength("izquierda"))
+	var down := maxf(Input.get_action_strength("ui_down"), Input.get_action_strength("abajo"))
+	var up := maxf(Input.get_action_strength("ui_up"), Input.get_action_strength("arriba"))
+	return Vector2(right - left, down - up).normalized()
 
 
 func update_animation() -> void:
@@ -82,6 +89,9 @@ func update_footsteps(delta: float) -> void:
 
 func _get_energy_speed_factor() -> float:
 	if hud_ref == null:
+		_resolve_hud_ref()
+
+	if hud_ref == null:
 		return 1.0
 
 	if not hud_ref.has_method("get_energy_percent"):
@@ -91,3 +101,55 @@ func _get_energy_speed_factor() -> float:
 	var t: float = energy_percent / 100.0
 	var curved_t: float = pow(t, energy_speed_curve_exp)
 	return lerpf(min_speed_factor_at_zero_energy, 1.0, curved_t)
+
+
+func _resolve_hud_ref() -> void:
+	var tree := get_tree()
+	if tree == null:
+		return
+	hud_ref = tree.get_first_node_in_group("hud")
+	if hud_ref != null:
+		return
+	var current_scene := tree.current_scene
+	if current_scene != null:
+		hud_ref = current_scene.find_child("Hud", true, false)
+
+
+func _apply_corner_nudge(input_vector: Vector2) -> void:
+	if absf(input_vector.x) < 0.1 or absf(input_vector.y) < 0.1:
+		return
+
+	# Only nudge when the body is practically stuck after colliding.
+	if get_real_velocity().length() > max_speed * 0.12:
+		return
+
+	var blocked_up := false
+	var blocked_down := false
+	var blocked_left := false
+	var blocked_right := false
+
+	for i in range(get_slide_collision_count()):
+		var c := get_slide_collision(i)
+		if c == null:
+			continue
+		var n: Vector2 = c.get_normal()
+		if n.y > 0.5:
+			blocked_up = true
+		elif n.y < -0.5:
+			blocked_down = true
+		if n.x > 0.5:
+			blocked_left = true
+		elif n.x < -0.5:
+			blocked_right = true
+
+	# Corner combinations requested:
+	# up+left -> right, up+right -> left,
+	# down+left -> right, down+right -> left.
+	if input_vector.x < -0.1 and input_vector.y < -0.1 and blocked_up and blocked_left:
+		global_position.x += corner_nudge_pixels
+	elif input_vector.x > 0.1 and input_vector.y < -0.1 and blocked_up and blocked_right:
+		global_position.x -= corner_nudge_pixels
+	elif input_vector.x < -0.1 and input_vector.y > 0.1 and blocked_down and blocked_left:
+		global_position.x += corner_nudge_pixels
+	elif input_vector.x > 0.1 and input_vector.y > 0.1 and blocked_down and blocked_right:
+		global_position.x -= corner_nudge_pixels

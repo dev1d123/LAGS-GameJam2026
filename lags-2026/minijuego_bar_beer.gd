@@ -236,11 +236,13 @@ func _setup_feedback_sfx() -> void:
 	sfx_success_player = AudioStreamPlayer.new()
 	sfx_success_player.stream = SFX_SUCCESS_STREAM
 	sfx_success_player.bus = &"SFX"
+	sfx_success_player.volume_db = -8.0
 	add_child(sfx_success_player)
 
 	sfx_error_player = AudioStreamPlayer.new()
 	sfx_error_player.stream = SFX_ERROR_STREAM
 	sfx_error_player.bus = &"SFX"
+	sfx_error_player.volume_db = -8.0
 	add_child(sfx_error_player)
 
 

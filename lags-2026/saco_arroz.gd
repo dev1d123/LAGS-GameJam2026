@@ -83,7 +83,7 @@ func _process(delta):
 	if esta_vertiendo != _is_pouring_audio:
 		_is_pouring_audio = esta_vertiendo
 		# Utilizamos un volumen ligeramente reducido (-5dB) ya que se escucharán dos pistas sumadas a la vez
-		var target_db = -5.0 if esta_vertiendo else -80.0
+		var target_db = -11.0 if esta_vertiendo else -80.0
 		
 		if tween_volumen and tween_volumen.is_valid():
 			tween_volumen.kill()

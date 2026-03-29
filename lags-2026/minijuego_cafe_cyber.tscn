@@ -621,20 +621,24 @@ text = "Finalizar"
 [node name="SFX_Enchufado" type="AudioStreamPlayer" parent="Audio"]
 stream = ExtResource("enchufado_aud")
 bus = &"SFX"
+volume_db = -8.0
 
 [node name="SFX_Fallo" type="AudioStreamPlayer" parent="Audio"]
 stream = ExtResource("fallo_cyb_aud")
 bus = &"SFX"
+volume_db = -8.0
 
 [node name="SFX_OkBase" type="AudioStreamPlayer" parent="Audio"]
 stream = ExtResource("ok_base_cyb_aud")
 bus = &"SFX"
+volume_db = -8.0
 
 [node name="SFX_Error" type="AudioStreamPlayer" parent="Audio"]
 stream = ExtResource("error_cyb_aud")
 bus = &"SFX"
+volume_db = -8.0
 
 [node name="SFX_Reloj" type="AudioStreamPlayer" parent="Audio"]
 stream = ExtResource("reloj_aud")
-volume_db = -12.0
+volume_db = -10.0
 bus = &"SFX"
