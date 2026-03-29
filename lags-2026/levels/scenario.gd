@@ -49,6 +49,11 @@ func _ready() -> void:
 	_setup_day_transition_ui()
 	_initialize_day_cycle()
 	call_deferred("_start_day_transition", current_day)
+	
+	if hud != null:
+		smoothed_energy = hud.energy_bar.value
+		smoothed_stress = hud.stress_bar.value
+	_update_shader_effects()
 
 
 func _exit_tree() -> void:
@@ -67,44 +72,50 @@ func _process(delta: float) -> void:
 	
 	_update_shader_effects()
 
+var smoothed_energy: float = 100.0
+var smoothed_stress: float = 0.0
+
 func _update_shader_effects() -> void:
-	# ... [Tus validaciones de screen_fx y hud de siempre] ...
+
 	
-	var current_energy: float = hud.energy_bar.value
-	var current_stress: float = hud.stress_bar.value
+	var delta: float = get_process_delta_time()
+	
+	var target_energy: float = hud.energy_bar.value
+	var target_stress: float = hud.stress_bar.value
 
-	# Factores (Cansancio empieza en 70)
-	var factor_fatiga: float = 1.0 - clamp(current_energy / 70.0, 0.0, 1.0)
-	var factor_estres: float = clamp(current_stress / 100.0, 0.0, 1.0)
+	smoothed_energy = lerp(smoothed_energy, target_energy, 1.5 * delta)
+	smoothed_stress = lerp(smoothed_stress, target_stress, 1.5 * delta)
 
-	# --- APLICACIÓN DE ENERGÍA ---
-	var saturacion: float = 1.0 - (pow(factor_fatiga, 1.5) * 0.9)
-	screen_fx.material.set_shader_parameter("saturation_amount", saturacion)
+	var fatigue_factor: float = 1.0 - clamp(smoothed_energy / 70.0, 0.0, 1.0)
+	var stress_factor: float = clamp(smoothed_stress / 100.0, 0.0, 1.0)
+
+	var saturation: float = 1.0 - (pow(fatigue_factor, 1.5) * 0.9)
+	screen_fx.material.set_shader_parameter("saturation_amount", saturation)
 
 	var blur: float = 0.0
-	if factor_fatiga > 0.7:
-		blur = pow((factor_fatiga - 0.7) / 0.3, 2.0) * 3.0
+	if fatigue_factor > 0.7:
+		blur = pow((fatigue_factor - 0.7) / 0.3, 2.0) * 3.0
 	screen_fx.material.set_shader_parameter("blur_intensity", blur)
 
-	# --- APLICACIÓN DE ESTRÉS ---
-	var curva_estres: float = pow(factor_estres, 3.0)
-	screen_fx.material.set_shader_parameter("stress_tunnel", curva_estres)
-
-	# ==========================================
-	# NUEVA BÚSQUEDA DEL JUGADOR POR GRUPOS
-	# ==========================================
-	# Buscamos al primer nodo que esté en el grupo "Player"
+	var stress_curve: float = pow(stress_factor, 3.0)
+	screen_fx.material.set_shader_parameter("stress_tunnel", stress_curve)
+	
 	var player = get_tree().get_first_node_in_group("Player")
 	
 	if is_instance_valid(player):
-		# Como tu mapa es estático y cubre la pantalla, esto funcionará perfecto
 		var player_canvas_pos = player.get_global_transform_with_canvas().origin
 		var viewport_size = get_viewport_rect().size
 		
-		# Validación extra: evitamos dividir por cero si la ventana se minimiza
 		if viewport_size.x > 0 and viewport_size.y > 0:
 			var player_uv = player_canvas_pos / viewport_size
 			screen_fx.material.set_shader_parameter("player_screen_uv", player_uv)
+			
+		var combined_malaise: float = clamp(pow(fatigue_factor, 2.0) + pow(stress_factor, 2.0), 0.0, 1.0)
+		
+		var player_sprite = player.get_node_or_null("AnimatedSprite2D")
+		
+		if player_sprite != null and player_sprite.material != null:
+			player_sprite.material.set_shader_parameter("malaise_amount", combined_malaise)
 	
 
 

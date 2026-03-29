@@ -35,13 +35,16 @@ void fragment() {
 
     // --- EFECTO DE ESTRÉS: VISIÓN DE TÚNEL (Sigue al jugador) ---
     if (stress_tunnel > 0.0) {
-        // Corrección de aspecto: Evita que el túnel se vea ovalado en pantallas rectangulares
         vec2 aspect = vec2(SCREEN_PIXEL_SIZE.y / SCREEN_PIXEL_SIZE.x, 1.0);
-        
-        // Calculamos la distancia desde el píxel actual hasta la posición del jugador
         float dist = distance(uv * aspect, player_screen_uv * aspect);
         
-        float vignette = smoothstep(0.8 - stress_tunnel * 0.6, 0.2 - stress_tunnel * 0.1, dist);
+        // --- LA CORRECCIÓN ---
+        // Al usar 1.2 como base, el borde del túnel empieza fuera de la pantalla.
+        // Conforme stress_tunnel sube, el radio se encoge hacia el centro.
+        float outer_edge = 1.2 - (stress_tunnel * 0.8);
+        float inner_edge = 0.5 - (stress_tunnel * 0.4);
+        
+        float vignette = smoothstep(outer_edge, inner_edge, dist);
         color.rgb *= vignette;
     }
 
