@@ -729,7 +729,12 @@ func _start_minigame_for_mission(mission_id: String) -> void:
 
 	if active_minigame is Control:
 		var minigame_control := active_minigame as Control
-		minigame_control.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+		if mission_id == "shop_service":
+			minigame_control.set_anchors_and_offsets_preset(Control.PRESET_TOP_LEFT)
+			minigame_control.scale = Vector2.ONE
+			call_deferred("_center_minigame_window", minigame_control)
+		else:
+			minigame_control.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	elif active_minigame is Node2D:
 		var minigame_node2d := active_minigame as Node2D
 		minigame_node2d.position = get_viewport_rect().size * 0.5
@@ -746,6 +751,33 @@ func _start_minigame_for_mission(mission_id: String) -> void:
 		warehouse_manager.minigame_finished.connect(_on_minigame_finished_warehouse.bind(warehouse_manager, mission_id), CONNECT_ONE_SHOT)
 
 	active_minigame.tree_exited.connect(_on_active_minigame_tree_exited, CONNECT_ONE_SHOT)
+
+
+func _center_minigame_window(control: Control) -> void:
+	if control == null:
+		return
+	if not is_instance_valid(control):
+		return
+	var viewport_size := get_viewport_rect().size
+	if viewport_size.x <= 0.0 or viewport_size.y <= 0.0:
+		control.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+		return
+
+	var desired_size: Vector2 = control.get_combined_minimum_size()
+	if desired_size.x <= 10.0 or desired_size.y <= 10.0:
+		desired_size = Vector2(1720.0, 980.0)
+
+	var fit_w := (viewport_size.x * 0.9) / maxf(1.0, desired_size.x)
+	var fit_h := (viewport_size.y * 0.9) / maxf(1.0, desired_size.y)
+	var fit_scale := minf(1.0, minf(fit_w, fit_h))
+	var final_size := desired_size * fit_scale
+
+	control.scale = Vector2(fit_scale, fit_scale)
+	control.set_anchors_preset(Control.PRESET_CENTER)
+	control.offset_left = -final_size.x * 0.5
+	control.offset_top = -final_size.y * 0.5
+	control.offset_right = final_size.x * 0.5
+	control.offset_bottom = final_size.y * 0.5
 
 
 func _on_minigame_finished_standard(_a = null, _b = null, _c = null, source_node: Node = null, mission_id: String = "") -> void:

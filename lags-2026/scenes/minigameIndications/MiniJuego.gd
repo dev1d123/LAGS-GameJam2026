@@ -144,8 +144,8 @@ func _update_stress_shader(delta: float) -> void:
 
 
 func _stress_to_power() -> float:
-	var normalized := clampf((stress_difficulty - 20.0) / 80.0, 0.0, 1.0)
-	return clampf(pow(normalized, 1.15) * 1.8, 0.0, 1.8)
+	var normalized := clampf(stress_difficulty / 100.0, 0.0, 1.0)
+	return clampf(pow(normalized, 0.82) * 2.0, 0.0, 2.0)
 
 func crear_flecha():
 	var nueva_flecha = flecha_scene.instantiate()

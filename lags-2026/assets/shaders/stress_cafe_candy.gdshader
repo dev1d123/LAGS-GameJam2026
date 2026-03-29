@@ -20,15 +20,28 @@ vec3 hsv2rgb(vec3 c) {
 
 void fragment() {
 	vec2 uv = SCREEN_UV;
-	vec4 col = textureLod(screen_texture, uv, 0.0);
-	vec3 hsv = rgb2hsv(col.rgb);
+	float wave_a = sin((uv.y * 82.0) + time_sec * 4.2);
+	float wave_b = sin((uv.x * 69.0) - time_sec * 3.5);
+	uv += vec2(wave_a * 0.006, wave_b * 0.0045) * intensity;
 
-	float drift = (sin((uv.x + uv.y) * 20.0 + time_sec * 1.8) * 0.5 + 0.5) * 0.06 * intensity;
+	float pixel_steps = mix(540.0, 140.0, clamp(intensity / 2.0, 0.0, 1.0));
+	vec2 pix_uv = floor(uv * pixel_steps) / pixel_steps;
+
+	float aberr = 0.0065 * intensity;
+	float r = textureLod(screen_texture, pix_uv + vec2(aberr, 0.0), 0.0).r;
+	float g = textureLod(screen_texture, pix_uv, 0.0).g;
+	float b = textureLod(screen_texture, pix_uv - vec2(aberr, 0.0), 0.0).b;
+	vec3 rgb = vec3(r, g, b);
+
+	vec3 hsv = rgb2hsv(rgb);
+	float drift = (sin((uv.x + uv.y) * 23.0 + time_sec * 2.6) * 0.5 + 0.5) * 0.16 * intensity;
 	hsv.x = fract(hsv.x + drift);
-	hsv.y = clamp(hsv.y * (1.0 + 0.25 * intensity), 0.0, 1.0);
+	hsv.y = clamp(hsv.y * (1.0 + 0.55 * intensity), 0.0, 1.0);
+	hsv.z = clamp(hsv.z * (1.0 + 0.18 * intensity), 0.0, 1.0);
 
-	vec3 rgb = hsv2rgb(hsv);
+	rgb = hsv2rgb(hsv);
 	float luma = dot(rgb, vec3(0.2126, 0.7152, 0.0722));
-	rgb += smoothstep(0.6, 1.0, luma) * 0.15 * intensity;
-	COLOR = vec4(clamp(rgb, 0.0, 1.0), col.a);
+	rgb += smoothstep(0.55, 1.0, luma) * 0.28 * intensity;
+
+	COLOR = vec4(clamp(rgb, 0.0, 1.0), 1.0);
 }

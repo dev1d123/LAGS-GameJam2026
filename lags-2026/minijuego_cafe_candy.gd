@@ -296,11 +296,14 @@ func _update_stress_shader(delta: float) -> void:
 		return
 	stress_fx_time += delta
 	stress_fx_material.set_shader_parameter("time_sec", stress_fx_time)
+	var base_intensity := _stress_to_power()
+	var pulse := 1.0 + sin(stress_fx_time * 3.2) * 0.03
+	stress_fx_material.set_shader_parameter("intensity", base_intensity * pulse)
 
 
 func _stress_to_power() -> float:
-	var normalized := clampf((stress_difficulty - 20.0) / 80.0, 0.0, 1.0)
-	return clampf(pow(normalized, 1.15) * 1.8, 0.0, 1.8)
+	var normalized := clampf(stress_difficulty / 100.0, 0.0, 1.0)
+	return clampf(pow(normalized, 1.0) * 0.9, 0.0, 0.9)
 
 
 func _on_candy_toggled(pressed: bool, button: Button) -> void:

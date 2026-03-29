@@ -6,12 +6,18 @@ uniform float time_sec = 0.0;
 
 void fragment() {
 	vec2 uv = SCREEN_UV;
-	vec2 centered = uv - vec2(0.5);
-	float dist = length(centered);
-	float vignette = smoothstep(0.3, 0.75, dist);
-	float lod = vignette * intensity * 2.8;
-	vec4 col = textureLod(screen_texture, uv, lod);
-	float pulse = sin(time_sec * 1.3 + dist * 18.0) * 0.02 * intensity;
-	col.rgb *= 1.0 - (vignette * 0.25 * intensity) + pulse;
-	COLOR = col;
+	vec2 px = SCREEN_PIXEL_SIZE * (1.0 + 3.2 * intensity);
+
+	vec4 c = textureLod(screen_texture, uv, 0.0) * 0.22;
+	c += textureLod(screen_texture, uv + vec2(px.x, 0.0), 0.0) * 0.13;
+	c += textureLod(screen_texture, uv - vec2(px.x, 0.0), 0.0) * 0.13;
+	c += textureLod(screen_texture, uv + vec2(0.0, px.y), 0.0) * 0.13;
+	c += textureLod(screen_texture, uv - vec2(0.0, px.y), 0.0) * 0.13;
+	c += textureLod(screen_texture, uv + px, 0.0) * 0.09;
+	c += textureLod(screen_texture, uv - px, 0.0) * 0.09;
+	c += textureLod(screen_texture, uv + vec2(px.x, -px.y), 0.0) * 0.04;
+	c += textureLod(screen_texture, uv + vec2(-px.x, px.y), 0.0) * 0.04;
+
+	float darken = 1.0 - 0.08 * intensity;
+	COLOR = vec4(clamp(c.rgb * darken, 0.0, 1.0), 1.0);
 }

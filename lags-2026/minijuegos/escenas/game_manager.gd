@@ -252,16 +252,20 @@ func _setup_stress_shader() -> void:
 	var world_host: CanvasItem = get_parent() as CanvasItem
 	if world_host == null:
 		return
+	var root_node: Node = world_host as Node
 	stress_fx_overlay = ColorRect.new()
 	stress_fx_overlay.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	stress_fx_overlay.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	stress_fx_overlay.color = Color(1, 1, 1, 0)
-	stress_fx_overlay.z_index = 1
+	stress_fx_overlay.z_index = 100
 	stress_fx_material = ShaderMaterial.new()
 	stress_fx_material.shader = STRESS_SHADER
 	stress_fx_overlay.material = stress_fx_material
 	world_host.add_child(stress_fx_overlay)
-	world_host.move_child(stress_fx_overlay, 0)
+	if root_node != null:
+		var ui_node := root_node.get_node_or_null("GameUI")
+		if ui_node != null:
+			root_node.move_child(stress_fx_overlay, max(0, ui_node.get_index() - 1))
 	stress_fx_material.set_shader_parameter("intensity", _stress_to_power())
 
 
@@ -270,8 +274,9 @@ func _update_stress_shader(delta: float) -> void:
 		return
 	stress_fx_time += delta
 	stress_fx_material.set_shader_parameter("time_sec", stress_fx_time)
+	stress_fx_material.set_shader_parameter("intensity", _stress_to_power())
 
 
 func _stress_to_power() -> float:
-	var normalized := clampf((stress_difficulty - 20.0) / 80.0, 0.0, 1.0)
-	return clampf(pow(normalized, 1.15) * 1.8, 0.0, 1.8)
+	var normalized := clampf(stress_difficulty / 100.0, 0.0, 1.0)
+	return clampf(pow(normalized, 0.82) * 2.0, 0.0, 2.0)
