@@ -7,6 +7,7 @@ const BILL_FONT := preload("res://assets/fonts/PixelOperatorMonoHB.ttf")
 const BILL_SPRITE := preload("res://assets/sprites/ui/service.png")
 const SFX_SUCCESS_STREAM := preload("res://scenes/minigameIndications/success.ogg")
 const SFX_ERROR_STREAM := preload("res://scenes/minigameIndications/error.ogg")
+const STRESS_SHADER := preload("res://assets/shaders/stress_payservices.gdshader")
 const STANDARD_UI_TEXT_COLOR := Color(0.687779, 0.643646, 0.632612, 1.0)
 
 @export var total_rounds: int = 5
@@ -56,6 +57,7 @@ var desempeno: float = 0.0
 var eficiencia: float = 0.0
 var recompensa_total: int = 0
 var estres: float = 0.0
+var stress_difficulty: float = 0.0
 var mission_money_min: int = 0
 var mission_money_max: int = 0
 
@@ -65,10 +67,14 @@ var active_bill_buttons: Array[Button] = []
 var sfx_success_player: AudioStreamPlayer
 var sfx_error_player: AudioStreamPlayer
 var start_button: Button
+var stress_fx_overlay: ColorRect
+var stress_fx_material: ShaderMaterial
+var stress_fx_time: float = 0.0
 
 func _ready() -> void:
 	randomize()
 	_setup_feedback_sfx()
+	_setup_stress_shader()
 	finish_button.visible = false
 	finish_button.pressed.connect(_on_finish_button_pressed)
 	_update_static_texts()
@@ -88,6 +94,7 @@ func _setup_feedback_sfx() -> void:
 
 
 func _process(delta: float) -> void:
+	_update_stress_shader(delta)
 	if not game_started:
 		return
 
@@ -421,6 +428,34 @@ func _clear_bills() -> void:
 		if is_instance_valid(btn):
 			btn.queue_free()
 	active_bill_buttons.clear()
+
+
+func _setup_stress_shader() -> void:
+	var shader_host: Control = bills_area if bills_area != null else self
+	stress_fx_overlay = ColorRect.new()
+	stress_fx_overlay.name = "StressFXOverlay"
+	stress_fx_overlay.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	stress_fx_overlay.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	stress_fx_overlay.color = Color(1, 1, 1, 0)
+	stress_fx_overlay.z_index = 300
+	stress_fx_material = ShaderMaterial.new()
+	stress_fx_material.shader = STRESS_SHADER
+	stress_fx_overlay.material = stress_fx_material
+	shader_host.add_child(stress_fx_overlay)
+	shader_host.move_child(stress_fx_overlay, shader_host.get_child_count() - 1)
+	stress_fx_material.set_shader_parameter("intensity", _stress_to_power())
+
+
+func _update_stress_shader(delta: float) -> void:
+	if stress_fx_material == null:
+		return
+	stress_fx_time += delta
+	stress_fx_material.set_shader_parameter("time_sec", stress_fx_time)
+
+
+func _stress_to_power() -> float:
+	var normalized := clampf(stress_difficulty / 100.0, 0.0, 1.0)
+	return clampf(pow(normalized, 0.9) * 1.2, 0.0, 1.2)
 
 
 func _t(key: String) -> String:

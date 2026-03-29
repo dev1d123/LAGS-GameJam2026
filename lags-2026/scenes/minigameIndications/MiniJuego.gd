@@ -12,6 +12,7 @@ const UI_BUTTON_TEXTURE := preload("res://assets/textures/button_2.png")
 const UI_FONT := preload("res://assets/fonts/PixelOperatorMonoHB.ttf")
 const ICON_SUCCESS := preload("res://scenes/minigameIndications/FlechaDerecha.png")
 const ICON_FAIL := preload("res://scenes/minigameIndications/FlechaBajo.png")
+const STRESS_SHADER := preload("res://assets/shaders/stress_indications.gdshader")
 
 var direcciones = ["arriba", "abajo", "izquierda", "derecha"]
 var puntos = 0
@@ -27,14 +28,19 @@ var desempeno: float = 0.0
 var eficiencia: float = 0.0
 var recompensa_total: int = 0
 var estres: float = 0.0
+var stress_difficulty: float = 0.0
 var mission_money_min: int = 0
 var mission_money_max: int = 0
 var results_summary_label: Label = null
+var stress_fx_overlay: ColorRect = null
+var stress_fx_material: ShaderMaterial = null
+var stress_fx_time: float = 0.0
 
 @onready var sprite_cabeza = $CanvasLayer/MainPanel/Margin/VBox/Content/CenterPanel/PlayField/GameArea/FondoModal/HitZone/SpriteCabeza
 
 @onready var spawn_timer = $SpawnTimer
 @onready var canvas_layer = $CanvasLayer
+@onready var game_area: Control = $CanvasLayer/MainPanel/Margin/VBox/Content/CenterPanel/PlayField/GameArea
 @onready var fondo_modal = $CanvasLayer/MainPanel/Margin/VBox/Content/CenterPanel/PlayField/GameArea/FondoModal
 @onready var label_pregunta = $CanvasLayer/MainPanel/Margin/VBox/Content/CenterPanel/QuestionPanel/LabelPregunta
 @onready var barra_progreso = $CanvasLayer/MainPanel/Margin/VBox/Content/CenterPanel/ProgressPanel/BarraProgreso
@@ -53,6 +59,7 @@ var lista_preguntas = []
 
 func _ready():
 	estres_actual = 50
+	_setup_stress_shader()
 	
 	if barra_progreso:
 		barra_progreso.max_value = puntos_victoria
@@ -61,6 +68,10 @@ func _ready():
 	
 	load_questions()
 	await iniciar_secuencia_entrada()
+
+
+func _process(delta: float) -> void:
+	_update_stress_shader(delta)
 
 func iniciar_secuencia_entrada():
 	if sfx_open: sfx_open.play()
@@ -105,6 +116,36 @@ func _on_spawn_timer_timeout():
 	spawn_timer.wait_time = nuevo_wait
 	_update_status_panel()
 	crear_flecha()
+
+
+func _setup_stress_shader() -> void:
+	var shader_host: Control = game_area if game_area != null else null
+	if shader_host == null:
+		return
+	stress_fx_overlay = ColorRect.new()
+	stress_fx_overlay.name = "StressFXOverlay"
+	stress_fx_overlay.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	stress_fx_overlay.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	stress_fx_overlay.color = Color(1, 1, 1, 0)
+	stress_fx_overlay.z_index = 300
+	stress_fx_material = ShaderMaterial.new()
+	stress_fx_material.shader = STRESS_SHADER
+	stress_fx_overlay.material = stress_fx_material
+	shader_host.add_child(stress_fx_overlay)
+	shader_host.move_child(stress_fx_overlay, shader_host.get_child_count() - 1)
+	stress_fx_material.set_shader_parameter("intensity", _stress_to_power())
+
+
+func _update_stress_shader(delta: float) -> void:
+	if stress_fx_material == null:
+		return
+	stress_fx_time += delta
+	stress_fx_material.set_shader_parameter("time_sec", stress_fx_time)
+
+
+func _stress_to_power() -> float:
+	var normalized := clampf(stress_difficulty / 100.0, 0.0, 1.0)
+	return clampf(pow(normalized, 0.82) * 2.0, 0.0, 2.0)
 
 func crear_flecha():
 	var nueva_flecha = flecha_scene.instantiate()

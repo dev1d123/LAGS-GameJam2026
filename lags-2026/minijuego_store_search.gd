@@ -3,6 +3,7 @@ extends Control
 signal minigame_finished(success: bool, score: int, total_rounds: int)
 
 const I18N_CATEGORY := "minigame_store_search"
+const STRESS_SHADER := preload("res://assets/shaders/stress_store_search.gdshader")
 const STANDARD_UI_TEXT_COLOR := Color(0.687779, 0.643646, 0.632612, 1.0)
 
 @export var total_rounds: int = 5
@@ -20,6 +21,7 @@ const STANDARD_UI_TEXT_COLOR := Color(0.687779, 0.643646, 0.632612, 1.0)
 @onready var results_title_label: Label = $MainPanel/Margin/VBox/Content/RightPanel/ResultsTitle/ResultsTitleLabel
 @onready var request_label: Label = $MainPanel/Margin/VBox/Content/CenterPanel/Request
 @onready var timer_label: Label = $MainPanel/Margin/VBox/Content/CenterPanel/Timer
+@onready var search_field: Control = $MainPanel/Margin/VBox/Content/CenterPanel/SearchField
 @onready var board_grid: GridContainer = $MainPanel/Margin/VBox/Content/CenterPanel/SearchField/Center/BoardGridCenter
 @onready var errors_label: Label = $MainPanel/Margin/VBox/Content/CenterPanel/ActionRow/Errors
 @onready var found_label: Label = $MainPanel/Margin/VBox/Content/CenterPanel/ActionRow/Found
@@ -45,6 +47,7 @@ var desempeno: float = 0.0
 var eficiencia: float = 0.0
 var recompensa_total: int = 0
 var estres: float = 0.0
+var stress_difficulty: float = 0.0
 var mission_money_min: int = 0
 var mission_money_max: int = 0
 
@@ -53,10 +56,14 @@ var target_count: int = 1
 var errors_count: int = 0
 var found_count: int = 0
 var board_locked: bool = false
+var stress_fx_overlay: ColorRect
+var stress_fx_material: ShaderMaterial
+var stress_fx_time: float = 0.0
 
 
 func _ready() -> void:
 	randomize()
+	_setup_stress_shader()
 	skip_button.pressed.connect(_on_skip_button_pressed)
 	finish_button.pressed.connect(_on_finish_button_pressed)
 	_update_static_texts()
@@ -66,6 +73,7 @@ func _ready() -> void:
 
 
 func _process(delta: float) -> void:
+	_update_stress_shader(delta)
 	if current_round <= 0:
 		return
 
@@ -309,6 +317,36 @@ func _build_round_board(round_number: int) -> void:
 		button.pressed.connect(_on_item_pressed.bind(button))
 		
 		board_grid.add_child(wrapper)
+
+
+func _setup_stress_shader() -> void:
+	var shader_host: Control = search_field if search_field != null else self
+	stress_fx_overlay = ColorRect.new()
+	stress_fx_overlay.name = "StressFXOverlay"
+	stress_fx_overlay.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	stress_fx_overlay.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	stress_fx_overlay.color = Color(1, 1, 1, 0)
+	stress_fx_overlay.z_index = 300
+	stress_fx_material = ShaderMaterial.new()
+	stress_fx_material.shader = STRESS_SHADER
+	stress_fx_overlay.material = stress_fx_material
+	shader_host.add_child(stress_fx_overlay)
+	shader_host.move_child(stress_fx_overlay, shader_host.get_child_count() - 1)
+	stress_fx_material.set_shader_parameter("intensity", _stress_to_power())
+
+
+func _update_stress_shader(delta: float) -> void:
+	if stress_fx_material == null:
+		return
+	stress_fx_time += delta
+	var power := _stress_to_power()
+	stress_fx_material.set_shader_parameter("time_sec", stress_fx_time)
+	stress_fx_material.set_shader_parameter("intensity", power)
+
+
+func _stress_to_power() -> float:
+	var normalized := clampf(stress_difficulty / 100.0, 0.0, 1.0)
+	return clampf(pow(normalized, 0.88) * 1.75, 0.0, 2.0)
 
 
 

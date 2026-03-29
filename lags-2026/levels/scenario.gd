@@ -27,6 +27,9 @@ const DAY_START_HOUR := 6
 const DAY_END_HOUR := 18
 const FINAL_DAY := 4
 const SECONDS_PER_INGAME_HOUR := 5
+const START_DAY := 28
+const START_MONTH := 12
+const START_YEAR := 2008
 const DAY_TRANSITION_FONT := preload("res://assets/fonts/LazyFox Pixel Font 2.ttf")
 const ENDING_SCENE_PATH := "res://scenes/Endings/EscenaFinales.tscn"
 
@@ -272,8 +275,12 @@ func _toggle_freeze() -> void:
 	print("[Scenario] toggle freeze -> ", frozen)
 	if frozen:
 		selected_npc_ref = aura_npc_ref
+		if spawner != null and spawner.has_method("show_npc_toast"):
+			spawner.show_npc_toast(selected_npc_ref)
 		_populate_npc_description(selected_npc_ref)
 	else:
+		if spawner != null and spawner.has_method("hide_npc_toast"):
+			spawner.hide_npc_toast()
 		selected_npc_ref = null
 
 	var mode = Node.PROCESS_MODE_DISABLED if frozen else Node.PROCESS_MODE_INHERIT
@@ -537,13 +544,56 @@ func _set_world_paused(value: bool) -> void:
 
 
 func _get_day_transition_text(day_number: int) -> String:
+	var date_text := _get_day_transition_date_text(day_number)
 	match LocaleManager.current_language:
 		"en":
-			return "Day %d" % day_number
+			return "Day %d - %s" % [day_number, date_text]
 		"pt":
-			return "Dia %d" % day_number
+			return "Dia %d - %s" % [day_number, date_text]
 		_:
-			return "Dia %d" % day_number
+			return "Dia %d - %s" % [day_number, date_text]
+
+
+func _get_day_transition_date_text(day_number: int) -> String:
+	var offset_days: int = max(0, day_number - 1)
+	var y: int = START_YEAR
+	var m: int = START_MONTH
+	var d: int = START_DAY
+
+	while offset_days > 0:
+		d += 1
+		var days_in_month: int = _days_in_month(m, y)
+		if d > days_in_month:
+			d = 1
+			m += 1
+			if m > 12:
+				m = 1
+				y += 1
+		offset_days -= 1
+
+	return "%02d/%02d/%04d" % [d, m, y]
+
+
+func _days_in_month(month: int, year: int) -> int:
+	match month:
+		1, 3, 5, 7, 8, 10, 12:
+			return 31
+		4, 6, 9, 11:
+			return 30
+		2:
+			if _is_leap_year(year):
+				return 29
+			return 28
+		_:
+			return 30
+
+
+func _is_leap_year(year: int) -> bool:
+	if year % 400 == 0:
+		return true
+	if year % 100 == 0:
+		return false
+	return year % 4 == 0
 
 
 func _setup_shop_music() -> void:
@@ -669,13 +719,22 @@ func _start_minigame_for_mission(mission_id: String) -> void:
 
 	active_minigame = packed_scene.instantiate()
 	var money_range: Vector2i = _get_mission_money_range(mission_id)
+	var stress_difficulty: float = 0.0
+	if hud != null and hud.has_method("get_stress_percent"):
+		stress_difficulty = clampf(float(hud.get_stress_percent()), 0.0, 100.0)
 	_set_if_has_property(active_minigame, "mission_money_min", money_range.x)
 	_set_if_has_property(active_minigame, "mission_money_max", money_range.y)
+	_set_if_has_property(active_minigame, "stress_difficulty", stress_difficulty)
 	minigame_host.add_child(active_minigame)
 
 	if active_minigame is Control:
 		var minigame_control := active_minigame as Control
-		minigame_control.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+		if mission_id == "shop_service":
+			minigame_control.set_anchors_and_offsets_preset(Control.PRESET_TOP_LEFT)
+			minigame_control.scale = Vector2.ONE
+			call_deferred("_center_minigame_window", minigame_control)
+		else:
+			minigame_control.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	elif active_minigame is Node2D:
 		var minigame_node2d := active_minigame as Node2D
 		minigame_node2d.position = get_viewport_rect().size * 0.5
@@ -687,10 +746,38 @@ func _start_minigame_for_mission(mission_id: String) -> void:
 	if warehouse_manager != null:
 		_set_if_has_property(warehouse_manager, "mission_money_min", money_range.x)
 		_set_if_has_property(warehouse_manager, "mission_money_max", money_range.y)
+		_set_if_has_property(warehouse_manager, "stress_difficulty", stress_difficulty)
 	if warehouse_manager != null and warehouse_manager.has_signal("minigame_finished"):
 		warehouse_manager.minigame_finished.connect(_on_minigame_finished_warehouse.bind(warehouse_manager, mission_id), CONNECT_ONE_SHOT)
 
 	active_minigame.tree_exited.connect(_on_active_minigame_tree_exited, CONNECT_ONE_SHOT)
+
+
+func _center_minigame_window(control: Control) -> void:
+	if control == null:
+		return
+	if not is_instance_valid(control):
+		return
+	var viewport_size := get_viewport_rect().size
+	if viewport_size.x <= 0.0 or viewport_size.y <= 0.0:
+		control.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+		return
+
+	var desired_size: Vector2 = control.get_combined_minimum_size()
+	if desired_size.x <= 10.0 or desired_size.y <= 10.0:
+		desired_size = Vector2(1720.0, 980.0)
+
+	var fit_w := (viewport_size.x * 0.9) / maxf(1.0, desired_size.x)
+	var fit_h := (viewport_size.y * 0.9) / maxf(1.0, desired_size.y)
+	var fit_scale := minf(1.0, minf(fit_w, fit_h))
+	var final_size := desired_size * fit_scale
+
+	control.scale = Vector2(fit_scale, fit_scale)
+	control.set_anchors_preset(Control.PRESET_CENTER)
+	control.offset_left = -final_size.x * 0.5
+	control.offset_top = -final_size.y * 0.5
+	control.offset_right = final_size.x * 0.5
+	control.offset_bottom = final_size.y * 0.5
 
 
 func _on_minigame_finished_standard(_a = null, _b = null, _c = null, source_node: Node = null, mission_id: String = "") -> void:
