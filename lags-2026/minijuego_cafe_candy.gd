@@ -8,6 +8,7 @@ const SFX_SUCCESS_STREAM := preload("res://scenes/minigameIndications/success.og
 const SFX_ERROR_STREAM := preload("res://scenes/minigameIndications/error.ogg")
 const SFX_FINAL_SUCCESS_STREAM := preload("res://assets/audio/game/WinMinigame.ogg")
 const SFX_FINAL_FAIL_STREAM := preload("res://assets/audio/game/LoseMinigame.ogg")
+const STRESS_SHADER := preload("res://assets/shaders/stress_cafe_candy.gdshader")
 const STANDARD_UI_TEXT_COLOR := Color(0.687779, 0.643646, 0.632612, 1.0)
 
 @export var total_rounds: int = 5
@@ -25,6 +26,7 @@ const STANDARD_UI_TEXT_COLOR := Color(0.687779, 0.643646, 0.632612, 1.0)
 @onready var results_title_label: Label = $MainPanel/Margin/VBox/Content/RightPanel/ResultsTitle/ResultsTitleLabel
 @onready var request_label: Label = $MainPanel/Margin/VBox/Content/CenterPanel/Request
 @onready var timer_label: Label = $MainPanel/Margin/VBox/Content/CenterPanel/Timer
+@onready var candy_field: Control = $MainPanel/Margin/VBox/Content/CenterPanel/CandyField
 @onready var candy_grid: GridContainer = $MainPanel/Margin/VBox/Content/CenterPanel/CandyField/CandyGrid
 @onready var submit_button: Button = $MainPanel/Margin/VBox/Content/CenterPanel/ActionRow/SubmitButton
 @onready var selected_counter_label: Label = $MainPanel/Margin/VBox/Content/CenterPanel/ActionRow/SelectedCounter
@@ -53,6 +55,7 @@ var desempeno: float = 0.0
 var eficiencia: float = 0.0
 var recompensa_total: int = 0
 var estres: float = 0.0
+var stress_difficulty: float = 0.0
 var mission_money_min: int = 0
 var mission_money_max: int = 0
 
@@ -65,11 +68,15 @@ var sfx_click_player: AudioStreamPlayer
 var sfx_success_player: AudioStreamPlayer
 var sfx_error_player: AudioStreamPlayer
 var sfx_final_player: AudioStreamPlayer
+var stress_fx_overlay: ColorRect
+var stress_fx_material: ShaderMaterial
+var stress_fx_time: float = 0.0
 
 
 func _ready() -> void:
 	randomize()
 	_setup_sfx()
+	_setup_stress_shader()
 	submit_button.pressed.connect(_on_submit_button_pressed)
 	finish_button.pressed.connect(_on_finish_button_pressed)
 	_update_static_texts()
@@ -99,6 +106,7 @@ func _setup_sfx() -> void:
 
 
 func _process(delta: float) -> void:
+	_update_stress_shader(delta)
 	if current_round <= 0:
 		return
 
@@ -265,6 +273,34 @@ func _get_button_normal_color(candy_type: String) -> Color:
 func _get_button_pressed_color(candy_type: String) -> Color:
 	var base: Color = candy_type_colors.get(candy_type, Color(0.8, 0.8, 0.8, 1.0))
 	return Color(min(1.0, base.r + 0.1), min(1.0, base.g + 0.1), min(1.0, base.b + 0.1), 1.0)
+
+
+func _setup_stress_shader() -> void:
+	var shader_host: Control = candy_field if candy_field != null else self
+	stress_fx_overlay = ColorRect.new()
+	stress_fx_overlay.name = "StressFXOverlay"
+	stress_fx_overlay.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	stress_fx_overlay.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	stress_fx_overlay.color = Color(1, 1, 1, 0)
+	stress_fx_overlay.z_index = 300
+	stress_fx_material = ShaderMaterial.new()
+	stress_fx_material.shader = STRESS_SHADER
+	stress_fx_overlay.material = stress_fx_material
+	shader_host.add_child(stress_fx_overlay)
+	shader_host.move_child(stress_fx_overlay, shader_host.get_child_count() - 1)
+	stress_fx_material.set_shader_parameter("intensity", _stress_to_power())
+
+
+func _update_stress_shader(delta: float) -> void:
+	if stress_fx_material == null:
+		return
+	stress_fx_time += delta
+	stress_fx_material.set_shader_parameter("time_sec", stress_fx_time)
+
+
+func _stress_to_power() -> float:
+	var normalized := clampf((stress_difficulty - 20.0) / 80.0, 0.0, 1.0)
+	return clampf(pow(normalized, 1.15) * 1.8, 0.0, 1.8)
 
 
 func _on_candy_toggled(pressed: bool, button: Button) -> void:

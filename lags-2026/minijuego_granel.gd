@@ -2,6 +2,8 @@ extends Control
 
 signal minigame_finished(success: bool, score: int, total_rounds: int)
 
+const STRESS_SHADER := preload("res://assets/shaders/stress_granel.gdshader")
+
 # Referencias a tus módulos
 @export var saco: Node2D
 @export var balanza: Node2D
@@ -34,6 +36,7 @@ var desempeno: float = 0.0
 var eficiencia: float = 0.0
 var recompensa_total: int = 0
 var estres: float = 0.0
+var stress_difficulty: float = 0.0
 var mission_money_min: int = 0
 var mission_money_max: int = 0
 
@@ -43,9 +46,13 @@ var audio_siguiente: AudioStreamPlayer
 @export var boton_continuar: Button
 @export_category("UI Final")
 @export var label_tiempo_total: Label # <- ¡Nuevo! Asigna tu Label de Tiempo Total aquí
+var stress_fx_overlay: ColorRect
+var stress_fx_material: ShaderMaterial
+var stress_fx_time: float = 0.0
 
 func _ready():
 	randomize()
+	_setup_stress_shader()
 	# 1. Configurar audio de feedback (la musica de minijuegos la maneja scenario.gd)
 	
 	audio_medalla = AudioStreamPlayer.new()
@@ -127,6 +134,7 @@ func _formatear_tiempo(segundos: float) -> String:
 	return "%02d:%02d" % [mins, secs]
 
 func _process(delta):
+	_update_stress_shader(delta)
 	if not juego_terminado and not estado_final:
 		tiempo_ronda_actual += delta
 		tiempo_total += delta
@@ -329,18 +337,18 @@ func _calc_recompensa_from_eficiencia() -> int:
 
 func _animar_medalla():
 	sello_calificacion.visible = true
-	if label_resultado_texto: 
+	if label_resultado_texto:
 		label_resultado_texto.visible = true
-	
+
 	# 1. Preparamos el sello: lo hacemos diminuto y lo rotamos un poco
 	sello_calificacion.scale = Vector2.ZERO
 	sello_calificacion.rotation_degrees = -30
-	
+
 	if label_resultado_texto:
 		label_resultado_texto.pivot_offset = label_resultado_texto.size / 2.0
 		label_resultado_texto.scale = Vector2.ZERO
 		label_resultado_texto.modulate.a = 0.0
-		
+
 	if label_tiempo_total and label_tiempo_total.visible:
 		label_tiempo_total.pivot_offset = label_tiempo_total.size / 2.0
 		label_tiempo_total.scale = Vector2.ZERO
@@ -359,14 +367,41 @@ func _animar_medalla():
 	# 3. Le decimos qué animar, a qué valor llegar, y en cuánto tiempo (0.5 segundos)
 	tween.tween_property(sello_calificacion, "scale", Vector2(1, 1), 0.5)
 	tween.tween_property(sello_calificacion, "rotation_degrees", 0.0, 0.5)
-	
+
 	if label_resultado_texto:
 		tween.tween_property(label_resultado_texto, "scale", Vector2(1, 1), 0.5)
 		tween.tween_property(label_resultado_texto, "modulate:a", 1.0, 0.5)
-		
+
 	if label_tiempo_total and label_tiempo_total.visible:
 		tween.tween_property(label_tiempo_total, "scale", Vector2(1, 1), 0.5)
 		tween.tween_property(label_tiempo_total, "modulate:a", 1.0, 0.5)
-		
+
 	if boton_continuar:
 		tween.tween_property(boton_continuar, "modulate:a", 1.0, 0.5)
+
+
+func _setup_stress_shader() -> void:
+	stress_fx_overlay = ColorRect.new()
+	stress_fx_overlay.name = "StressFXOverlay"
+	stress_fx_overlay.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	stress_fx_overlay.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	stress_fx_overlay.color = Color(1, 1, 1, 0)
+	stress_fx_overlay.z_index = 4096
+	stress_fx_material = ShaderMaterial.new()
+	stress_fx_material.shader = STRESS_SHADER
+	stress_fx_overlay.material = stress_fx_material
+	add_child(stress_fx_overlay)
+	move_child(stress_fx_overlay, get_child_count() - 1)
+	stress_fx_material.set_shader_parameter("intensity", _stress_to_power())
+
+
+func _update_stress_shader(delta: float) -> void:
+	if stress_fx_material == null:
+		return
+	stress_fx_time += delta
+	stress_fx_material.set_shader_parameter("time_sec", stress_fx_time)
+
+
+func _stress_to_power() -> float:
+	var normalized := clampf((stress_difficulty - 20.0) / 80.0, 0.0, 1.0)
+	return clampf(pow(normalized, 1.15) * 1.8, 0.0, 1.8)

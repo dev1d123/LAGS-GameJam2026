@@ -719,8 +719,12 @@ func _start_minigame_for_mission(mission_id: String) -> void:
 
 	active_minigame = packed_scene.instantiate()
 	var money_range: Vector2i = _get_mission_money_range(mission_id)
+	var stress_difficulty: float = 0.0
+	if hud != null and hud.has_method("get_stress_percent"):
+		stress_difficulty = clampf(float(hud.get_stress_percent()), 0.0, 100.0)
 	_set_if_has_property(active_minigame, "mission_money_min", money_range.x)
 	_set_if_has_property(active_minigame, "mission_money_max", money_range.y)
+	_set_if_has_property(active_minigame, "stress_difficulty", stress_difficulty)
 	minigame_host.add_child(active_minigame)
 
 	if active_minigame is Control:
@@ -737,6 +741,7 @@ func _start_minigame_for_mission(mission_id: String) -> void:
 	if warehouse_manager != null:
 		_set_if_has_property(warehouse_manager, "mission_money_min", money_range.x)
 		_set_if_has_property(warehouse_manager, "mission_money_max", money_range.y)
+		_set_if_has_property(warehouse_manager, "stress_difficulty", stress_difficulty)
 	if warehouse_manager != null and warehouse_manager.has_signal("minigame_finished"):
 		warehouse_manager.minigame_finished.connect(_on_minigame_finished_warehouse.bind(warehouse_manager, mission_id), CONNECT_ONE_SHOT)
 

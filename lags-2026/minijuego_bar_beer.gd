@@ -6,6 +6,7 @@ const I18N_CATEGORY := "minigame_bar_beer"
 const BEER_JAR_TEXTURE := preload("res://assets/sprites/beer_jar.png")
 const SFX_SUCCESS_STREAM := preload("res://scenes/minigameIndications/success.ogg")
 const SFX_ERROR_STREAM := preload("res://scenes/minigameIndications/error.ogg")
+const STRESS_SHADER := preload("res://assets/shaders/stress_bar_beer.gdshader")
 const ALPHA_THRESHOLD := 0.02
 const STANDARD_UI_TEXT_COLOR := Color(0.687779, 0.643646, 0.632612, 1.0)
 
@@ -23,6 +24,7 @@ const STANDARD_UI_TEXT_COLOR := Color(0.687779, 0.643646, 0.632612, 1.0)
 @onready var results_title_label: Label = $MainPanel/Margin/VBox/Content/RightPanel/ResultsTitle/ResultsTitleLabel
 @onready var request_label: Label = $MainPanel/Margin/VBox/Content/CenterPanel/ClientRequest
 @onready var timer_label: Label = $MainPanel/Margin/VBox/Content/CenterPanel/Timer
+@onready var play_area: Control = $MainPanel/Margin/VBox/Content/CenterPanel/BeerContainer/PlayArea
 @onready var glass_fill: ColorRect = $MainPanel/Margin/VBox/Content/CenterPanel/BeerContainer/PlayArea/Glass/GlassBody/FillRect
 @onready var target_line: ColorRect = $MainPanel/Margin/VBox/Content/CenterPanel/BeerContainer/PlayArea/Glass/GlassBody/TargetLine
 @onready var handle_button: Button = $MainPanel/Margin/VBox/Content/CenterPanel/BeerContainer/PlayArea/Glass/HandleButton
@@ -38,6 +40,7 @@ var desempeno: float = 0.0
 var eficiencia: float = 0.0
 var recompensa_total: int = 0
 var estres: float = 0.0
+var stress_difficulty: float = 0.0
 var mission_money_min: int = 0
 var mission_money_max: int = 0
 
@@ -50,6 +53,9 @@ var is_auto_filling: bool = false
 var sfx_success_player: AudioStreamPlayer
 var sfx_error_player: AudioStreamPlayer
 var jar_opaque_uv_rect: Rect2 = Rect2(0.0, 0.0, 1.0, 1.0)
+var stress_fx_overlay: ColorRect
+var stress_fx_material: ShaderMaterial
+var stress_fx_time: float = 0.0
 
 
 func _ready() -> void:
@@ -58,6 +64,7 @@ func _ready() -> void:
 	_setup_feedback_sfx()
 	_setup_liquid_controls()
 	_setup_beer_jar_overlay()
+	_setup_stress_shader()
 	_position_stop_button()
 	handle_button.pressed.connect(_on_handle_button_pressed)
 	finish_button.pressed.connect(_on_finish_button_pressed)
@@ -66,6 +73,7 @@ func _ready() -> void:
 
 
 func _process(delta: float) -> void:
+	_update_stress_shader(delta)
 	if current_round <= 0:
 		return
 
@@ -347,3 +355,31 @@ func _get_stop_button_text() -> String:
 
 func _t(key: String) -> String:
 	return LocaleManager.get_text(I18N_CATEGORY, key)
+
+
+func _setup_stress_shader() -> void:
+	var shader_host: Control = play_area if play_area != null else self
+	stress_fx_overlay = ColorRect.new()
+	stress_fx_overlay.name = "StressFXOverlay"
+	stress_fx_overlay.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	stress_fx_overlay.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	stress_fx_overlay.color = Color(1, 1, 1, 0)
+	stress_fx_overlay.z_index = 300
+	stress_fx_material = ShaderMaterial.new()
+	stress_fx_material.shader = STRESS_SHADER
+	stress_fx_overlay.material = stress_fx_material
+	shader_host.add_child(stress_fx_overlay)
+	shader_host.move_child(stress_fx_overlay, shader_host.get_child_count() - 1)
+	stress_fx_material.set_shader_parameter("intensity", _stress_to_power())
+
+
+func _update_stress_shader(delta: float) -> void:
+	if stress_fx_material == null:
+		return
+	stress_fx_time += delta
+	stress_fx_material.set_shader_parameter("time_sec", stress_fx_time)
+
+
+func _stress_to_power() -> float:
+	var normalized := clampf((stress_difficulty - 20.0) / 80.0, 0.0, 1.0)
+	return clampf(pow(normalized, 1.15) * 1.8, 0.0, 1.8)

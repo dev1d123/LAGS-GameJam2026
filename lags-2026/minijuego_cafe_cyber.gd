@@ -3,6 +3,7 @@ extends Control
 signal minigame_finished(success: bool, score: int, total_rounds: int)
 
 const I18N_CATEGORY := "minigame_cafe_cyber"
+const STRESS_SHADER := preload("res://assets/shaders/stress_cafe_cyber.gdshader")
 const STANDARD_UI_TEXT_COLOR := Color(0.687779, 0.643646, 0.632612, 1.0)
 
 @export var total_rounds: int = 5
@@ -83,6 +84,7 @@ var desempeno: float = 0.0
 var eficiencia: float = 0.0
 var recompensa_total: int = 0
 var estres: float = 0.0
+var stress_difficulty: float = 0.0
 var mission_money_min: int = 0
 var mission_money_max: int = 0
 
@@ -104,11 +106,15 @@ var drag_plug_a: TextureRect = null
 var drag_plug_b_cursor: Control = null  # cable-b sprite following mouse
 var drag_source_btn: TextureButton = null
 var drag_source_type: String = ""
+var stress_fx_overlay: ColorRect
+var stress_fx_material: ShaderMaterial
+var stress_fx_time: float = 0.0
 
 
 func _ready() -> void:
 	ninepatch_shader.code = NINEPATCH_SHADER_CODE
 	randomize()
+	_setup_stress_shader()
 	submit_button.pressed.connect(_on_submit_button_pressed)
 	finish_button.pressed.connect(_on_finish_button_pressed)
 	_update_static_texts()
@@ -162,6 +168,7 @@ func _cancel_drag() -> void:
 
 
 func _process(delta: float) -> void:
+	_update_stress_shader(delta)
 	if current_round <= 0:
 		return
 
@@ -354,6 +361,34 @@ func _build_round_board(round_number: int) -> void:
 	matched_count = 0
 	expected_matches = cable_count
 	request_label.text = _t("request") % [cable_count]
+
+
+func _setup_stress_shader() -> void:
+	var shader_host: Control = cable_area if cable_area != null else self
+	stress_fx_overlay = ColorRect.new()
+	stress_fx_overlay.name = "StressFXOverlay"
+	stress_fx_overlay.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	stress_fx_overlay.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	stress_fx_overlay.color = Color(1, 1, 1, 0)
+	stress_fx_overlay.z_index = 300
+	stress_fx_material = ShaderMaterial.new()
+	stress_fx_material.shader = STRESS_SHADER
+	stress_fx_overlay.material = stress_fx_material
+	shader_host.add_child(stress_fx_overlay)
+	shader_host.move_child(stress_fx_overlay, shader_host.get_child_count() - 1)
+	stress_fx_material.set_shader_parameter("intensity", _stress_to_power())
+
+
+func _update_stress_shader(delta: float) -> void:
+	if stress_fx_material == null:
+		return
+	stress_fx_time += delta
+	stress_fx_material.set_shader_parameter("time_sec", stress_fx_time)
+
+
+func _stress_to_power() -> float:
+	var normalized := clampf((stress_difficulty - 20.0) / 80.0, 0.0, 1.0)
+	return clampf(pow(normalized, 1.15) * 1.8, 0.0, 1.8)
 
 
 func _is_same_order(a: Array[String], b: Array[String]) -> bool:
