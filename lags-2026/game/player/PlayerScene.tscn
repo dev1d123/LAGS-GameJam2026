@@ -131,7 +131,7 @@ animations = [{
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_bybyv"]
 size = Vector2(23, 7)
 
-[node name="PlayerScene" type="CharacterBody2D" unique_id=1653825361]
+[node name="PlayerScene" type="CharacterBody2D" unique_id=1653825361 groups=["Player"]]
 collision_layer = 8
 script = ExtResource("1_bybyv")
 

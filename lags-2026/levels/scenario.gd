@@ -1,15 +1,16 @@
 extends Node2D
 
 @onready var spawner:         Node2D = $Spawner
-@onready var hud: Node                = $Spawner/Hud
-@onready var npc_description: Node2D = $NpcDescription
-@onready var title_label: Label       = $NpcDescription/TitleLabel
-@onready var objectives_label: Label  = $NpcDescription/ObjetivesLabel
-@onready var description_label: Label = $NpcDescription/DescriptionLabel
-@onready var rewards_label: Label     = $NpcDescription/RewardsLabel
-@onready var money_label: Label       = $NpcDescription/MoneyLabel
-@onready var cancel_button: Button    = $NpcDescription/CancelButton
-@onready var accept_button: Button    = $NpcDescription/AcceptButton
+@onready var hud: Node                = $Spawner/Node/HUDLayer/Hud
+@onready var npc_description: Node2D = $NpcDescriptionLayer/NpcDescription
+@onready var title_label: Label       = $NpcDescriptionLayer/NpcDescription/TitleLabel
+@onready var objectives_label: Label  = $NpcDescriptionLayer/NpcDescription/ObjetivesLabel
+@onready var description_label: Label = $NpcDescriptionLayer/NpcDescription/DescriptionLabel
+@onready var rewards_label: Label     = $NpcDescriptionLayer/NpcDescription/RewardsLabel
+@onready var money_label: Label       = $NpcDescriptionLayer/NpcDescription/MoneyLabel
+@onready var cancel_button: Button    = $NpcDescriptionLayer/NpcDescription/CancelButton
+@onready var accept_button: Button    = $NpcDescriptionLayer/NpcDescription/AcceptButton
+@onready var screen_fx: ColorRect = $Spawner/Node/ShaderLayer/ColorRect
 
 #Son Labels Hijo de npc
 #$TitleLabel, $ObjetivesLabel, $DescriptionLabel, $RewardsLabel, $MoneyLabel
@@ -39,9 +40,9 @@ func _ready() -> void:
 	npc_description.visible = false
 	cancel_button.pressed.connect(_on_cancel_button_pressed)
 	if accept_button == null:
-		accept_button = $NpcDescription.get_node_or_null("CheckButtonA") as Button
+		accept_button = $NpcDescriptionLayer/NpcDescription.get_node_or_null("CheckButtonA") as Button
 	if accept_button == null:
-		push_error("No se encontro el boton de aceptar en NpcDescription")
+		push_error("No se encontro el boton de aceptar en NpcDescriptionLayer/NpcDescription")
 	else:
 		accept_button.pressed.connect(_on_accept_button_pressed)
 	spawner.register_scenario(self)
@@ -63,6 +64,48 @@ func _process(delta: float) -> void:
 	while day_time_accum >= SECONDS_PER_INGAME_HOUR:
 		day_time_accum -= SECONDS_PER_INGAME_HOUR
 		_advance_ingame_hour()
+	
+	_update_shader_effects()
+
+func _update_shader_effects() -> void:
+	# ... [Tus validaciones de screen_fx y hud de siempre] ...
+	
+	var current_energy: float = hud.energy_bar.value
+	var current_stress: float = hud.stress_bar.value
+
+	# Factores (Cansancio empieza en 70)
+	var factor_fatiga: float = 1.0 - clamp(current_energy / 70.0, 0.0, 1.0)
+	var factor_estres: float = clamp(current_stress / 100.0, 0.0, 1.0)
+
+	# --- APLICACIÓN DE ENERGÍA ---
+	var saturacion: float = 1.0 - (pow(factor_fatiga, 1.5) * 0.9)
+	screen_fx.material.set_shader_parameter("saturation_amount", saturacion)
+
+	var blur: float = 0.0
+	if factor_fatiga > 0.7:
+		blur = pow((factor_fatiga - 0.7) / 0.3, 2.0) * 3.0
+	screen_fx.material.set_shader_parameter("blur_intensity", blur)
+
+	# --- APLICACIÓN DE ESTRÉS ---
+	var curva_estres: float = pow(factor_estres, 3.0)
+	screen_fx.material.set_shader_parameter("stress_tunnel", curva_estres)
+
+	# ==========================================
+	# NUEVA BÚSQUEDA DEL JUGADOR POR GRUPOS
+	# ==========================================
+	# Buscamos al primer nodo que esté en el grupo "Player"
+	var player = get_tree().get_first_node_in_group("Player")
+	
+	if is_instance_valid(player):
+		# Como tu mapa es estático y cubre la pantalla, esto funcionará perfecto
+		var player_canvas_pos = player.get_global_transform_with_canvas().origin
+		var viewport_size = get_viewport_rect().size
+		
+		# Validación extra: evitamos dividir por cero si la ventana se minimiza
+		if viewport_size.x > 0 and viewport_size.y > 0:
+			var player_uv = player_canvas_pos / viewport_size
+			screen_fx.material.set_shader_parameter("player_screen_uv", player_uv)
+	
 
 
 func _input(event: InputEvent) -> void:
