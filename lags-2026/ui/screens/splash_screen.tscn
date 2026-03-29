@@ -1,4 +1,4 @@
-[gd_scene load_steps=5 format=3 uid="uid://c3gndn6k51ifj"]
+[gd_scene format=3 uid="uid://c3gndn6k51ifj"]
 
 [ext_resource type="Script" uid="uid://dw01dukiqd1jc" path="res://ui/screens/splash_screen.gd" id="1_gwuvj"]
 [ext_resource type="Texture2D" uid="uid://7anbdppmuh0u" path="res://icon.svg" id="2_2w2vq"]
@@ -11,7 +11,7 @@ _data = {
 &"fade": SubResource("Animation_gwuvj")
 }
 
-[node name="SplashScreen" type="Control"]
+[node name="SplashScreen" type="Control" unique_id=205497019]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -20,7 +20,7 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_gwuvj")
 
-[node name="ColorRect" type="ColorRect" parent="."]
+[node name="ColorRect" type="ColorRect" parent="." unique_id=807771975]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -29,7 +29,7 @@ grow_horizontal = 2
 grow_vertical = 2
 color = Color(0, 0, 0, 1)
 
-[node name="TextureRect" type="TextureRect" parent="."]
+[node name="TextureRect" type="TextureRect" parent="." unique_id=262838772]
 modulate = Color(1, 1, 1, 0)
 layout_mode = 1
 anchors_preset = 8
@@ -45,7 +45,5 @@ grow_horizontal = 2
 grow_vertical = 2
 texture = ExtResource("2_2w2vq")
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
-libraries = {
-&"": SubResource("AnimationLibrary_2w2vq")
-}
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=1566163166]
+libraries/ = SubResource("AnimationLibrary_2w2vq")
