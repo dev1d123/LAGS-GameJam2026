@@ -19,20 +19,30 @@ const I18N_CATEGORY := "minigame_store_search"
 @onready var results_title_label: Label = $MainPanel/Margin/VBox/Content/RightPanel/ResultsTitle/ResultsTitleLabel
 @onready var request_label: Label = $MainPanel/Margin/VBox/Content/CenterPanel/Request
 @onready var timer_label: Label = $MainPanel/Margin/VBox/Content/CenterPanel/Timer
-@onready var board_grid: GridContainer = $MainPanel/Margin/VBox/Content/CenterPanel/SearchField/BoardGrid
+@onready var board_grid: GridContainer = $MainPanel/Margin/VBox/Content/CenterPanel/SearchField/Center/BoardGridCenter
 @onready var errors_label: Label = $MainPanel/Margin/VBox/Content/CenterPanel/ActionRow/Errors
 @onready var found_label: Label = $MainPanel/Margin/VBox/Content/CenterPanel/ActionRow/Found
 @onready var skip_button: Button = $MainPanel/Margin/VBox/Content/CenterPanel/ActionRow/SkipButton
 @onready var round_result_label: Label = $MainPanel/Margin/VBox/Content/RightPanel/ResultsBody/ResultsVBox/Result
 @onready var finish_button: Button = $MainPanel/Margin/VBox/Content/RightPanel/ResultsBody/ResultsVBox/FinishButton
 
-var item_types: Array[String] = ["milk", "bread", "soap", "battery", "soda", "cookies", "rice"]
+@onready var sfx_voltear: AudioStreamPlayer = $Audio/SFX_Voltear
+@onready var sfx_fallo: AudioStreamPlayer = $Audio/SFX_Fallo
+@onready var sfx_correcto: AudioStreamPlayer = $Audio/SFX_Correcto
+@onready var sfx_ok_base: AudioStreamPlayer = $Audio/SFX_OkBase
+@onready var sfx_error: AudioStreamPlayer = $Audio/SFX_Error
+@onready var sfx_reloj: AudioStreamPlayer = $Audio/SFX_Reloj
+var playing_reloj: bool = false
+
+var item_types: Array[String] = ["aceite", "arroz", "harina", "huevos", "jabon", "leche", "pan", "pila", "soda", "tomates"]
 var current_round: int = 0
 var score: int = 0
 var round_time_left: float = 0.0
 var pending_next_round: float = -1.0
+var memorization_time_left: float = 0.0
 
 var target_item: String = ""
+var target_count: int = 1
 var errors_count: int = 0
 var found_count: int = 0
 var board_locked: bool = false
@@ -43,6 +53,8 @@ func _ready() -> void:
 	skip_button.pressed.connect(_on_skip_button_pressed)
 	finish_button.pressed.connect(_on_finish_button_pressed)
 	_update_static_texts()
+	
+	
 	call_deferred("_start_round")
 
 
@@ -50,7 +62,44 @@ func _process(delta: float) -> void:
 	if current_round <= 0:
 		return
 
-	if not board_locked:
+	var current_timer = 0.0
+	if memorization_time_left > 0.0: current_timer = memorization_time_left
+	elif not board_locked: current_timer = round_time_left
+	
+	if current_timer > 0.0 and current_timer <= 7.0:
+		if not playing_reloj:
+			playing_reloj = true
+			sfx_reloj.play()
+	else:
+		if playing_reloj:
+			playing_reloj = false
+			sfx_reloj.stop()
+
+	if memorization_time_left > 0.0:
+		memorization_time_left -= delta
+		if memorization_time_left <= 0.0:
+			memorization_time_left = -1.0
+			timer_label.text = "Memoriza: 0.0s"
+			
+			var flip_delay = 0.0
+			for wrapper in board_grid.get_children():
+				if is_instance_valid(wrapper):
+					var btn = wrapper.get_node_or_null("Button")
+					if btn:
+						_flip_card(btn, false, true, flip_delay)
+						flip_delay += 0.04
+			
+			get_tree().create_timer(flip_delay + 0.35).timeout.connect(func():
+				if not is_instance_valid(self) or current_round <= 0: return
+				board_locked = false
+				skip_button.disabled = false
+				instruction_label.text = _t("instruction")
+				round_time_left = max(9.0, round_time_base - float(current_round - 1) * 1.8)
+			)
+		else:
+			timer_label.text = "Memoriza: %ss" % snappedf(memorization_time_left, 0.1)
+			
+	elif not board_locked:
 		round_time_left = max(0.0, round_time_left - delta)
 		timer_label.text = _t("timer") % [snappedf(round_time_left, 0.1)]
 		if round_time_left <= 0.0:
@@ -61,8 +110,39 @@ func _process(delta: float) -> void:
 		pending_next_round -= delta
 		if pending_next_round <= 0.0:
 			pending_next_round = -1.0
-			_start_round()
+			_clear_board_animated(Callable(self, "_start_round"))
 
+
+func _clear_board_animated(callback: Callable) -> void:
+	var children = board_grid.get_children()
+	if children.is_empty():
+		callback.call()
+		return
+		
+	var delay = 0.0
+	var final_tween: Tween = null
+	for wrapper in children:
+		if is_instance_valid(wrapper):
+			var btn = wrapper.get_node_or_null("Button")
+			if btn:
+				btn.pivot_offset = btn.size / 2.0
+				var t = create_tween().set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_IN)
+				t.tween_interval(delay)
+				t.tween_property(btn, "scale", Vector2.ZERO, 0.15)
+				final_tween = t
+			var lbl = wrapper.get_node_or_null("Label")
+			if lbl:
+				lbl.pivot_offset = lbl.size / 2.0
+				var t2 = create_tween().set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_IN)
+				t2.tween_interval(delay)
+				t2.tween_property(lbl, "scale", Vector2.ZERO, 0.15)
+			delay += 0.02
+			
+	if final_tween:
+		final_tween.tween_interval(0.5)
+		final_tween.tween_callback(callback)
+	else:
+		callback.call()
 
 func _update_static_texts() -> void:
 	title_label.text = _t("title")
@@ -91,91 +171,219 @@ func _start_round() -> void:
 		return
 
 	current_round += 1
-	board_locked = false
+	board_locked = true
+	skip_button.disabled = true
 	round_result_label.visible = false
-	skip_button.disabled = false
 	errors_count = 0
 	found_count = 0
 
 	_build_round_board(current_round)
 
 	rounds_label.text = _t("rounds") % [current_round, total_rounds]
-	round_time_left = max(9.0, round_time_base - float(current_round - 1) * 1.8)
-	timer_label.text = _t("timer") % [snappedf(round_time_left, 0.1)]
 	errors_label.text = _t("errors") % [errors_count, max_errors_per_round]
-	found_label.text = _t("found") % [found_count]
+	found_label.text = "Encontrados: %d / %d" % [found_count, target_count]
+	
+	instruction_label.text = _t("memorize_instruction") if _t("memorize_instruction") != "memorize_instruction" else "¡Memoriza el tablero!"
+
+	memorization_time_left = -1.0
+	timer_label.text = "Repartiendo..."
+	
+	await get_tree().process_frame
+	
+	var anim_delay = 0.0
+	var last_tween: Tween = null
+	for wrapper in board_grid.get_children():
+		wrapper.modulate.a = 1.0
+		var btn = wrapper.get_node_or_null("Button")
+		if btn:
+			btn.pivot_offset = btn.size / 2.0
+			btn.scale = Vector2.ZERO
+			var t1 = create_tween().set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
+			t1.tween_interval(anim_delay)
+			t1.tween_property(btn, "scale", Vector2.ONE, 0.25)
+			last_tween = t1
+			
+		var lbl = wrapper.get_node_or_null("Label")
+		if lbl:
+			lbl.pivot_offset = lbl.size / 2.0
+			lbl.scale = Vector2.ZERO
+			var t2 = create_tween().set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
+			t2.tween_interval(anim_delay)
+			t2.tween_property(lbl, "scale", Vector2.ONE, 0.25)
+			
+		anim_delay += 0.03
+		
+	if last_tween:
+		var mem_time = max(2.5, 6.0 - float(current_round) * 0.6)
+		last_tween.tween_callback(func(): 
+			if is_instance_valid(self):
+				for w in board_grid.get_children():
+					var b = w.get_node_or_null("Button")
+					if b: _flip_card(b, true, true)
+				
+				get_tree().create_timer(0.35).timeout.connect(func():
+					if is_instance_valid(self):
+						memorization_time_left = mem_time
+				)
+		)
+	else:
+		memorization_time_left = max(2.5, 6.0 - float(current_round) * 0.6)
 
 
 func _build_round_board(round_number: int) -> void:
 	for child in board_grid.get_children():
+		board_grid.remove_child(child)
 		child.queue_free()
 
 	target_item = item_types[randi_range(0, item_types.size() - 1)]
-	request_label.text = _t("request") % [_t("item_" + target_item)]
+	
+	var translated_target = _t("item_" + target_item)
+	if translated_target == "item_" + target_item:
+		translated_target = target_item.to_upper()
 
-	var cell_count: int = min(30, 12 + round_number * 3)
-	var target_index: int = randi_range(0, cell_count - 1)
+	var cell_count: int
+	if round_number == 1: cell_count = 8
+	elif round_number == 2: cell_count = 15
+	elif round_number == 3: cell_count = 24
+	elif round_number == 4: cell_count = 32
+	else: cell_count = 40
+
+	if round_number == 1: target_count = 2
+	elif round_number == 2: target_count = 3
+	elif round_number == 3: target_count = 4
+	elif round_number == 4: target_count = 4
+	else: target_count = 5
+
+	request_label.text = "BUSCAR %d: %s" % [target_count, translated_target]
+
+	if cell_count <= 8: board_grid.columns = 4
+	elif cell_count <= 15: board_grid.columns = 5
+	elif cell_count <= 24: board_grid.columns = 6
+	else: board_grid.columns = 8
+
+	var possible_fillers = item_types.duplicate()
+	possible_fillers.erase(target_item)
+
+	var target_indices: Array[int] = []
+	var all_indices = range(cell_count)
+	all_indices.shuffle()
+	for i in range(target_count):
+		target_indices.append(all_indices[i])
 
 	for i in cell_count:
-		var item_type: String = target_item if i == target_index else item_types[randi_range(0, item_types.size() - 1)]
-		var button := _create_item_button(item_type)
-		board_grid.add_child(button)
+		var item_type: String = target_item if i in target_indices else possible_fillers[randi_range(0, possible_fillers.size() - 1)]
+		
+		var wrapper = preload("res://store_card.tscn").instantiate()
+		wrapper.modulate.a = 0.0
+		wrapper.show()
+		
+		var button: TextureButton = wrapper.get_node("Button")
+		button.disabled = false # Forzamos activo al clonar
+		button.set_meta("item_type", item_type)
+		button.set_meta("is_flipped", false)
+		
+		var icon = button.get_node("Icon")
+		icon.texture = load("res://assets/textures/minijuego-store-search/" + item_type + ".png")
+		icon.modulate.a = 0.0
+		
+		var label = wrapper.get_node("Label")
+		var translated_item = _t("item_" + item_type)
+		if translated_item == "item_" + item_type:
+			translated_item = item_type.to_upper()
+		label.text = translated_item
+		label.modulate.a = 0.0
+		
+		var bg = button.get_node("Background")
+		bg.texture = load("res://assets/textures/minijuego-store-search/tarjeta_back.png")
+		
+		button.mouse_entered.connect(_on_card_hovered.bind(button, true))
+		button.mouse_exited.connect(_on_card_hovered.bind(button, false))
+		button.pressed.connect(_on_item_pressed.bind(button))
+		
+		board_grid.add_child(wrapper)
 
 
-func _create_item_button(item_type: String) -> Button:
-	var button := Button.new()
-	button.custom_minimum_size = Vector2(105, 64)
-	button.text = "?"
-	button.add_theme_font_size_override("font_size", 22)
-	button.set_meta("item_type", item_type)
-	button.pressed.connect(_on_item_pressed.bind(button))
 
-	var normal := StyleBoxFlat.new()
-	normal.bg_color = Color(0.42, 0.34, 0.22, 1.0)
-	normal.border_width_left = 2
-	normal.border_width_top = 2
-	normal.border_width_right = 2
-	normal.border_width_bottom = 2
-	normal.border_color = Color(0.15, 0.09, 0.02, 1.0)
-	normal.corner_radius_top_left = 6
-	normal.corner_radius_top_right = 6
-	normal.corner_radius_bottom_right = 6
-	normal.corner_radius_bottom_left = 6
-
-	var pressed := StyleBoxFlat.new()
-	pressed.bg_color = Color(0.67, 0.56, 0.35, 1.0)
-	pressed.border_width_left = 2
-	pressed.border_width_top = 2
-	pressed.border_width_right = 2
-	pressed.border_width_bottom = 2
-	pressed.border_color = Color(0.15, 0.09, 0.02, 1.0)
-	pressed.corner_radius_top_left = 6
-	pressed.corner_radius_top_right = 6
-	pressed.corner_radius_bottom_right = 6
-	pressed.corner_radius_bottom_left = 6
-
-	button.add_theme_stylebox_override("normal", normal)
-	button.add_theme_stylebox_override("hover", normal)
-	button.add_theme_stylebox_override("pressed", pressed)
-	button.add_theme_stylebox_override("focus", pressed)
-	return button
+func _flip_card(button: TextureButton, face_up: bool, animate: bool = true, delay: float = 0.0) -> void:
+	if not is_instance_valid(button): return
+	button.set_meta("is_flipped", face_up)
+	sfx_voltear.play()
+	if button.size.x > 0:
+		button.pivot_offset = button.size / 2.0
+	var bg = button.get_node_or_null("Background")
+	var icon = button.get_node_or_null("Icon")
+	var label = button.get_parent().get_node_or_null("Label")
+	
+	var path_front = "res://assets/textures/minijuego-store-search/tarjeta_front.png"
+	var path_back = "res://assets/textures/minijuego-store-search/tarjeta_back.png"
+	
+	if animate:
+		var tween = create_tween().set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
+		if delay > 0: tween.tween_interval(delay)
+		tween.tween_property(button, "scale:x", 0.0, 0.15)
+		tween.tween_callback(func():
+			if is_instance_valid(bg):
+				bg.texture = load(path_front) if face_up else load(path_back)
+				icon.modulate.a = 1.0 if face_up else 0.0
+				label.modulate.a = 1.0 if face_up else 0.0
+		)
+		tween.tween_property(button, "scale:x", 1.0, 0.15)
+	else:
+		if is_instance_valid(bg):
+			bg.texture = load(path_front) if face_up else load(path_back)
+			icon.modulate.a = 1.0 if face_up else 0.0
+			label.modulate.a = 1.0 if face_up else 0.0
 
 
-func _on_item_pressed(button: Button) -> void:
-	if board_locked:
+func _on_card_hovered(button: TextureButton, entered: bool) -> void:
+	if board_locked or button.get_meta("is_flipped", false):
+		if is_instance_valid(button):
+			create_tween().tween_property(button, "position:y", 0.0, 0.1)
+			button.self_modulate = Color(1, 1, 1, 1)
 		return
-	if button.disabled:
+		
+	var tween = create_tween().set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
+	if entered:
+		tween.tween_property(button, "position:y", -8.0, 0.1)
+		button.self_modulate = Color(1.2, 1.2, 1.2, 1.0)
+	else:
+		tween.tween_property(button, "position:y", 0.0, 0.1)
+		button.self_modulate = Color(1, 1, 1, 1)
+
+
+func _on_item_pressed(button: TextureButton) -> void:
+	if board_locked or button.get_meta("is_flipped", false):
 		return
 
-	button.disabled = true
 	var item_type: String = String(button.get_meta("item_type", ""))
-	button.text = _t("item_" + item_type)
 
 	if item_type == target_item:
+		_flip_card(button, true, true)
+		
+		# Efecto de victoria en la carta correcta
+		var t = create_tween().set_trans(Tween.TRANS_ELASTIC)
+		t.tween_property(button, "scale", Vector2(1.2, 1.2), 0.3)
+		t.tween_property(button, "scale", Vector2(1.0, 1.0), 0.3)
+		
 		found_count += 1
-		found_label.text = _t("found") % [found_count]
-		_resolve_round(true, "found")
+		found_label.text = "Encontrados: %d / %d" % [found_count, target_count]
+		sfx_correcto.play()
+		
+		if found_count >= target_count:
+			board_locked = true
+			t.tween_callback(func(): _resolve_round(true, "found"))
 	else:
+		_flip_card(button, true, true)
+		
+		# Temblor y tinte rojo por error
+		var t = create_tween()
+		t.tween_property(button, "rotation_degrees", 10.0, 0.05)
+		t.tween_property(button, "rotation_degrees", -10.0, 0.05)
+		t.tween_property(button, "rotation_degrees", 5.0, 0.05)
+		t.tween_property(button, "rotation_degrees", 0.0, 0.05)
+		button.self_modulate = Color(1.5, 0.5, 0.5, 1.0)
+		sfx_fallo.play()
+		
 		errors_count += 1
 		errors_label.text = _t("errors") % [errors_count, max_errors_per_round]
 		if errors_count >= max_errors_per_round:
@@ -189,22 +397,28 @@ func _on_skip_button_pressed() -> void:
 
 
 func _resolve_round(success: bool, reason: String) -> void:
-	if board_locked:
+	if pending_next_round >= 0.0:
 		return
+
+	if playing_reloj:
+		playing_reloj = false
+		sfx_reloj.stop()
 
 	board_locked = true
 	skip_button.disabled = true
 
-	for child in board_grid.get_children():
-		var button := child as Button
+	for wrapper in board_grid.get_children():
+		var button := wrapper.get_node_or_null("Button") as TextureButton
 		if button != null:
 			button.disabled = true
 
 	if success:
 		score += 1
+		sfx_ok_base.play()
 		round_result_label.text = _t("correct")
 		round_result_label.modulate = Color(0.55, 1.0, 0.55, 1.0)
 	else:
+		sfx_error.play()
 		if reason == "timeout":
 			round_result_label.text = _t("timeout")
 		elif reason == "errors":
@@ -214,12 +428,17 @@ func _resolve_round(success: bool, reason: String) -> void:
 		round_result_label.modulate = Color(1.0, 0.55, 0.55, 1.0)
 
 	round_result_label.visible = true
-	pending_next_round = 0.9
+	pending_next_round = 1.8
 
 
 func _finish_minigame() -> void:
 	board_locked = true
+	if playing_reloj:
+		playing_reloj = false
+		sfx_reloj.stop()
+
 	skip_button.disabled = true
+	memorization_time_left = -1.0
 
 	var success: bool = score >= int(ceil(float(total_rounds) * 0.6))
 	if success:

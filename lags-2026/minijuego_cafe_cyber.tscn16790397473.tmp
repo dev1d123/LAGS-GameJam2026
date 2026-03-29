@@ -1,4 +1,4 @@
-[gd_scene load_steps=41 format=3 uid="uid://l65c5q4yj6u5"]
+[gd_scene load_steps=37 format=3 uid="uid://l65c5q4yj6u5"]
 
 [ext_resource type="Script" uid="uid://bsade5q8s8g1g" path="res://minijuego_cafe_cyber.gd" id="1_script"]
 [ext_resource type="Texture2D" uid="uid://cpaxrpnv1gl7y" path="res://assets/textures/opciones-fondo.png" id="2_bg"]
@@ -7,7 +7,6 @@
 [ext_resource type="FontFile" uid="uid://cu11g35n3hgqv" path="res://assets/fonts/PixelOperatorMonoHB.ttf" id="5_font"]
 [ext_resource type="Texture2D" uid="uid://cfy6rj4bb8kwr" path="res://assets/textures/button_2.png" id="6_btn"]
 [ext_resource type="Texture2D" uid="uid://dctqgg6k2v5i4" path="res://assets/sprites/ui/cyberMinigame.png" id="7_cyber"]
-[ext_resource type="Texture2D" uid="uid://boi26u23mft8j" path="res://assets/textures/fondo-1.png" id="7_hs6ou"]
 [ext_resource type="Texture2D" uid="uid://bk0amsocmyp4" path="res://assets/textures/minigame-cafe-cyber/puerto-a-amarillo.png" id="500_tex"]
 [ext_resource type="Texture2D" uid="uid://dp27tcmvbtl28" path="res://assets/textures/minigame-cafe-cyber/puerto-b-amarillo.png" id="501_tex"]
 [ext_resource type="Texture2D" uid="uid://bal3dhor36s4b" path="res://assets/textures/minigame-cafe-cyber/cable-a-amarillo.png" id="502_tex"]
@@ -27,11 +26,6 @@
 [ext_resource type="Texture2D" uid="uid://0rau23rpbpfe" path="res://assets/textures/minigame-cafe-cyber/puerto-b-blanco.png" id="531_tex"]
 [ext_resource type="Texture2D" uid="uid://qhqhecgajnux" path="res://assets/textures/minigame-cafe-cyber/puerto-a-naranja.png" id="535_tex"]
 [ext_resource type="Texture2D" uid="uid://c7peiuwykhqak" path="res://assets/textures/minigame-cafe-cyber/puerto-b-naranja.png" id="536_tex"]
-[ext_resource type="AudioStream" path="res://assets/audio/minigame-cafe-cyber/enchufado.mp3" id="enchufado_aud"]
-[ext_resource type="AudioStream" path="res://assets/audio/minigame-cafe-cyber/error.mp3" id="error_cyb_aud"]
-[ext_resource type="AudioStream" path="res://assets/audio/minigame-cafe-cyber/fallo.mp3" id="fallo_cyb_aud"]
-[ext_resource type="AudioStream" path="res://assets/audio/minigame-cafe-cyber/ok_base.mp3" id="ok_base_cyb_aud"]
-[ext_resource type="AudioStream" path="res://assets/audio/minigame-store-search/reloj.mp3" id="reloj_aud"]
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_panel"]
 texture = ExtResource("2_bg")
@@ -71,19 +65,6 @@ font_color = Color(0.687779, 0.643646, 0.632612, 1)
 outline_size = 6
 outline_color = Color(0.189829, 0.0827736, 0.0013467, 1)
 
-[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_3fn3c"]
-content_margin_left = 75.0
-content_margin_top = 50.0
-content_margin_right = 75.0
-content_margin_bottom = 50.0
-texture = ExtResource("7_hs6ou")
-texture_margin_left = 103.0
-texture_margin_top = 89.0
-texture_margin_right = 103.0
-texture_margin_bottom = 89.0
-axis_stretch_horizontal = 2
-axis_stretch_vertical = 2
-
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_cable_template"]
 texture = ExtResource("504_tex")
 texture_margin_left = 10.0
@@ -119,24 +100,6 @@ axis_stretch_horizontal = 2
 axis_stretch_vertical = 2
 modulate_color = Color(0.76, 0.68, 0.74, 1)
 
-[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_xcstg"]
-texture = ExtResource("6_btn")
-texture_margin_left = 30.0
-texture_margin_top = 20.0
-texture_margin_right = 30.0
-texture_margin_bottom = 25.0
-axis_stretch_horizontal = 2
-axis_stretch_vertical = 2
-modulate_color = Color(0.3882353, 0.39215687, 0.41960785, 1)
-
-[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_hs6ou"]
-texture = ExtResource("3_panel")
-texture_margin_left = 30.0
-texture_margin_top = 20.0
-texture_margin_right = 30.0
-texture_margin_bottom = 20.0
-modulate_color = Color(1.394, 0.8237651, 1.2192577, 1)
-
 [sub_resource type="LabelSettings" id="LabelSettings_result"]
 font = ExtResource("5_font")
 font_size = 34
@@ -152,8 +115,8 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_script")
-cable_offset_a = Vector2(50, 35)
-cable_offset_b = Vector2(50, 35)
+total_rounds = null
+round_time_base = null
 
 [node name="MainPanel" type="PanelContainer" parent="."]
 layout_mode = 1
@@ -255,6 +218,7 @@ size_flags_horizontal = 3
 theme_override_constants/separation = 8
 
 [node name="Request" type="Label" parent="MainPanel/Margin/VBox/Content/CenterPanel"]
+custom_minimum_size = Vector2(0, 78)
 layout_mode = 2
 text = "Pedido"
 label_settings = SubResource("LabelSettings_body")
@@ -285,18 +249,12 @@ stretch_mode = 6
 layout_mode = 2
 theme_override_constants/separation = 12
 
-[node name="PanelContainer" type="PanelContainer" parent="MainPanel/Margin/VBox/Content/CenterPanel/CableArea/Inner"]
+[node name="SourceGrid" type="GridContainer" parent="MainPanel/Margin/VBox/Content/CenterPanel/CableArea/Inner"]
 layout_mode = 2
-size_flags_horizontal = 2
-size_flags_vertical = 4
-theme_override_styles/panel = SubResource("StyleBoxTexture_3fn3c")
+size_flags_horizontal = 3
+theme_override_constants/v_separation = 8
 
-[node name="SourceGrid" type="GridContainer" parent="MainPanel/Margin/VBox/Content/CenterPanel/CableArea/Inner/PanelContainer"]
-layout_mode = 2
-size_flags_horizontal = 2
-theme_override_constants/v_separation = 0
-
-[node name="PortA_amarillo" type="TextureButton" parent="MainPanel/Margin/VBox/Content/CenterPanel/CableArea/Inner/PanelContainer/SourceGrid"]
+[node name="PortA_amarillo" type="TextureButton" parent="MainPanel/Margin/VBox/Content/CenterPanel/CableArea/Inner/SourceGrid"]
 custom_minimum_size = Vector2(100, 70)
 layout_mode = 2
 toggle_mode = true
@@ -304,7 +262,7 @@ texture_normal = ExtResource("500_tex")
 ignore_texture_size = true
 stretch_mode = 5
 
-[node name="PlugA_Example" type="TextureRect" parent="MainPanel/Margin/VBox/Content/CenterPanel/CableArea/Inner/PanelContainer/SourceGrid/PortA_amarillo"]
+[node name="PlugA_Example" type="TextureRect" parent="MainPanel/Margin/VBox/Content/CenterPanel/CableArea/Inner/SourceGrid/PortA_amarillo"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -315,7 +273,7 @@ texture = ExtResource("502_tex")
 expand_mode = 1
 stretch_mode = 5
 
-[node name="PortA_verde" type="TextureButton" parent="MainPanel/Margin/VBox/Content/CenterPanel/CableArea/Inner/PanelContainer/SourceGrid"]
+[node name="PortA_verde" type="TextureButton" parent="MainPanel/Margin/VBox/Content/CenterPanel/CableArea/Inner/SourceGrid"]
 custom_minimum_size = Vector2(100, 70)
 layout_mode = 2
 toggle_mode = true
@@ -323,10 +281,10 @@ texture_normal = ExtResource("505_tex")
 ignore_texture_size = true
 stretch_mode = 5
 
-[node name="WirePoint" type="Marker2D" parent="MainPanel/Margin/VBox/Content/CenterPanel/CableArea/Inner/PanelContainer/SourceGrid/PortA_verde"]
+[node name="WirePoint" type="Marker2D" parent="MainPanel/Margin/VBox/Content/CenterPanel/CableArea/Inner/SourceGrid/PortA_verde"]
 position = Vector2(50, 35)
 
-[node name="PortA_negro" type="TextureButton" parent="MainPanel/Margin/VBox/Content/CenterPanel/CableArea/Inner/PanelContainer/SourceGrid"]
+[node name="PortA_negro" type="TextureButton" parent="MainPanel/Margin/VBox/Content/CenterPanel/CableArea/Inner/SourceGrid"]
 custom_minimum_size = Vector2(100, 70)
 layout_mode = 2
 toggle_mode = true
@@ -334,10 +292,10 @@ texture_normal = ExtResource("510_tex")
 ignore_texture_size = true
 stretch_mode = 5
 
-[node name="WirePoint" type="Marker2D" parent="MainPanel/Margin/VBox/Content/CenterPanel/CableArea/Inner/PanelContainer/SourceGrid/PortA_negro"]
+[node name="WirePoint" type="Marker2D" parent="MainPanel/Margin/VBox/Content/CenterPanel/CableArea/Inner/SourceGrid/PortA_negro"]
 position = Vector2(50, 35)
 
-[node name="PortA_morado" type="TextureButton" parent="MainPanel/Margin/VBox/Content/CenterPanel/CableArea/Inner/PanelContainer/SourceGrid"]
+[node name="PortA_morado" type="TextureButton" parent="MainPanel/Margin/VBox/Content/CenterPanel/CableArea/Inner/SourceGrid"]
 custom_minimum_size = Vector2(100, 70)
 layout_mode = 2
 toggle_mode = true
@@ -345,10 +303,10 @@ texture_normal = ExtResource("515_tex")
 ignore_texture_size = true
 stretch_mode = 5
 
-[node name="WirePoint" type="Marker2D" parent="MainPanel/Margin/VBox/Content/CenterPanel/CableArea/Inner/PanelContainer/SourceGrid/PortA_morado"]
+[node name="WirePoint" type="Marker2D" parent="MainPanel/Margin/VBox/Content/CenterPanel/CableArea/Inner/SourceGrid/PortA_morado"]
 position = Vector2(50, 35)
 
-[node name="PortA_azul" type="TextureButton" parent="MainPanel/Margin/VBox/Content/CenterPanel/CableArea/Inner/PanelContainer/SourceGrid"]
+[node name="PortA_azul" type="TextureButton" parent="MainPanel/Margin/VBox/Content/CenterPanel/CableArea/Inner/SourceGrid"]
 custom_minimum_size = Vector2(100, 70)
 layout_mode = 2
 toggle_mode = true
@@ -356,10 +314,10 @@ texture_normal = ExtResource("520_tex")
 ignore_texture_size = true
 stretch_mode = 5
 
-[node name="WirePoint" type="Marker2D" parent="MainPanel/Margin/VBox/Content/CenterPanel/CableArea/Inner/PanelContainer/SourceGrid/PortA_azul"]
+[node name="WirePoint" type="Marker2D" parent="MainPanel/Margin/VBox/Content/CenterPanel/CableArea/Inner/SourceGrid/PortA_azul"]
 position = Vector2(50, 35)
 
-[node name="PortA_rojo" type="TextureButton" parent="MainPanel/Margin/VBox/Content/CenterPanel/CableArea/Inner/PanelContainer/SourceGrid"]
+[node name="PortA_rojo" type="TextureButton" parent="MainPanel/Margin/VBox/Content/CenterPanel/CableArea/Inner/SourceGrid"]
 custom_minimum_size = Vector2(100, 70)
 layout_mode = 2
 toggle_mode = true
@@ -367,10 +325,10 @@ texture_normal = ExtResource("525_tex")
 ignore_texture_size = true
 stretch_mode = 5
 
-[node name="WirePoint" type="Marker2D" parent="MainPanel/Margin/VBox/Content/CenterPanel/CableArea/Inner/PanelContainer/SourceGrid/PortA_rojo"]
+[node name="WirePoint" type="Marker2D" parent="MainPanel/Margin/VBox/Content/CenterPanel/CableArea/Inner/SourceGrid/PortA_rojo"]
 position = Vector2(50, 35)
 
-[node name="PortA_blanco" type="TextureButton" parent="MainPanel/Margin/VBox/Content/CenterPanel/CableArea/Inner/PanelContainer/SourceGrid"]
+[node name="PortA_blanco" type="TextureButton" parent="MainPanel/Margin/VBox/Content/CenterPanel/CableArea/Inner/SourceGrid"]
 custom_minimum_size = Vector2(100, 70)
 layout_mode = 2
 toggle_mode = true
@@ -378,10 +336,10 @@ texture_normal = ExtResource("530_tex")
 ignore_texture_size = true
 stretch_mode = 5
 
-[node name="WirePoint" type="Marker2D" parent="MainPanel/Margin/VBox/Content/CenterPanel/CableArea/Inner/PanelContainer/SourceGrid/PortA_blanco"]
+[node name="WirePoint" type="Marker2D" parent="MainPanel/Margin/VBox/Content/CenterPanel/CableArea/Inner/SourceGrid/PortA_blanco"]
 position = Vector2(50, 35)
 
-[node name="PortA_naranja" type="TextureButton" parent="MainPanel/Margin/VBox/Content/CenterPanel/CableArea/Inner/PanelContainer/SourceGrid"]
+[node name="PortA_naranja" type="TextureButton" parent="MainPanel/Margin/VBox/Content/CenterPanel/CableArea/Inner/SourceGrid"]
 custom_minimum_size = Vector2(100, 70)
 layout_mode = 2
 toggle_mode = true
@@ -389,27 +347,22 @@ texture_normal = ExtResource("535_tex")
 ignore_texture_size = true
 stretch_mode = 5
 
-[node name="WirePoint" type="Marker2D" parent="MainPanel/Margin/VBox/Content/CenterPanel/CableArea/Inner/PanelContainer/SourceGrid/PortA_naranja"]
+[node name="WirePoint" type="Marker2D" parent="MainPanel/Margin/VBox/Content/CenterPanel/CableArea/Inner/SourceGrid/PortA_naranja"]
 position = Vector2(50, 35)
 
-[node name="PanelContainer2" type="PanelContainer" parent="MainPanel/Margin/VBox/Content/CenterPanel/CableArea/Inner"]
+[node name="TargetGrid" type="GridContainer" parent="MainPanel/Margin/VBox/Content/CenterPanel/CableArea/Inner"]
 layout_mode = 2
 size_flags_horizontal = 10
-theme_override_styles/panel = SubResource("StyleBoxTexture_3fn3c")
+theme_override_constants/v_separation = 8
 
-[node name="TargetGrid" type="GridContainer" parent="MainPanel/Margin/VBox/Content/CenterPanel/CableArea/Inner/PanelContainer2"]
-layout_mode = 2
-size_flags_horizontal = 10
-theme_override_constants/v_separation = 0
-
-[node name="PortB_amarillo" type="TextureButton" parent="MainPanel/Margin/VBox/Content/CenterPanel/CableArea/Inner/PanelContainer2/TargetGrid"]
+[node name="PortB_amarillo" type="TextureButton" parent="MainPanel/Margin/VBox/Content/CenterPanel/CableArea/Inner/TargetGrid"]
 custom_minimum_size = Vector2(100, 70)
 layout_mode = 2
 texture_normal = ExtResource("501_tex")
 ignore_texture_size = true
 stretch_mode = 5
 
-[node name="PlugB_Example" type="TextureRect" parent="MainPanel/Margin/VBox/Content/CenterPanel/CableArea/Inner/PanelContainer2/TargetGrid/PortB_amarillo"]
+[node name="PlugB_Example" type="TextureRect" parent="MainPanel/Margin/VBox/Content/CenterPanel/CableArea/Inner/TargetGrid/PortB_amarillo"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -420,78 +373,77 @@ texture = ExtResource("503_tex")
 expand_mode = 1
 stretch_mode = 5
 
-[node name="PortB_verde" type="TextureButton" parent="MainPanel/Margin/VBox/Content/CenterPanel/CableArea/Inner/PanelContainer2/TargetGrid"]
+[node name="PortB_verde" type="TextureButton" parent="MainPanel/Margin/VBox/Content/CenterPanel/CableArea/Inner/TargetGrid"]
 custom_minimum_size = Vector2(100, 70)
 layout_mode = 2
 texture_normal = ExtResource("506_tex")
 ignore_texture_size = true
 stretch_mode = 5
 
-[node name="WirePoint" type="Marker2D" parent="MainPanel/Margin/VBox/Content/CenterPanel/CableArea/Inner/PanelContainer2/TargetGrid/PortB_verde"]
+[node name="WirePoint" type="Marker2D" parent="MainPanel/Margin/VBox/Content/CenterPanel/CableArea/Inner/TargetGrid/PortB_verde"]
 position = Vector2(50, 35)
 
-[node name="PortB_negro" type="TextureButton" parent="MainPanel/Margin/VBox/Content/CenterPanel/CableArea/Inner/PanelContainer2/TargetGrid"]
+[node name="PortB_negro" type="TextureButton" parent="MainPanel/Margin/VBox/Content/CenterPanel/CableArea/Inner/TargetGrid"]
 custom_minimum_size = Vector2(100, 70)
 layout_mode = 2
 texture_normal = ExtResource("511_tex")
 ignore_texture_size = true
 stretch_mode = 5
 
-[node name="WirePoint" type="Marker2D" parent="MainPanel/Margin/VBox/Content/CenterPanel/CableArea/Inner/PanelContainer2/TargetGrid/PortB_negro"]
+[node name="WirePoint" type="Marker2D" parent="MainPanel/Margin/VBox/Content/CenterPanel/CableArea/Inner/TargetGrid/PortB_negro"]
 position = Vector2(50, 35)
 
-[node name="PortB_morado" type="TextureButton" parent="MainPanel/Margin/VBox/Content/CenterPanel/CableArea/Inner/PanelContainer2/TargetGrid"]
+[node name="PortB_morado" type="TextureButton" parent="MainPanel/Margin/VBox/Content/CenterPanel/CableArea/Inner/TargetGrid"]
 custom_minimum_size = Vector2(100, 70)
 layout_mode = 2
 texture_normal = ExtResource("516_tex")
 ignore_texture_size = true
 stretch_mode = 5
 
-[node name="WirePoint" type="Marker2D" parent="MainPanel/Margin/VBox/Content/CenterPanel/CableArea/Inner/PanelContainer2/TargetGrid/PortB_morado"]
+[node name="WirePoint" type="Marker2D" parent="MainPanel/Margin/VBox/Content/CenterPanel/CableArea/Inner/TargetGrid/PortB_morado"]
 position = Vector2(50, 35)
 
-[node name="PortB_azul" type="TextureButton" parent="MainPanel/Margin/VBox/Content/CenterPanel/CableArea/Inner/PanelContainer2/TargetGrid"]
+[node name="PortB_azul" type="TextureButton" parent="MainPanel/Margin/VBox/Content/CenterPanel/CableArea/Inner/TargetGrid"]
 custom_minimum_size = Vector2(100, 70)
 layout_mode = 2
 texture_normal = ExtResource("521_tex")
 ignore_texture_size = true
 stretch_mode = 5
 
-[node name="WirePoint" type="Marker2D" parent="MainPanel/Margin/VBox/Content/CenterPanel/CableArea/Inner/PanelContainer2/TargetGrid/PortB_azul"]
+[node name="WirePoint" type="Marker2D" parent="MainPanel/Margin/VBox/Content/CenterPanel/CableArea/Inner/TargetGrid/PortB_azul"]
 position = Vector2(50, 35)
 
-[node name="PortB_rojo" type="TextureButton" parent="MainPanel/Margin/VBox/Content/CenterPanel/CableArea/Inner/PanelContainer2/TargetGrid"]
+[node name="PortB_rojo" type="TextureButton" parent="MainPanel/Margin/VBox/Content/CenterPanel/CableArea/Inner/TargetGrid"]
 custom_minimum_size = Vector2(100, 70)
 layout_mode = 2
 texture_normal = ExtResource("526_tex")
 ignore_texture_size = true
 stretch_mode = 5
 
-[node name="WirePoint" type="Marker2D" parent="MainPanel/Margin/VBox/Content/CenterPanel/CableArea/Inner/PanelContainer2/TargetGrid/PortB_rojo"]
+[node name="WirePoint" type="Marker2D" parent="MainPanel/Margin/VBox/Content/CenterPanel/CableArea/Inner/TargetGrid/PortB_rojo"]
 position = Vector2(50, 35)
 
-[node name="PortB_blanco" type="TextureButton" parent="MainPanel/Margin/VBox/Content/CenterPanel/CableArea/Inner/PanelContainer2/TargetGrid"]
+[node name="PortB_blanco" type="TextureButton" parent="MainPanel/Margin/VBox/Content/CenterPanel/CableArea/Inner/TargetGrid"]
 custom_minimum_size = Vector2(100, 70)
 layout_mode = 2
 texture_normal = ExtResource("531_tex")
 ignore_texture_size = true
 stretch_mode = 5
 
-[node name="WirePoint" type="Marker2D" parent="MainPanel/Margin/VBox/Content/CenterPanel/CableArea/Inner/PanelContainer2/TargetGrid/PortB_blanco"]
+[node name="WirePoint" type="Marker2D" parent="MainPanel/Margin/VBox/Content/CenterPanel/CableArea/Inner/TargetGrid/PortB_blanco"]
 position = Vector2(50, 35)
 
-[node name="PortB_naranja" type="TextureButton" parent="MainPanel/Margin/VBox/Content/CenterPanel/CableArea/Inner/PanelContainer2/TargetGrid"]
+[node name="PortB_naranja" type="TextureButton" parent="MainPanel/Margin/VBox/Content/CenterPanel/CableArea/Inner/TargetGrid"]
 custom_minimum_size = Vector2(100, 70)
 layout_mode = 2
 texture_normal = ExtResource("536_tex")
 ignore_texture_size = true
 stretch_mode = 5
 
-[node name="WirePoint" type="Marker2D" parent="MainPanel/Margin/VBox/Content/CenterPanel/CableArea/Inner/PanelContainer2/TargetGrid/PortB_naranja"]
+[node name="WirePoint" type="Marker2D" parent="MainPanel/Margin/VBox/Content/CenterPanel/CableArea/Inner/TargetGrid/PortB_naranja"]
 position = Vector2(50, 35)
 
 [node name="LinesContainer" type="Control" parent="MainPanel/Margin/VBox/Content/CenterPanel/CableArea"]
-custom_minimum_size = Vector2(750, 0)
 layout_mode = 2
 mouse_filter = 2
 
@@ -527,14 +479,11 @@ size_flags_horizontal = 3
 theme_override_colors/font_color = Color(0.687779, 0.643646, 0.632612, 1)
 theme_override_colors/font_pressed_color = Color(0.687779, 0.643646, 0.632612, 1)
 theme_override_colors/font_hover_color = Color(0.687779, 0.643646, 0.632612, 1)
-theme_override_colors/font_outline_color = Color(0.21910572, 0.07946702, 0, 1)
-theme_override_constants/outline_size = 12
 theme_override_fonts/font = ExtResource("5_font")
 theme_override_font_sizes/font_size = 30
 theme_override_styles/normal = SubResource("StyleBoxTexture_btn_normal")
 theme_override_styles/pressed = SubResource("StyleBoxTexture_btn_pressed")
 theme_override_styles/hover = SubResource("StyleBoxTexture_btn_hover")
-theme_override_styles/disabled = SubResource("StyleBoxTexture_xcstg")
 text = "Confirmar"
 
 [node name="RightPanel" type="VBoxContainer" parent="MainPanel/Margin/VBox/Content"]
@@ -554,7 +503,7 @@ horizontal_alignment = 1
 
 [node name="ObjectivesBody" type="PanelContainer" parent="MainPanel/Margin/VBox/Content/RightPanel"]
 layout_mode = 2
-theme_override_styles/panel = SubResource("StyleBoxTexture_hs6ou")
+theme_override_styles/panel = SubResource("StyleBoxTexture_section_box")
 
 [node name="ObjectivesVBox" type="VBoxContainer" parent="MainPanel/Margin/VBox/Content/RightPanel/ObjectivesBody"]
 layout_mode = 2
@@ -615,26 +564,3 @@ theme_override_styles/normal = SubResource("StyleBoxTexture_btn_normal")
 theme_override_styles/pressed = SubResource("StyleBoxTexture_btn_pressed")
 theme_override_styles/hover = SubResource("StyleBoxTexture_btn_hover")
 text = "Finalizar"
-
-[node name="Audio" type="Node" parent="."]
-
-[node name="SFX_Enchufado" type="AudioStreamPlayer" parent="Audio"]
-stream = ExtResource("enchufado_aud")
-bus = &"SFX"
-
-[node name="SFX_Fallo" type="AudioStreamPlayer" parent="Audio"]
-stream = ExtResource("fallo_cyb_aud")
-bus = &"SFX"
-
-[node name="SFX_OkBase" type="AudioStreamPlayer" parent="Audio"]
-stream = ExtResource("ok_base_cyb_aud")
-bus = &"SFX"
-
-[node name="SFX_Error" type="AudioStreamPlayer" parent="Audio"]
-stream = ExtResource("error_cyb_aud")
-bus = &"SFX"
-
-[node name="SFX_Reloj" type="AudioStreamPlayer" parent="Audio"]
-stream = ExtResource("reloj_aud")
-volume_db = -12.0
-bus = &"SFX"

@@ -1,4 +1,4 @@
-[gd_scene load_steps=26 format=3 uid="uid://beca5niy0yu7c"]
+[gd_scene load_steps=18 format=3 uid="uid://beca5niy0yu7c"]
 
 [ext_resource type="Script" uid="uid://dnqk77ya4jtdc" path="res://minijuego_store_search.gd" id="1_script"]
 [ext_resource type="Texture2D" uid="uid://cpaxrpnv1gl7y" path="res://assets/textures/opciones-fondo.png" id="2_bg"]
@@ -8,12 +8,6 @@
 [ext_resource type="Texture2D" uid="uid://cfy6rj4bb8kwr" path="res://assets/textures/button_2.png" id="6_btn"]
 [ext_resource type="Texture2D" uid="uid://xyw6poypdyq0" path="res://assets/sprites/ui/searchMinigame.png" id="7_search"]
 [ext_resource type="PackedScene" uid="uid://co8syiqkb6e0g" path="res://store_card.tscn" id="999_card"]
-[ext_resource type="AudioStream" uid="uid://dafu0hqmngqrk" path="res://assets/audio/minigame-store-search/correcto.mp3" id="correcto_aud"]
-[ext_resource type="AudioStream" uid="uid://bcin8rtuj3wf4" path="res://assets/audio/minigame-store-search/error.mp3" id="error_aud"]
-[ext_resource type="AudioStream" uid="uid://w52ufvquqnh6" path="res://assets/audio/minigame-store-search/fallo.mp3" id="fallo_aud"]
-[ext_resource type="AudioStream" uid="uid://b1ujcoe0ixb1v" path="res://assets/audio/minigame-store-search/ok_base.mp3" id="ok_base_aud"]
-[ext_resource type="AudioStream" uid="uid://c5046347jeew6" path="res://assets/audio/minigame-store-search/reloj.mp3" id="reloj_aud"]
-[ext_resource type="AudioStream" uid="uid://cj6t4n173jwmy" path="res://assets/audio/minigame-store-search/voltear_carta.mp3" id="voltear_aud"]
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_panel"]
 texture = ExtResource("2_bg")
@@ -82,24 +76,6 @@ axis_stretch_horizontal = 2
 axis_stretch_vertical = 2
 modulate_color = Color(0.76, 0.68, 0.74, 1)
 
-[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_5o78u"]
-texture = ExtResource("6_btn")
-texture_margin_left = 30.0
-texture_margin_top = 20.0
-texture_margin_right = 30.0
-texture_margin_bottom = 25.0
-axis_stretch_horizontal = 2
-axis_stretch_vertical = 2
-modulate_color = Color(0.3882353, 0.39215687, 0.41960785, 1)
-
-[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_vyygm"]
-texture = ExtResource("3_panel")
-texture_margin_left = 30.0
-texture_margin_top = 20.0
-texture_margin_right = 30.0
-texture_margin_bottom = 20.0
-modulate_color = Color(1.394, 0.90585953, 0.7395895, 1)
-
 [sub_resource type="LabelSettings" id="LabelSettings_result"]
 font = ExtResource("5_font")
 font_size = 34
@@ -115,6 +91,9 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_script")
+total_rounds = null
+round_time_base = null
+max_errors_per_round = null
 
 [node name="MainPanel" type="PanelContainer" parent="."]
 layout_mode = 1
@@ -354,7 +333,6 @@ theme_override_font_sizes/font_size = 30
 theme_override_styles/normal = SubResource("StyleBoxTexture_btn_normal")
 theme_override_styles/pressed = SubResource("StyleBoxTexture_btn_pressed")
 theme_override_styles/hover = SubResource("StyleBoxTexture_btn_hover")
-theme_override_styles/disabled = SubResource("StyleBoxTexture_5o78u")
 text = "Saltar"
 
 [node name="RightPanel" type="VBoxContainer" parent="MainPanel/Margin/VBox/Content"]
@@ -373,9 +351,8 @@ label_settings = SubResource("LabelSettings_subtitle")
 horizontal_alignment = 1
 
 [node name="ObjectivesBody" type="PanelContainer" parent="MainPanel/Margin/VBox/Content/RightPanel"]
-custom_minimum_size = Vector2(0, 125)
 layout_mode = 2
-theme_override_styles/panel = SubResource("StyleBoxTexture_vyygm")
+theme_override_styles/panel = SubResource("StyleBoxTexture_section_box")
 
 [node name="ObjectivesVBox" type="VBoxContainer" parent="MainPanel/Margin/VBox/Content/RightPanel/ObjectivesBody"]
 layout_mode = 2
@@ -436,30 +413,3 @@ theme_override_styles/normal = SubResource("StyleBoxTexture_btn_normal")
 theme_override_styles/pressed = SubResource("StyleBoxTexture_btn_pressed")
 theme_override_styles/hover = SubResource("StyleBoxTexture_btn_hover")
 text = "Finalizar"
-
-[node name="Audio" type="Node" parent="."]
-
-[node name="SFX_Voltear" type="AudioStreamPlayer" parent="Audio"]
-stream = ExtResource("voltear_aud")
-bus = &"SFX"
-
-[node name="SFX_Fallo" type="AudioStreamPlayer" parent="Audio"]
-stream = ExtResource("fallo_aud")
-bus = &"SFX"
-
-[node name="SFX_Correcto" type="AudioStreamPlayer" parent="Audio"]
-stream = ExtResource("correcto_aud")
-bus = &"SFX"
-
-[node name="SFX_OkBase" type="AudioStreamPlayer" parent="Audio"]
-stream = ExtResource("ok_base_aud")
-bus = &"SFX"
-
-[node name="SFX_Error" type="AudioStreamPlayer" parent="Audio"]
-stream = ExtResource("error_aud")
-bus = &"SFX"
-
-[node name="SFX_Reloj" type="AudioStreamPlayer" parent="Audio"]
-stream = ExtResource("reloj_aud")
-volume_db = -12.0
-bus = &"SFX"
