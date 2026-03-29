@@ -33,7 +33,7 @@ func set_aura(value: bool) -> void:
 
 
 func _process(delta: float) -> void:
-	z_index = int(global_position.y) + 1000
+
 
 	if aura_active:
 		aura_accum += delta * AURA_SPEED
